@@ -1,0 +1,72 @@
+.input{
+
+	border: 0px solid #000;
+}
+input{
+	background-color: rgba(231, 234, 239, 0.24);
+	outline: none;
+	padding: 8px;
+	color: #fff;
+}
+.logotipo{
+	margin-top: 70px;
+	width: 300px;
+	max-width: 100%;
+}
+.formulario{
+	text-align: left;
+	display: block;
+	width: 400px;
+	max-width: 100%;
+	margin: 10px auto 25px auto;
+	/* background: #fff;*/
+	padding: 25px;
+	/*box-shadow: 0 0 5px 0 #ccc;*/
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+.container_center{
+	margin: 0% 15% 0% 15%;
+}
+hr{
+	border-color: rgba(255, 255, 255, 0.30196078431372547);
+}
+.btn_default{
+	display: inline-block;
+	cursor: pointer;
+	padding: 6px 12px;
+	background: #fff;
+	font-size: 0.9em;
+	color: #000 !important;
+	/*text-decoration: none !important;*/
+	text-align: center;
+	border: none;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	/* text-shadow: 1px 1px #555;*/
+}
+.btn_white{background-color: #fff;}
+.btn_white:hover{background-color: #e2e2e2;}
+.btn_white_noaction:hover{background: #0E96E5 !important; cursor: default !important;}
+
+.minhasenha{
+	color: #e2e2e2;
+	font-size: 15px;
+	text-decoration: none;
+}
+.minhasenha:hover{
+	color: white;
+	font-size: 15px;
+	text-decoration: none;
+}
+footer{
+	padding-top: 18px;
+	font-size: 15px;
+	color: rgba(255, 255, 255, 0.30196078431372547);
+}
+::-webkit-input-placeholder {
+	color:  rgba(255, 255, 255, 0.4);
+}
+
