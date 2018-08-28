@@ -147,7 +147,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                               WHERE [60_OS].Tecnico = :tecnico","tecnico={$PostData['Tecnico']}");
                     endif;
 
-                    if ($Read->getResult()):
+                    if (!$Read->getResult()):
                         $jSON['addtable'] = null;
                         foreach ($Read->getResult() as $OS):
                             extract($OS);

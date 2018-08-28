@@ -1437,14 +1437,13 @@ function wcUrlParam(name) {
 
         $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, end_id: EndId, logradouro: RelTo, bairro: Bairro}, function (data) {
             
-            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if (data.trigger) {
-                Trigger(data.trigger);
-                $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
-                    $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action:eq(0)').fadeIn('fast');
-                });
-            } else {
-                $('.' + RelTo + '[id="' + DelId + '"]').fadeOut('fast');
+            //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
+            if (data.addtable) {
+                $('#enderecos, .j_endereco').remove();
+                $(data.addtable).appendTo('#enderecos');
+
+                //$("#dataTable .j_tecnico").remove();
+                //$(data.addtable).appendTo('.dataTable');
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
@@ -1459,6 +1458,4 @@ function wcUrlParam(name) {
 
         e.preventDefault();
         e.stopPropagation();
-    });
-
-    
+    });    

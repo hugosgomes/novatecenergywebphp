@@ -67,28 +67,16 @@ endif;
                 </table>
             </article>
             <article class='box box50'>
-                <table id=""class="display">
+                <table id="#enderecos" class="display">
                     <thead>
                         <tr>
                             <th>ENDEREÇO</th>
                             <th>BAIRRO</th>
-                            <th>LOGRADOURO</th>
                             <th>AÇÃO</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>Teste</th>
-                            <th>Teste</th>
-                            <th>Teste</th>
-                            <th>Teste</th>
-                        </tr>
-                        <tr>
-                            <th>Teste</th>
-                            <th>Teste</th>
-                            <th>Teste</th>
-                            <th>Teste</th>
-                        </tr>            
+                        <tr class="j_endereco" id=""><td>Selecione o Endereço</td></tr>   
                     </tbody>
                 </table>
             </article>

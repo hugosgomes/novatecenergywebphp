@@ -10,11 +10,11 @@ endif;
 ?>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-home">Dashboard</h1>
+        <h1 class="icon-home">Página Inicial</h1>
         <p class="dashboard_header_breadcrumbs">
             &raquo; <?= ADMIN_NAME; ?>
             <span class="crumb">/</span>
-            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Dashboard</a>
+            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Página Inicial</a>
         </p>
     </div>
 </header>
