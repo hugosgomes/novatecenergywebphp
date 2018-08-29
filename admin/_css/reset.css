@@ -416,7 +416,7 @@ form .section{
 .btn_blue:hover{background-color: #096397;}
 .btn_blue_noaction:hover{background: #0E96E5 !important; cursor: default !important;}
 
-.btn_darkblue{background-color: #253b52; text-shadow: 1px 1px #253b52;}
+.btn_darkblue{background-color: #1a4a7b; text-shadow: 1px 1px #1a4a7b;}
 .btn_darkblue:hover{background-color: #096397;}
 .btn_darkblue_noaction:hover{background: #0E96E5 !important; cursor: default !important;}
 
@@ -537,4 +537,22 @@ form .section{
     font-weight: initial;
     font-style: initial;
     text-transform: none;
+}
+/* >>>>>>>>> CSS INCORPORADO */
+/*TABLE*/
+.table{
+    font-size: 13px;
+}
+.table-responsive{
+    overflow-x:auto;
+}
+/*MONITORAMENTO */
+.select-monitoramento{
+    font-size: 0.875em;
+}
+.lista-monitoramento{
+    font-size: 13px;
+}
+.lista-monitoramento li{
+    padding:3px 0px;
 }

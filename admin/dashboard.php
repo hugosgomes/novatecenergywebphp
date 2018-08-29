@@ -96,7 +96,8 @@ endif;
         <nav class="dashboard_nav">
             <div class="dashboard_nav_admin">
                 <div class="box box60">
-                    <img class="dashboard_nav_admin_thumb" alt="" title="" src="_img/logo.png "/>
+                    <!--<img class="dashboard_nav_admin_thumb" alt="" title="" src="_img/logo.png "/>-->
+                    <h4 style="color: #fff;">Novatec Energy</h4>
                 </div>
             </div>
 
@@ -111,12 +112,12 @@ endif;
                 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos">&raquo; Agendamentos</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
-                                <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
-                            </ul>
-                        </li>
-                        <?php
-                        endif;
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
+                        <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
+                    </ul>
+                </li>
+                <?php
+                endif;
 
                     //MENU DE USUÁRIOS
                     /*if (APP_USERS && $_SESSION['userLogin']['user_level'] >= LEVEL_WC_USERS):
@@ -183,7 +184,7 @@ endif;
                             <a class="icon-exit btn btn_darkblue" title="Desconectar do <?= ADMIN_NAME; ?>!" href="dashboard.php?wc=home&logoff=true">Sair</a>
                         </div>
                     </div>
-
+                    
                     <?php
                 //QUERY STRING
                     if (!empty($getView)):
