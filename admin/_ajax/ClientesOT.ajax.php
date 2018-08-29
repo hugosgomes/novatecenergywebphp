@@ -62,10 +62,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['success'] = true;
                 //REDIRECIONA PARA MESMA PAGINA PARA CARREGAR A TABELA COM OS CLIENTES SEM OT                       
                 $jSON['redirect'] = "dashboard.php?wc=gns/clienteOT";
-                           
+
             break;
 
         case 'atualizaCliente':
+                var_dump($PostData);
             
             break;
 

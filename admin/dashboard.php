@@ -101,7 +101,7 @@ endif;
             </div>
 
             <ul class="dashboard_nav_menu">
-                <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Página Inicial</a></li>
+                <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Home</a></li>
 
                 <?php
 
@@ -147,19 +147,6 @@ endif;
                         </li>
                         <?php
                         endif;*/
-
-                        if ($_SESSION['userLogin']):
-                            ?>
-                        <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'config/') ? 'dashboard_nav_menu_active' : ''; ?>"><a style="cursor: default;" onclick="return false;" class="icon-cogs" title="Configurações" href="#">Configurações</a>
-                            <ul class="dashboard_nav_menu_sub top">
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'config/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Configurações Gerais" href="dashboard.php?wc=config/home">&raquo; Configurações Gerais</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'config/license' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Licenciar Domínio" href="dashboard.php?wc=config/license">&raquo; Licenciar Domínio</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'config/sample' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="WorkControl Samples" href="dashboard.php?wc=config/samples">&raquo; Work Control® Samples</a></li>
-                            </ul>
-                        </li>
-
-                        <?php 
-                        endif;
                         ?>
                     </ul>
                     <div class="dashboard_nav_normalize"></div>        

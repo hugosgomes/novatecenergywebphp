@@ -1320,6 +1320,12 @@ function wcUrlParam(name) {
 }
 
 
+/*###############################################################
+#################################################################
+#######   INCLUIR DAQUI PARA BAIXO QUALQUER COISA NOVA  #########
+#################################################################
+###############################################################*/
+
     //CONSULTA NO BANCO QUANDO MUDA O TÉCNICO NO SELECT
     $(function(){
         $('#Tecnico').change(function(){
@@ -1458,4 +1464,43 @@ function wcUrlParam(name) {
 
         e.preventDefault();
         e.stopPropagation();
-    });    
+    });
+
+    //AO CLICAR NO BOTÃO FECHA A MODAL
+    $('.j_vinculaOT').click(function () {
+        $('.workcontrol_pdt_size').fadeOut('fast');
+        $('.trigger_ajax').fadeOut('fast', function () {
+            $(this).remove();
+        });
+    });
+
+    $('html, body').on('click', '.j_vinculaOT', function (e) {
+        var Prevent = $(this);
+        var OTId = $(this).attr('id');
+        var Callback = $(this).attr('callback');
+        var Callback_action = $(this).attr('callback_action');
+
+        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ot_id: OTId}, function (data) {
+            
+            //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
+            if (data.addtable) {
+                $('#enderecos, .j_endereco').remove();
+                $(data.addtable).appendTo('#enderecos');
+
+                //$("#dataTable .j_tecnico").remove();
+                //$(data.addtable).appendTo('.dataTable');
+            }
+            //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
+            if (data.deltable) {
+                $('#'+ data.deltable).fadeOut(400);
+            }
+
+            //DINAMIC CONTENT
+            if (data.divcontent) {
+                $(data.divcontent[0]).html(data.divcontent[1]);
+            }
+        }, 'json');
+
+        e.preventDefault();
+        e.stopPropagation();
+    });

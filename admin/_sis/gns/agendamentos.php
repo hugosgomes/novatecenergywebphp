@@ -18,7 +18,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         <h1 class="icon-hammer">GNS</h1>
         <p class="dashboard_header_breadcrumbs">
             &raquo;</span>
-            <a title="Novatec Energy" href="dashboard.php?wc=home">Dashboard</a>
+            <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
             Agendamentos
         </p>
@@ -51,7 +51,6 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                 <label class="label">
                         <span class="legend">Técnico:</span>
                         <select id="Tecnico" name="tecnico">
-                            <option value="">Selecione um Técnico</option>
                             <option value="t">&raquo;&raquo;TODOS OS TÉCNICOS</option>
                             <?php
                             $Setor = 2;
@@ -73,7 +72,6 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
             <?php
 
                 if($Semana == '1'):
-                  $Tecnico = 0;
                   $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
                                     NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO,
                                     [60_OS].Tecnico, [60_OS].turno as TURNO,
@@ -82,7 +80,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                                     inner join [60_OS] on [60_OT].Id = [60_OS].OT
                                     inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
                                     inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0
-                                    WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE()) AND[60_OS].Tecnico = :tecnico","tecnico={$Tecnico}");
+                                    WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())"," ");
                 else:
                   $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].Tecnico, [60_OS].turno as TURNO,
                                     [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]

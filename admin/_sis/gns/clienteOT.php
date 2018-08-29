@@ -17,7 +17,7 @@ $ID = 0;
         <h1 class="icon-hammer">GNS</h1>
         <p class="dashboard_header_breadcrumbs">
             &raquo;</span>
-            <a title="Novatec Energy" href="dashboard.php?wc=home">Dashboard</a>
+            <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
             <a title="Novatec Energy" href="dashboard.php?wc=gns/agendamentos">Agendamentos</a>
             <span class="crumb">/</span>
@@ -25,46 +25,6 @@ $ID = 0;
         </p>
     </div>
 </header>
-
-<!--MODAL QUE ABRE PARA SELECIONAR O -->
-<div class="workcontrol_pdt_size">
-        <form name="pdt_size" action="" method="post">
-            <p class="icon-folder-plus">Estoque por variação:</p>
-            <input type="hidden" name="callback" value="Products"/>
-            <input type="hidden" name="callback_action" value="pdt_stock"/>
-            <input type="hidden" name="pdt_id" value="<?= $PdtId; ?>"/>
-
-            <div class="inputs jwc_product_stock_target">
-                <div class="callback_return"></div>
-                <div class="clear"></div>
-                <?php
-                $CatSizes = E_PDT_SIZE;
-                if ($pdt_subcategory):
-                    $Read->FullRead("SELECT cat_sizes FROM " . DB_PDT_CATS . " WHERE cat_id = :id", "id={$pdt_subcategory}");
-                    if ($Read->getResult() && !empty($Read->getResult()[0]['cat_sizes'])):
-                        $CatSizes = $Read->getResult()[0]['cat_sizes'];
-                    endif;
-                endif;
-                $WcPdtSize = explode(',', $CatSizes);
-                foreach ($WcPdtSize as $Size):
-                    $Size = trim(rtrim($Size));
-                    $Read->FullRead("SELECT stock_inventory, stock_sold FROM " . DB_PDT_STOCK . " WHERE pdt_id = :pdt AND stock_code = :key", "pdt={$PdtId}&key={$Size}");
-                    if ($Read->getResult()):
-                        echo "<label><span class='size'>{$Size}:</span><input name='{$Size}' type='number' min='0' value='{$Read->getResult()[0]['stock_inventory']}'><span class='cart'><b class='icon-cart'>" . str_pad($Read->getResult()[0]['stock_sold'], 2, 0, 0) . "</b></span></label>";
-                    else:
-                        echo "<label><span class='size'>{$Size}:</span><input name='{$Size}' type='number' min='0' value='0'><span class='cart'><b class='icon-cart'>00</b></span></label>";
-                    endif;
-                endforeach;
-                ?>
-            </div>
-            <button class="btn btn_green icon-ungroup">Atualizar Estoque!</button>
-            <img class="form_load" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
-            <div class="workcontrol_pdt_size_close">X</div>
-            <div class="clear"></div>
-        </form>
-    </div>
-
-
 
 <div class="dashboard_content custom_app">
     <article class="box box100">
@@ -109,12 +69,14 @@ $ID = 0;
                     <div class="clear"></div>
                 </form>
             </article>
-
+            
+            <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
             <article class="box box100">
                 <div class="j_cliente_semOT">
                     <?php
                         $Read->FullRead("SELECT ID, IDCLIENTE, DATAAGENDAMENTO FROM [60_ClientesSemOT]
                                 WHERE [IDOT] IS NULL ORDER BY [DATAAGENDAMENTO] ASC"," ");
+
                         if ($Read->getResult()):
                             foreach ($Read->getResult() as $CLI):
                                 extract($CLI);
@@ -127,6 +89,32 @@ $ID = 0;
                     ?>
                 </div>
             </article>
+
+        <!--MODAL QUE ABRE PARA SELECIONAR O -->
+        <div class="workcontrol_pdt_size">
+            <form name="pdt_size" action="" method="post">
+                <p class="icon-hammer">OT's sugeridas:</p>
+
+                <div class="inputs jwc_product_stock_target">
+                    <div class="callback_return"></div>
+                    <div class="clear"></div>
+                    <?php
+                        $Read->FullRead("SELECT [Id], [NumOT] FROM [60_OT] WHERE  [Cliente] = :cliente", "cliente={$IDCLIENTE}");
+                        if ($Read->getResult()):
+                            foreach ($Read->getResult() as $OT):
+                                extract($OT);
+                                echo "<label><span id='{$Id}'>{$NumOT}</span><span rel='agendamentos' callback='ClientesOT' callback_action='atualizaCliente' class='j_vinculaOT icon-checkmark btn btn_blue' id='{$Id}'></span></label>";
+                            endforeach;
+                        else:
+                            echo "<label><span class='size'><b>Sem OT para vincular</b></span></label>";
+                        endif;
+                    ?>
+                </div>
+                <div class="workcontrol_pdt_size_close">X</div>
+                <div class="clear"></div>
+            </form>
+        </div>
+
         </div>
     </article>
 </div>
