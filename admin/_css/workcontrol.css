@@ -3931,14 +3931,14 @@ div.mce-fullscreen{z-index: 97;}
     right: 20px;
     bottom: 20px;
     z-index: 999;
-    background: rgba(244, 85, 99, 0.5);
+    background: #052242;
     padding: 10px 12px;
     color: #fff;
     cursor: pointer;
 }
 
 .wc_domain_license:hover{
-    background: #C63D3A;
+    background: #064386;
 }
 
 .wc_domain_license_box{
