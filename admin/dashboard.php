@@ -112,8 +112,22 @@ endif;
                 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos">&raquo; Agendamentos</a></li>
-                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>                        
                         <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
+                    </ul>
+                </li>
+                <?php
+                endif;
+                ?>
+
+                <?php
+
+                    //MODULO CLIENTES PARTICULARES
+                if ($_SESSION['userLogin']):
+                    ?>
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="dashboard.php?wc=clientes/home"">Clientes</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        
                     </ul>
                 </li>
                 <?php
