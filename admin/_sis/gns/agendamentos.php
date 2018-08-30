@@ -75,7 +75,6 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 
             <?php
 
-<<<<<<< HEAD
                 if($Semana == '1'):
                   $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
                                     NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO,
@@ -94,26 +93,6 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                                     inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
                                     inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :data","data={$Day}");
                 endif;
-=======
-            if($Semana == '1'):
-              $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
-                NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO,
-                [60_OS].Tecnico, [60_OS].turno as TURNO,
-                [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0
-                WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())"," ");
-            else:
-              $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].Tecnico, [60_OS].turno as TURNO,
-                [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :data","data={$Day}");
-            endif;
->>>>>>> front
             ?>
             <article class='box box100'>
               <div class="table-responsive">
