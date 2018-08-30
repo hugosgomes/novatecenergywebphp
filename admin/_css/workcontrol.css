@@ -121,6 +121,7 @@
     text-decoration: underline;
 }
 
+
 .box25{width: 25%;}
 .box30{width: 30%;}
 .box33{width: 33.333333333%;}
@@ -338,7 +339,7 @@
     top: 0;
     bottom: 0;
     width: 220px;
-    background: #2E4051;
+    background: #052242;
     z-index: -1;
 }
 
@@ -4057,94 +4058,12 @@ div.mce-fullscreen{z-index: 97;}
     width: 100%;
 }
 
-.wc_modal-body{
-    font-size: 0.9em;
-}
-
-.wc_modal-content {
-    width: 100%;
-    position: relative;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #999;
-    border: 1px solid rgba(0,0,0,.2);
-    border-radius: 6px;
-    outline: 0;
-    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
-    box-shadow: 0 3px 9px rgba(0,0,0,.5);
-}
-
-
-.wc_modal-header {
-    padding: 10px 15px;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.wc_close {
-    float: right;
-    font-size: 21px;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    text-shadow: 0 1px 0 #fff;
-    filter: alpha(opacity=20);
-    opacity: .2;
-}
-
-.wc_close:focus, .wc_close:hover {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-    filter: alpha(opacity=50);
-    opacity: .5;
-}
-
-button.wc_close {
-    -webkit-appearance: none;
-    padding: 0;
-    cursor: pointer;
-    background: 0 0;
-    border: 0;
-}
-
-.btn_modal{
-    margin:15px;
-    border: double 10px;
-    background: #0E96E5;
-    border-radius: 50px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-}
-
-.wc_modal-body, .wc_modal-footer {
-    position: relative;
-    padding: 15px;
-}
-
-
-@media (min-width: 992px){ 
-    .wc_modal-lg {
-        width: 900px;
-    }
-}
-
-@media (min-width: 768px){ 
-    .wc_modal-dialog {
-        width: 600px;
-        margin: 30px auto;
-    }
-    .wc_modal-sm {
-        width: 300px;
-    }
-    .wc_modal-content {
-        -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
-        box-shadow: 0 5px 15px rgba(0,0,0,.5);
-    }
-}
-
-
 /***********************************
 ############ DATATABLE ############
 ***********************************/
+
+/***********************************
+############ CRIADOS ############
+***********************************/
+.box14{width: 14.31%;}
 
