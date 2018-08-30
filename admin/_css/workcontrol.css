@@ -121,6 +121,7 @@
     text-decoration: underline;
 }
 
+
 .box25{width: 25%;}
 .box30{width: 30%;}
 .box33{width: 33.333333333%;}
@@ -338,7 +339,7 @@
     top: 0;
     bottom: 0;
     width: 220px;
-    background: #2E4051;
+    background: #052242;
     z-index: -1;
 }
 
@@ -4034,5 +4035,7 @@ div.mce-fullscreen{z-index: 97;}
 ***********************************/
 
 
-
-
+/***********************************
+############ CRIADOS ############
+***********************************/
+.box14{width: 14.31%;}
