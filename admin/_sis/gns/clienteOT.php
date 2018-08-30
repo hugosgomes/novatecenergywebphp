@@ -71,7 +71,7 @@ $ID = 0;
             </article>
             
             <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
-            <article class="box box100">
+            <article class="box box50">
                 <div class="j_cliente_semOT">
                     <?php
                         $Read->FullRead("SELECT ID, IDCLIENTE, DATAAGENDAMENTO FROM [60_ClientesSemOT]
@@ -82,39 +82,18 @@ $ID = 0;
                                 extract($CLI);
                                 
                                 $Read->FullRead("SELECT NomeCliente FROM [60_Clientes] WHERE [Id] = :id","id={$IDCLIENTE}");
-                                echo "<span class='wc_pdt_stock' id='{$ID}'>{$Read->getResult()[0]['NomeCliente']}</a></h1>
-                                       <p>Data: " . date('d/m/Y', strtotime($DATAAGENDAMENTO)) . "</p>";
+                                echo "<div class='clientesemot' id='{$ID}'><p>{$Read->getResult()[0]['NomeCliente']}</p>
+                                       <p>Data: " . date('d/m/Y', strtotime($DATAAGENDAMENTO)) . "</p>
+                                       <p><span class='j_pesquisa_ot icon-search btn btn_blue' id='{$IDCLIENTE}' callback='ClientesOT' callback_action='consulta'></span></p></div>";
                             endforeach;
                         endif;
                     ?>
                 </div>
             </article>
-
-        <!--MODAL QUE ABRE PARA SELECIONAR O -->
-        <div class="workcontrol_pdt_size">
-            <form name="pdt_size" action="" method="post">
-                <p class="icon-hammer">OT's sugeridas:</p>
-
-                <div class="inputs jwc_product_stock_target">
-                    <div class="callback_return"></div>
-                    <div class="clear"></div>
-                    <?php
-                        $Read->FullRead("SELECT [Id], [NumOT] FROM [60_OT] WHERE  [Cliente] = :cliente", "cliente={$IDCLIENTE}");
-                        if ($Read->getResult()):
-                            foreach ($Read->getResult() as $OT):
-                                extract($OT);
-                                echo "<label><span id='{$Id}'>{$NumOT}</span><span rel='agendamentos' callback='ClientesOT' callback_action='atualizaCliente' class='j_vinculaOT icon-checkmark btn btn_blue' id='{$Id}'></span></label>";
-                            endforeach;
-                        else:
-                            echo "<label><span class='size'><b>Sem OT para vincular</b></span></label>";
-                        endif;
-                    ?>
+            <article class="box box_50">
+                <div class="ot">
                 </div>
-                <div class="workcontrol_pdt_size_close">X</div>
-                <div class="clear"></div>
-            </form>
-        </div>
-
+            </article>
         </div>
     </article>
 </div>

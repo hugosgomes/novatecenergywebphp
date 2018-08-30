@@ -65,14 +65,33 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             break;
 
-        case 'atualizaCliente':
-                var_dump($PostData);
-            
-            break;
-
         case 'consulta':
 
+            //PESQUISA SE JÁ EXISTE NO BANCO UMA OT CRIADA PARA ESTE CLIENTE
+            $Read->FullRead("SELECT Id, NumOT FROM [60_OT] WHERE [Cliente] = :cliente","cliente={$PostData['cli_id']}");
+                if ($Read->getResult()):
+                    foreach ($Read->getResult() as $OT):
+                        extract($OT);
+                        $jSON['trigger'] = true;
+                        $jSON['addOT'] = "<span class='j_ot' id='{$Id}'><p>{$NumOT}</p><span callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_blue' rel='{$PostData['cli_id']}' id='{$Id}'></span><span>";
+                    endforeach;              
+                else:
+                    $jSON['trigger'] = AjaxErro("Sem OT para vincular!");   
+                endif;
             break;
+
+        case 'insere':
+
+                $OT['IDOT'] = $PostData['IDOT'];
+                $Update->ExeUpdate("[60_ClientesSemOT]", $OT, " WHERE [60_ClientesSemOT].[ID] = :id", "id={$PostData['IDCLIENTE']}");
+                if($Update->getResult()):
+                    $jSON['trigger'] = AjaxErro("OT vinculada ao cliente com sucesso!");
+                    $jSON['ot'] = $End;
+                else:
+                    $jSON['trigger'] = AjaxErro("Erro ao vincular endereço!", E_USER_WARNING);
+                endif;
+            
+            break;        
     endswitch;
 
     //RETORNA O CALLBACK

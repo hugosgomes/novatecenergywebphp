@@ -16,7 +16,7 @@ endif;
         <h1 class="icon-hammer">GNS</h1>
         <p class="dashboard_header_breadcrumbs">
             &raquo;</span>
-            <a title="Novatec Energy" href="dashboard.php?wc=home">Dashboard</a>
+            <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
             <a title="Novatec Energy" href="dashboard.php?wc=gns/agendamentos">Agendamentos</a>
             <span class="crumb">/</span>

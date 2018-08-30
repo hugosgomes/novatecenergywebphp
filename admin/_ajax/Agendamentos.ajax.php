@@ -115,6 +115,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>OS retirada do técnico!");
                         $jSON['success'] = true;
                         $Update->ExeUpdate("[60_OS]", $Tecnico, "WHERE [60_OS].Id = :id", "id={$OSId}");
+                        var_dump($Update->getResult());
                         $jSON['deltable'] = $OSId;
                     else:
                         $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>Erro ao retirar a OS!");

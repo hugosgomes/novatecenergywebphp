@@ -1445,20 +1445,12 @@ function wcUrlParam(name) {
             
             //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
             if (data.addtable) {
-                $('#enderecos, .j_endereco').remove();
-                $(data.addtable).appendTo('#enderecos');
-
-                //$("#dataTable .j_tecnico").remove();
-                //$(data.addtable).appendTo('.dataTable');
+                $('.j_endereco').remove();
+                $(data.addtable).appendTo('article, #enderecos');
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
                 $('#'+ data.deltable).fadeOut(400);
-            }
-
-            //DINAMIC CONTENT
-            if (data.divcontent) {
-                $(data.divcontent[0]).html(data.divcontent[1]);
             }
         }, 'json');
 
@@ -1466,41 +1458,80 @@ function wcUrlParam(name) {
         e.stopPropagation();
     });
 
-    //AO CLICAR NO BOTÃO FECHA A MODAL
-    $('.j_vinculaOT').click(function () {
-        $('.workcontrol_pdt_size').fadeOut('fast');
-        $('.trigger_ajax').fadeOut('fast', function () {
-            $(this).remove();
-        });
+    //PESQUISA VINCULA ENDEREÇO
+    $('html, body').on('click', '.j_insere_endereco', function (e) {
+        var Prevent = $(this);
+        var EndId = $(this).attr('id');
+        var LogId = $(this).attr('rel');
+        var Callback = $(this).attr('callback');
+        var Callback_action = $(this).attr('callback_action');
+
+        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, end_id: EndId, log_id: LogId}, function (data) {
+            
+            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+            if (data.trigger) {
+                Trigger(data.trigger);                
+            }
+
+            //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
+            if (data.endereco) {
+                $('.j_endereco').remove();
+                $('display #'+ data.endereco).fadeOut(400);
+            }
+        }, 'json');
+
+        e.preventDefault();
+        e.stopPropagation();
     });
 
-    $('html, body').on('click', '.j_vinculaOT', function (e) {
+
+    //PESQUISA OT PARA VINCULO
+    $('html, body').on('click', '.j_pesquisa_ot', function (e) {
         var Prevent = $(this);
+        var CliId = $(this).attr('id');
+        var Callback = $(this).attr('callback');
+        var Callback_action = $(this).attr('callback_action');
+
+        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId}, function (data) {
+            
+            //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
+            if (data.addOT) {
+                $('.j_ot').remove();
+                $(data.addOT).appendTo('.ot');
+            }
+            //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
+            if (data.deltable) {
+                $('#'+ data.deltable).fadeOut(400);
+            }
+        }, 'json');
+
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    //PESQUISA VINCULA ENDEREÇO
+    $('html, body').on('click', '.j_insere_ot', function (e) {
+        var Prevent = $(this);
+        var CliId = $(this).attr('rel');
         var OTId = $(this).attr('id');
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
-        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ot_id: OTId}, function (data) {
+        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOT: OTId, IDCLIENTE:CliId}, function (data) {
             
-            //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
-            if (data.addtable) {
-                $('#enderecos, .j_endereco').remove();
-                $(data.addtable).appendTo('#enderecos');
-
-                //$("#dataTable .j_tecnico").remove();
-                //$(data.addtable).appendTo('.dataTable');
+            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+            if (data.trigger) {
+                Trigger(data.trigger);                
             }
+
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
-            if (data.deltable) {
-                $('#'+ data.deltable).fadeOut(400);
-            }
-
-            //DINAMIC CONTENT
-            if (data.divcontent) {
-                $(data.divcontent[0]).html(data.divcontent[1]);
+            if (data.ot) {
+                $('.j_ot').remove();
+                $('display #'+ data.endereco).fadeOut(400);
             }
         }, 'json');
 
         e.preventDefault();
         e.stopPropagation();
     });
+  
