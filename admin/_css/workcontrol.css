@@ -379,6 +379,7 @@
     float: left;
     width: 100%;
     position: relative;
+        padding-bottom: 0px;
 }
 
 .dashboard_nav_menu_li > a{
@@ -428,6 +429,7 @@
     text-decoration: none;
     color: #ccc;
     font-weight: 400;
+        padding-bottom: 0px;
 }
 
 .dashboard_nav_menu_sub_li a{
