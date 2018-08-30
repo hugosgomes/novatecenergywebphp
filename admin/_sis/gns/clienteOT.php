@@ -29,7 +29,7 @@ $ID = 0;
 <div class="dashboard_content custom_app">
     <article class="box box100">
         <header>
-          <h3>Clientes sem OT/OS</h3>
+          <h3>Cadastro de Clientes sem OT/OS</h3>
         </header>
         <div class="box_content">
             <article class='box box100'>
@@ -69,7 +69,14 @@ $ID = 0;
                     <div class="clear"></div>
                 </form>
             </article>
-            
+        </div>
+    </article>
+    <article class="box box100">
+        <header>
+          <h3>Relação de Clientes sem OT/OS</h3>
+        </header>
+        <div class="box_content">
+            <article class='box box100'>
             <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
             <article class="box box50">
                 <div class="j_cliente_semOT">
@@ -82,17 +89,17 @@ $ID = 0;
                                 extract($CLI);
                                 
                                 $Read->FullRead("SELECT NomeCliente FROM [60_Clientes] WHERE [Id] = :id","id={$IDCLIENTE}");
-                                echo "<div class='clientesemot' id='{$ID}'><p>{$Read->getResult()[0]['NomeCliente']}</p>
+                                echo "<div id='{$IDCLIENTE}'><p>{$Read->getResult()[0]['NomeCliente']}</p>
                                        <p>Data: " . date('d/m/Y', strtotime($DATAAGENDAMENTO)) . "</p>
-                                       <p><span class='j_pesquisa_ot icon-search btn btn_blue' id='{$IDCLIENTE}' callback='ClientesOT' callback_action='consulta'></span></p></div>";
+                                       <p><span class='j_pesquisa_ot icon-search btn btn_blue' rel='{$IDCLIENTE}' callback='ClientesOT' callback_action='consulta'></span></p></div>";
                             endforeach;
                         endif;
                     ?>
                 </div>
             </article>
+            <!--LOCAL ONDE É APRESENTADO AS SUGESTÕES DE OT PARA VINCULAR-->
             <article class="box box_50">
-                <div class="ot">
-                </div>
+                <div class="ot"></div>
             </article>
         </div>
     </article>

@@ -1446,7 +1446,7 @@ function wcUrlParam(name) {
             //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
             if (data.addtable) {
                 $('.j_endereco').remove();
-                $(data.addtable).appendTo('article, #enderecos');
+                $(data.addtable).appendTo('.enderecos');
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
@@ -1461,8 +1461,8 @@ function wcUrlParam(name) {
     //PESQUISA VINCULA ENDEREÇO
     $('html, body').on('click', '.j_insere_endereco', function (e) {
         var Prevent = $(this);
-        var EndId = $(this).attr('id');
-        var LogId = $(this).attr('rel');
+        var EndId = $(this).attr('rel');
+        var LogId = $(this).attr('id');
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
@@ -1476,7 +1476,7 @@ function wcUrlParam(name) {
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.endereco) {
                 $('.j_endereco').remove();
-                $('display #'+ data.endereco).fadeOut(400);
+                $('.display #'+ data.endereco).fadeOut(400);
             }
         }, 'json');
 
@@ -1488,7 +1488,7 @@ function wcUrlParam(name) {
     //PESQUISA OT PARA VINCULO
     $('html, body').on('click', '.j_pesquisa_ot', function (e) {
         var Prevent = $(this);
-        var CliId = $(this).attr('id');
+        var CliId = $(this).attr('rel');
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
@@ -1509,7 +1509,7 @@ function wcUrlParam(name) {
         e.stopPropagation();
     });
 
-    //PESQUISA VINCULA ENDEREÇO
+    //PESQUISA VINCULA OT AO CLIENTE
     $('html, body').on('click', '.j_insere_ot', function (e) {
         var Prevent = $(this);
         var CliId = $(this).attr('rel');
@@ -1527,7 +1527,7 @@ function wcUrlParam(name) {
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.ot) {
                 $('.j_ot').remove();
-                $('display #'+ data.endereco).fadeOut(400);
+                $('#'+ data.ot).fadeOut(400);
             }
         }, 'json');
 

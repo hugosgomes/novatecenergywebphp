@@ -82,14 +82,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         case 'insere':
 
-                $OT['IDOT'] = $PostData['IDOT'];
-                $Update->ExeUpdate("[60_ClientesSemOT]", $OT, " WHERE [60_ClientesSemOT].[ID] = :id", "id={$PostData['IDCLIENTE']}");
-                if($Update->getResult()):
-                    $jSON['trigger'] = AjaxErro("OT vinculada ao cliente com sucesso!");
-                    $jSON['ot'] = $End;
-                else:
-                    $jSON['trigger'] = AjaxErro("Erro ao vincular endereço!", E_USER_WARNING);
-                endif;
+            $OT['IDOT'] = intval($PostData['IDOT']);
+
+            //ATUALIZA VINCULANDO OT AO CLIENTE
+            $Update->ExeUpdate("[60_ClientesSemOT]", $OT, " WHERE [60_ClientesSemOT].[IDCLIENTE] = :id", "id={$PostData['IDCLIENTE']}");
+            if($Update->getResult()):
+                $jSON['trigger'] = AjaxErro("OT vinculada ao cliente com sucesso!");
+                $jSON['ot'] = $PostData['IDCLIENTE'];
+            else:
+                $jSON['trigger'] = AjaxErro("Erro ao vincular endereço!", E_USER_WARNING);
+            endif;
             
             break;        
     endswitch;

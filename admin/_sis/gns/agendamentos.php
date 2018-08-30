@@ -51,27 +51,28 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           ?>
         </header>
         <div class="box_content">
+          
+          <!--SELECT DO TÉCNICO-->
           <article class='box box50'>
             <label class="label">
               <span class="legend"><b>Técnico:</b></span>
               <select id="Tecnico" name="tecnico">
                 <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>
-                <?php
-                $Setor = 2;
-                $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
-                  FROM [Funcionários] AS [p]
-                  WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = :setor
-                  ORDER BY [p].[NOME COMPLETO]","setor={$Setor}");
-                if ($Read->getResult()):
-                  foreach ($Read->getResult() as $FUNC):
-                    echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME COMPLETO']}</option>";
-                  endforeach;
-                  endif;
-
-                  ?>
+                  <?php
+                  $Setor = 2;
+                  $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
+                    FROM [Funcionários] AS [p]
+                    WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = :setor
+                    ORDER BY [p].[NOME COMPLETO]","setor={$Setor}");
+                    if ($Read->getResult()):
+                      foreach ($Read->getResult() as $FUNC):
+                        echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME COMPLETO']}</option>";
+                      endforeach;
+                    endif;
+                    ?>
                 </select>
               </label>
-            </article>
+          </article>
 
             <?php
 

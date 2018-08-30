@@ -68,7 +68,7 @@ endif;
             <!--ONDE SERÃO APRESENTADOS O RESULTADO DA PESQUISA DE ENDEÇO -->
             <div class='box box50'>
                 <article>
-                        <div id="#enderecos"></div>
+                        <div class="enderecos"></div>
                 </article>
             </div>
         </div>
