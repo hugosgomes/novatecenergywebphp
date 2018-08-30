@@ -19,7 +19,7 @@ endif;
 
 <div class="dashboard_content bgdashboard" align="center">
     <div class="box box50">
-        <img class="dashboar_backgroud " alt="" title="" style="" src="_img/dashboard.png "/>
+        <img class="dashboar_backgroud " alt="" title=""  style="width: 70%;" src="_img/dashboard.png "/>
     </div>
     <div class="clear"></div>
 </div>
