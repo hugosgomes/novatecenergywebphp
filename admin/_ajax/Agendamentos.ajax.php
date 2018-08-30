@@ -14,7 +14,7 @@ usleep(50000);
 //DEFINE O CALLBACK E RECUPERA O POST
 $jSON = null;
 $CallBack = 'Agendamentos';
-$PostData = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+$PostData = filter_input_array(INPUT_POST, FILTER_DEFAULT);//Criar um array com tudo o que foi passado no post.
 
 //VALIDA AÇÃO
 if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallBack):

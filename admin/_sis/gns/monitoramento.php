@@ -31,7 +31,7 @@ endif;
             <article class='box box100'>
                 <label class="label">
                         <span class="legend">Técnico:</span>
-                        <select id="Tecnico" name="tecnico">
+                        <select id="Tecnico" name="tecnico" callback="Monitoramento" callback_action="consulta">
                             <option value="">Selecione um Técnico</option>
                             <option value="t">&raquo;&raquo;TODOS OS TÉCNICOS</option>
                             <?php
@@ -60,9 +60,13 @@ endif;
                                     inner join [60_OS] on [60_OT].Id = [60_OS].OT
                                     inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
                                     inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :data","data={$Data}");
+
+                  $ReadClientesAssoc = new Read();
+                  $ReadClientesAssoc->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]", "");
+
             ?>
-            <article class="box box50">
-                <ul>
+            <article class="box box50 datalist">
+                <ul id="dataList">
                     <li>Cliente(s) Associado(s):</li>
                     <li>Cliente(s) Atendido(s):</li>
                     <li>Cliente(s) Cancelado(s):</li>

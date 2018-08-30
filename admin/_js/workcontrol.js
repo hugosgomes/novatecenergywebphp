@@ -1324,29 +1324,28 @@ function wcUrlParam(name) {
     $(function(){
         $('#Tecnico').change(function(){
             var Tecnico = $(this).val();
-            var Callback = 'Agendamentos';
-            var Callback_action = 'consulta';            
-            var RelTo = $(this).attr('rel');
+            var Callback = $(this).attr('callback');
+            var Callback_action = $(this).attr('callback_action');
 
 
             $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico}, function (data) {
             
-            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if(data.Trigger){
-                Trigger(data.trigger);
-            }
-            //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
-            if (data.addtable) {
-                $("#dataTable .j_tecnico").remove();
-                $(data.addtable).appendTo('.dataTable');
-            }
+                //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+                if(data.Trigger){
+                    Trigger(data.trigger);
+                }
+                //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
+                if (data.addtable) {
+                    $("#dataTable .j_tecnico").remove();
+                    $(data.addtable).appendTo('.dataTable');
+                }
 
-            //DINAMIC CONTENT
-            if (data.divcontent) {
-                $(data.divcontent[0]).html(data.divcontent[1]);
-            }
-        }, 'json');
-
+                //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
+                if (data.addlist) {
+                    $("#dataList").remove();
+                    $(data.addlist).appendTo('.dataList');
+                }            
+            }, 'json');
 
         });
     });
