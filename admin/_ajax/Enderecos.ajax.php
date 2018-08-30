@@ -47,7 +47,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'pesquisa':           
 
             $LOG = explode(" ", $PostData['logradouro'],4);
-            $LOG = $LOG[1];
+            $LOGb = $LOG[1];
             $LOGc = $LOG[2];
 
             $PostData['logradouro'] = str_replace(" ", '%', $PostData['logradouro']);
@@ -81,15 +81,24 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     foreach ($Read->getResult() as $ENDERECOS):
                         extract($ENDERECOS);
                         $jSON['trigger'] = true;
-                        $jSON['addtable'] = "<tr class='j_endereco' id='{$ID}'><td>{$LOGRADOURO}</td><td>{$BAIRRO}</td><td><span rel='agendamentos' callback='Enderecos' callback_action='insere' class='j_insere_endereco icon-checkmark btn btn_blue' id='{$ID}'></span></td></td>";
+                        $jSON['addtable'] = "<span class='j_endereco' id='{$ID}'><p>{$LOGRADOURO}</p><p>{$BAIRRO}</p><p><span rel='{$PostData['end_id']}' callback='Enderecos' callback_action='insere' class='j_insere_endereco icon-checkmark btn btn_blue' id='{$ID}'></span><span></p>";
                     endforeach;              
                 else:
                         $jSON['trigger'] = true;
-                        $jSON['addtable'] = "<tr class='j_endereco' id='semEndereco'><td>Sem endereço para relacionar</td></tr>";
+                        $jSON['addtable'] = "<span class='j_endereco' id='{$ID}'>Sem endereço para relacionar</span>";
                 endif;
             break;
 
-        case 'delete':            
+        case 'insere': 
+                $End = $PostData['end_id'];
+                $Endereco['LOGRADOUROID'] = $PostData['log_id'];
+                $Update->ExeUpdate("[60_Enderecos]", $Endereco, " WHERE [60_Enderecos].[ID] = :id", "id={$End}");
+                if($Update->getResult()):
+                    $jSON['trigger'] = AjaxErro("Endereço vinculado com sucesso!");
+                    $jSON['endereco'] = $End;
+                else:
+                    $jSON['trigger'] = AjaxErro("Erro ao vincular endereço!", E_USER_WARNING);
+                endif;                
             break;
 
         case 'consulta':                

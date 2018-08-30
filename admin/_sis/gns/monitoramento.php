@@ -1,29 +1,30 @@
 <?php
 $AdminLevel = LEVEL_WC_USERS;
 if (!$DashboardLogin):
-    die('<div style="text-align: center; margin: 5% 0; color: #C54550; font-size: 1.6em; font-weight: 400; background: #fff; float: left; width: 100%; padding: 30px 0;"><b>ACESSO NEGADO:</b> Você não esta logado<br>ou não tem permissão para acessar essa página!</div>');
+  die('<div style="text-align: center; margin: 5% 0; color: #C54550; font-size: 1.6em; font-weight: 400; background: #fff; float: left; width: 100%; padding: 30px 0;"><b>ACESSO NEGADO:</b> Você não esta logado<br>ou não tem permissão para acessar essa página!</div>');
 endif;
 
 // AUTO INSTANCE OBJECT READ
 if (empty($Read)):
-    $Read = new Read;
+  $Read = new Read;
 endif;
 ?>
 
 <header class="dashboard_header">
-    <div class="dashboard_header_title">
-        <h1 class="icon-hammer">GNS</h1>
-        <p class="dashboard_header_breadcrumbs">
-            &raquo;</span>
-            <a title="Novatec Energy" href="dashboard.php?wc=home">Dashboard</a>
-            <span class="crumb">/</span>
-            Monitoramento
-        </p>
-    </div>
+  <div class="dashboard_header_title">
+    <h1 class="icon-hammer">GNS</h1>
+    <p class="dashboard_header_breadcrumbs">
+      &raquo;</span>
+      <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
+      <span class="crumb">/</span>
+      Monitoramento
+    </p>
+  </div>
 </header>
-
 <div class="dashboard_content custom_app">
-    <article class="box box70">
+  <article class="box box100">   
+    <div class="box_content">
+      <article class="box box70">
         <header>
           <h3>Monitoramento</h3>
         </header>
@@ -52,7 +53,6 @@ endif;
             </article>
 
             <?php
-
                   $Data = date('d/m/Y');
                   $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].Tecnico, [60_OS].turno as TURNO,
                                     [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
@@ -74,95 +74,99 @@ endif;
                     <li>Reagendamento(s):</li>
                     <li>Reagendamentos GNS:</li>
                     <li>Cliente(s) sem atender:</li>
-                </ul>
-            </article>
-            
-            <article class="box box50">
+                  </ul>
+                </div>
+              </article>
+
+              <article class="box box50">
+               <div class="lista-monitoramento">
                 <h1>Orçamentos:</h1>
                 <ul>
-                    <li>Aprovados:</li>
-                    <li>Executados:</li>
-                    <li>Reprovados:</li>
-                    <li><b>Total:</b></li>
+                  <li>Aprovados:</li>
+                  <li>Executados:</li>
+                  <li>Reprovados:</li>
+                  <li><b>Total:</b></li>
                 </ul>
+              </div>
             </article>
 
-        </div>
-    </article>
-    <article class="box box30">
-        <header>
-              <?php
-                echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
-              ?>           
-        </header>
-        <div class="box_content">
+          </div>
+        </article>
+        <article class="box box30">
+          <header>
+            <?php
+            echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
+            ?>           
+          </header>
+          <div class="box_content">
             <div id="map"></div>
-        </div>
-    </article>
-</div>
+          </div>
+        </article>
+      </div>
+    </div>
 
-<!--Inicia o data table-->
-<script>
+    <!--Inicia o data table-->
+    <script>
     $(document).ready( function () {
-        $('#dataTable').DataTable({
-          paging: true,
-          compact: true,
-          hover: true,
-          searching: true,
-          info: false
-        });
+      $('#dataTable').DataTable({
+        paging: true,
+        compact: true,
+        hover: true,
+        searching: true,
+        info: false
+      });
     } );
-</script>
-
-
-<!--inicia o Google Maps-->
-<script>
-
-      function initMap() {
-        var myLatLng = {lat: -22.9068467, lng: -43.1728965};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 8,
-          center: myLatLng
-        });
-        var image1 = './_img/marcador.png';
-        var image2 = './_img/marcador2.png';
-        var image3 = './_img/marcador3.png';
-        var number = 5;
-
-        <?php
-        foreach ($Read->getResult() as $OS):
-              extract($OS);                                
-              echo "var marker".$Id." = new google.maps.Marker({
-                      position: myLatLng,
-                      map: map,";
-                    if($Status == "0"):
-                      echo"icon: image1,";
-                    elseif($Status == "1"):
-                      echo"icon: image2,";
-                    else:
-                      echo"icon: image3,";                      
-                    endif;       
-              echo "animation: google.maps.Animation.DROP,
-                    position: {lat:".$LATITUDE.", lng: ".$LONGITUDE."},     
-                    title: 'Hello World!'});";
-
-             echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span></div></div>';";
-
-
-              echo "var infowindow".$Id." = new google.maps.InfoWindow({
-                  content: contentString,
-                  maxWidth: 400
-              });";
-
-              echo "marker".$Id.".addListener('click', function () {
-                  infowindow".$Id.".open(map, marker".$Id.");
-              });";       
-          endforeach;
-        ?>            
-     };
-
-
     </script>
+
+
+    <!--inicia o Google Maps-->
+    <script>
+
+    function initMap() {
+      var myLatLng = {lat: -22.9068467, lng: -43.1728965};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: myLatLng
+      });
+      var image1 = './_img/marcador.png';
+      var image2 = './_img/marcador2.png';
+      var image3 = './_img/marcador3.png';
+      var number = 5;
+
+      <?php
+      foreach ($Read->getResult() as $OS):
+        extract($OS);                                
+      echo "var marker".$Id." = new google.maps.Marker({
+        position: myLatLng,
+        map: map,";
+        if($Status == "0"):
+          echo"icon: image1,";
+        elseif($Status == "1"):
+          echo"icon: image2,";
+        else:
+          echo"icon: image3,";                      
+        endif;       
+        echo "animation: google.maps.Animation.DROP,
+        position: {lat:".$LATITUDE.", lng: ".$LONGITUDE."},     
+        title: 'Hello World!'});";
+
+echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span></div></div>';";
+
+
+echo "var infowindow".$Id." = new google.maps.InfoWindow({
+  content: contentString,
+  maxWidth: 400
+});";
+
+echo "marker".$Id.".addListener('click', function () {
+  infowindow".$Id.".open(map, marker".$Id.");
+});";       
+endforeach;
+?>            
+};
+
+
+</script>
 
 <!--Chamada da API do Google Maps-->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>

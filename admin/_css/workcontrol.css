@@ -329,7 +329,7 @@
     width: 220px;
     height: 100%;
     min-height: 100%;
-    background: #2E4051;
+    background: #052242;
 }
 
 .dashboard_nav_normalize{
@@ -343,10 +343,11 @@
 }
 
 .dashboard_nav_admin{
-    padding: 20px;
-    background: #1A242E;
+        padding: 10px;
+    background: #052242;
     text-align: center;
     color: #ccc;
+    height: 7%;
 }
 
 .dashboard_nav_admin_thumb{
@@ -369,8 +370,8 @@
     width: 100%;
     font-size: 0.875em;
     font-weight: 600;
-    background: #2E4051;
-    padding-bottom: 10px;
+    background: #092b50;
+    /*padding-bottom: 10px;*/
 }
 
 .dashboard_nav_menu_li{
@@ -385,13 +386,13 @@
     color: #ccc;
     text-decoration: none;
     padding: 12px 25px;
-    border-top: 1px solid #263644;
+   /* border-top: 1px solid #263644;*/
 }
 
 .dashboard_nav_menu_li:hover,
 .dashboard_nav_menu_li a:hover,
 .dashboard_nav_menu_active > a{
-    background-color: #263644;
+    background-color: #0b4480;
     color: #fff;
 }
 
@@ -430,6 +431,7 @@
 
 .dashboard_nav_menu_sub_li a{
     padding: 10px;
+    background-color: #092b50;
 }
 
 .dashboard_nav_menu_active .dashboard_nav_menu_sub{
@@ -440,7 +442,7 @@
 
 .dashboard_nav_menu_active .dashboard_nav_menu_sub_li a{
     padding: 10px 15px 10px 35px;
-    background: #1A242E;
+    background: #092b50;
     border-top: 1px dotted #263644;
 }
 
@@ -450,7 +452,8 @@
     width: 100%;
     padding: 20px 25px;
     font-size: 0.875em;
-    color: #555;
+    color: white;
+    background-color: #052242;
 }
 
 .dashboard_sidebar_right{
@@ -460,10 +463,10 @@
 .dashboard_header{
     float: left;
     width: 100%;
-    background: #fff;
+    background: #f3f3f3;
     padding: 20px 25px;
-    border-top: 1px solid #EBEBEB;
-    border-bottom: 1px solid #EBEBEB;
+   /* border-top: 1px solid #EBEBEB;
+    border-bottom: 1px solid #EBEBEB;*/
     color: #555;
 }
 
@@ -529,7 +532,7 @@
 /*MODEL HOME1, HOME2, HOME3, HOME4*/
 
 .bgdashboard{
-    padding-top: 150px;
+ padding-top: 12%;
 }
 .dashboard_onlinenow p{
     font-size: 2.2em;
@@ -3928,14 +3931,14 @@ div.mce-fullscreen{z-index: 97;}
     right: 20px;
     bottom: 20px;
     z-index: 999;
-    background: rgba(244, 85, 99, 0.5);
+    background: #052242;
     padding: 10px 12px;
     color: #fff;
     cursor: pointer;
 }
 
 .wc_domain_license:hover{
-    background: #C63D3A;
+    background: #064386;
 }
 
 .wc_domain_license_box{
@@ -4027,9 +4030,121 @@ div.mce-fullscreen{z-index: 97;}
       }
 
 /***********************************
+############### MODAL ##############
+***********************************/
+.wc_modal{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 98;
+    display: none;
+    overflow:auto; 
+    -webkit-overflow-scrolling: touch;
+    outline: 0; 
+}
+
+.wc_modal-dialog {
+    position: relative;
+    width: 100%;
+    margin: 10px;
+    z-index: 99;
+    top: -100%;
+}
+.wc_modal-lg {
+    width: 100%;
+}
+
+.wc_modal-body{
+    font-size: 0.9em;
+}
+
+.wc_modal-content {
+    width: 100%;
+    position: relative;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+
+
+.wc_modal-header {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.wc_close {
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+
+.wc_close:focus, .wc_close:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+
+button.wc_close {
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+}
+
+.btn_modal{
+    margin:15px;
+    border: double 10px;
+    background: #0E96E5;
+    border-radius: 50px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+}
+
+.wc_modal-body, .wc_modal-footer {
+    position: relative;
+    padding: 15px;
+}
+
+
+@media (min-width: 992px){ 
+    .wc_modal-lg {
+        width: 900px;
+    }
+}
+
+@media (min-width: 768px){ 
+    .wc_modal-dialog {
+        width: 600px;
+        margin: 30px auto;
+    }
+    .wc_modal-sm {
+        width: 300px;
+    }
+    .wc_modal-content {
+        -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    }
+}
+
+
+/***********************************
 ############ DATATABLE ############
 ***********************************/
-
-
-
 

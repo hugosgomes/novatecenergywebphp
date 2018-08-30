@@ -62,16 +62,38 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['success'] = true;
                 //REDIRECIONA PARA MESMA PAGINA PARA CARREGAR A TABELA COM OS CLIENTES SEM OT                       
                 $jSON['redirect'] = "dashboard.php?wc=gns/clienteOT";
-                           
-            break;
 
-        case 'atualizaCliente':
-            
             break;
 
         case 'consulta':
 
+            //PESQUISA SE JÁ EXISTE NO BANCO UMA OT CRIADA PARA ESTE CLIENTE
+            $Read->FullRead("SELECT Id, NumOT FROM [60_OT] WHERE [Cliente] = :cliente","cliente={$PostData['cli_id']}");
+                if ($Read->getResult()):
+                    foreach ($Read->getResult() as $OT):
+                        extract($OT);
+                        $jSON['trigger'] = true;
+                        $jSON['addOT'] = "<span class='j_ot' id='{$Id}'><p>{$NumOT}</p><span callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_blue' rel='{$PostData['cli_id']}' id='{$Id}'></span><span>";
+                    endforeach;              
+                else:
+                    $jSON['trigger'] = AjaxErro("Sem OT para vincular!");   
+                endif;
             break;
+
+        case 'insere':
+
+            $OT['IDOT'] = intval($PostData['IDOT']);
+
+            //ATUALIZA VINCULANDO OT AO CLIENTE
+            $Update->ExeUpdate("[60_ClientesSemOT]", $OT, " WHERE [60_ClientesSemOT].[IDCLIENTE] = :id", "id={$PostData['IDCLIENTE']}");
+            if($Update->getResult()):
+                $jSON['trigger'] = AjaxErro("OT vinculada ao cliente com sucesso!");
+                $jSON['ot'] = $PostData['IDCLIENTE'];
+            else:
+                $jSON['trigger'] = AjaxErro("Erro ao vincular endereço!", E_USER_WARNING);
+            endif;
+            
+            break;        
     endswitch;
 
     //RETORNA O CALLBACK

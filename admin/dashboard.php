@@ -71,6 +71,10 @@ endif;
     <link href='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js' rel='javascript' type='text/css'>
     <script src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js'></script>
 
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
 
 
 </head>
@@ -96,12 +100,13 @@ endif;
         <nav class="dashboard_nav">
             <div class="dashboard_nav_admin">
                 <div class="box box60">
-                    <img class="dashboard_nav_admin_thumb" alt="" title="" src="_img/logo.png "/>
+                    <!--<img class="dashboard_nav_admin_thumb" alt="" title="" src="_img/logo.png "/>-->
+                    <h4 style="color: #fff;">Novatec Energy</h4>
                 </div>
             </div>
 
             <ul class="dashboard_nav_menu">
-                <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Página Inicial</a></li>
+                <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Home</a></li>
 
                 <?php
 
@@ -111,12 +116,26 @@ endif;
                 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos">&raquo; Agendamentos</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
-                                <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
-                            </ul>
-                        </li>
-                        <?php
-                        endif;
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>                        
+                        <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
+                    </ul>
+                </li>
+                <?php
+                endif;
+                ?>
+
+                <?php
+
+                    //MODULO CLIENTES PARTICULARES
+                if ($_SESSION['userLogin']):
+                    ?>
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="dashboard.php?wc=clientes/home"">Clientes</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        
+                    </ul>
+                </li>
+                <?php
+                endif;
 
                     //MENU DE USUÁRIOS
                     /*if (APP_USERS && $_SESSION['userLogin']['user_level'] >= LEVEL_WC_USERS):
@@ -147,19 +166,6 @@ endif;
                         </li>
                         <?php
                         endif;*/
-
-                        if ($_SESSION['userLogin']):
-                            ?>
-                        <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'config/') ? 'dashboard_nav_menu_active' : ''; ?>"><a style="cursor: default;" onclick="return false;" class="icon-cogs" title="Configurações" href="#">Configurações</a>
-                            <ul class="dashboard_nav_menu_sub top">
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'config/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Configurações Gerais" href="dashboard.php?wc=config/home">&raquo; Configurações Gerais</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'config/license' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Licenciar Domínio" href="dashboard.php?wc=config/license">&raquo; Licenciar Domínio</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'config/sample' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="WorkControl Samples" href="dashboard.php?wc=config/samples">&raquo; Work Control® Samples</a></li>
-                            </ul>
-                        </li>
-
-                        <?php 
-                        endif;
                         ?>
                     </ul>
                     <div class="dashboard_nav_normalize"></div>        
@@ -196,7 +202,7 @@ endif;
                             <a class="icon-exit btn btn_darkblue" title="Desconectar do <?= ADMIN_NAME; ?>!" href="dashboard.php?wc=home&logoff=true">Sair</a>
                         </div>
                     </div>
-
+                    
                     <?php
                 //QUERY STRING
                     if (!empty($getView)):

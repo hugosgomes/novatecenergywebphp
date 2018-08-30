@@ -13,31 +13,24 @@ endif;
 
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-hammer">GNS</h1>
+        <h1 class="icon-users">Clientes Particulares</h1>
         <p class="dashboard_header_breadcrumbs">
             &raquo;</span>
             <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
-            <a title="Novatec Energy" href="dashboard.php?wc=gns/agendamentos">Agendamentos</a>
-            <span class="crumb">/</span>
-            Relatório Diário
+            <a title="Novatec Energy" href="dashboard.php?wc=clientes/particulares">Clientes Particulares</a>
+
         </p>
     </div>
 </header>
-
 <div class="dashboard_content custom_app">
-    <article class="box box100">
-        <header>
-          <h3>Clientes sem OT/OS</h3>
-        </header> 
-        <div class="box_content">
-        </div>
-    </article>
-</div>
+    <div class="box box100">
+        <div class="panel_header success">
+            <h2 class="icon-arrow-up">Sucesso</h2>
 
-<!--Inicia o data table-->
-<script>
-    $(document).ready(function() {
-      $('table.display').DataTable();
-    });
-</script>
+        </div>
+        <div class="box_content">
+            asdas
+        </div>
+    </div>
+</div>

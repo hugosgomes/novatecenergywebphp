@@ -10,18 +10,16 @@ endif;
 ?>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-home">Página Inicial</h1>
+        <h1 class="icon-home">Home</h1>
         <p class="dashboard_header_breadcrumbs">
-            &raquo; <?= ADMIN_NAME; ?>
-            <span class="crumb">/</span>
-            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Página Inicial</a>
+            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Home</a>
         </p>
     </div>
 </header>
 
 <div class="dashboard_content bgdashboard" align="center">
     <div class="box box50">
-        <img class="dashboar_backgroud " alt="" title="" style="" src="_img/dashboard.png "/>
+        <img class="dashboar_backgroud " alt="" title=""  style="width: 70%;" src="_img/dashboard.png "/>
     </div>
     <div class="clear"></div>
 </div>
