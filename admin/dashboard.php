@@ -129,13 +129,14 @@ endif;
                     //MODULO CLIENTES PARTICULARES
                 if ($_SESSION['userLogin']):
                     ?>
-                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="dashboard.php?wc=clientes/home"">Clientes</a>
-                    <ul class="dashboard_nav_menu_sub">
-                        
-                    </ul>
-                </li>
-                <?php
-                endif;
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="#">Clientes Particulares</a>
+                    <ul class="dashboard_nav_menu_sub">                
+                      <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Residenciais" href="dashboard.php?wc=clientes/home">&raquo; Residenciais</a></li>         
+                      <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Residenciais" href="dashboard.php?wc=clientes/home">&raquo; Comerciais</a></li>-->
+                  </ul>
+              </li>
+              <?php
+              endif;
 
                     //MENU DE USUÁRIOS
                     /*if (APP_USERS && $_SESSION['userLogin']['user_level'] >= LEVEL_WC_USERS):
