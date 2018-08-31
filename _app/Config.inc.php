@@ -179,8 +179,8 @@ function getWcLevel($Level = null)
 function getWcTipoCliente()
 {
    $tipoCliente = array(
-       1 => 'Síndico',
-       2 => 'Morador',
+       1 => 'Grandes Orçamentos',
+       2 => 'Pequenos Orçamentos',
    );
 
   return $tipoCliente;

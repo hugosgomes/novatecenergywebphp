@@ -126,22 +126,24 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         case 'consulta':
               //VERIFICA DE O FOI SELECIONADO TODOS OS TÉCNICOS
-              if($PostData['Tecnico'] == 't'):
-                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                        [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                        inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                        inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                        inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                        inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID
-                                        WHERE [60_OS].Tecnico <> 0",NULL);
-              else:
-                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                        [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                        inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                        inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                        inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                        inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
-                                        WHERE [60_OS].Tecnico = :tecnico","tecnico={$PostData['Tecnico']}");
+              if($PostData['semana'] == 1):
+                if($PostData['Tecnico'] == 't'):
+                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
+                                          [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
+                                          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                          inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                          inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
+                                          inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID
+                                          WHERE [60_OS].Tecnico <> 0",NULL);
+                else:
+                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
+                                          [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
+                                          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                          inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                          inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
+                                          inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
+                                          WHERE [60_OS].Tecnico = :tecnico","tecnico={$PostData['Tecnico']}");
+                endif;
               endif;
               if ($Read->getResult()):
                   $jSON['addtable'] = null;
