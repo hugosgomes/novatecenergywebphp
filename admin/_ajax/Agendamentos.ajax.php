@@ -125,43 +125,37 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             break;
 
         case 'consulta':
-
-                if(!$PostData['Tecnico']):
-                    $jSON['trigger'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING);
-                else:
-                    //VERIFICA DE O FOI SELECIONADO TODOS OS TÉCNICOS
-                    if($PostData['Tecnico'] == 't'):
-                        $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                              [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                              inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID
-                                              WHERE [60_OS].Tecnico <> 0",NULL);
-                    else:
-                        $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                              [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                              inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
-                                              WHERE [60_OS].Tecnico = :tecnico","tecnico={$PostData['Tecnico']}");
-                    endif;
-
-                    if (!$Read->getResult()):
-                        $jSON['addtable'] = null;
-                        foreach ($Read->getResult() as $OS):
-                            extract($OS);
-                            $jSON['trigger'] = true;
-                            $jSON['success'] = true;
-                            $jSON['addtable'] .= "<tr class='j_tecnico' id='{$Id}'><td>{$NomeCliente}</td><td>{$NumOS}</td><td>{$OSServico}</td><td>{$ENDERECO}</td><td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td><td>{$Tecnico}</td><td>{$TURNO}</td><td><span rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cancel-circle btn btn_red' id='{$Id}'></span></td></td>";
-                        endforeach;                   
-                    else:
-                        $jSON['trigger'] = true;
-                        $jSON['success'] = true;
-                        $jSON['addtable'] = "<tr class='j_tecnico' id='semOS'><td>Sem O.S direcionada para esta tecnico</td></tr>";
-                    endif;
-                endif;
+              //VERIFICA DE O FOI SELECIONADO TODOS OS TÉCNICOS
+              if($PostData['Tecnico'] == 't'):
+                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
+                                        [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
+                                        inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                        inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                        inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
+                                        inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID
+                                        WHERE [60_OS].Tecnico <> 0",NULL);
+              else:
+                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
+                                        [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
+                                        inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                        inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                        inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
+                                        inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
+                                        WHERE [60_OS].Tecnico = :tecnico","tecnico={$PostData['Tecnico']}");
+              endif;
+              if ($Read->getResult()):
+                  $jSON['addtable'] = null;
+                  foreach ($Read->getResult() as $OS):
+                      extract($OS);
+                      $jSON['trigger'] = true;
+                      $jSON['success'] = true;
+                      $jSON['addtable'] .= "<tr class='j_tecnico' id='{$Id}'><td>{$NomeCliente}</td><td>{$NumOS}</td><td>{$NomeOS}</td><td>{$ENDERECO}</td><td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td><td>{$Tecnico}</td><td>{$TURNO}</td><td><span rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cancel-circle btn btn_red' id='{$Id}'></span></td></td>";
+                  endforeach;                   
+              else:
+                  $jSON['trigger'] = true;
+                  $jSON['success'] = true;
+                  $jSON['addtable'] = "<tr class='j_tecnico' id='semOS'><td>Sem O.S direcionada para esta tecnico</td></tr>";
+              endif;
             break;
     endswitch;
 

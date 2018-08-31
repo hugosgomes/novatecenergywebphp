@@ -26,6 +26,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 </header>
 
 <div class="dashboard_content custom_app">
+  <!--BOTÕES SUPERIORES-->
   <article class="box box100">   
     <div class="box_content">
       <div class="box box40">
@@ -37,8 +38,10 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
       <div class="box box40">
         <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_left icon-plus">Clientes Sem OT / OS</a>
       </div>
-      
-      <article class="box box70">
+  </article>
+
+  <article class="box box100">    
+      <article class="box box50">
         <header>
           <?php
           $Data = new DateTime();
@@ -56,7 +59,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           <article class='box box50'>
             <label class="label">
               <span class="legend"><b>Técnico:</b></span>
-              <select id="Tecnico" name="tecnico">
+              <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>">
                 <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>
                   <?php
                   $Setor = 2;
@@ -75,7 +78,6 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           </article>
 
             <?php
-
                 if($Semana == '1'):
                   $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
                                     NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO,
@@ -118,7 +120,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
             </article>
           </div>
         </article>
-        <article class="box box30">
+        <article class="box box50">
           <header>
             <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $Hoje; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
             <?php

@@ -73,8 +73,8 @@ li a{
 input{
     outline: none;
 }
-a:link{
-    text-decoration:none; 
+.link{
+    text-decoration:none;
 }
 </style>
 <!-- Remember to include jQuery :) -->
@@ -124,7 +124,7 @@ a:link{
                            <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
                                <span class="icon-circle-down" style="color: #bdbdbd;"></span>
                            </div></a>
-                           <ul><li><a href="#janela1" rel="modal"><span class='icon-user'></span><span><b>Cintia Luíza Moura Mailard</b></span></a></li></ul>
+                           <ul><li><a class="link" href="#janela1" rel="modal"><span class='icon-user'></span><span><b>Cintia Luíza Moura Mailard</b></span></a></li></ul>
                        </div>
 
                        <?php
@@ -302,7 +302,7 @@ a:link{
 
         ?>
         <div class="box_content buttons_clientes" style="height: 15%;">
-              <ul><li><a href="#janela1" rel="modal"><span class='icon-history'></span><span><b>AGENDAMENTO REALIZADO</b></span><p class="subtitle">30/08/2018</p></a></li></ul>
+              <ul><li><a class="link" href="#janela1" rel="modal"><span class='icon-history'></span><span><b>AGENDAMENTO REALIZADO</b></span><p class="subtitle">30/08/2018</p></a></li></ul>
        </div>
 
        <?php

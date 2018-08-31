@@ -22,14 +22,11 @@ endif;
   </div>
 </header>
 <div class="dashboard_content custom_app">
-  <article class="box box100">   
-    <div class="box_content">
-      <article class="box box70">
+    <article class="box box50">
         <header>
           <h3>Monitoramento</h3>
-        </header>
+        </header> 
         <div class="box_content">
-            <article class='box box100'>
                 <label class="label">
                         <span class="legend">Técnico:</span>
                         <select id="Tecnico" name="tecnico" callback="Monitoramento" callback_action="consulta">
@@ -50,7 +47,6 @@ endif;
                             ?>
                         </select>
                 </label>
-            </article>
 
             <?php
                   $Data = date('d/m/Y');
@@ -65,7 +61,7 @@ endif;
                   $ReadClientesAssoc->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]", "");
 
             ?>
-            <article class="box box50 datalist">
+              <article class="box box50 datalist">
                 <ul id="dataList">
                     <li>Cliente(s) Associado(s):</li>
                     <li>Cliente(s) Atendido(s):</li>
@@ -75,7 +71,6 @@ endif;
                     <li>Reagendamentos GNS:</li>
                     <li>Cliente(s) sem atender:</li>
                   </ul>
-                </div>
               </article>
 
               <article class="box box50">
@@ -89,10 +84,11 @@ endif;
                 </ul>
               </div>
             </article>
-
-          </div>
-        </article>
-        <article class="box box30">
+            <div class="clear"></div>
+      </div>
+    </article>
+        <!--MAPA-->
+        <article class="box box50">
           <header>
             <?php
             echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
@@ -102,55 +98,40 @@ endif;
             <div id="map"></div>
           </div>
         </article>
-      </div>
-    </div>
+</div>
 
-    <!--Inicia o data table-->
-    <script>
-    $(document).ready( function () {
-      $('#dataTable').DataTable({
-        paging: true,
-        compact: true,
-        hover: true,
-        searching: true,
-        info: false
-      });
-    } );
-    </script>
+<!--inicia o Google Maps-->
+<script>
 
+function initMap() {
+  var myLatLng = {lat: -22.9068467, lng: -43.1728965};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 8,
+    center: myLatLng
+  });
+  var image1 = './_img/marcador.png';
+  var image2 = './_img/marcador2.png';
+  var image3 = './_img/marcador3.png';
+  var number = 5;
 
-    <!--inicia o Google Maps-->
-    <script>
+  <?php
+  foreach ($Read->getResult() as $OS):
+    extract($OS);                                
+  echo "var marker".$Id." = new google.maps.Marker({
+    position: myLatLng,
+    map: map,";
+    if($Status == "0"):
+      echo"icon: image1,";
+    elseif($Status == "1"):
+      echo"icon: image2,";
+    else:
+      echo"icon: image3,";                      
+    endif;       
+    echo "animation: google.maps.Animation.DROP,
+    position: {lat:".$LATITUDE.", lng: ".$LONGITUDE."},     
+    title: 'Hello World!'});";
 
-    function initMap() {
-      var myLatLng = {lat: -22.9068467, lng: -43.1728965};
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        center: myLatLng
-      });
-      var image1 = './_img/marcador.png';
-      var image2 = './_img/marcador2.png';
-      var image3 = './_img/marcador3.png';
-      var number = 5;
-
-      <?php
-      foreach ($Read->getResult() as $OS):
-        extract($OS);                                
-      echo "var marker".$Id." = new google.maps.Marker({
-        position: myLatLng,
-        map: map,";
-        if($Status == "0"):
-          echo"icon: image1,";
-        elseif($Status == "1"):
-          echo"icon: image2,";
-        else:
-          echo"icon: image3,";                      
-        endif;       
-        echo "animation: google.maps.Animation.DROP,
-        position: {lat:".$LATITUDE.", lng: ".$LONGITUDE."},     
-        title: 'Hello World!'});";
-
-echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span></div></div>';";
+echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p></div></div>';";
 
 
 echo "var infowindow".$Id." = new google.maps.InfoWindow({

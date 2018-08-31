@@ -172,6 +172,42 @@ function getWcLevel($Level = null)
     endif;
 }
 
+/*
+* Descreve tipo de cliente
+*/
+
+function getWcTipoCliente()
+{
+   $tipoCliente = array(
+       1 => 'Síndico',
+       2 => 'Morador',
+   );
+
+  return $tipoCliente;
+}
+
+/*
+* Descreve tipo de servico
+*/
+
+
+function getWcTipoServico()
+{
+   $tipoServico = array(
+       1 => 'Aplicação de Resina',
+       2 => 'Tubulação de Gás',
+       3 => 'Adequação de Vistoria',
+       4 => 'Remanejamento',
+       5 => 'Síndico',
+       6 => 'Desobstrução da Tubulação de Gás',
+       7 => 'Teste de Estanqueidade',
+       8 => 'Análise de Ambientes',
+       9 => 'Outros',
+   );
+
+  return $tipoServico;
+}
+
 
 
 /*

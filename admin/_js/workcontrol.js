@@ -1332,9 +1332,10 @@ function wcUrlParam(name) {
             var Tecnico = $(this).val();
             var Callback = $(this).attr('callback');
             var Callback_action = $(this).attr('callback_action');
+            var Dia = $(this).attr('rel');
+            var S = $(this).attr('semana');
 
-
-            $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico}, function (data) {
+            $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
             
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
@@ -1533,4 +1534,32 @@ function wcUrlParam(name) {
         e.preventDefault();
         e.stopPropagation();
     });
-  
+
+
+  //CONSULTA NO BANCO SE O CLIENTE JÁ EXISTE
+    $(function(){
+        $('.j_consulta_cliente').change(function(){
+            var CpfCnpj = $(this).val();
+            var Callback = $(this).attr('callback');
+            var Callback_action = $(this).attr('callback_action');
+
+
+            $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, CPFCNPJ: CpfCnpj}, function (data) {
+            
+                //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+                if(data.Trigger){
+                    Trigger(data.trigger);
+                }
+                if (data.cliente) {
+                    $('.wc_cpf').val(data.cliente['CPF']);
+                    $('.wc_cnj').val(data.cliente['CNPJ']);
+                    $('.wc_nome').val(data.cliente['NOME']);
+                    $('.wc_telefone').val(data.cliente['TELEFONE']);
+                    $('.wc_endereco').val(data.cliente['ENDERECO']);
+                    $('.wc_email').val(data.cliente['EMAIL']);
+                    $('.wc_tipo').val(data.cliente['TIPO']);
+                }           
+            }, 'json');
+
+        });
+    });
