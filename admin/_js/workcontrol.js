@@ -1350,7 +1350,14 @@ function wcUrlParam(name) {
                 if (data.addlist) {
                     $("#dataList").remove();
                     $(data.addlist).appendTo('.dataList');
-                }            
+                } 
+
+                //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
+                if (data.addOrcamentolist) {
+                    $("#orcamento-list").remove();
+                    $(data.addOrcamentolist).appendTo('.orcamento-list');
+                } 
+                           
             }, 'json');
 
         });

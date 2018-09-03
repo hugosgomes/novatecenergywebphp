@@ -78,8 +78,8 @@ endif;
                 </div>
               </article>
 
-              <article class="box box50">
-               <div class="lista-monitoramento">
+              <article class="box box50 orcamento-list">
+               <div id="orcamento-list">
                 <h1>Orçamentos:</h1>
                 <ul>
                   <li>Aprovados:</li>
