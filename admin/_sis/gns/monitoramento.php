@@ -73,8 +73,8 @@ endif;
                   </ul>
               </article>
 
-              <article class="box box50">
-               <div class="lista-monitoramento">
+              <article class="box box50 orcamento-list">
+               <div id="orcamento-list">
                 <h1>Orçamentos:</h1>
                 <ul>
                   <li>Aprovados:</li>
@@ -151,3 +151,5 @@ endforeach;
 
 <!--Chamada da API do Google Maps-->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
+
+<script src="_js/gns.js"></script>

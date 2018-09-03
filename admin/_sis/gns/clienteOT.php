@@ -104,3 +104,5 @@ $ID = 0;
         </div>
     </article>
 </div>
+
+<script src="_js/gns.js"></script>

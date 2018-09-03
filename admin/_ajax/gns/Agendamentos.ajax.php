@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require '../../_app/Config.inc.php';
+require '../../../_app/Config.inc.php';
 
 if (empty($_SESSION['userLogin'])):
     $jSON['trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Você não tem permissão para essa ação ou não está logado como administrador!', E_USER_ERROR);

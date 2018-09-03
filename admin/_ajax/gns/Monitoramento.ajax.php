@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require '../../_app/Config.inc.php';
+require '../../../_app/Config.inc.php';
 
 if (empty($_SESSION['userLogin'])):
     $jSON['trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Você não tem permissão para essa ação ou não está logado como administrador!', E_USER_ERROR);
@@ -37,11 +37,19 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $reagendadosNVT = 0;
         $reagendadosGNS = 0;
         $semAtender = 0;
+        $criterioTec = "";
+        $orcamentoAprov = 0;
+        $orcamentoExec = 0;
+        $orcamentoReprov = 0;
+
                 if(!$PostData['Tecnico']):
                     $jSON['trigger'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING);
                 else:
-                    //CLIENTES ASSOCIADOS                    
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]","");
+                    //CLAUSULA DE CRITÉRIO PARA FILTRAR POR TÉCNICO
+                    $criterioTec = $PostData['Tecnico'] != "t" ? " AND Tecnico = " . $PostData['Tecnico'] : "";
+
+                    //CLIENTES ASSOCIADOS
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 0 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -52,7 +60,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES ATENDIDOS  
-                    $Read->FullRead("SELECT count(CLIENTE) AS QUANTIDADE FROM [60_ClientesCEGObs] WHERE CONCLUSAO = 1 GROUP BY CLIENTE","");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 1 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -63,7 +71,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES CANCELADOS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]","");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 2 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -74,7 +82,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES AUSENTES  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]","");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 3 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -85,7 +93,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES REAGENDADOS NVT  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]","");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 4 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -96,7 +104,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES REAGENDADOS GNS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]","");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 5 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -107,7 +115,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES SEM ATENDER  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]","");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 6 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -117,20 +125,41 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $semAtender = 0;
                     endif;
 
-                    /*
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]","");
+                    //ORÇAMENTOS APROVADOS 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS2 = 0 " . $criterioTec,"");
                     if ($Read->getResult()):
-                        $jSON['addlist'] = null;
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
-                            $jSON['trigger'] = true;
-                            $jSON['addlist'] .= "<ul id='dataList'><li>Cliente(s) Associado(s): {$QUANTIDADE} </li></ul>";
+                            $orcamentoAprov = $QUANTIDADE;
                         endforeach;                   
                     else:
-                        $jSON['trigger'] = true;
-                        $jSON['addlist'] = "<ul id='dataList'><li>Cliente(s) Associado(s): 0 </li></ul>";
+                        $orcamentoAprov = 0;
                     endif;
-                    */
+
+                    //ORÇAMENTOS EXECUTADOS 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS2 = 1 " . $criterioTec,"");
+                    if ($Read->getResult()):
+                        foreach ($Read->getResult() as $OS):
+                            extract($OS);
+                            $orcamentoExec = $QUANTIDADE;
+                        endforeach;                   
+                    else:
+                        $orcamentoExec = 0;
+                    endif;
+
+                    //ORÇAMENTOS REPROVADOS 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS2 = 2 " . $criterioTec,"");
+                    if ($Read->getResult()):
+                        foreach ($Read->getResult() as $OS):
+                            extract($OS);
+                            $orcamentoReprov = $QUANTIDADE;
+                        endforeach;                   
+                    else:
+                        $orcamentoReprov = 0;
+                    endif;
+
+                    $orcamentoTotal = $orcamentoAprov + $orcamentoExec + $orcamentoReprov;
+                    
                     $jSON['trigger'] = true;
                     $jSON['addlist'] = "<ul id='dataList'>
                                           <li>Cliente(s) Associado(s): {$associados} </li>
@@ -141,6 +170,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                           <li>Cliente(s) Reagendado(s) GNS: {$reagendadosGNS} </li>
                                           <li>Cliente(s) Sem Atender: {$semAtender} </li>
                                         </ul>";
+                    $jSON['addOrcamentolist'] = "<div id='orcamento-list'>
+                                                    <h1>Orçamentos:</h1>
+                                                    <ul>
+                                                        <li>Aprovados: {$orcamentoAprov} </li>
+                                                        <li>Executados: {$orcamentoExec} </li>
+                                                        <li>Reprovados: {$orcamentoReprov} </li>
+                                                        <li><b>Total: {$orcamentoTotal} </b></li>
+                                                    </ul>
+                                                </div>";
                 endif;
             break;
     endswitch;
