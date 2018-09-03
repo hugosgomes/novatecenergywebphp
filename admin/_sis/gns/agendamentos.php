@@ -198,3 +198,5 @@ endforeach;
 
 <!--Chamada da API do Google Maps-->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
+
+<script src="_js/gns.js"></script>

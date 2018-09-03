@@ -41,3 +41,5 @@ endif;
       $('table.display').DataTable();
     });
 </script>
+
+<script src="_js/gns.js"></script>
