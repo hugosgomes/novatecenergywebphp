@@ -45,23 +45,26 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'cadCliente':
+            $Cliente = null; 
             if(!empty($PostData['CPF'])):
                 //TRATAMENTO DE CPF RETIRANDO PONTOS E TRAÇO DO CPF
                 $CPF2 = str_replace(".", "", $PostData["CPF"]);
                 $AUXCPF = str_replace("-", "", $CPF2);
                 $PostData["CPF"] = $AUXCPF;
 
+                //PESQUISA DE EXISTE O CPF INFORMADO
                 $Read->FullRead("SELECT ID, CPF FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
+                if(!$Read->getResult()):   
+                    //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
+                    $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"],"DATACADASTRO"=>date('Y-m-d H:i:s'),"CPF"=>$PostData["CPF"]);
+                    $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
+                    $IdCli = $Create->getResult();                       
+                else:
+                    $IdCli = $Read->getResult()[0]["ID"];                                
+                endif;
+            endif;
 
-                if($Read->getResult()):
-                  
-                  $ORCAMENTO = array("IDCLIENTE"=>$Read->getResult()[0]['ID'],"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=>0);
-                  $Create->ExeCreate("[80_Orcamentos]", $orcamento);
-                    if($Create->getResult())://RETORNA ID DO ULTIMO REGISTRO INSERIDO NO BANCO DE DADOS
-                      $jSON['trigger'] = AjaxErro("Orçamento criado com sucesso!");
-                      $jSON['inpuval'] = "null"; 
-                    endif;
-            elseif(!empty($PostData['CNPJ'])):
+            if(!empty($PostData['CNPJ'])):
                 //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
                 $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
                 $CNPJ3 = str_replace("/", "", $CNPJ2);
@@ -69,53 +72,31 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $PostData["CNPJ"] = $AUXCNPJ;
 
                 $Read->FullRead("SELECT ID, CPF FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
-
-                if($Read->getResult()):
-                  
-                  $ORCAMENTO = array("IDCLIENTE"=>$Read->getResult()[0]['ID'],"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=>0);
-                  $Create->ExeCreate("[80_Orcamentos]", $orcamento);
-                    if($Create->getResult())://RETORNA ID DO ULTIMO REGISTRO INSERIDO NO BANCO DE DADOS
-                      $jSON['trigger'] = AjaxErro("Orçamento criado com sucesso!");
-                      $jSON['inpuval'] = "null"; 
-                    endif; 
+                if(!$Read->getResult()):   
+                    //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
+                    $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"],"DATACADASTRO"=>date('Y-m-d H:i:s'), "CNPJ"=>$PostData["CNPJ"]);
+                    $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
+                    $IdCli = $Create->getResult();
+                else:
+                    $IdCli = $Read->getResult()[0]["ID"];                                
+                endif;
             endif;
 
-            //CONSULTA DO CPF NO BANCO SE JÁ EXISTE CRIA ORÇAMENTO
-            $Read->FullRead("SELECT CPF FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
-            if($Read->getResult()):
-              $ID = $Create->getResult();
-                $orcamento = array("IDCLIENTE"=>$ID,"ASSUNTO"=>$PostData["ASSUNTO"],"STATUS"=>0);
-                $Create->ExeCreate("[80_Orcamentos]", $orcamento);
-                if($Create->getResult())://RETORNA ID DO ULTIMO REGISTRO INSERIDO NO BANCO DE DADOS
-                  $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>CPF JÁ CADASTRADO/ORÇAMENTO CRIADO COM SUCESSO!");
-                  $jSON['inpuval'] = "null"; 
-                endif;
-                  
-            else:
-              //CONSULTA CNPJ NO BANCO SE JÁ EXISTE CRIA ORÇAMENTO
-              $Read->FullRead("SELECT CNPJ FROM [80_ClientesParticulares] WHERE CNPJ = :cnpj","cnpj={$PostData['CNPJ']}");
-              if($Read->getResult()):
-               $ID = $Create->getResult();
-                $orcamento = array("IDCLIENTE"=>$ID,"ASSUNTO"=>$PostData["ASSUNTO"],"STATUS"=>0);
-                $Create->ExeCreate("[80_Orcamentos]", $orcamento);
-                if($Create->getResult())://RETORNA ID DO ULTIMO REGISTRO INSERIDO NO BANCO DE DADOS
-                  $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>CNPJ JÁ CADASTRADO/ORÇAMENTO CRIADO COM SUCESSO!");
-                  $jSON['inpuval'] = "null"; 
-                endif;
-              else:
-                //SE CPF E CNPJ NÃO EXISTEM NO BANCO CADSTRA E CRIA ORÇAMENTO
-                $Create->ExeCreate("[80_ClientesParticulares]", $PostData);
-                $ID = $Create->getResult();
-                $orcamento = array("IDCLIENTE"=>$ID,"ASSUNTO"=>$PostData["ASSUNTO"],"STATUS"=>0);
-                $Create->ExeCreate("[80_Orcamentos]", $orcamento);
-                if($Create->getResult())://RETORNA ID DO ULTIMO REGISTRO INSERIDO NO BANCO DE DADOS
-                  $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>CLIENTE CADASTRADO/ORÇAMENTO CRIADO COM SUCESSO!");
-                  $jSON['inpuval'] = "null"; 
-                endif;
-              endif;
-              
-      endif;  
-            
+            //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
+            $Read->FullRead("SELECT CEP, NUMERO, COMPLEMENTO FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");                  
+            if(!$Read->getResult()):
+                //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
+                $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>$PostData["LOGRADOURO"],"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>$PostData["BAIRRO"], "CIDADE"=>$PostData["CIDADE"],"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
+                $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
+            endif;
+                      
+            //CRIA ARRAY DE ORÇAMENTO
+            $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> "0", "DATASOLICITACAO"=>date('Y-m-d H:i:s'));
+            $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
+
+            $jSON['inpuval'] = "null"; 
+            $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
+            $jSON['success'] = true;
       break;
     case 'consulta':       
 
@@ -154,9 +135,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                  endif;
             endif;
-        break;
-    case 'endereco':       
-            var_dump($PostData);
         break;
     endswitch;
 
