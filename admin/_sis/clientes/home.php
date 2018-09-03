@@ -42,7 +42,7 @@ endif;
      <div class="label_33" >
       <label class="label">
         <div class="autocomplete" style="width:500px;">
-          <span>Buscar Endereço:&ensp;</span><input autocomplete="off" class="input inpt_size" id="myInput" type="text" name="endereco" id="endereco" placeholder="Endereço"/>
+          <span>Buscar Endereço:&ensp;</span><input autocomplete="off" class="input inpt_size j_select_endereco" id="myInput" type="text" name="endereco" placeholder="Endereço"/>
         </div>
       </label>
 
@@ -54,7 +54,7 @@ endif;
    <div class="label_33" >
     <label class="label">
       <div class="autocomplete" style="width:500px;">
-        <span>Buscar Cliente:&ensp;</span><input autocomplete="off" class="input inpt_size" id="myInput" type="text" name="endereco" id="endereco" placeholder="Cliente"/>
+        <span>Buscar Cliente:&ensp;</span><input autocomplete="off" class="input inpt_size j_select_cliente" id="myInput" type="text" name="endereco" placeholder="Cliente"/>
       </div>
     </label>
   </div>
@@ -71,22 +71,28 @@ endif;
       <h2 class="">Sem Contato</h2>
     </div>
     <br>
-    <div class="coluna">
+    <div class="coluna j_coluna_1">
       <?php 
-      $contador = 0;
-      while($contador < 10){
+      $Read->FullRead("SELECT [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ' - ' + [80_Enderecos].BAIRRO + ',' +
+                      [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO FROM [80_Orcamentos]
+                      INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                      INNER JOIN [80_Enderecos] ON [80_ClientesParticulares].ID = [80_Enderecos].IDCLIENTE
+                      WHERE [80_Orcamentos].STATUS = 0 
+                      ORDER BY [80_Orcamentos].DATASOLICITACAO"," ");
+      if ($Read->getResult()){
+        foreach ($Read->getResult() as $enderecos){
+          extract($enderecos);
+          ?>
+          <div class="box_content buttons_clientes clientes_sem_contato">
+           <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
+             <span  style="color: #bdbdbd;"></span>
+           </div></a>
+             <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b><?php echo $ENDERECO ?></b></span></a></li></ul>
+           </div>
 
-        ?>
-        <div class="box_content buttons_clientes">
-         <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
-           <span class="icon-circle-down" style="color: #bdbdbd;"></span>
-         </div></a>
-         <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b>Rua Conde de Agrolongo, 362 - Penha</b></span></a></li></ul>
-       </div>
-
-       <?php
-       $contador ++;
-     }
+         <?php
+        }
+      }
      ?>       
    </div>
  </div>
