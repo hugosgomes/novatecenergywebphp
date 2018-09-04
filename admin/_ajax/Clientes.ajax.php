@@ -99,8 +99,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['success'] = true;
       break;
     case 'consulta':       
-
-            if(!empty($PostData["CPFCNPJ"])):
+        var_dump($PostData);
+            /*if(!empty($PostData["CPFCNPJ"])):
                 
                 //VERIFICA SE É UM CPF
                 if(strlen($PostData["CPFCNPJ"]) == 14):
@@ -134,7 +134,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                  else:
 
                  endif;
-            endif;
+            endif;*/
         break;
     endswitch;
 
