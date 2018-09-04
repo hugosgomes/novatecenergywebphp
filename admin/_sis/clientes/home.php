@@ -43,10 +43,8 @@ endif;
       <label class="label">
         <form method="" action="">
           <span class="legend">Buscar Endereço:</span>
-          <select id="" style="font-family: Arial;font-size: 11px;">
-            <option>RUA CONDE DE AGROLONGO</option>
-            <option>RUA ANA LIMA</option>
-            <option>RUA FERNANDO VASCONCELOS</option>
+          <select id="endereco" style="font-family: Arial;font-size: 11px;" class="j_select_endereco" callback="Home" callback_action="consulta">
+            <option value="t">>> TODOS <<</option>
           </select>
         </form>
       </label>
@@ -60,10 +58,8 @@ endif;
     <label class="label">
       <form method="" action="">
         <span class="legend">Buscar Cliente:</span>
-        <select id="" style="font-family: Arial;font-size: 11px;">
-          <option>CINTIA MAILARD</option>
-          <option>RODRIGO DIAS</option>
-          <option>HUGO GOMES</option>
+        <select id="cliente" style="font-family: Arial;font-size: 11px;" class="j_select_cliente" callback="Home" callback_action="consulta">
+          <option value="t">>> TODOS <<</option>
         </select>
       </form>
     </label>
@@ -104,28 +100,7 @@ endif;
     </div>
     <br>
     <div class="coluna j_coluna_1">
-      <?php 
-      $Read->FullRead("SELECT [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                      [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO FROM [80_Orcamentos]
-                      INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                      INNER JOIN [80_Enderecos] ON [80_ClientesParticulares].ID = [80_Enderecos].IDCLIENTE
-                      WHERE [80_Orcamentos].STATUS = 0 
-                      ORDER BY [80_Orcamentos].DATASOLICITACAO"," ");
-      if ($Read->getResult()){
-        foreach ($Read->getResult() as $enderecos){
-          extract($enderecos);
-          ?>
-          <div class="box_content buttons_clientes clientes_sem_contato">
-           <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
-             <span  style="color: #bdbdbd;"></span>
-           </div></a>
-             <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b><?php echo $ENDERECO ?></b></span></a></li></ul>
-           </div>
-
-         <?php
-        }
-      }
-     ?>       
+      
    </div>
  </div>
  <div class="box box14 bbox">
@@ -234,10 +209,7 @@ endif;
     while($contador < 10){
 
       ?>
-      <div class="box_content buttons_clientes" style="height: 9%;">
-       <ul><li><span class='icon-calendar'></span><span><b>30/08/2018</b></span></li></ul>
-     </div>
-         <div class="box_content buttons_clientes">
+      <div class="box_content buttons_clientes">
          <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
            <span class="icon-circle-down" style="color: #bdbdbd;"></span>
          </div></a>
