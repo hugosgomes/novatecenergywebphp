@@ -38,14 +38,14 @@
   });
 
 
-$(document).ready(function(){
+/*$(document).ready(function(){
   mostraDados();
 });
 
 function mostraDados(){
   $('.clientes_sem_contato').remove();
   $("<span  style='color: #bdbdbd;'>lalala</span>").appendTo('.j_coluna_1');
-}
+}*/
 
 $(function(){
         $('.select_endereco').change(function(){

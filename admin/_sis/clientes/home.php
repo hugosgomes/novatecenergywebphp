@@ -234,18 +234,15 @@ endif;
     while($contador < 10){
 
       ?>
-<<<<<<< HEAD
       <div class="box_content buttons_clientes" style="height: 9%;">
        <ul><li><span class='icon-calendar'></span><span><b>30/08/2018</b></span></li></ul>
      </div>
-=======
          <div class="box_content buttons_clientes">
          <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
            <span class="icon-circle-down" style="color: #bdbdbd;"></span>
          </div></a>
          <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b>Rua Conde de Agrolongo, 362 - Penha</b></span></a></li></ul>
        </div>
->>>>>>> front
      <?php
      $contador ++;
    }
