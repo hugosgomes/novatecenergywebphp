@@ -48,7 +48,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             $jSON['trigger'] = AjaxErro('<b>ERRO:</b> Login e senha não conferem!', E_USER_ERROR);
                         else:
                             $_SESSION['userLogin'] = $Read->getResult()[0];
-                            $jSON['trigger'] = AjaxErro("<b>Bbem-vindo(a) ao Sistema Novatec!");
+                            $jSON['trigger'] = AjaxErro("<b>Bem-vindo(a) ao Sistema Novatec!");
                             $jSON['redirect'] = 'dashboard.php?wc=home';                           
                         endif;
                     endif;
