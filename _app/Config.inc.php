@@ -287,3 +287,7 @@ function getWcHotmartStatusClass($Status = null)
         return $HotmartStatus;
     endif;
 }
+
+function getMesAtual(){
+    return date('M');
+}
