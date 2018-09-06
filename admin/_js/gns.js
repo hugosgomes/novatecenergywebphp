@@ -159,3 +159,30 @@
         e.preventDefault();
         e.stopPropagation();
     });
+
+
+ //
+    $('html, body').on('click', '#clientesOT', function (e) {
+        var Callback = $(this).attr('callback');
+        var Callback_action = $(this).attr('callback_action');
+        var Cliente = $("#cliente").val();
+        var Data = $("#data").val();
+
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, DATAAGENDAMENTO: Data, IDCLIENTE:Cliente}, function (data) {
+            
+            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+            if (data.trigger) {
+                Trigger(data.trigger);                
+            }
+
+            //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
+            if (data.ot) {
+                $('.j_ot').remove();
+                $('#'+ data.ot).fadeOut(400);
+            }
+        }, 'json');
+
+        e.preventDefault();
+        e.stopPropagation();
+    });
+

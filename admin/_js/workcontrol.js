@@ -1335,7 +1335,7 @@ function wcUrlParam(name) {
             var Dia = $(this).attr('rel');
             var S = $(this).attr('semana');
 
-            $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
+            $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
             
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
@@ -1368,7 +1368,7 @@ function wcUrlParam(name) {
         var Callback_action = $(this).attr('callback_action');
         var Tecnico = $("#Tecnico option:selected").val();
 
-        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
             
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -1406,7 +1406,7 @@ function wcUrlParam(name) {
         var Callback_action = $(this).attr('callback_action');
         var Tecnico = $("#Tecnico option:selected").val();
 
-        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
             
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -1441,7 +1441,7 @@ function wcUrlParam(name) {
         var Callback_action = $(this).attr('callback_action');
         var Bairro = $(this).attr('bairro');
 
-        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, end_id: EndId, logradouro: RelTo, bairro: Bairro}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, end_id: EndId, logradouro: RelTo, bairro: Bairro}, function (data) {
             
             //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
             if (data.addtable) {
@@ -1466,7 +1466,7 @@ function wcUrlParam(name) {
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
-        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, end_id: EndId, log_id: LogId}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, end_id: EndId, log_id: LogId}, function (data) {
             
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -1492,7 +1492,7 @@ function wcUrlParam(name) {
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
-        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId}, function (data) {
             
             //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
             if (data.addOT) {
@@ -1517,7 +1517,7 @@ function wcUrlParam(name) {
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
-        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOT: OTId, IDCLIENTE:CliId}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOT: OTId, IDCLIENTE:CliId}, function (data) {
             
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -1544,7 +1544,7 @@ function wcUrlParam(name) {
             var Callback_action = $(this).attr('callback_action');
 
 
-            $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, CPFCNPJ: CpfCnpj}, function (data) {
+            $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, CPFCNPJ: CpfCnpj}, function (data) {
             
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
@@ -1563,3 +1563,4 @@ function wcUrlParam(name) {
 
         });
     });
+

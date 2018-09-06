@@ -45,7 +45,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'addCliente':
-
                 //EXCLUI ESTES VALORES POIS NÃO VÃO PARA O BANCO
                 unset($PostData['ID']);
                 unset($PostData['NumOT']);
@@ -73,7 +72,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     foreach ($Read->getResult() as $OT):
                         extract($OT);
                         $jSON['trigger'] = true;
-                        $jSON['addOT'] = "<span class='j_ot' id='{$Id}'><p>{$NumOT}</p><span callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_blue' rel='{$PostData['cli_id']}' id='{$Id}'></span><span>";
+                        $jSON['addOT'] = "<span class='j_ot' id='{$Id}'><p>{$NumOT}</p><span callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$PostData['cli_id']}' id='{$Id}'>&ensp;Atribuir OT/OS</span><span>";
                     endforeach;              
                 else:
                     $jSON['trigger'] = AjaxErro("Sem OT para vincular!");   
@@ -81,7 +80,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             break;
 
         case 'insere':
-
             $OT['IDOT'] = intval($PostData['IDOT']);
 
             //ATUALIZA VINCULANDO OT AO CLIENTE
