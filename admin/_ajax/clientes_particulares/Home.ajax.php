@@ -31,30 +31,167 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'consulta':
         $criterioEndereco = "";
         $ctiterioCliente = "";
+        $criterioMes = "";
 
-        $criterioEndereco = $PostData['endereco'] != "t" ? " AND endereco = " . $PostData['endereco'] : "";
-        $ctiterioCliente = $PostData['cliente'] != "t" ? " AND cliente = " . $PostData['cliente'] : "";
+        $consulta_inicial = $PostData['inicial'];
+        $criterioEndereco = $PostData['endereco'] != "t" ? " AND [80_Enderecos].ID = " . $PostData['endereco'] . " ": "";
+        $ctiterioCliente = $PostData['cliente'] != "t" ? " AND [80_Enderecos].IDCLIENTE = " . $PostData['cliente'] . " ": "";
+        $criterioMes = $PostData['mes'] != "t" ? " AND MONTH([80_Orcamentos].DATASOLICITACAO) = " . $PostData['mes'] . " ": "";
+        $queryColunas = "SELECT [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
+                        [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID FROM [80_Orcamentos]
+                        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID ";
 
-        $Read->FullRead("SELECT [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                      [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO FROM [80_Orcamentos]
-                      INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                      INNER JOIN [80_Enderecos] ON [80_ClientesParticulares].ID = [80_Enderecos].IDCLIENTE
-                      WHERE [80_Orcamentos].STATUS = 0 
-                      ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        $Read->FullRead($queryColunas . " WHERE [80_Orcamentos].STATUS = 0 AND [80_ClientesParticulares].TIPO = 2 " . $criterioEndereco . $ctiterioCliente .
+                        " ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
         	$jSON['addcoluna1'] = null;//É necessário desclarar como numo por causa da fraca tipação
         	foreach ($Read->getResult() as $enderecos):
         		$jSON['trigger'] = true;
-        		$jSON['addcoluna1'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>
-							        		<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>
-							        		<span  style='color: #bdbdbd;'></span>
-							        		</div></a>
-							        		<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>
-						        		</div>";
+        		$jSON['addcoluna1'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+							        		"<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+							        		"<span  style='color: #bdbdbd;'></span>".
+							        		"</div></a>".
+							        		"<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal'>".
+                                            "<span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+						        		"</div>";
         	endforeach;
         endif;
 
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 1 AND [80_ClientesParticulares].TIPO = 2" . $criterioEndereco . $ctiterioCliente .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        if ($Read->getResult()):
+            $jSON['addcoluna2'] = null;//É necessário desclarar como numo por causa da fraca tipação
+            foreach ($Read->getResult() as $enderecos):
+                $jSON['trigger'] = true;
+                $jSON['addcoluna2'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                            "<span  style='color: #bdbdbd;'></span>".
+                                            "</div></a>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                        "</div>";
+            endforeach;
+        endif;
+
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 2 AND [80_ClientesParticulares].TIPO = 2" . $criterioEndereco . $ctiterioCliente .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        if ($Read->getResult()):
+            $jSON['addcoluna3'] = null;//É necessário desclarar como numo por causa da fraca tipação
+            foreach ($Read->getResult() as $enderecos):
+                $jSON['trigger'] = true;
+                $jSON['addcoluna3'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                            "<span  style='color: #bdbdbd;'></span>".
+                                            "</div></a>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                        "</div>";
+            endforeach;
+        endif;
+
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 3 AND [80_ClientesParticulares].TIPO = 2" . $criterioEndereco . $ctiterioCliente .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        if ($Read->getResult()):
+            $jSON['addcoluna4'] = null;//É necessário desclarar como numo por causa da fraca tipação
+            foreach ($Read->getResult() as $enderecos):
+                $jSON['trigger'] = true;
+                $jSON['addcoluna4'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                            "<span  style='color: #bdbdbd;'></span>".
+                                            "</div></a>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                        "</div>";
+            endforeach;
+        endif;
+
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 4 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        if ($Read->getResult()):
+            $jSON['addcoluna5'] = null;//É necessário desclarar como numo por causa da fraca tipação
+            foreach ($Read->getResult() as $enderecos):
+                $jSON['trigger'] = true;
+                $jSON['addcoluna5'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                            "<span  style='color: #bdbdbd;'></span>".
+                                            "</div></a>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                        "</div>";
+            endforeach;
+        endif;
+
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 5 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        if ($Read->getResult()):
+            $jSON['addcoluna6'] = null;//É necessário desclarar como numo por causa da fraca tipação
+            foreach ($Read->getResult() as $enderecos):
+                $jSON['trigger'] = true;
+                $jSON['addcoluna6'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                            "<span  style='color: #bdbdbd;'></span>".
+                                            "</div></a>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                        "</div>";
+            endforeach;
+        endif;
+
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 6 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        if ($Read->getResult()):
+            $jSON['addcoluna7'] = null;//É necessário desclarar como numo por causa da fraca tipação
+            foreach ($Read->getResult() as $enderecos):
+                $jSON['trigger'] = true;
+                $jSON['addcoluna7'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                            "<span  style='color: #bdbdbd;'></span>".
+                                            "</div></a>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                        "</div>";
+            endforeach;
+        endif;
+
+        if ($consulta_inicial == 0) {
+            //PREENCHER COMBO DE ENREDEÇO
+            $jSON['addComboEndereco'] = "<option value='t' class='j_option_endereco'>>> TODOS <<</option>";
+            $Read->FullRead("SELECT [80_Enderecos].ID, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
+                            [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO FROM [80_Enderecos]
+                            INNER JOIN [80_ClientesParticulares] ON [80_Enderecos].IDCLIENTE = [80_ClientesParticulares].ID
+                            WHERE [80_ClientesParticulares].TIPO = 2","");
+            foreach ($Read->getResult() as $enderecos):
+                $jSON['trigger'] = true;
+                $jSON['addComboEndereco'] .= "<option value='{$enderecos['ID']}' class='j_option_endereco'>{$enderecos['ENDERECO']}</option>";
+            endforeach;
+
+            //PREENCHER COMBO DE ENREDEÇO
+            $jSON['addComboCliente'] = "<option value='t' class='j_option_cliente'>>> TODOS <<</option>";
+            $Read->FullRead("SELECT ID,NOME FROM [80_ClientesParticulares] WHERE TIPO = 2","");
+            foreach ($Read->getResult() as $clientes):
+                $jSON['trigger'] = true;
+                $jSON['addComboCliente'] .= "<option value='{$clientes['ID']}' class='j_option_cliente'>{$clientes['NOME']}</option>";
+            endforeach;            
+            
+        }
         break;
+
+        case 'consulta_modal':
+            $Read->FullRead("SELECT UPPER([80_ClientesParticulares].NOME) AS NOME, [80_ClientesParticulares].EMAIL, [80_ClientesParticulares].TELEFONE, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
+                [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID FROM [80_Orcamentos]
+                INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID","");
+            if ($Read->getResult()):
+                $jSON['addClienteModal'] = null;//É necessário desclarar como numo por causa da fraca tipação
+                foreach ($Read->getResult() as $dadosModalCliente):
+                $jSON['addClienteModal'] = "<div class='dados_clientes'>
+                                             <h5>{$dadosModalCliente['NOME']}</h5>
+                                             <ul class='cl_dados'>
+                                               <li style='padding-bottom: 0px;' class='dados_endereco'>{$dadosModalCliente['EMAIL']}<span class='m_endereco'></span></li>
+                                               <li  style='padding-bottom: 0px;'>{$dadosModalCliente['ENDERECO']}</li>
+                                               <li  style='padding-bottom: 0px;'><a href='tel:021980564678' style='color: #004491'>{$dadosModalCliente['TELEFONE']}</a></li>
+                                               <br>
+                                               <hr>
+                                             </div>";
+                endforeach;
+            endif;
+        break;
+
     endswitch;
     //RETORNA O CALLBACK
     if ($jSON):

@@ -44,7 +44,7 @@ endif;
         <form method="" action="">
           <span class="legend">Buscar Endereço:</span>
           <select id="endereco" style="font-family: Arial;font-size: 11px;" class="j_select_endereco" callback="Home" callback_action="consulta">
-            <option value="t">>> TODOS <<</option>
+            <option value="t" class="j_option_endereco">>> TODOS <<</option>
           </select>
         </form>
       </label>
@@ -59,7 +59,7 @@ endif;
       <form method="" action="">
         <span class="legend">Buscar Cliente:</span>
         <select id="cliente" style="font-family: Arial;font-size: 11px;" class="j_select_cliente" callback="Home" callback_action="consulta">
-          <option value="t">>> TODOS <<</option>
+          <option value="t" class='j_option_cliente'>>>> TODOS <<</option>
         </select>
       </form>
     </label>
@@ -76,19 +76,19 @@ endif;
   <div class="box_content" style="margin: 0px;padding-top: 5px;padding-bottom: 10px;">
    <label class="label" style="margin-bottom: 0px;text-align: center;">
     <span><b>MÊS:</b></span>
-    <select id="" style="font-family: Arial;font-size: 11px;width: 30%;">
-      <option>JANEIRO</option>
-      <option>FEVEREIRO</option>
-      <option>MARÇO</option>
-      <option>ABRIL</option>
-      <option>MAIO</option>
-      <option>JUNHO</option>
-      <option>JULHO</option>
-      <option>AGOSTO</option>
-      <option>SETEMBRO</option>
-      <option>OUTUBRO</option>
-      <option>NOVEMBRO</option>
-      <option>DEZEMBRO</option>
+    <select id="mes" style="font-family: Arial;font-size: 11px;width: 30%;" callback="Home" callback_action="consulta">
+      <option value="1">JANEIRO</option>
+      <option value="2">FEVEREIRO</option>
+      <option value="3">MARÇO</option>
+      <option value="4">ABRIL</option>
+      <option value="5">MAIO</option>
+      <option value="6">JUNHO</option>
+      <option value="7">JULHO</option>
+      <option value="8">AGOSTO</option>
+      <option value="9">SETEMBRO</option>
+      <option value="10">OUTUBRO</option>
+      <option value="11">NOVEMBRO</option>
+      <option value="12">DEZEMBRO</option>
     </select>
   </label>
 </div>
@@ -108,23 +108,8 @@ endif;
     <h2 class="">Visita Agendada</h2>
   </div>
   <br>
-  <div class="coluna">
-    <?php 
-    $contador = 0;
-    while($contador < 10){
-
-      ?>
-         <div class="box_content buttons_clientes">
-         <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
-           <span class="icon-circle-down" style="color: #bdbdbd;"></span>
-         </div></a>
-         <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b>Rua Conde de Agrolongo, 362 - Penha</b></span></a></li></ul>
-       </div>
-
-     <?php
-     $contador ++;
-   }
-   ?>       
+  <div class="coluna j_coluna_2">
+          
  </div>
 </div>
 <div class="box box14 bbox">
@@ -132,22 +117,8 @@ endif;
     <h2 class=""><a href="#"><i class="icon-sort-numberic-desc" style="font-size: 15px;float: right;color: white;"></i></a>Em Análise (R$)<br></h2>
   </div>
   <br>
-  <div class="coluna">
-    <?php 
-    $contador = 0;
-    while($contador < 10){
-
-      ?>
-        <div class="box_content buttons_clientes">
-         <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
-           <span class="icon-circle-down" style="color: #bdbdbd;"></span>
-         </div></a>
-         <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b>Rua Conde de Agrolongo, 362 - Penha</b></span></a></li></ul>
-       </div>
-     <?php
-     $contador ++;
-   }
-   ?>       
+  <div class="coluna j_coluna_3">
+          
  </div>
 </div>
 <div class="box box14 bbox">
@@ -155,22 +126,8 @@ endif;
    <h2 class=""><a href="#"><i class="icon-sort-numberic-desc" style="font-size: 15px;float: right;color: white;"></i></a>Executando (R$)<br></h2>
  </div>
  <br>
- <div class="coluna">
-  <?php 
-  $contador = 0;
-  while($contador < 10){
-
-    ?>
-       <div class="box_content buttons_clientes">
-         <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
-           <span class="icon-circle-down" style="color: #bdbdbd;"></span>
-         </div></a>
-         <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b>Rua Conde de Agrolongo, 362 - Penha</b></span></a></li></ul>
-       </div>
-   <?php
-   $contador ++;
- }
- ?>       
+ <div class="coluna j_coluna_4">
+     
 </div>
 </div>
 <!-- SEGUNDO BLOCO DE COLUNAS -->
@@ -180,22 +137,8 @@ endif;
     <h2 class="">Executado</h2>
   </div>
   <br>
-  <div class="coluna">
-   <?php 
-   $contador = 0;
-   while($contador < 10){
-
-    ?>
-        <div class="box_content buttons_clientes">
-         <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
-           <span class="icon-circle-down" style="color: #bdbdbd;"></span>
-         </div></a>
-         <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b>Rua Conde de Agrolongo, 362 - Penha</b></span></a></li></ul>
-       </div>
-   <?php
-   $contador ++;
- }
- ?>      
+  <div class="coluna j_coluna_5">
+     
 </div>
 </div>
 <div class="box box14 bbox">
@@ -203,22 +146,8 @@ endif;
     <h2 class="">Cancelado</h2>
   </div>
   <br>
-  <div class="coluna">
-    <?php 
-    $contador = 0;
-    while($contador < 10){
-
-      ?>
-      <div class="box_content buttons_clientes">
-         <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
-           <span class="icon-circle-down" style="color: #bdbdbd;"></span>
-         </div></a>
-         <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b>Rua Conde de Agrolongo, 362 - Penha</b></span></a></li></ul>
-       </div>
-     <?php
-     $contador ++;
-   }
-   ?>       
+  <div class="coluna j_coluna_6">
+          
  </div>
 </div>
 <div class="box box14 bbox">
@@ -226,25 +155,17 @@ endif;
     <h2 class="">Recusado</h2>
   </div>
   <br>
-  <div class="coluna">
-    <?php 
-    $contador = 0;
-    while($contador < 10){
-
-      ?>
-          <div class="box_content buttons_clientes">
-         <a href="#"><div class="panel_header" style="padding: 0px;border: none;">
-           <span class="icon-circle-down" style="color: #bdbdbd;"></span>
-         </div></a>
-         <ul><li class="endereco_txt"><a class="link" href=".chamados" rel="modal"><span><b>Rua Conde de Agrolongo, 362 - Penha</b></span></a></li></ul>
-       </div>
-     <?php
-     $contador ++;
-   }
-   ?>       
+  <div class="coluna j_coluna_7">
+          
  </div>
 </div>
 </div>
+
+<div class="testeModal">
+  
+
+</div>
+
 <div class="window chamados">
   <a href="#" class="fechar"><span class="icon-cross" style="list-style-type: none; color: black;"><span></a>
     <div class="panel_header" style=" border-bottom: 1px solid #04182e;
@@ -253,14 +174,16 @@ endif;
   </div>
   <br>
   <div class="top-chamados">
-    <div class="dados_clientes">
-     <h5>CINTIA LUÍZA MOURA MAILARD</h5>
-     <ul class="cl_dados">
-       <li style="padding-bottom: 0px;">Rua Conde de Agrolongo, 362 - Penha, Rio de Janeiro - RJ, 21020-190</li>
-       <li  style="padding-bottom: 0px;">cintialuizamoura@gmail.com</li>
-       <li  style="padding-bottom: 0px;">21980564678</li>
-       <br>
-       <hr>
+    <div id="j_dados_clientes">
+      <div class="dados_clientes">
+       <h5>CINTIA LUÍZA MOURA MAILARD</h5>
+       <ul class="cl_dados">
+         <li style="padding-bottom: 0px;" class="dados_endereco"><span class="m_endereco"></span></li>
+         <li  style="padding-bottom: 0px;">cintialuizamoura@gmail.com</li>
+         <li  style="padding-bottom: 0px;"><a href="tel:021980564678" style="color: #004491">(21) 3046-8004</a></li>
+         <br>
+         <hr>
+       </div>
      </div>
      <div class="formulario">
       <form method="post" action="">
@@ -347,3 +270,4 @@ endif;
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script src="_js/clientes_particulares.js"></script>
+<script src="_js/modal.js"></script>
