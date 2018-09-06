@@ -1,10 +1,4 @@
 
-// CALENDARIO
-$( function() {
-  $( "#datepicker" ).datepicker();
-});
-
-
 $(document).ready(function(){
   mostraDados('Home','consulta',0);
 });
@@ -22,27 +16,26 @@ $('#mes').change(function(){
           mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
+function ordenarOrcamento(){
+        mostraDados('Home','consulta',1)
+}
+
 
 function mostraDados(Callback, Callback_action, inicial){
   var Endereco = $('#endereco').val();
   var Cliente = $('#cliente').val();
   var Mes = $('#mes').val();
+  var ordemAnalise = $('#j_ordemEmAnalise').attr('ordemAnalise');
+  var ordemExecutando = $('#j_ordemExecutando').attr('ordemExecutando');
 
 
   $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, endereco: Endereco, cliente: Cliente, mes:Mes, 
-    inicial: inicial}, function (data) {  
+    inicial: inicial, ordemAnalise: ordemAnalise, ordemExecutando: ordemExecutando}, function (data) {  
 
-        // MODAL
-
-
-      //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+       //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
             Trigger(data.trigger);            
-        }
-
-        if(data.teste){
-            console.log(data.teste);
-        }
+        }        
 
         if(data.addcoluna1){
             $('.j_coluna_1 .clientes_sem_contato').remove();
@@ -103,7 +96,19 @@ function mostraDados(Callback, Callback_action, inicial){
         if (data.addComboCliente) {
             $('.j_option_cliente').remove();
             $(data.addComboCliente).appendTo('.j_select_cliente');
-        }        
+        }
+
+        if (data.addEmAnalise) {            
+            $('.js_h2_emAnalise').remove();
+            $(data.addEmAnalise).appendTo('#js_emAnalise');
+        }
+
+        if (data.addExecutando) {            
+            $('.js_h2_executando').remove();
+            $(data.addExecutando).appendTo('#js_executando');
+            console.log()
+        }
+
   }, 'json');
 }
 
@@ -111,12 +116,12 @@ function exibeModal(){
   $("a[rel=modal]").click( function(ev){
     Callback = $(this).attr('callback');
     Callback_action = $(this).attr('callback_action');
+    id = $(this).attr('id');
 
     ev.preventDefault();
 
-    $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idcliente: id}, function (data) {
+    $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idcliente: id}, function (data) {        
         if(data.addClienteModal){
-          //alert('Teste');        
           $('.dados_clientes').remove();
           $(data.addClienteModal).appendTo('#j_dados_clientes');
         }
@@ -151,3 +156,7 @@ function exibeModal(){
   });
 }
 
+
+function salvarChamado(){
+    alert('Teste');
+}

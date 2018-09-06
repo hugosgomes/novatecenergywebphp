@@ -291,3 +291,22 @@ function getWcHotmartStatusClass($Status = null)
 function getMesAtual(){
     return date('M');
 }
+
+
+function getStatusOrcamento($Transaction = null)
+{
+    $RealtyTransaction = [
+        0 =>  'SEM CONTATO',
+        1 => 'VISITA AGENDADA',
+        2 => 'EM ANÁLISE',
+        3 => 'EXECUTANDO',
+        4 => 'EXECUTADO',
+        5 => 'CANCELADO',
+        6 => 'RECUSADO'
+    ];
+    if (!empty($Transaction)):
+        return $RealtyTransaction[$Transaction];
+    else:
+        return $RealtyTransaction;
+    endif;
+}

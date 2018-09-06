@@ -113,8 +113,8 @@ endif;
  </div>
 </div>
 <div class="box box14 bbox">
-  <div class="panel_header darkblue">
-    <h2 class=""><a href="#"><i class="icon-sort-numberic-desc" style="font-size: 15px;float: right;color: white;"></i></a>Em Análise (R$)<br></h2>
+  <div class="panel_header darkblue" id="js_emAnalise">
+    <h2 class='js_h2_emAnalise'><span class='icon-sort-numberic-desc' id="j_ordemEmAnalise" ordemAnalise="data" callback="Home" callback_action="consulta" style='font-size: 15px;float: right;color: white;'></span>Em Análise (R$)0,00}<br></h2>
   </div>
   <br>
   <div class="coluna j_coluna_3">
@@ -122,8 +122,8 @@ endif;
  </div>
 </div>
 <div class="box box14 bbox">
-  <div class="panel_header darkblue">
-   <h2 class=""><a href="#"><i class="icon-sort-numberic-desc" style="font-size: 15px;float: right;color: white;"></i></a>Executando (R$)<br></h2>
+  <div class="panel_header darkblue" id="js_executando">
+   <h2 class="js_h2_executando"><a href="#"><i class="icon-sort-numberic-desc" id="j_ordemExecutando" ordemExecutando="data" callback="Home" callback_action="consulta" style="font-size: 15px;float: right;color: white;"></i></a>Executando (R$)0,00<br></h2>
  </div>
  <br>
  <div class="coluna j_coluna_4">
@@ -188,9 +188,9 @@ endif;
      <div class="formulario">
       <form method="post" action="">
        <div class="label_33">
-        <label class="label">
+        <label class="label" style="width: 18.6666%;">
           <span class="legend" >DATA AGENDAMENTO:</span>
-          <input type="text" placeholder="<?php echo date('d/m/Y'); ?>" id="datepicker" style="font-family: Arial;font-size: 11px;">
+          <input type="text" placeholder="<?php echo date('d/m/Y'); ?>" class="jwc_datepicker" style="font-family: Arial;font-size: 11px;">
         </label>
 
         <label class="label">
@@ -201,14 +201,19 @@ endif;
           </select>
         </label>
 
-        <label class="label">
+        <label class="label" style="width: 25%;">
           <span class="legend">STATUS:</span>
-          <select id="" style="font-family: Arial;font-size: 11px;">
-            <option>EM ABERTO</option>
-            <option>AGENDADO</option>
-            <option>EM EXECUÇÃO</option>
-            <option>EXECUTADO</option>
+          <select id="j_statusOrcamento" style="font-family: Arial;font-size: 11px;">
+              <?php 
+                foreach (getStatusOrcamento() as $key => $value) {
+                  echo "<option>$value</option>";
+                }
+              ?>
           </select>
+        </label>
+      <label class="label" style="width: 20.6%;">
+          <span class="legend">VALOR:</span>
+          <input class="input" style="font-family: Arial;font-size: 11px;" type="text" name="campo3" placeholder="R$" required/>
         </label>
 
         <label class="label" style="margin-left: 0px;">
@@ -233,7 +238,7 @@ endif;
 
 
         <label class="label">
-         <button type="submit" name="titulo" class="btn btn_darkblue" style="font-size: 15px;margin-top: 10px;"><span class="icon-floppy-disk"></span>&ensp;Salvar</button>
+         <button onclick="salvarChamado();" name="titulo" class="btn btn_darkblue" style="font-size: 15px;"><span class="icon-floppy-disk"></span>&ensp;Salvar</button>
        </label>
 
      </div>
@@ -264,10 +269,10 @@ endif;
 <!-- mascara para cobrir o site -->  
 <div id="mascara"></div>
 </div>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <script src="_js/clientes_particulares.js"></script>
 <script src="_js/modal.js"></script>
