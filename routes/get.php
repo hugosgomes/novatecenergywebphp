@@ -5,7 +5,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app = new \Slim\App($config);
 $app->get('/tecnicos/', function (Request $request, Response $response, array $args) {
     $Read = new Read;
-    $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
+    $Read->FullRead("SELECT [p].[ID] AS id,  [p].[NOME COMPLETO] AS nome, [p].[SETOR] AS setor, [p].[TITULO (FUNÇÃO)] AS funcao
                     FROM [Funcionários] AS [p]
                     WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = 2
                     ORDER BY [p].[NOME COMPLETO]"," ");
@@ -19,7 +19,7 @@ $app->get('/tecnicos/', function (Request $request, Response $response, array $a
 $app->get('/tecnicos/{id}', function (Request $request, Response $response, array $args) {
     $id = $request->getAttribute('id');
     $Read = new Read;
-    $Read->FullRead("SELECT * FROM [Funcionários] AS [p] WHERE [ID] = :id","id={$id}");
+    $Read->FullRead("SELECT [p].[ID] AS id,  [p].[NOME COMPLETO] AS nome, [p].[SETOR] AS setor, [p].[TITULO (FUNÇÃO)] AS funcao FROM [Funcionários] AS [p] WHERE [ID] = :id","id={$id}");
     if($Read->getResult()):
     	return $response->withJson($Read->getResult()[0]);
     else:
