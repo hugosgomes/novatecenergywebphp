@@ -83,15 +83,17 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
 
             //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
-            $Read->FullRead("SELECT CEP, NUMERO, COMPLEMENTO FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");                  
+            $Read->FullRead("SELECT ID, CEP, NUMERO, COMPLEMENTO FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");
+            $IdEnd = $Read->getResult()[0]['ID'];                  
             if(!$Read->getResult()):
                 //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
                 $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>$PostData["LOGRADOURO"],"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>$PostData["BAIRRO"], "CIDADE"=>$PostData["CIDADE"],"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
                 $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
+                $IdEnd = $Create->getResult();
             endif;
                       
             //CRIA ARRAY DE ORÇAMENTO
-            $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> "0", "DATASOLICITACAO"=>date('Y-m-d H:i:s'));
+            $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> "0", "DATASOLICITACAO"=>date('Y-m-d H:i:s'));
             $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
 
             $jSON['inpuval'] = "null"; 
@@ -99,8 +101,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['success'] = true;
       break;
     case 'consulta':       
-        var_dump($PostData);
-            /*if(!empty($PostData["CPFCNPJ"])):
+            if(!empty($PostData["CPFCNPJ"])):
                 
                 //VERIFICA SE É UM CPF
                 if(strlen($PostData["CPFCNPJ"]) == 14):
@@ -134,7 +135,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                  else:
 
                  endif;
-            endif;*/
+            endif;
         break;
     endswitch;
 

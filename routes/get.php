@@ -3,6 +3,8 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 $app = new \Slim\App($config);
+
+//GET QUE DEVOLVE TODOS OS TECNICOS CADASTRADOS
 $app->get('/tecnicos/', function (Request $request, Response $response, array $args) {
     $Read = new Read;
     $Read->FullRead("SELECT [p].[ID] AS id,  [p].[NOME COMPLETO] AS nome, [p].[SETOR] AS setor, [p].[TITULO (FUNÇÃO)] AS funcao
@@ -16,6 +18,25 @@ $app->get('/tecnicos/', function (Request $request, Response $response, array $a
     endif;
 });
 
+
+//GET QUE TESTA O LOGIN DO TECNICO
+$app->get('/tecnicos/login/{id}/{senha}', function (Request $request, Response $response, array $args) {
+    $id = $request->getAttribute('id');
+    $senha = sha1($request->getAttribute('senha'));
+    $retorno['msg'] = true;
+    
+    $Read = new Read;
+    $Read->FullRead("SELECT [p].[ID] AS id,  [p].[NOME COMPLETO] AS nome FROM [Funcionários] AS [p] WHERE [ID] = :id AND SENHA = :senha","id={$id}&senha={$senha}");
+    if($Read->getResult()):
+        return $response->withJson($retorno);
+    else:
+        $retorno['msg'] = false;
+        return $response->withJson($retorno);
+    endif;
+});
+
+
+// GET QUE RETORNA O TECNICO PELO ID INFORMADO
 $app->get('/tecnicos/{id}', function (Request $request, Response $response, array $args) {
     $id = $request->getAttribute('id');
     $Read = new Read;
