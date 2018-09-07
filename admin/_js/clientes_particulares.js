@@ -123,11 +123,6 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
   }, 'json');
 }
 
-
-
-
-
-
 function salvarChamado(){
     //alert('Teste');
 }
@@ -140,7 +135,8 @@ function teste(){
   $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idcliente: id}, function (data) {        
         
         if(data.addTecnicos){
-          alert('Teste');
+          
+          $('#j_select_tecnicos option').remove();
           $(data.addTecnicos).appendTo('#j_select_tecnicos');
         }
 

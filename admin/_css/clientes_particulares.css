@@ -46,8 +46,8 @@ li a{
 
 }
 .top-chamados{
- height: 35%;
- box-shadow: 0 5px 10px rgba(0,0,0,.09);
+  height: 28%;
+  box-shadow: 0 5px 10px rgba(0,0,0,.09);
 
 }
 .formulario{
@@ -150,4 +150,10 @@ select {
 .box42{
   width: 42.5%;
   padding-left: 5px;
+}
+.blocker{
+  z-index: 98;
+} 
+.modal{
+  max-width: 800px;
 }
