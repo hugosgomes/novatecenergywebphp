@@ -41,6 +41,8 @@ endif;
     <form>
      <div class="label_50" >
       <label class="label">
+        <!-- Link to open the modal -->
+      <p><a href="#ex1" rel="modal:open">Open Modal</a></p>
         <form method="" action="">
           <span class="legend">Buscar Endereço:</span>
           <select id="endereco" style="font-family: Arial;font-size: 11px;" class="j_select_endereco" callback="Home" callback_action="consulta">
@@ -195,10 +197,8 @@ endif;
 
         <label class="label">
           <span class="legend">TÉCNICO:</span>
-          <select id="" style="font-family: Arial;font-size: 11px;">
-            <option>CINTIA LUÍZA MOURA MAILARD</option>
-            <option>CINTIA LUÍZA MOURA MAILARD</option>
-          </select>
+          <!-- <select id="j_select_tecnicos" style="font-family: Arial;font-size: 11px;">
+          </select> -->
         </label>
 
         <label class="label" style="width: 25%;">
@@ -248,24 +248,24 @@ endif;
 </div>
 <br>
 <div class="coluna" style="height: 50%;">
-  <?php 
-  $contador = 0;
-  while($contador < 10){
-
-    ?>
-    <div class="box_content buttons_clientes" style="height: 15%;">
-      <ul>
-        <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span style="float: right;">Usuário Sistema: Cintia Mailard<p><b>Tipo Serviço: Remanejamento</b></p></span></a></li>
-        <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span class='icon-history'></span><span><b>AGENDAMENTO REALIZADO</b><p>Data: 30/08/2018</p></span></a></li>
-      </ul>
-    </div>
-
-    <?php
-    $contador ++;
-  }
-  ?>       
+  <div class="box_content buttons_clientes" style="height: 15%;">
+    <ul>
+      <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span style="float: right;">Usuário Sistema: Cintia Mailard<p><b>Tipo Serviço: Remanejamento</b></p></span></a></li>
+      <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span class='icon-history'></span><span><b>AGENDAMENTO REALIZADO</b><p>Data: 30/08/2018</p></span></a></li>
+    </ul>
+  </div>  
 </div>
 </div>
+
+
+<div id="ex1" class="modal">
+  <p>Thanks for clicking. That felt good.</p>
+  <a href="#" rel="modal:close">Close</a>
+  <select id="j_select_tecnicos" style="font-family: Arial;font-size: 11px;">
+  </select>
+</div>
+
+
 <!-- mascara para cobrir o site -->  
 <div id="mascara"></div>
 </div>
