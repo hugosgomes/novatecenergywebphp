@@ -21,7 +21,7 @@ endif;
 </header>
 
 <div class="dashboard_content custom_app">
-    <article class="box box100">
+    <article class="box box70">
         <header>
           <h3>Cadastro de Clientes e Orçamentos</h3>
         </header> 
@@ -142,6 +142,16 @@ endif;
                 <button name="public" value="1" class="btn btn_green fl_left icon-share" style="margin-left: 5px;">Cadastrar!</button>
                 <div class="clear"></div>
             </form>
+        </div>
+    </article>
+
+    <article class="box box30">
+        <header>
+          <h3>Dados do Cliente</h3>
+        </header> 
+        <div class="box_content">
+            <div class="j_dados_cliente"></div>
+            <div class="j_endereco_cliente"></div>
         </div>
     </article>
 </div>

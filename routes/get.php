@@ -9,12 +9,24 @@ $app->get('/tecnicos/', function (Request $request, Response $response, array $a
     $Read = new Read;
     $Read->FullRead("SELECT [p].[ID] AS id,  [p].[NOME COMPLETO] AS nome, [p].[SETOR] AS setor, [p].[TITULO (FUNÇÃO)] AS funcao
                     FROM [Funcionários] AS [p]
-                    WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = 2
+                    WHERE [p].[DATA DE DEMISSÃO] IS NULL AND [p].[SETOR] = 5
                     ORDER BY [p].[NOME COMPLETO]"," ");
     if($Read->getResult()):
     	return $response->withJson($Read->getResult());
     else:
     	return $response->withJson("Dados não encontrados!");
+    endif;
+});
+
+//GET QUE BUSCA AS PEÇAS CADASTRADAS NO SISTEMA
+$app->get('/pecas/', function (Request $request, Response $response, array $args) {    
+    $Read = new Read;
+    $Read->FullRead("SELECT [Id], [Peca] ,[40_Unidades].[UNIDADE], [ValorFinal] FROM [BDNVT].[dbo].[60_Pecas]
+                            INNER JOIN [40_Unidades] on [60_Pecas].[Unidade] = [40_Unidades].[COD]", " ");
+    if($Read->getResult()):
+        return $response->withJson($Read->getResult());
+    else:
+        return $response->withJson($Read->getResult());
     endif;
 });
 
@@ -35,8 +47,21 @@ $app->get('/tecnicos/login/{id}/{senha}', function (Request $request, Response $
     endif;
 });
 
+//GET QUE BUSCA AS OS RELACIONADAS AO TÉCNICO
+$app->get('/atendimentos/{tecnico}', function (Request $request, Response $response, array $args) {
+    $tecnico = $request->getAttribute('tecnico');
+    
+    $Read = new Read;
+    $Read->FullRead("SELECT * FROM [60_OS] WHERE [Tecnico] = :tecnico AND [Status] = 0","tecnico={$tecnico}");
+    if($Read->getResult()):
+        return $response->withJson($Read->getResult());
+    else:
+        return $response->withJson($Read->getResult());
+    endif;
+});
 
-// GET QUE RETORNA O TECNICO PELO ID INFORMADO
+
+/* GET QUE RETORNA O TECNICO PELO ID INFORMADO
 $app->get('/tecnicos/{id}', function (Request $request, Response $response, array $args) {
     $id = $request->getAttribute('id');
     $Read = new Read;
@@ -73,4 +98,4 @@ $app->get('/pecas/', function (Request $request, Response $response, array $args
     else:
     	return $response->withJson("Peças não encontradas!");
     endif;
-});
+});*/

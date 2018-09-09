@@ -1357,8 +1357,6 @@ function wcUrlParam(name) {
         });
     });
 
-
-
     //ADICIONA O.S PARA O TÉCNICO
     $('html, body').on('click', '.j_add_tecnico', function (e) {
         var Prevent = $(this);
@@ -1432,58 +1430,6 @@ function wcUrlParam(name) {
         e.stopPropagation();
     });
 
-    //PESQUISA ENDEREÇO SEM LOGRADOURO
-    $('html, body').on('click', '.j_pesquisa_endereco', function (e) {
-        var Prevent = $(this);
-        var EndId = $(this).attr('id');
-        var RelTo = $(this).attr('rel');
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');
-        var Bairro = $(this).attr('bairro');
-
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, end_id: EndId, logradouro: RelTo, bairro: Bairro}, function (data) {
-            
-            //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
-            if (data.addtable) {
-                $('.j_endereco').remove();
-                $(data.addtable).appendTo('.enderecos');
-            }
-            //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
-            if (data.deltable) {
-                $('#'+ data.deltable).fadeOut(400);
-            }
-        }, 'json');
-
-        e.preventDefault();
-        e.stopPropagation();
-    });
-
-    //PESQUISA VINCULA ENDEREÇO
-    $('html, body').on('click', '.j_insere_endereco', function (e) {
-        var Prevent = $(this);
-        var EndId = $(this).attr('rel');
-        var LogId = $(this).attr('id');
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');
-
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, end_id: EndId, log_id: LogId}, function (data) {
-            
-            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if (data.trigger) {
-                Trigger(data.trigger);                
-            }
-
-            //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
-            if (data.endereco) {
-                $('.j_endereco').remove();
-                $('.display #'+ data.endereco).fadeOut(400);
-            }
-        }, 'json');
-
-        e.preventDefault();
-        e.stopPropagation();
-    });
-
 
     //PESQUISA OT PARA VINCULO
     $('html, body').on('click', '.j_pesquisa_ot', function (e) {
@@ -1544,7 +1490,7 @@ function wcUrlParam(name) {
             var Callback_action = $(this).attr('callback_action');
 
 
-            $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, CPFCNPJ: CpfCnpj}, function (data) {
+            $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, CPFCNPJ: CpfCnpj}, function (data) {
             
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
@@ -1558,9 +1504,16 @@ function wcUrlParam(name) {
                     $('.wc_endereco').val(data.cliente['ENDERECO']);
                     $('.wc_email').val(data.cliente['EMAIL']);
                     $('.wc_tipo').val(data.cliente['TIPO']);
-                }           
+                } 
+                if (data.dadosCliente) {
+                    $('.dados').remove();
+                    $(data.dadosCliente).appendTo('.j_dados_cliente');
+                }
+                if (data.enderecoCLiente) {
+                    $('.enderecos').remove();
+                    $(data.enderecoCLiente).appendTo('.j_endereco_cliente');
+                }            
             }, 'json');
 
         });
     });
-
