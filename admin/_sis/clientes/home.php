@@ -13,14 +13,14 @@ endif;
 <link rel="stylesheet" href="_css/clientes_particulares.css"/>
 <header class="dashboard_header">
   <div class="dashboard_header_title">
-    <h1 class="icon-users">Clientes Residenciais</h1>
+    <h1 class="icon-users">Pequenos Orçamentos</h1>
     <p class="dashboard_header_breadcrumbs">
     &raquo;</span>
     <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
     <span class="crumb">/</span>
     <a title="Novatec Energy" href="dashboard.php?wc=clientes/particulares">Clientes Particulares</a>
     <span class="crumb">/</span>
-    <a title="Novatec Energy" href="dashboard.php?wc=clientes/home">Residenciais</a>
+    <a title="Novatec Energy" href="dashboard.php?wc=clientes/home">Pequenos Orçamentos</a>
 
   </p>
 </div>
@@ -49,7 +49,7 @@ endif;
       <form method="" action="">
         <span class="legend">Buscar Cliente:</span>
         <select id="cliente" style="font-family: Arial;font-size: 11px;" class="j_select_cliente" callback="Home" callback_action="consulta">
-          <option value="t" class='j_option_cliente'>>>> TODOS <<</option>
+          <option value="t" class='j_option_cliente'>>> TODOS <<</option>
         </select>
       </form>
     </label>
@@ -85,7 +85,7 @@ endif;
 </div>
 <div class="box box100">
   <div class="box box14 bbox">
-    <div class="panel_header darkblue">
+    <div class="panel_header darkblue_gradient" style="text-align: center;">
       <h2 class="">Sem Contato</h2>
     </div>
     <br>
@@ -94,7 +94,7 @@ endif;
     </div>
   </div>
   <div class="box box14 bbox">
-    <div class="panel_header darkblue">
+    <div class="panel_header darkblue_gradient" style="text-align: center;">
       <h2 class="">Visita Agendada</h2>
     </div>
     <br>
@@ -103,7 +103,7 @@ endif;
     </div>
   </div>
   <div class="box box14 bbox">
-    <div class="panel_header darkblue" id="js_emAnalise">
+    <div class="panel_header darkblue_gradient" id="js_emAnalise" style="text-align: center;">
       <h2 class='js_h2_emAnalise'><span class='icon-sort-numberic-desc' id="j_ordemEmAnalise" ordemAnalise="data" callback="Home" callback_action="consulta" style='font-size: 15px;float: right;color: white;'></span>Em Análise (R$)0,00}<br></h2>
     </div>
     <br>
@@ -112,7 +112,7 @@ endif;
     </div>
   </div>
   <div class="box box14 bbox">
-    <div class="panel_header darkblue" id="js_executando">
+    <div class="panel_header darkblue_gradient" id="js_executando" style="text-align: center;">
      <h2 class="js_h2_executando"><a href="#"><i class="icon-sort-numberic-desc" id="j_ordemExecutando" ordemExecutando="data" callback="Home" callback_action="consulta" style="font-size: 15px;float: right;color: white;"></i></a>Executando (R$)0,00<br></h2>
    </div>
    <br>
@@ -123,7 +123,7 @@ endif;
  <!-- SEGUNDO BLOCO DE COLUNAS -->
 
  <div class="box box14 bbox">
-  <div class="panel_header info" style="text-align: center;">
+  <div class="panel_header info_gradient" style="text-align: center;">
     <h2 class="">Executado</h2>
   </div>
   <br>
@@ -132,7 +132,7 @@ endif;
   </div>
 </div>
 <div class="box box14 bbox">
-  <div class="panel_header info" style="text-align: center;">
+  <div class="panel_header info_gradient" style="text-align: center;">
     <h2 class="">Cancelado</h2>
   </div>
   <br>
@@ -141,7 +141,7 @@ endif;
   </div>
 </div>
 <div class="box box14 bbox">
-  <div class="panel_header info" style="text-align: center;">
+  <div class="panel_header info_gradient" style="text-align: center;">
     <h2 class="">Recusado</h2>
   </div>
   <br>

@@ -5,23 +5,23 @@ require '../_app/Config.inc.php';
 
 if (isset($_SESSION['userLogin'])):
     $Admin = $_SESSION['userLogin'];
-$DashboardLogin = true;
-$Read = new Read;
-$Read->FullRead("SELECT [NOME COMPLETO] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
-$NOME = $Read->getResult()[0];
+    $DashboardLogin = true;
+    $Read = new Read;
+    $Read->FullRead("SELECT [NOME COMPLETO] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
+    $NOME = $Read->getResult()[0];
 else:
     unset($_SESSION['userLogin']);
-header('Location: ./index.php');
-exit;
+    header('Location: ./index.php');
+    exit;
 endif;
 
 //SCRIPT DE LOGOFF
 $AdminLogOff = filter_input(INPUT_GET, 'logoff', FILTER_VALIDATE_BOOLEAN);
 if ($AdminLogOff):
     $_SESSION['trigger_login'] = Erro("<b>LOGOFF</b> realizado com sucesso!");
-unset($_SESSION['userLogin']);
-header('Location: ./index.php');
-exit;
+    unset($_SESSION['userLogin']);
+    header('Location: ./index.php');
+    exit;
 endif;
 
 $getViewInput = filter_input(INPUT_GET, 'wc', FILTER_DEFAULT);
@@ -90,9 +90,9 @@ endif;
         <?php
         if (isset($_SESSION['trigger_controll'])):
             echo "<div class='trigger_modal' style='display: block'>";
-        Erro("<span class='icon-warning'>{$_SESSION['trigger_controll']}</span>", E_USER_ERROR);
-        echo "</div>";
-        unset($_SESSION['trigger_controll']);
+            Erro("<span class='icon-warning'>{$_SESSION['trigger_controll']}</span>", E_USER_ERROR);
+            echo "</div>";
+            unset($_SESSION['trigger_controll']);
 
         endif;
         ?>
@@ -109,18 +109,18 @@ endif;
                 <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Home</a></li>
 
                 <?php
-                    $Data = new DateTime();
+                $Data = new DateTime();
                     //MODULO GNS
                 if ($_SESSION['userLogin']):
                     ?>
-                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
-                    <ul class="dashboard_nav_menu_sub">
-                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
-                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>                        
-                        <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
-                    </ul>
-                </li>
-                <?php
+                    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
+                        <ul class="dashboard_nav_menu_sub">
+                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
+                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>                        
+                            <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
+                        </ul>
+                    </li>
+                    <?php
                 endif;
                 ?>
 
@@ -130,17 +130,20 @@ endif;
                 if ($_SESSION['userLogin']):
                     ?>
 
-                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="#">Clientes Particulares</a>
-                    <ul class="dashboard_nav_menu_sub">                
-                      <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Residenciais" href="dashboard.php?wc=clientes/home">&raquo; Residenciais</a></li> 
+                    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="#">Clientes Particulares</a>
+                        <ul class="dashboard_nav_menu_sub">   
 
-                      <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Residenciais" href="dashboard.php?wc=clientes/home">&raquo; Comerciais</a></li>-->
+                            <!-- Pequenos Orçamentos -->
+                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home">&raquo; Pequenos Orçamentos</a></li> 
 
-                      <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/cadastro' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/cadastro">&raquo; Cadastro</a></li>
-                  </ul>
-              </li>
-              <?php
-              endif;
+                            <!-- Grandes Orçamentos -->
+                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home">&raquo; Grandes Orçamentos</a></li>
+
+                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/cadastro' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/cadastro">&raquo; Cadastro</a></li>
+                        </ul>
+                    </li>
+                    <?php
+                endif;
 
 
                     //MENU DE USUÁRIOS
@@ -155,7 +158,7 @@ endif;
                             </ul>
                         </li>
                         <?php
-                        endif;*/
+                    endif;*/
 
                     //MENU DE RELATÓRIOS
                     /*if ($_SESSION['userLogin'] >= LEVEL_WC_REPORTS):
@@ -171,65 +174,65 @@ endif;
                             </ul>
                         </li>
                         <?php
-                        endif;*/
-                        ?>
-                    </ul>
-                    <div class="dashboard_nav_normalize"></div>        
-                </nav>
+                    endif;*/
+                    ?>
+                </ul>
+                <div class="dashboard_nav_normalize"></div>        
+            </nav>
 
-                <div class="dashboard">
-                    <?php
+            <div class="dashboard">
+                <?php
 
-                    if (!file_exists("../license.txt")):
-                        echo "<div>";
+                if (!file_exists("../license.txt")):
+                    echo "<div>";
                     echo Erro("<span class='al_center'><b class='icon-warning'>ATENÇÃO:</b> O license.txt não está presente na raiz do projeto. Utilizar o Work Control® sem esse arquivo caracteriza cópia não licenciada.", E_USER_ERROR);
                     echo "</div>";
-                    endif;
+                endif;
 
-                    if (ADMIN_MAINTENANCE):
-                        echo "<div>";
+                if (ADMIN_MAINTENANCE):
+                    echo "<div>";
                     echo Erro("<span class='al_center'><b class='icon-warning'>IMPORTANTE:</b> O modo de manutenção está ativo. Somente usuários administradores podem ver o site assim!</span>", E_USER_ERROR);
                     echo "</div>";
-                    endif;
+                endif;
 
                 //PHP TEST
-                    $PHPVersion = phpversion();
-                    if ($PHPVersion < '5.6'):
-                        echo "<div>";
+                $PHPVersion = phpversion();
+                if ($PHPVersion < '5.6'):
+                    echo "<div>";
                     echo Erro('<span class="al_center"><b class="icon-warning">ATENÇÃO:</b> O Work Control® foi projetado com <b>PHP 5.6 ou superior</b>, a versão do seu PHP é ' . $PHPVersion . '!</span>', E_USER_ERROR);
                     echo "</div>";
 
-                    endif;
-                    ?>
-                    <div class="dashboard_sidebar">
-                        <span class="mobile_menu btn btn_darkblue icon-menu icon-notext"></span>
-                        <div class="fl_right">
-                            <span class="dashboard_sidebar_welcome m_right"><?= "Olá ". strstr($NOME['NOME COMPLETO'], ' ', true). ", hoje ".date('d/m/y'); ?></span>
-                            <a class="icon-exit btn btn_darkblue" title="Desconectar do <?= ADMIN_NAME; ?>!" href="dashboard.php?wc=home&logoff=true">Sair</a>
-                        </div>
+                endif;
+                ?>
+                <div class="dashboard_sidebar">
+                    <span class="mobile_menu btn btn_darkblue icon-menu icon-notext"></span>
+                    <div class="fl_right">
+                        <span class="dashboard_sidebar_welcome m_right"><?= "Olá ". strstr($NOME['NOME COMPLETO'], ' ', true). ", hoje ".date('d/m/y'); ?></span>
+                        <a class="icon-exit btn btn_darkblue" title="Desconectar do <?= ADMIN_NAME; ?>!" href="dashboard.php?wc=home&logoff=true">Sair</a>
                     </div>
-                    
-                    <?php
-                //QUERY STRING
-                    if (!empty($getView)):
-                        $includepatch = __DIR__ . '/_sis/' . strip_tags(trim($getView)) . '.php';
-                    else:
-                        $includepatch = __DIR__ . '/_sis/' . 'dashboard.php';
-                    endif;
+                </div>
 
-                    if (file_exists(__DIR__ . "/_siswc/" . strip_tags(trim($getView)) . '.php')):
-                        require_once __DIR__ . "/_siswc/" . strip_tags(trim($getView)) . '.php';
-                    elseif (file_exists($includepatch)):
-                        require_once($includepatch);
-                    else:
-                        $_SESSION['trigger_controll'] = "<b>OPPSSS:</b> <span class='fontred'>_sis/{$getView}.php</span> ainda está em contrução!";
+                <?php
+                //QUERY STRING
+                if (!empty($getView)):
+                    $includepatch = __DIR__ . '/_sis/' . strip_tags(trim($getView)) . '.php';
+                else:
+                    $includepatch = __DIR__ . '/_sis/' . 'dashboard.php';
+                endif;
+
+                if (file_exists(__DIR__ . "/_siswc/" . strip_tags(trim($getView)) . '.php')):
+                    require_once __DIR__ . "/_siswc/" . strip_tags(trim($getView)) . '.php';
+                elseif (file_exists($includepatch)):
+                    require_once($includepatch);
+                else:
+                    $_SESSION['trigger_controll'] = "<b>OPPSSS:</b> <span class='fontred'>_sis/{$getView}.php</span> ainda está em contrução!";
                     header('Location: dashboard.php?wc=home');
                     exit;
-                    endif;
-                    ?>
-                </div>
+                endif;
+                ?>
             </div>
-        </body>
-        </html>
-        <?php
-        ob_end_flush();
+        </div>
+    </body>
+    </html>
+    <?php
+    ob_end_flush();

@@ -184,7 +184,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
-            $jSON['addExecutando'] = "<h2 class='js_h2_executando'><a href='#'  onclick='ordenarOrcamentoExecutando();'><i id='j_ordemExecutando' ordemExecutando='". $valueOrdemExecutando . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Em Análise (R$){$totais['VALOR']}<br></h2>";
+            $jSON['addExecutando'] = "<h2 class='js_h2_executando'><a href='#'  onclick='ordenarOrcamentoExecutando();'><i id='j_ordemExecutando' ordemExecutando='". $valueOrdemExecutando . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Executando (R$){$totais['VALOR']}<br></h2>";
         endforeach;
 
 

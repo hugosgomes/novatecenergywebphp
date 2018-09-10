@@ -157,3 +157,27 @@ select {
 .modal{
   max-width: 800px;
 }
+
+.panel_header.darkblue_gradient{
+  background-image: linear-gradient(#0b4480, #052242);
+  border-top: 5px solid #052242 !important;
+  border-bottom: 1px solid #052242 !important; 
+  color: #FFF;
+}
+.panel_header.darkblue_gradient > h2{
+  font-size: 0.875em; 
+  font-weight: 600; 
+  color: #FFF; 
+  padding-bottom: 5px;
+}
+.panel_header.darkblue_gradient > span{
+  position: relative; 
+  right: 0; 
+  top: -10px;
+}
+
+.panel_header.info_gradient{background-image: linear-gradient(#0e96e5, #04486f); border-top: 5px solid #096397 !important; border-bottom: 1px solid #096397 !important; color: #FFF;}
+.panel_header.info_gradient > h2{font-size: 0.875em; font-weight: 600; color: #FFF; padding-bottom: 5px;}
+.panel_header.info_gradient > span{position: relative; right: 0; top: -10px;}
+
+ 
