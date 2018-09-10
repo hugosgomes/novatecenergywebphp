@@ -310,3 +310,19 @@ function getStatusOrcamento($Transaction = null)
         return $RealtyTransaction;
     endif;
 }
+
+
+function getFormaPagamento($Transaction = null)
+{
+    $RealtyTransaction = [
+        0 => 'CARTÃO DE CRÉDITO',
+        1 => 'DEPÓSITO/TRANSFERÊNCIA',
+        2 => 'Á VISTA'
+    ];
+    
+    if (!empty($Transaction)):
+        return $RealtyTransaction[$Transaction];
+    else:
+        return $RealtyTransaction;
+    endif;
+}
