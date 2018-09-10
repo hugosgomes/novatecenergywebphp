@@ -36,7 +36,7 @@ textarea, input, select{
     </div>
 </header>
 <div class="dashboard_content custom_app">
-    <article class="box box100">
+    <article class="box box70">
         <header>
           <h3 style="text-align: center;">Cadastro de Clientes e Orçamentos</h3>
       </header> 
@@ -165,6 +165,18 @@ textarea, input, select{
                 </label>
             </div>
         </div>
+    </article>
+
+    <article class="box box30">
+        <header>
+          <h3>Dados do Cliente</h3>
+        </header> 
+        <div class="box_content">
+            <div class="j_dados_cliente"></div>
+            <div class="j_endereco_cliente"></div>
+        </div>
+    </article>
+</div>
         <div class="box box25"></div>
     </form>
 </div>

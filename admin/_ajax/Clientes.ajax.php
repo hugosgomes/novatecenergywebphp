@@ -83,15 +83,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
 
             //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
-            $Read->FullRead("SELECT CEP, NUMERO, COMPLEMENTO FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");                  
+            $Read->FullRead("SELECT ID, CEP, NUMERO, COMPLEMENTO FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");
+            $IdEnd = null;               
             if(!$Read->getResult()):
+                $IdEnd = null;                   
                 //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
                 $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>$PostData["LOGRADOURO"],"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>$PostData["BAIRRO"], "CIDADE"=>$PostData["CIDADE"],"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
                 $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
+                $IdEnd = $Create->getResult();
             endif;
                       
             //CRIA ARRAY DE ORÇAMENTO
-            $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> "0", "DATASOLICITACAO"=>date('Y-m-d H:i:s'));
+            $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "DATASOLICITACAO"=>date('Y-m-d H:i:s'),"OBS"=>$PostData["OBS"]);
             $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
 
             $jSON['inpuval'] = "null"; 
@@ -99,8 +102,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['success'] = true;
       break;
     case 'consulta':       
-        var_dump($PostData);
-            /*if(!empty($PostData["CPFCNPJ"])):
+            if(!empty($PostData["CPFCNPJ"])):
                 
                 //VERIFICA SE É UM CPF
                 if(strlen($PostData["CPFCNPJ"]) == 14):
@@ -113,8 +115,21 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     //PESQUISA SE O CLIENTE JÁ EXISTE BUSCANDO PELO CPF
                     $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
                     if($Read->getResult()):
+                        $IdCliente = $Read->getResult()[0]['ID'];
                         $jSON['trigger'] = true;
                         $jSON['cliente'] = $Read->getResult()[0];
+                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p>{$Read->getResult()[0]['TELEFONE']}</p><p>{$Read->getResult()[0]['EMAIL']}</p></article>";
+                        $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE IDCLIENTE = :id","id={$IdCliente}");
+                        if($Read->getResult()):
+                            $jSON['enderecoCLiente'] = null;
+                            foreach ($Read->getResult() as $ENDERECO):
+                                extract($ENDERECO);                       
+
+                                $jSON['enderecoCLiente'] .= "<article class='enderecos'><p>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</p></article>";
+                            endforeach;
+                        endif;
+                    else:
+                        $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
                     endif;
                 elseif (strlen($PostData["CPFCNPJ"]) == 18):
                     //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
@@ -128,13 +143,26 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     //PESQUISA SE O CLIENTE JÁ EXISTE BUSCANDO PELO CNPJ
                     $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE CNPJ = :cnpj","cnpj={$PostData['CNPJ']}");
                     if($Read->getResult()):
+                        $IdCliente = $Read->getResult()[0]['ID'];
                         $jSON['trigger'] = true;
                         $jSON['cliente'] = $Read->getResult()[0];
+                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p>{$Read->getResult()[0]['TELEFONE']}</p><p>{$Read->getResult()[0]['EMAIL']}</p></article>";
+                        $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE IDCLIENTE = :id","id={$IdCliente}");
+                        if($Read->getResult()):
+                            $jSON['enderecoCLiente'] = null;
+                            foreach ($Read->getResult() as $ENDERECO):
+                                extract($ENDERECO);                       
+
+                                $jSON['enderecoCLiente'] .= "<article class='enderecos'><p>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</p></article>";
+                            endforeach;
+                        endif;
+                    else:
+                        $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
                     endif;
                  else:
 
                  endif;
-            endif;*/
+            endif;
         break;
     endswitch;
 
