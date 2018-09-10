@@ -26,6 +26,113 @@ endif;
 </div>
 </header>
 
+
+
+
+
+<!--<div class="workcontrol_pdt_size">
+        <div class="panel_header" style=" border-bottom: 1px solid #04182e;
+  border-width: 2px;">
+  <h2 class="icon-keyboard" style="text-align: center;font-size: 15px;"><b>CHAMADO DO CLIENTE</b></h2>
+</div>
+<br>
+<div class="top-chamados">
+  <div class="box box100">
+    <div id="j_dados_clientes">
+      <div class="dados_clientes">
+       <h5>CINTIA LUÍZA MOURA MAILARD</h5>
+       <ul class="cl_dados">
+         <li style="padding-bottom: 0px;" class="dados_endereco"><span class="m_endereco"></span></li>
+         <li  style="padding-bottom: 0px;">cintialuizamoura@gmail.com</li>
+         <li  style="padding-bottom: 0px;"><a href="tel:021980564678" style="color: #004491">(21) 3046-8004</a></li>
+       </ul>
+       <br>
+       <hr>
+     </div>
+   </div>
+ </div><!-- BOX 100 
+ <div class="box box100">
+   <div class="formulario">
+    <form method="post" action="">
+        <input type="hidden" name="callback" value="Home"/>
+         <input type="hidden" name="callback_action" value="cadCliente"/>
+     <div class="label_33">
+
+      <label class="label" style="width: 18.6666%;">
+        <span class="legend">DATA AGENDAMENTO:</span>
+        <input type="text" placeholder="<?php echo date('d/m/Y'); ?>" class="jwc_datepicker wc_value" readonly="readonly" name="DATAAGENDAMENTO" style="font-family: Arial;font-size: 11px;">
+      </label>
+
+      <label class="label">
+        <span class="legend">TÉCNICO:</span>
+        <select id="j_select_tecnicos" style="font-family: Arial;font-size: 11px;">
+        </select>
+      </label>
+
+      <label class="label" style="width: 25%;">
+        <span class="legend">STATUS:</span>
+        <select id="j_statusOrcamento" name="STATUS" style="font-family: Arial;font-size: 11px;">
+          <?php 
+          foreach (getStatusOrcamento() as $key => $value) {
+            echo "<option>$value</option>";
+          }
+          ?>
+        </select>
+      </label>
+
+      <label class="label" style="width: 20.6%;">
+        <span class="legend">VALOR:</span>
+        <input class="input" style="font-family: Arial;font-size: 11px;" NAME="VALOR" type="text" name="campo3" placeholder="R$" required/>
+      </label>
+
+      <label class="label" style="margin-left: 0px;">
+        <span class="legend" >FORMA DE PAGAMENTO:</span>
+        <select id="" mame="FORMAPAGAMAENTO" style="font-family: Arial;font-size: 11px;">
+          <option>CARTÃO DE CRÉDITO</option>
+          <option>DEPÓSITO/TRANSFERÊNCIA</option>
+          <option>Á VISTA</option>
+        </select>
+      </label>
+
+      <label class="label">
+        <span class="legend">QUANTIDADE DE PARCELAS:</span>
+        <input class="input" style="font-family: Arial;font-size: 11px;" name="QNTPARCELAS" type="text" name="campo3" placeholder="" required/>
+      </label>
+
+      <label class="label">
+        <span class="legend">OBSERVAÇÃO:</span>
+        <input class="input" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder="" required/>
+      </label>
+
+      <label class="label">
+        <span class="j_salva_chamado btn btn_blue icon-share fl_left" callback="Home" callback_action="salvachamado">Cadastrar!</span>
+        <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
+       <button name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 5px;">Cadastrar</button>
+     </label>
+     <script src="_js/workplugins.js"></script>
+   </div>
+ </form>
+</div>
+</div>
+
+</div>
+<div class="coluna" style="height: 50%;margin-top: 3%;">
+  <div class="box_content buttons_clientes" style="height: 15%;">
+    <ul>
+      <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span style="float: right;">Usuário Sistema: Cintia Mailard<p><b>Tipo Serviço: Remanejamento</b></p></span></a></li>
+      <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span class='icon-history'></span><span><b>AGENDAMENTO REALIZADO</b><p>Data: 30/08/2018</p></span></a></li>
+    </ul>
+  </div>  
+</div>
+            <div class="workcontrol_pdt_size_close">X</div>
+            <div class="clear"></div>
+        
+    </div>
+
+
+<span class="wc_pdt_stock1 btn btn_blue" id="<?= $PdtId; ?>" callback="Home" callback_action="consulta_modal">teste</span>-->
+
+
 <div class="dashboard_content custom_app dashboard_custom">
   <div class="box box33">
     <form>
@@ -150,45 +257,48 @@ endif;
   </div>
 </div>
 </div>
-
-
-
-
-<div id="ex1" class="modal">
+<div id="ex1" class="modal" style="height: auto;">
   <div class="panel_header" style=" border-bottom: 1px solid #04182e;
   border-width: 2px;">
   <h2 class="icon-keyboard" style="text-align: center;font-size: 15px;"><b>CHAMADO DO CLIENTE</b></h2>
 </div>
 <br>
 <div class="top-chamados">
-  <div id="j_dados_clientes">
-    <div class="dados_clientes">
-     <h5>CINTIA LUÍZA MOURA MAILARD</h5>
-     <ul class="cl_dados">
-       <li style="padding-bottom: 0px;" class="dados_endereco"><span class="m_endereco"></span></li>
-       <li  style="padding-bottom: 0px;">cintialuizamoura@gmail.com</li>
-       <li  style="padding-bottom: 0px;"><a href="tel:021980564678" style="color: #004491">(21) 3046-8004</a></li>
+  <div class="box box100">
+    <div id="j_dados_clientes">
+      <div class="dados_clientes">
+       <h5>CINTIA LUÍZA MOURA MAILARD</h5>
+       <ul class="cl_dados">
+         <li style="padding-bottom: 0px;" class="dados_endereco"><span class="m_endereco"></span></li>
+         <li  style="padding-bottom: 0px;">cintialuizamoura@gmail.com</li>
+         <li  style="padding-bottom: 0px;"><a href="tel:021980564678" style="color: #004491">(21) 3046-8004</a></li>
+       </ul>
        <br>
        <hr>
      </div>
    </div>
+ </div><!-- BOX 100 -->
+ <div class="box box100">
    <div class="formulario">
     <form method="post" action="">
+        <input type="hidden" name="callback" value="Home"/>
+         <input type="hidden" name="callback_action" value="cadCliente"/>
      <div class="label_33">
+
       <label class="label" style="width: 18.6666%;">
-        <span class="legend" >DATA AGENDAMENTO:</span>
-        <input type="text" placeholder="<?php echo date('d/m/Y'); ?>" class="jwc_datepicker" style="font-family: Arial;font-size: 11px;">
+        <span class="legend">DATA AGENDAMENTO:</span>
+        <input type="text" placeholder="<?php echo date('d/m/Y'); ?>" class="jwc_datepicker wc_value j_data" readonly="readonly" name="DATAAGENDAMENTO" style="font-family: Arial;font-size: 11px;">
       </label>
 
       <label class="label">
         <span class="legend">TÉCNICO:</span>
-        <select id="j_select_tecnicos" style="font-family: Arial;font-size: 11px;">
+        <select id="j_select_tecnicos" class="j_tecnico" style="font-family: Arial;font-size: 11px;">
         </select>
       </label>
 
       <label class="label" style="width: 25%;">
         <span class="legend">STATUS:</span>
-        <select id="j_statusOrcamento" style="font-family: Arial;font-size: 11px;">
+        <select id="j_statusOrcamento" class="j_status" name="STATUS" style="font-family: Arial;font-size: 11px;">
           <?php 
           foreach (getStatusOrcamento() as $key => $value) {
             echo "<option>$value</option>";
@@ -196,43 +306,41 @@ endif;
           ?>
         </select>
       </label>
+
       <label class="label" style="width: 20.6%;">
         <span class="legend">VALOR:</span>
-        <input class="input" style="font-family: Arial;font-size: 11px;" type="text" name="campo3" placeholder="R$" required/>
+        <input class="input j_valor" style="font-family: Arial;font-size: 11px;" name="VALOR" type="text" name="campo3" placeholder="R$" required/>
       </label>
 
       <label class="label" style="margin-left: 0px;">
-        <span class="legend">FORMA DE PAGAMENTO:</span>
-        <select id="" style="font-family: Arial;font-size: 11px;">
+        <span class="legend" >FORMA DE PAGAMENTO:</span>
+        <select id="" class="j_forma" mame="FORMAPAGAMAENTO" style="font-family: Arial;font-size: 11px;">
           <option>CARTÃO DE CRÉDITO</option>
           <option>DEPÓSITO/TRANSFERÊNCIA</option>
           <option>Á VISTA</option>
         </select>
       </label>
 
-
       <label class="label">
         <span class="legend">QUANTIDADE DE PARCELAS:</span>
-        <input class="input" style="font-family: Arial;font-size: 11px;" type="text" name="campo3" placeholder="" required/>
+        <input class="input j_qnt" style="font-family: Arial;font-size: 11px;" name="QNTPARCELAS" type="text" name="campo3" placeholder="" required/>
       </label>
 
       <label class="label">
         <span class="legend">OBSERVAÇÃO:</span>
-        <input class="input" style="font-family: Arial;font-size: 11px;" type="text" name="campo3" placeholder="" required/>
+        <input class="input j_obs" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder="" required/>
       </label>
 
-
       <label class="label">
-       <button onclick="salvarChamado();" name="titulo" class="btn btn_darkblue" style="font-size: 15px;"><span class="icon-floppy-disk"></span>&ensp;Salvar</button>
+        <span class="btn btn_blue icon-share fl_left" id="j_salva_chamado" onClick="salvarChamado();" callback="Home" callback_action="salvachamado">Cadastrar!</span>
      </label>
-
    </div>
  </form>
+</div>
+</div>
 
 </div>
-</div>
-<br>
-<div class="coluna" style="height: 50%;">
+<div class="coluna" style="height: 50%;margin-top: 3%;">
   <div class="box_content buttons_clientes" style="height: 15%;">
     <ul>
       <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span style="float: right;">Usuário Sistema: Cintia Mailard<p><b>Tipo Serviço: Remanejamento</b></p></span></a></li>
@@ -241,7 +349,6 @@ endif;
   </div>  
 </div>
 </div>
-
 
 <!-- mascara para cobrir o site -->  
 <div id="mascara"></div>

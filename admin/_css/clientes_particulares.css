@@ -28,15 +28,13 @@ li a{
   color: black;
 }
 .buttons_clientes{
-  border-radius: 5%;
   -webkit-transition: width 2s; /* Safari */
   box-shadow: 0 1px 3px rgba(0,0,0,.08);
   margin-bottom: 5px;
   height: 12%;
 }
 .buttons_clientes:hover{
-  border-radius: 5%;
-  box-shadow: 0 5px 20px rgba(0,0,0,.09);
+   box-shadow: 0 5px 20px rgba(0,0,0,.09);
 }
 .coluna{
   background-color: transparent;
@@ -46,7 +44,7 @@ li a{
 
 }
 .top-chamados{
-  height: 28%;
+  height: auto;
   box-shadow: 0 5px 10px rgba(0,0,0,.09);
 
 }

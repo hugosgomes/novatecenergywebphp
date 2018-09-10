@@ -67,7 +67,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 							        		"<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
 							        		"<span  style='color: #bdbdbd;'></span>".
 							        		"</div></a>".
-							        		"<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='teste();'>".
+							        		"<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'>".
                                             "<span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
 						        		"</div>";
         	endforeach;
@@ -83,7 +83,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -97,7 +97,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";                             
             endforeach;
         endif;
@@ -111,7 +111,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -126,7 +126,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -141,7 +141,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -156,7 +156,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='.chamados' rel='modal' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -241,7 +241,43 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if ($Read->getResult()):
                 $jSON['addTecnicos'] = null;//É necessário desclarar como numo por causa da fraca tipação
                 foreach ($Read->getResult() as $addTecnicos):
-                    $jSON['addTecnicos'] .= "<option id = '{$addTecnicos['ID']}'>{$addTecnicos['NOME COMPLETO']}</option>";
+                    $jSON['addTecnicos'] .= "<option value = '{$addTecnicos['ID']}'>{$addTecnicos['NOME COMPLETO']}</option>";
+                endforeach;
+            endif;
+        break;
+
+        case 'salvachamado':
+            var_dump($PostData);
+            //Preenchendo modal
+            $idCliente = $PostData['idcliente'];
+            $Read->FullRead("SELECT UPPER([80_ClientesParticulares].NOME) AS NOME, [80_ClientesParticulares].EMAIL, [80_ClientesParticulares].TELEFONE, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
+                [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID FROM [80_Orcamentos]
+                INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID WHERE [80_Orcamentos].ID = " . $idCliente,"");
+            if ($Read->getResult()):
+                $jSON['addClienteModal'] = null;//É necessário desclarar como numo por causa da fraca tipação
+                foreach ($Read->getResult() as $dadosModalCliente):
+                $jSON['addClienteModal'] = "<div class='dados_clientes'>
+                                             <h5>{$dadosModalCliente['NOME']}</h5>
+                                             <ul class='cl_dados'>
+                                               <li style='padding-bottom: 0px;' class='dados_endereco'>{$dadosModalCliente['EMAIL']}<span class='m_endereco'></span></li>
+                                               <li  style='padding-bottom: 0px;'>{$dadosModalCliente['ENDERECO']}</li>
+                                               <li  style='padding-bottom: 0px;'><a href='tel:021980564678' style='color: #004491'>{$dadosModalCliente['TELEFONE']}</a></li>
+                                               <br>
+                                               <hr>
+                                             </div>";     
+                endforeach;
+            endif;
+
+
+            //Preenchendo técnicos GNS
+            $Read->FullRead("SELECT Funcionários.ID,[NOME COMPLETO] FROM Funcionários
+                            WHERE Funcionários.SETOR = 5 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
+                            ORDER BY [NOME COMPLETO]","");
+            if ($Read->getResult()):
+                $jSON['addTecnicos'] = null;//É necessário desclarar como numo por causa da fraca tipação
+                foreach ($Read->getResult() as $addTecnicos):
+                    $jSON['addTecnicos'] .= "<option value = '{$addTecnicos['ID']}'>{$addTecnicos['NOME COMPLETO']}</option>";
                 endforeach;
             endif;
         break;
