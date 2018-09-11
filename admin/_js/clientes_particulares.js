@@ -207,12 +207,13 @@ $('html').on('click', '#wc_pdt_stoc', function () {
     return false;
 });
 
-<<<<<<< Updated upstream
+
 function mesAtual(){
   var data = new Date();
   var mes = data.getMonth();
   document.getElementById('mes').selectedIndex = mes;
-=======
+
+}
 //MUDANÇA DE MÊS
   function filtro_mes(el) {
 
@@ -227,5 +228,5 @@ function mesAtual(){
 
       document.getElementById(el).style.display = 'none';
   });
->>>>>>> Stashed changes
+
 }
