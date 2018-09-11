@@ -62,22 +62,23 @@ endif;
 <div class="box box42">
   <div class="box_content" style="margin: 0px;padding-top: 5px;padding-bottom: 10px;height: 4.6%;">
    <label class="label" style="margin-bottom: 0px;text-align: center;">
-      <button class="btn btn_darkblue" onclick="filtro_mes('mes')" style="padding-right: 10px;outline: none;margin-top: 3px;"><span class="icon-filter">Filtrar Mês</span></button>
-    <select id="mes" style="font-family: Arial;font-size: 11px;width: 30%;display: none;" callback="Home" callback_action="consulta"  class="target">
-      <option value="01" id="meses">JANEIRO</option>
-      <option value="02" id="meses">FEVEREIRO</option>
-      <option value="03" id="meses">MARÇO</option>
-      <option value="04" id="meses">ABRIL</option>
-      <option value="05" id="meses">MAIO</option>
-      <option value="06" id="meses">JUNHO</option>
-      <option value="07" id="meses">JULHO</option>
-      <option value="08" id="meses">AGOSTO</option>
-      <option value="09" id="meses">SETEMBRO</option>
-      <option value="10" id="meses">OUTUBRO</option>
-      <option value="11" id="meses">NOVEMBRO</option>
-      <option value="12" id="meses">DEZEMBRO</option>
-    </select>
-  </label>
+      <h5 class="title_view" style="float: left;padding-top: 10px;padding-left: 45%;">MÊS</h5>
+   <button class="btn btn_darkblue" onclick="filtro_mes('mes')" style="float: right;padding-right: 10px;outline: none;margin-top: 3px;"><span class="icon-filter">Filtrar Mês</span></button>
+   <select id="mes" style="font-family: Arial;font-size: 11px;width: 30%;display: none;" callback="Home" callback_action="consulta"  class="target">
+    <option value="01" id="meses">JANEIRO</option>
+    <option value="02" id="meses">FEVEREIRO</option>
+    <option value="03" id="meses">MARÇO</option>
+    <option value="04" id="meses">ABRIL</option>
+    <option value="05" id="meses">MAIO</option>
+    <option value="06" id="meses">JUNHO</option>
+    <option value="07" id="meses">JULHO</option>
+    <option value="08" id="meses">AGOSTO</option>
+    <option value="09" id="meses">SETEMBRO</option>
+    <option value="10" id="meses">OUTUBRO</option>
+    <option value="11" id="meses">NOVEMBRO</option>
+    <option value="12" id="meses">DEZEMBRO</option>
+  </select>
+</label>
 </div>
 </div>
 <div class="box box100">
@@ -229,7 +230,7 @@ endif;
 <div class="coluna" style="height: 50%;margin-top: 3%;">
   <div class="box_content buttons_clientes" style="height: 15%;">
     <ul id="j_historico">
-      
+
     </ul>
   </div>  
 </div>
@@ -239,9 +240,9 @@ endif;
 <div id="mascara"></div>
 </div>
 <script type="text/javascript">
- 
- 
- 
+
+
+
 </script>
 
 <link rel="stylesheet" href="/resources/demos/style.css">
