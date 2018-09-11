@@ -63,8 +63,8 @@ endif;
   <div class="box_content" style="margin: 0px;padding-top: 5px;padding-bottom: 10px;height: 4.6%;">
    <label class="label" style="margin-bottom: 0px;text-align: center;">
       <h5 class="title_view" style="float: left;padding-top: 10px;padding-left: 45%;">MÊS</h5>
-   <button class="btn btn_darkblue" onclick="filtro_mes('mes')" style="float: right;padding-right: 10px;outline: none;margin-top: 3px;"><span class="icon-filter">Filtrar Mês</span></button>
-   <select id="mes" style="font-family: Arial;font-size: 11px;width: 30%;display: none;" callback="Home" callback_action="consulta"  class="target">
+   <button class="btn btn_darkblue" onclick="filtro_mes('mes')" style="float: right;padding-right: 10px;outline: none;margin-top: 3px;"><span class="icon-filter">Filtrar por Mês</span></button>
+   <select id="mes" style="font-family: Arial;font-size: 11px;width: 20%;display: none;margin-top: 2px;" callback="Home" callback_action="consulta"  class="target">
     <option value="01" id="meses">JANEIRO</option>
     <option value="02" id="meses">FEVEREIRO</option>
     <option value="03" id="meses">MARÇO</option>
