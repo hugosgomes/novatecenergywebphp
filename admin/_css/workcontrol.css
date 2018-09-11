@@ -4070,6 +4070,6 @@ div.mce-fullscreen{z-index: 97;}
 .box14{width: 14.31%;}
 
 /* PANEL HEADER DARBLUE */
-.panel_header.darkblue{background: #0b4480 !important; border-top: 5px solid #052242 !important; border-bottom: 1px solid #052242 !important; color: #FFF;}
+.panel_header.darkblue{background: #0b4480 !important; border-top: 5px solid #052242 !important; border-bottom: 1px solid #052242 !important; color: #FFF; outline: none;}
 .panel_header.darkblue > h2{font-size: 0.875em; font-weight: 600; color: #FFF; padding-bottom: 5px;}
 .panel_header.darkblue > span{position: relative; right: 0; top: -10px;}

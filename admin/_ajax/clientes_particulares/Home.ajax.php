@@ -198,7 +198,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         if ($consulta_inicial == 0) {
             //PREENCHER COMBO DE ENREDEÇO
-            $jSON['addComboEndereco'] = "<option value='t' class='j_option_endereco'>>> TODOS <<</option>";
+            $jSON['addComboEndereco'] = "<option value='t' class='j_option_endereco'>>> BUSCAR ENDEREÇO  <<</option>";
             $Read->FullRead("SELECT [80_Enderecos].ID, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
                             [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO FROM [80_Enderecos]
                             INNER JOIN [80_ClientesParticulares] ON [80_Enderecos].IDCLIENTE = [80_ClientesParticulares].ID
@@ -209,7 +209,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
 
             //PREENCHER COMBO DE ENREDEÇO
-            $jSON['addComboCliente'] = "<option value='t' class='j_option_cliente'>>> TODOS <<</option>";
+            $jSON['addComboCliente'] = "<option value='t' class='j_option_cliente'>>> BUSCAR CLIENTE <<</option>";
             $Read->FullRead("SELECT ID,NOME FROM [80_ClientesParticulares] WHERE TIPO = 2","");
             foreach ($Read->getResult() as $clientes):
                 $jSON['trigger'] = true;

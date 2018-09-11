@@ -207,8 +207,25 @@ $('html').on('click', '#wc_pdt_stoc', function () {
     return false;
 });
 
+<<<<<<< Updated upstream
 function mesAtual(){
   var data = new Date();
   var mes = data.getMonth();
   document.getElementById('mes').selectedIndex = mes;
+=======
+//MUDANÇA DE MÊS
+  function filtro_mes(el) {
+
+    var display = document.getElementById(el).style.display;
+
+    if(display == "none")
+      document.getElementById(el).style.display = 'inline-block';
+  else
+      document.getElementById(el).style.display = 'none';
+
+  $( ".target" ).change(function() {
+
+      document.getElementById(el).style.display = 'none';
+  });
+>>>>>>> Stashed changes
 }

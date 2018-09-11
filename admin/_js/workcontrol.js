@@ -4,7 +4,7 @@
  * Author     : UpInside Treinamentos
  */
 
-$(function () {
+ $(function () {
     //MOBILE MENU CONTROL
     $('.mobile_menu').click(function () {
         if ($('.dashboard_nav, .dashboard_nav_normalize').css('left') !== '-220px') {
@@ -179,7 +179,7 @@ $(function () {
     });
 
     $('html').on('click', '.j_wc_action', function () {
-        
+
         $(this).stop();
         
         var form = $(this);
@@ -334,13 +334,13 @@ $(function () {
                 }
             }, 500);
         }, 'json');
-        
-        return false;
-    });
+
+return false;
+});
 
     //Coloca todos os formulários em AJAX mode e inicia LOAD ao submeter!
     $('html').on('submit', 'form:not(.ajax_off)', function () {
-        
+
         var form = $(this);
         var callback = form.find('input[name="callback"]').val();
         var callback_action = form.find('input[name="callback_action"]').val();
@@ -521,10 +521,10 @@ $(function () {
                         }
                     }, 500);
                 });
-            }
-        });
-        return false;
-    });
+}
+});
+return false;
+});
 
     //WC COMBO BOX
     $('.jwc_combo').change(function () {
@@ -1336,7 +1336,7 @@ function wcUrlParam(name) {
             var S = $(this).attr('semana');
 
             $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
-            
+
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
                     Trigger(data.trigger);
@@ -1367,7 +1367,7 @@ function wcUrlParam(name) {
         var Tecnico = $("#Tecnico option:selected").val();
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
-            
+
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);
@@ -1405,7 +1405,7 @@ function wcUrlParam(name) {
         var Tecnico = $("#Tecnico option:selected").val();
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
-            
+
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);
@@ -1439,7 +1439,7 @@ function wcUrlParam(name) {
         var Callback_action = $(this).attr('callback_action');
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId}, function (data) {
-            
+
             //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
             if (data.addOT) {
                 $('.j_ot').remove();
@@ -1464,7 +1464,7 @@ function wcUrlParam(name) {
         var Callback_action = $(this).attr('callback_action');
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOT: OTId, IDCLIENTE:CliId}, function (data) {
-            
+
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);                
@@ -1483,15 +1483,15 @@ function wcUrlParam(name) {
 
 
   //CONSULTA NO BANCO SE O CLIENTE JÁ EXISTE
-    $(function(){
-        $('.j_consulta_cliente').change(function(){
-            var CpfCnpj = $(this).val();
-            var Callback = $(this).attr('callback');
-            var Callback_action = $(this).attr('callback_action');
+  $(function(){
+    $('.j_consulta_cliente').change(function(){
+        var CpfCnpj = $(this).val();
+        var Callback = $(this).attr('callback');
+        var Callback_action = $(this).attr('callback_action');
 
 
-            $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, CPFCNPJ: CpfCnpj}, function (data) {
-            
+        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, CPFCNPJ: CpfCnpj}, function (data) {
+
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
                     Trigger(data.trigger);
@@ -1515,5 +1515,30 @@ function wcUrlParam(name) {
                 }            
             }, 'json');
 
-        });
     });
+});
+// ALETERNAR TELA
+function toggleFullScreen() {
+
+   if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+     (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+
+    var icone_screen = document.getElementById("screen").innerHTML = "<span class='icon-shrink'>Minimizar</span>";
+if (document.documentElement.requestFullScreen) {  
+  document.documentElement.requestFullScreen();  
+} else if (document.documentElement.mozRequestFullScreen) {  
+  document.documentElement.mozRequestFullScreen();  
+} else if (document.documentElement.webkitRequestFullScreen) {  
+  document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+}  
+} else {  
+  var icone_screen = document.getElementById("screen").innerHTML = "<span class=' icon-enlarge'>Maximizar</span>";
+  if (document.cancelFullScreen) {  
+      document.cancelFullScreen();  
+  } else if (document.mozCancelFullScreen) {  
+      document.mozCancelFullScreen();  
+  } else if (document.webkitCancelFullScreen) {  
+      document.webkitCancelFullScreen();  
+  }  
+}  
+} 

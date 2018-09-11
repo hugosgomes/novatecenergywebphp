@@ -208,7 +208,8 @@ endif;
                     <span class="mobile_menu btn btn_darkblue icon-menu icon-notext"></span>
                     <div class="fl_right">
                         <span class="dashboard_sidebar_welcome m_right"><?= "Olá ". strstr($NOME['NOME COMPLETO'], ' ', true). ", hoje ".date('d/m/y'); ?></span>
-                        <a class="icon-exit btn btn_darkblue" title="Desconectar do <?= ADMIN_NAME; ?>!" href="dashboard.php?wc=home&logoff=true">Sair</a>
+                        <a class="icon-exit btn btn_darkblue" title="Desconectar do <?= ADMIN_NAME; ?>!" href="dashboard.php?wc=home&logoff=true">Sair</a>&ensp;
+                        <button class="btn btn_darkblue" onclick="toggleFullScreen()" id="screen" style="outline: none;"><span class="icon-enlarge">Maximizar</span></button>
                     </div>
                 </div>
 
