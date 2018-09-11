@@ -130,7 +130,7 @@ textarea, input, select{
             </div>
             <hr style="border-top: 2px solid #1a4a7b;">   <!-- SEPERAÇÃO DE LINHAS -->
             <br>
-            <div class="label_50">
+            <div class="label_100">
                 <label class="label">
                     <span class="legend">Tipo:</span>
                     <!-- <input class="wc_value" style="font-size: 1.4em;" type="text" name="TIPO" placeholder="Tipo de Serviço" required/>-->
@@ -142,11 +142,6 @@ textarea, input, select{
                             <option value="<?php echo $key?>"><?php echo $value;?></option>
                         <?php } ?>
                     </select>
-                </label>
-                <label class="label">
-                    <span class="legend">Data:</span>
-                    <!--<input class="wc_value" style="font-size: 1.4em;" type="text" name="DATASOLICITACAO" placeholder="Data Solicitação" required/>-->
-                    <input style="font-size: 1.0em;" class="jwc_datepicker wc_value" readonly="readonly" type="text" name="DATASOLICITACAO" placeholder="Data Solicitação" />
                 </label>
                 <div class="clear"></div>
             </div>

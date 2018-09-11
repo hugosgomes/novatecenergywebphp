@@ -94,7 +94,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
                       
             //CRIA ARRAY DE ORÇAMENTO
-            $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "DATASOLICITACAO"=>date('Y-m-d H:i:s'),"OBS"=>$PostData["OBS"]);
+            $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"]);
             $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
 
             $jSON['inpuval'] = "null"; 

@@ -66,15 +66,15 @@ endif;
    <label class="label" style="margin-bottom: 0px;text-align: center;">
     <span><b>MÊS:</b></span>
     <select id="mes" style="font-family: Arial;font-size: 11px;width: 30%;" callback="Home" callback_action="consulta">
-      <option value="1">JANEIRO</option>
-      <option value="2">FEVEREIRO</option>
-      <option value="3">MARÇO</option>
-      <option value="4">ABRIL</option>
-      <option value="5">MAIO</option>
-      <option value="6">JUNHO</option>
-      <option value="7">JULHO</option>
-      <option value="8">AGOSTO</option>
-      <option value="9">SETEMBRO</option>
+      <option value="01">JANEIRO</option>
+      <option value="02">FEVEREIRO</option>
+      <option value="03">MARÇO</option>
+      <option value="04">ABRIL</option>
+      <option value="05">MAIO</option>
+      <option value="06">JUNHO</option>
+      <option value="07">JULHO</option>
+      <option value="08">AGOSTO</option>
+      <option value="09">SETEMBRO</option>
       <option value="10">OUTUBRO</option>
       <option value="11">NOVEMBRO</option>
       <option value="12">DEZEMBRO</option>
@@ -238,8 +238,7 @@ endif;
 <div class="coluna" style="height: 50%;margin-top: 3%;">
   <div class="box_content buttons_clientes" style="height: 15%;">
     <ul id="j_historico">
-      <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span style="float: right;">Usuário Sistema: Cintia Mailard<p><b>Tipo Serviço: Remanejamento</b></p></span></a></li>
-      <li style="padding-bottom: 0px;"><a class="link" rel="modal"><span class='icon-history'></span><span><b>AGENDAMENTO REALIZADO</b><p>Data: 30/08/2018</p></span></a></li>
+      
     </ul>
   </div>  
 </div>

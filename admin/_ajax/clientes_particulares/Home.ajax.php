@@ -221,11 +221,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         case 'consulta_modal':
             //Preenchendo modal
-            $idCliente = $PostData['idcliente'];
+            $idOrcamento = $PostData['idOrcamento'];
             $Read->FullRead("SELECT UPPER([80_ClientesParticulares].NOME) AS NOME, [80_ClientesParticulares].EMAIL, [80_ClientesParticulares].TELEFONE, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
                 [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID FROM [80_Orcamentos]
                 INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID WHERE [80_Orcamentos].ID = " . $idCliente,"");
+                INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID WHERE [80_Orcamentos].ID = " . $idOrcamento,"");
             if ($Read->getResult()):
                 $jSON['addClienteModal'] = null;//É necessário desclarar como numo por causa da fraca tipação
                 foreach ($Read->getResult() as $dadosModalCliente):
@@ -244,7 +244,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             //Preenchendo técnicos GNS
             $Read->FullRead("SELECT Funcionários.ID,[NOME COMPLETO] FROM Funcionários
-                            WHERE Funcionários.SETOR = 5 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
+                            WHERE Funcionários.GNSMOBILE = 1 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
                             ORDER BY [NOME COMPLETO]","");
             if ($Read->getResult()):
                 $jSON['addTecnicos'] = null;//É necessário desclarar como numo por causa da fraca tipação
@@ -253,25 +253,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endforeach;
             endif;
 
-
-            //Preenchendo histórico de chamados
-            $Read->FullRead("SELECT [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   [80_Chamados].TIPO_SERVICO FROM [80_Orcamentos]
-                            INNER JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO
-                            INNER JOIN Funcionários ON [80_Chamados].USUARIO_SISTEMA = Funcionários.ID
-                            WHERE [80_Orcamentos].ID = " . $idCliente,"");
-            if ($Read->getResult()):
-                $jSON['addHistorico'] = null;//É necessário desclarar como numo por causa da fraca tipação
-                foreach ($Read->getResult() as $addHistorico):
-                    $tipoServico = getFormaPagamento()[$addHistorico['TIPO_SERVICO']];
-                    $jSON['addHistorico'] .= "<li style='padding-bottom: 0px;''><a class='link' rel='modal'><span style='float: right;''>Usuário Sistema: {$addHistorico['NOME COMPLETO']}<p><b>Tipo Serviço: {$tipoServico}</b></p></span></a></li><li style='padding-bottom: 0px;''><a class='link' rel='modal'><span class='icon-history'></span><span><b>{$addHistorico['OBS']}</b><p>Data: {$addHistorico['DATA']}</p></span></a></br></li>";
-                endforeach;
-            endif;
+            $jSON['addHistorico'] = preencherHistorico($PostData);
 
         break;
 
         case 'salvachamado':
             //Salvando chamado
-            $chamado = array('IDORCAMENTO' => $PostData["id"],
+            $chamado = array('IDORCAMENTO' => $PostData["idOrcamento"],
                 'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
                 'DATAAGENDADA' => $PostData["DATAAGENDAMENTO"],
                 'OBS' => $PostData["OBS"],
@@ -286,10 +274,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     'STATUS' => $PostData["STATUS"],
                     'FORMAPAGAMENTO' => $PostData["FORMAPAGAMENTO"]
                 );
-                $Update->ExeUpdate('[80_Orcamentos]', $orcamento, "WHERE ID = :ID", "ID={$PostData['id']}");
+                $Update->ExeUpdate('[80_Orcamentos]', $orcamento, "WHERE ID = :ID", "ID={$PostData['idOrcamento']}");
                 if ($Update->getResult()) {
                     $jSON['inpuval']='null';
                     $jSON['trigger'] = AjaxErro('Cadastro realizado');
+                    $jSON['addHistorico'] = preencherHistorico($PostData);
                 }else{
                     $jSON['trigger'] = AjaxErro('Erro ao cadastrar!');
                 }
@@ -310,4 +299,28 @@ else:
     //ACESSO DIRETO
     die('<br><br><br><center><h1>Acesso Restrito!</h1></center>');
 endif;
- ?>
+
+
+function preencherHistorico($PostData){
+    //Preenchendo histórico de chamados
+    $Read = new Read;
+    $idCliente = $PostData['idOrcamento'];
+    $historico = "";
+    $Read->FullRead("SELECT [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   [80_Chamados].TIPO_SERVICO FROM [80_Orcamentos]
+                    INNER JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO
+                    INNER JOIN Funcionários ON [80_Chamados].USUARIO_SISTEMA = Funcionários.ID
+                    WHERE [80_Orcamentos].ID = " . $idCliente,"");
+    if ($Read->getResult()):
+        $jSON['addHistorico'] = null;//É necessário desclarar como numo por causa da fraca tipação
+        foreach ($Read->getResult() as $addHistorico):
+            $tipoServico = getStatusOrcamento()[$addHistorico['TIPO_SERVICO']];
+            $historico .= "<li style='padding-bottom: 0px;''><a class='link' rel='modal'><span style='float: right;''>Usuário Sistema: {$addHistorico['NOME COMPLETO']}<p><b>Tipo Serviço: {$tipoServico}</b></p></span></a></li><li style='padding-bottom: 0px;''><a class='link' rel='modal'><span class='icon-history'></span><span><b>{$tipoServico}</b><p>Data: {$addHistorico['DATA']}</p></span></a></br></li>";
+        endforeach;
+    endif;
+
+    return $historico;
+}
+
+
+
+?>

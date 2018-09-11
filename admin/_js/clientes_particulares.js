@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+ mesAtual();
   mostraDados('Home','consulta',0);
 });
 
@@ -40,7 +41,11 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
             Trigger(data.trigger);            
-        }       
+        }   
+
+        if(data.teste){
+            console.log(data.teste);            
+        }     
 
         if(data.addcoluna1){
             $('.j_coluna_1 .clientes_sem_contato').remove();
@@ -119,7 +124,7 @@ function abreModal(element){
   var Callback = element.getAttribute('callback');
   var Callback_action = element.getAttribute('callback_action');
   var id = element.getAttribute('id');
-  $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idcliente: id}, function (data) {  
+  $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idOrcamento: id}, function (data) {  
 
   if(data.addClienteModal){
     $('.dados_clientes').remove();
@@ -134,7 +139,9 @@ function abreModal(element){
   if(data.addHistorico){
     $('#j_historico li').remove();
     $(data.addHistorico).appendTo('#j_historico');
-  } 
+  }else{
+    $('#j_historico li').remove();
+  }
 
   }, 'json');
 }
@@ -153,7 +160,7 @@ $('html').on('click', '#wc_pdt_stoc', function () {
 
     form.ajaxSubmit({            
         url: '_ajax/clientes_particulares/' + callback + '.ajax.php',
-        data: {id:id},
+        data: {idOrcamento:id},
         dataType: 'json',
         beforeSubmit: function () {
             $('.workcontrol_pdt_size').fadeIn('fast');
@@ -187,8 +194,21 @@ $('html').on('click', '#wc_pdt_stoc', function () {
                 }
             }
 
-            mostraDados('Home','consulta',0);                
+            mostraDados('Home','consulta',0);
+
+            if(data.addHistorico){
+              $('#j_historico li').remove();
+              $(data.addHistorico).appendTo('#j_historico');
+            }else{
+              $('#j_historico li').remove();
+            }             
         }
     });
     return false;
 });
+
+function mesAtual(){
+  var data = new Date();
+  var mes = data.getMonth();
+  document.getElementById('mes').selectedIndex = mes;
+}
