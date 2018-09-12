@@ -211,7 +211,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             //PREENCHER COMBO DE ENREDEÇO
             $jSON['addComboCliente'] = "<option value='t' class='j_option_cliente'>>> TODOS <<</option>";
-            $Read->FullRead("SELECT ID,NOME FROM [80_ClientesParticulares] WHERE TIPO = 2","");
+            $Read->FullRead("SELECT ID,NOME FROM [80_ClientesParticulares] WHERE TIPO = 1","");
             foreach ($Read->getResult() as $clientes):
                 $jSON['trigger'] = true;
                 $jSON['addComboCliente'] .= "<option value='{$clientes['ID']}' class='j_option_cliente'>{$clientes['NOME']}</option>";
