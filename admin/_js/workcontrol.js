@@ -1512,6 +1512,8 @@ function wcUrlParam(name) {
                 if (data.enderecoCLiente) {
                     $('.enderecos').remove();
                     $(data.enderecoCLiente).appendTo('.j_endereco_cliente');
+                }else {
+                     $('.enderecos').remove();
                 }            
             }, 'json');
 

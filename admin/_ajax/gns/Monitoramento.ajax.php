@@ -161,24 +161,55 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $orcamentoTotal = $orcamentoAprov + $orcamentoExec + $orcamentoReprov;
                     
                     $jSON['trigger'] = true;
-                    $jSON['addlist'] = "<ul id='dataList'>
-                                          <li>Cliente(s) Associado(s): {$associados} </li>
-                                          <li>Cliente(s) Atendido(s): {$atendidos} </li>
-                                          <li>Cliente(s) Cancelado(s): {$cancelados} </li>
-                                          <li>Cliente(s) Ausente(s): {$ausentes} </li>
-                                          <li>Cliente(s) Reagendado(s) NVT: {$reagendadosNVT} </li>
-                                          <li>Cliente(s) Reagendado(s) GNS: {$reagendadosGNS} </li>
-                                          <li>Cliente(s) Sem Atender: {$semAtender} </li>
-                                        </ul>";
-                    $jSON['addOrcamentolist'] = "<div id='orcamento-list'>
-                                                    <h1>Orçamentos:</h1>
-                                                    <ul>
-                                                        <li>Aprovados: {$orcamentoAprov} </li>
-                                                        <li>Executados: {$orcamentoExec} </li>
-                                                        <li>Reprovados: {$orcamentoReprov} </li>
-                                                        <li><b>Total: {$orcamentoTotal} </b></li>
-                                                    </ul>
-                                                </div>";
+                    $jSON['addlist'] = "<table id='dataList' class='cell-border compact stripe table' style='width: 50%;font-size: 15px;'>
+                    <tr>
+                    <td>Associado(s):</td>
+                    <td>{$associados}</td>
+                    </tr>
+                    <tr>
+                    <td>Atendido(s):</td>
+                    <td>{$atendidos}</td>
+                    </tr>
+                    <tr>
+                    <td>Cancelado(s):</td>
+                    <td>{$cancelados}</td>
+                    </tr>
+                    <tr>
+                    <td>Ausente(s):</td>
+                    <td>{$ausentes}</td>
+                    </tr>
+                    <tr>
+                    <td>Reagend.(s) NVT:</td>
+                    <td>{$reagendadosNVT}</td>
+                    </tr>
+                    <tr>
+                    <td>Reagend.(s) GNS:</td>
+                    <td>{$reagendadosGNS}</td>
+                    </tr>
+                    <tr>
+                    <td>Sem Atender:</td>
+                    <td>{$semAtender}</td>
+                    </tr>
+                    </table>";
+
+                    $jSON['addOrcamentolist'] = "<table id='orcamento-list' class='cell-border compact stripe table' style='width: 40%;font-size: 15px;'>
+                    <tr>
+                    <td>Aprovado(s):</td>
+                    <td>{$orcamentoAprov}</td>
+                    </tr>
+                    <tr>
+                    <td>Executado(s):</td>
+                    <td>{$orcamentoExec}</td>
+                    </tr>
+                    <tr>
+                    <td>Reprovado(s):</td>
+                    <td>{$orcamentoReprov}</td>
+                    </tr>
+                    <tr>
+                    <td><b>Total:</b></td>
+                    <td>{$orcamentoTotal}</td>
+                    </tr>
+                    </table>";
                 endif;
             break;
     endswitch;

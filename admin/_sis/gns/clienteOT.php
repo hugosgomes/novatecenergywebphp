@@ -25,15 +25,15 @@ $ID = 0;
     </p>
 </div>
 </header>
-
 <div class="dashboard_content custom_app">
-    <article class="box box100">
+    <div id="cad_clientes_semOTOS" class="modal" style="height: auto;">
+   <article class="box box100">
         <header>
           <h3 style="text-align: center;">Cadastro de Clientes sem OT/OS</h3>
       </header>
       <div class="box_content">
         <article class='box box100'>
-            <label class="label_50">
+            <label class="label_100">
                 <label class="label">
                     <span class="legend">Cliente:</span>
                     <select style="font-size: 1.2em;" id="cliente" name="IDCLIENTE">
@@ -65,7 +65,11 @@ $ID = 0;
         </article>
     </div>
 </article>
+</div>
 <article class="box box100">
+    <div class="box box50">
+        <a class="btn btn_darkblue" href="#cad_clientes_semOTOS" rel="modal:open"><i class="icon-share"></i> Cadastrar</a>
+    </div>
     <header>
       <h3 style="text-align: center;">Relação de Clientes sem OT/OS</h3>
   </header>
@@ -74,7 +78,7 @@ $ID = 0;
         <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
         <article class="box box50">
             <div class="j_cliente_semOT">
-                 <table class='table' style="width: 100%;">
+               <table class='table' style="width: 100%;">
                 <?php
                 $Read->FullRead("SELECT ID, IDCLIENTE, DATAAGENDAMENTO FROM [60_ClientesSemOT]
                     WHERE [IDOT] IS NULL ORDER BY [DATAAGENDAMENTO] ASC"," ");
@@ -91,20 +95,20 @@ $ID = 0;
                         <td><span class='j_pesquisa_ot icon-search btn btn_darkblue' rel='{$IDCLIENTE}' callback='ClientesOT' callback_action='consulta'>&ensp;Consultar OT/OS</span></td>
                         </tr>";
 
-                      
+
                     endforeach;
                 endif;
                 ?>
-                 </table>
+            </table>
 
-            </div>
-        </article>
-        <!--LOCAL ONDE É APRESENTADO AS SUGESTÕES DE OT PARA VINCULAR-->
-        <article class="box box_50">
-            <div class="ot"></div>
-        </article>
-    </div>
+        </div>
+    </article>
+    <!--LOCAL ONDE É APRESENTADO AS SUGESTÕES DE OT PARA VINCULAR-->
+    <article class="box box_50">
+        <table class="ot" style="font-size: 0.9em;">           
+        </table>
+    </article>
+</div>
 </article>
 </div>
-
 <script src="_js/gns.js"></script>

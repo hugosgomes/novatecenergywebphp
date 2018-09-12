@@ -72,7 +72,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     foreach ($Read->getResult() as $OT):
                         extract($OT);
                         $jSON['trigger'] = true;
-                        $jSON['addOT'] = "<span class='j_ot' id='{$Id}'><p>{$NumOT}</p><span callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$PostData['cli_id']}' id='{$Id}'>&ensp;Atribuir OT/OS</span><span>";
+                        $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td style='width: 80%;'>{$NumOT}</td><td callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$PostData['cli_id']}' id='{$Id}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
                     endforeach;              
                 else:
                     $jSON['trigger'] = AjaxErro("Sem OT para vincular!");   

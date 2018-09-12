@@ -30,7 +30,7 @@ textarea, input, select{
         &raquo;</span>
         <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
         <span class="crumb">/</span>
-        <a title="Novatec Energy" href="dashboard.php?wc=clientes/particulares">Clientes Particulares</a>
+        <a title="Novatec Energy" href="dashboard.php?wc=clientes/cadastro">Clientes Particulares</a>
         <span class="crumb">/</span>
         <a title="Novatec Energy" href="dashboard.php?wc=clientes/cadastro">Cadastro</a>
     </div>
@@ -164,16 +164,21 @@ textarea, input, select{
 
     <article class="box box30">
         <header>
-          <h3>Dados do Cliente</h3>
-        </header> 
-        <div class="box_content">
-            <div class="j_dados_cliente"></div>
-            <div class="j_endereco_cliente"></div>
+          <h3 style="text-align: center;">Dados do Cliente</h3>
+      </header> 
+      <div class="box_content">
+        <div class="j_dados_cliente"></div>        
+        <table>
+            <div class="j_endereco_cliente">  
+            </div>
+        </table>
+           <!-- <div class="j_dados_cliente"></div>
+            <div class="j_endereco_cliente"></div>-->
         </div>
     </article>
 </div>
-        <div class="box box25"></div>
-    </form>
+<div class="box box25"></div>
+</form>
 </div>
 </article>
 </div>

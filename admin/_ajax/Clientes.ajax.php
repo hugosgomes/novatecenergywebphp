@@ -118,14 +118,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $IdCliente = $Read->getResult()[0]['ID'];
                         $jSON['trigger'] = true;
                         $jSON['cliente'] = $Read->getResult()[0];
-                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p>{$Read->getResult()[0]['TELEFONE']}</p><p>{$Read->getResult()[0]['EMAIL']}</p></article>";
+                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p><b>E-mail: </b>{$Read->getResult()[0]['EMAIL']}<br><b>Telefone: </b>{$Read->getResult()[0]['TELEFONE']}</p></article>";
                         $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE IDCLIENTE = :id","id={$IdCliente}");
                         if($Read->getResult()):
                             $jSON['enderecoCLiente'] = null;
                             foreach ($Read->getResult() as $ENDERECO):
                                 extract($ENDERECO);                       
 
-                                $jSON['enderecoCLiente'] .= "<article class='enderecos'><p>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</p></article>";
+                                $jSON['enderecoCLiente'] .= "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span></td></tr>";
                             endforeach;
                         endif;
                     else:
@@ -146,14 +146,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $IdCliente = $Read->getResult()[0]['ID'];
                         $jSON['trigger'] = true;
                         $jSON['cliente'] = $Read->getResult()[0];
-                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p>{$Read->getResult()[0]['TELEFONE']}</p><p>{$Read->getResult()[0]['EMAIL']}</p></article>";
+                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p><b>E-mail: </b>{$Read->getResult()[0]['EMAIL']}<br><b>Telefone: </b>{$Read->getResult()[0]['TELEFONE']}</p></article>";
                         $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE IDCLIENTE = :id","id={$IdCliente}");
                         if($Read->getResult()):
                             $jSON['enderecoCLiente'] = null;
                             foreach ($Read->getResult() as $ENDERECO):
                                 extract($ENDERECO);                       
 
-                                $jSON['enderecoCLiente'] .= "<article class='enderecos'><p>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</p></article>";
+                                $jSON['enderecoCLiente'] .= "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span></td></tr>";
                             endforeach;
                         endif;
                     else:

@@ -12,10 +12,6 @@ endif;
 $Day = filter_input(INPUT_GET, 'day', FILTER_VALIDATE_INT);
 $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 ?>
-<div id="formatted-address0"></div>
-<div id="formatted-address1"></div>
-<div id="formatted-address2"></div>
-
 <header class="dashboard_header">
   <div class="dashboard_header_title">
     <h1 class="icon-hammer">GNS</h1>
@@ -33,120 +29,121 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
   <!--BOTÕES SUPERIORES-->
   <article class="box box100">   
     <div class="box_content">
-      <div class="box box40">
-        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/osEndereco" class="btn btn_darkblue flt_left icon-plus">OS sem Endereço</a>
-      </div>
-      <div class="box box40">
-        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/relatorioDiario" class="btn btn_darkblue flt_left icon-plus">Relatório Exp. Diário</a>
-      </div>
-      <div class="box box40">
-        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_left icon-plus">Clientes Sem OT / OS</a>
-      </div>
-    </article>
+    <!-- <div class="box box40">
+      <a title="OS Sem Endereço" href="dashboard.php?wc=gns/osEndereco" class="btn btn_darkblue flt_left icon-plus">OS sem Endereço</a>
+    </div> -->
+    <div class="box box40">
+      <a title="OS Sem Endereço" href="dashboard.php?wc=gns/relatorioDiario" class="btn btn_darkblue flt_left icon-plus">Relatório Exp. Diário</a>
+    </div>
+    <div class="box box40">
+      <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_left icon-plus">Clientes Sem OT / OS</a>
+    </div>
+  </div>
+</article>
 
-    <article class="box box100">    
-      <article class="box box50">
-        <header>
-          <?php
-          $Data = new DateTime();
-          $Hoje = $Data->format('Ymd');
-          $Amanha = $Data->modify('+1 day');
-          $Amanha = $Amanha->format('Ymd');
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}' class='btn btn_green'>Agendamentos HOJE</a></div>";
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Amanha}' class='btn btn_yellow'>Agendamentos AMANHÃ</a></div>";
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos da SEMANA</a></div>";
-          ?>
-        </header>
-        <div class="box_content">
+<article class="box box100">    
+  <article class="box box50">
+    <header>
+      <?php
+      $Data = new DateTime();
+      $Hoje = $Data->format('Ymd');
+      $Amanha = $Data->modify('+1 day');
+      $Amanha = $Amanha->format('Ymd');
+      echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}' class='btn btn_green'>Agendamentos HOJE</a></div>";
+      echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Amanha}' class='btn btn_yellow'>Agendamentos AMANHÃ</a></div>";
+      echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos da SEMANA</a></div>";
+      ?>
+    </header>
+    <div class="box_content">
 
-          <!--SELECT DO TÉCNICO-->
-          <article class='box box50'>
-            <label class="label">
-              <span class="legend"><b>Técnico:</b></span>
+      <!--SELECT DO TÉCNICO-->
+      <article class='box box50'>
+        <label class="label">
+          <span class="legend"><b>Técnico:</b></span>
 
-              <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>">
-                <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>
-                <?php
-                $Setor = 2;
-                $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
-                  FROM [Funcionários] AS [p]
-                  WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = :setor
-                  ORDER BY [p].[NOME COMPLETO]","setor={$Setor}");
+          <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>">
+            <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>
+            <?php
+            $Setor = 2;
+            $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
+              FROM [Funcionários] AS [p]
+              WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = :setor
+              ORDER BY [p].[NOME COMPLETO]","setor={$Setor}");
 
-                if ($Read->getResult()):
+            if ($Read->getResult()):
 
-                  foreach ($Read->getResult() as $FUNC):
+              foreach ($Read->getResult() as $FUNC):
 
-                    echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME COMPLETO']}</option>";
-                  endforeach;
-                endif;
-                ?>
-              </select>
-            </label>
-          </article>
-
-          <?php
-          if($Semana == '1'):
-            $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
-              NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO,
-              [60_OS].Tecnico, [60_OS].turno as TURNO,
-              [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-              inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-              inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID
-              WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())"," ");
-          else:
-            $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].Tecnico, [60_OS].turno as TURNO,
-              [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-              inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-              inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :data","data={$Day}");
-          endif;
-
-          ?>
-          <?php 
-
-          $NomeCliente = $FUNC['NOME COMPLETO'] ;
-          
-          ?>
-          <article class='box box100'>
-            <div class="table-responsive">
-              <table id="dataTable"class="cell-border compact stripe table">
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>OS</th>
-                    <th>Nome OS</th>
-                    <th>Endereço</th>
-                    <th>Data</th>
-                    <th>Técnico</th>
-                    <th>Período</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>  
-                </tbody>
-              </table>
-            </div>
-          </article>
-        </div>
+                echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME COMPLETO']}</option>";
+              endforeach;
+            endif;
+            ?>
+          </select>
+        </label>
       </article>
-      <article class="box box50">
-        <header>
-          <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $Hoje; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
-          <?php
-          echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
-          ?>           
-        </header>
-        <div class="box_content">
-          <div id="map"></div>
+
+      <?php
+      if($Semana == '1'):
+        $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
+          NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO,
+          [60_OS].Tecnico, [60_OS].turno as TURNO,
+          [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
+          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+          inner join [60_OS] on [60_OT].Id = [60_OS].OT
+          inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
+          inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID
+          WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())"," ");
+      else:
+        $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].Tecnico, [60_OS].turno as TURNO,
+          [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
+          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+          inner join [60_OS] on [60_OT].Id = [60_OS].OT
+          inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
+          inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :data","data={$Day}");
+      endif;
+
+      ?>
+      <?php 
+
+      $NomeCliente = $FUNC['NOME COMPLETO'] ;
+
+      ?>
+      <article class='box box100'>
+        <div class="table-responsive">
+          <table id="dataTable"class="cell-border compact stripe table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>OS</th>
+                <th>Nome OS</th>
+                <th>Endereço</th>
+                <th>Data</th>
+                <th>Técnico</th>
+                <th>Período</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>  
+            </tbody>
+          </table>
         </div>
       </article>
     </div>
   </article>
+  <article class="box box50">
+    <header>
+      <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $Hoje; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
+      <?php
+      echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
+      ?>           
+    </header>
+    <div class="box_content">
+      <div id="map"></div>
+    </div>
+  </article>
+</div>
+</article>
 </div>
 
 <!--Inicia o data table-->
