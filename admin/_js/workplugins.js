@@ -204,3 +204,22 @@ function wc_tinyMCE_basic() {
         paste_as_text: true
     });      
 }
+
+function SomenteNumeroVirgula( obj , e )
+{
+    var tecla = ( window.event ) ? e.keyCode : e.which;
+    if ( tecla == 8 || tecla == 0 )
+        return true;
+    if ( tecla != 44 && tecla < 48 || tecla > 57 )﻿
+        return false;﻿
+}
+
+
+function SomenteNumero( obj , e )
+{
+    var tecla = ( window.event ) ? e.keyCode : e.which;
+    if ( tecla == 8 || tecla == 0 )
+        return true;
+    if ( tecla < 48 || tecla > 57 )﻿
+        return false;﻿
+}

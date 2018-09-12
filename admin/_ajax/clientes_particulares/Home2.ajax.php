@@ -13,7 +13,7 @@ usleep(50000);
 
 //DEFINE O CALLBACK E RECUPERA O POST
 $jSON = null;
-$CallBack = 'Home';
+$CallBack = 'Home2';
 $PostData = filter_input_array(INPUT_POST, FILTER_DEFAULT);//Criar um array com tudo o que foi passado no post.
 
 //VALIDA AÇÃO
@@ -65,23 +65,23 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
                         INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID ";       
 
-        $Read->FullRead($queryColunas . " WHERE [80_Orcamentos].STATUS = 0 AND [80_ClientesParticulares].TIPO = 2 " . $criterioEndereco . $ctiterioCliente .
+        $Read->FullRead($queryColunas . " WHERE [80_Orcamentos].STATUS = 0 AND [80_ClientesParticulares].TIPO = 1 " . $criterioEndereco . $ctiterioCliente .
                         " ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
-        	$jSON['addcoluna1'] = null;//É necessário desclarar como numo por causa da fraca tipação
-        	foreach ($Read->getResult() as $enderecos):
-        		$jSON['trigger'] = true;
-        		$jSON['addcoluna1'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
-							        		"<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
-							        		"<span  style='color: #bdbdbd;'></span>".
-							        		"</div></a>".
-							        		"<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'>".
+            $jSON['addcoluna1'] = null;//É necessário desclarar como numo por causa da fraca tipação
+            foreach ($Read->getResult() as $enderecos):
+                $jSON['trigger'] = true;
+                $jSON['addcoluna1'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                            "<span  style='color: #bdbdbd;'></span>".
+                                            "</div></a>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' onclick='abreModal(this);'>".
                                             "<span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
-						        		"</div>";
-        	endforeach;
+                                        "</div>";
+            endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 1 AND [80_ClientesParticulares].TIPO = 2" . $criterioEndereco . $ctiterioCliente .
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 1 AND [80_ClientesParticulares].TIPO = 1" . $criterioEndereco . $ctiterioCliente .
                         "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna2'] = null;//É necessário desclarar como numo por causa da fraca tipação
@@ -92,12 +92,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 2 AND [80_ClientesParticulares].TIPO = 2" . $criterioEndereco . $ctiterioCliente . $criterioOrdemAnalise,"");
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 2 AND [80_ClientesParticulares].TIPO = 1" . $criterioEndereco . $ctiterioCliente . $criterioOrdemAnalise,"");
         if ($Read->getResult()):
             $jSON['addcoluna3'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -106,12 +106,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";                             
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 3 AND [80_ClientesParticulares].TIPO = 2" . $criterioEndereco . $ctiterioCliente . $criterioOrdemExecutando,"");
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 3 AND [80_ClientesParticulares].TIPO = 1" . $criterioEndereco . $ctiterioCliente . $criterioOrdemExecutando,"");
         if ($Read->getResult()):
             $jSON['addcoluna4'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -120,12 +120,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 4 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 4 AND [80_ClientesParticulares].TIPO = 1". $criterioMes .
                         "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna5'] = null;//É necessário desclarar como numo por causa da fraca tipação
@@ -135,12 +135,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 5 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 5 AND [80_ClientesParticulares].TIPO = 1". $criterioMes .
                         "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna6'] = null;//É necessário desclarar como numo por causa da fraca tipação
@@ -150,12 +150,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 6 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 6 AND [80_ClientesParticulares].TIPO = 1". $criterioMes .
                         "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna7'] = null;//É necessário desclarar como numo por causa da fraca tipação
@@ -165,7 +165,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -176,7 +176,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
                         INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 2 "  . $criterioEndereco . $ctiterioCliente . 
-                        "AND [80_ClientesParticulares].TIPO = 2","");
+                        "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
@@ -189,7 +189,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
                         INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 3 "  . $criterioEndereco . $ctiterioCliente . 
-                        "AND [80_ClientesParticulares].TIPO = 2","");
+                        "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
@@ -199,18 +199,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         if ($consulta_inicial == 0) {
             //PREENCHER COMBO DE ENREDEÇO
-            $jSON['addComboEndereco'] = "<option value='t' class='j_option_endereco'>>> BUSCAR ENDEREÇO  <<</option>";
+            $jSON['addComboEndereco'] = "<option value='t' class='j_option_endereco'>>> TODOS <<</option>";
             $Read->FullRead("SELECT [80_Enderecos].ID, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
                             [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO FROM [80_Enderecos]
                             INNER JOIN [80_ClientesParticulares] ON [80_Enderecos].IDCLIENTE = [80_ClientesParticulares].ID
-                            WHERE [80_ClientesParticulares].TIPO = 2","");
+                            WHERE [80_ClientesParticulares].TIPO = 1","");
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
                 $jSON['addComboEndereco'] .= "<option value='{$enderecos['ID']}' class='j_option_endereco'>{$enderecos['ENDERECO']}</option>";
             endforeach;
 
             //PREENCHER COMBO DE ENREDEÇO
-            $jSON['addComboCliente'] = "<option value='t' class='j_option_cliente'>>> BUSCAR CLIENTE <<</option>";
+            $jSON['addComboCliente'] = "<option value='t' class='j_option_cliente'>>> TODOS <<</option>";
             $Read->FullRead("SELECT ID,NOME FROM [80_ClientesParticulares] WHERE TIPO = 2","");
             foreach ($Read->getResult() as $clientes):
                 $jSON['trigger'] = true;
@@ -331,8 +331,7 @@ function preencherHistorico($PostData){
     $primeiro = false;
     $classe = 'buttons_chamados';
     $status = 'Aberto';
-    $Read->FullRead("SELECT [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   
-                    [80_Chamados].TIPO_SERVICO, CONVERT(VARCHAR,[80_Chamados].DATAAGENDADA,103) AS DATAAGENDADA, [80_Orcamentos].VALOR, [80_Orcamentos].NUM_PARCELAS FROM [80_Orcamentos]
+    $Read->FullRead("SELECT [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   [80_Chamados].TIPO_SERVICO, CONVERT(VARCHAR,[80_Chamados].DATAAGENDADA,103) AS DATAAGENDADA, [80_Orcamentos].VALOR, [80_Orcamentos].NUM_PARCELAS FROM [80_Orcamentos]
                     INNER JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO
                     INNER JOIN Funcionários ON [80_Chamados].USUARIO_SISTEMA = Funcionários.ID
                     WHERE [80_Orcamentos].ID = " . $idCliente . " ORDER BY [80_Chamados].DATA_SISTEMA DESC","");

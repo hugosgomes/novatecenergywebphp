@@ -27,6 +27,41 @@ li{
 li a{
   color: black;
 }
+.buttons_chamados{
+  /*-webkit-transition: width 2s; /* Safari */
+  /*box-shadow: 0 1px 3px rgba(0,0,0,.08);*/
+  /* margin-bottom: 5px;*/
+  height: 12%;
+  border-bottom:  solid;
+  border-width: 1px;
+  padding: 1px;
+  font-size: 10px;
+  border-color: #80808042;
+
+}
+.buttons_chamados table {
+  font-size: 13px;
+
+}
+.buttons_chamados_block{
+  /*-webkit-transition: width 2s; /* Safari */
+  /*box-shadow: 0 1px 3px rgba(0,0,0,.08);*/
+  /* margin-bottom: 5px;*/
+  background-color:  rgba(128, 128, 128, 0.09019607843137255);
+  height: 12%;
+  border-bottom:  solid;
+  border-width: 1px;
+  padding: 1px;
+  font-size: 10px;
+  border-color: rgba(128, 128, 128, 0.25882352941176473);
+
+}
+.buttons_chamados_block table {
+  font-size: 13px;
+  color: #636262;
+  
+}
+/* BOTÕES BRANCOS DAS COLUNAS */
 .buttons_clientes{
   -webkit-transition: width 2s; /* Safari */
   box-shadow: 0 1px 3px rgba(0,0,0,.08);
@@ -35,8 +70,48 @@ li a{
   margin-top: 10px;
 }
 .buttons_clientes:hover{
-   box-shadow: 0 5px 20px rgba(0,0,0,.09);
+ box-shadow: 0 5px 20px rgba(0,0,0,.09);
 }
+
+/* BOTÕES VERDE DAS COLUNAS */
+.buttons_clientes_verde{
+ background-color: rgba(171, 239, 171, 0.4);
+ -webkit-transition: width 2s; /* Safari */
+ box-shadow: 0 1px 3px rgba(0,0,0,.08);
+ margin-bottom: 5px;
+ height: 12%;
+}
+.buttons_clientes_verde:hover{
+ background-color: rgba(171, 239, 171, 0.4);
+ box-shadow: 0 5px 20px rgba(0,0,0,.09);
+}
+
+/* BOTÕES AMARELO DAS COLUNAS */
+.buttons_clientes_amarelo{
+  background-color: rgba(237, 239, 153, 0.4);
+  -webkit-transition: width 2s; /* Safari */
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  margin-bottom: 5px;
+  height: 12%;
+}
+.buttons_clientes_amarelo:hover{
+ background-color: rgba(237, 239, 153, 0.4);
+ box-shadow: 0 5px 20px rgba(0,0,0,.09);
+}
+
+/* BOTÕES VERMELHO DAS COLUNAS */
+.buttons_clientes_vermelho{
+  background-color: rgba(239, 153, 153, 0.4);
+  -webkit-transition: width 2s; /* Safari */
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  margin-bottom: 5px;
+  height: 12%;
+}
+.buttons_clientes_vermelho:hover{
+ background-color: rgba(239, 153, 153, 0.4);
+ box-shadow: 0 5px 20px rgba(0,0,0,.09);
+}
+
 .coluna{
   background-color: transparent;
   overflow-y: scroll;
@@ -180,18 +255,3 @@ select {
 .panel_header.info_gradient > h2{font-size: 0.875em; font-weight: 600; color: #FFF; padding-bottom: 5px;}
 .panel_header.info_gradient > span{position: relative; right: 0; top: -10px;}
 
-select {
-  background-color: transparent;
-}
-
-select option {
-background-color: transparent;
-}
-
-select option:checked {
-background-color: transparent;
-}
-
-select option:not(:checked) {
-  background-color: transparent;
-}

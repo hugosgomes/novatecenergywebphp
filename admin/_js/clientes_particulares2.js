@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
   mesAtual();
-  mostraDados('Home','consulta',0);
+  mostraDados('Home2','consulta',0);
 });
 
 
@@ -18,11 +18,11 @@ $('#mes').change(function(){
 });
 
 function ordenarOrcamentoAnalise(){
-    mostraDados('Home','consulta',1,"analise");
+    mostraDados('Home2','consulta',1,"analise");
 }
 
 function ordenarOrcamentoExecutando(){
-    mostraDados('Home','consulta',1,"executando");
+    mostraDados('Home2','consulta',1,"executando");
 }
 
 
@@ -204,7 +204,7 @@ $('html').on('click', '#wc_pdt_stoc', function () {
                 }
             }
 
-            mostraDados('Home','consulta',0);
+            mostraDados('Home2','consulta',0);
 
             if(data.addHistorico){
               $('#j_historico div').remove();
@@ -222,23 +222,6 @@ function mesAtual(){
   var data = new Date();
   var mes = data.getMonth();
   document.getElementById('mes').selectedIndex = mes;
-
-}
-//MUDANÇA DE MÊS
-  function filtro_mes(el) {
-
-    var display = document.getElementById(el).style.display;
-
-    if(display == "none")
-      document.getElementById(el).style.display = 'inline-block';
-  else
-      document.getElementById(el).style.display = 'none';
-
-  $( ".target" ).change(function() {
-
-      document.getElementById(el).style.display = 'none';
-  });
-
 }
 
 
@@ -284,3 +267,6 @@ function travaCampos(valor){
       break;
   }
 }
+
+
+
