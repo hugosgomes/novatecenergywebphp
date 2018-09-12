@@ -46,7 +46,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     switch ($Case):
         case 'cadCliente':
 
-            if(!empty($PostData['CPF']) || !empty($PostData['CNPJ'])):
                 $Cliente = null; 
                 if(!empty($PostData['CPF'])):
                     //TRATAMENTO DE CPF RETIRANDO PONTOS E TRAÇO DO CPF
@@ -102,9 +101,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['inpuval'] = "null"; 
                 $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
                 $jSON['success'] = true;
-            else:
-                $jSON['trigger'] = AjaxErro("CPF ou CNPJ deve ser preenchido!");
-            endif;
       break;
     case 'consulta':       
             if(!empty($PostData["CPFCNPJ"])):
