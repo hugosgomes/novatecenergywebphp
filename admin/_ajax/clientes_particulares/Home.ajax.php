@@ -75,7 +75,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 							        		"<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
 							        		"<span  style='color: #bdbdbd;'></span>".
 							        		"</div></a>".
-							        		"<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'>".
+							        		"<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'>".
                                             "<span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
 						        		"</div>";
         	endforeach;
@@ -106,7 +106,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";                             
             endforeach;
         endif;
@@ -120,7 +120,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -135,7 +135,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -150,7 +150,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;
@@ -165,7 +165,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
                                         "</div>";
             endforeach;
         endif;

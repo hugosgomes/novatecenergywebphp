@@ -295,7 +295,7 @@ function getMesAtual(){
 
 function getStatusOrcamento($Status = null)
 {   
-    if($Status <> 0){
+    if($Status <> '0'){
         $RealtyTransaction = [
             0 => 'SEM CONTATO',
             1 => 'VISITA AGENDADA',
