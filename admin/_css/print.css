@@ -1,0 +1,68 @@
+* {
+background:transparent !important;
+color:#000 !important;
+text-shadow:none !important;
+filter:none !important;
+-ms-filter:none !important;
+}
+
+body {
+margin:0;
+padding:0;
+line-height: 1.4em;
+}
+
+@page {
+margin: 0.5cm;
+}
+
+nav, footer, video, audio, object, embed, header { 
+display:none; 
+}
+
+.print {
+display:block;
+}
+
+.no-print .dashboard_content { 
+display:none; 
+}
+
+img {
+max-width: 100%;
+}
+
+body {
+font: 12pt Georgia, "Times New Roman", Times, serif;
+color: #000;
+}
+
+h1 {
+font-size: 24pt;
+}
+
+h2 {
+font-size: 18pt;
+}
+
+h3 {
+font-size: 14pt;
+}
+p {
+widows: 3;
+}
+p {
+orphans: 3;
+}
+
+p a {
+word-wrap: break-word;
+}
+
+.page-break { 
+page-break-before: always; 
+}
+
+#dataTable{
+	width: 15cm;
+}
