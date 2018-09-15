@@ -9,6 +9,10 @@ if (empty($Read)):
   $Read = new Read;
 endif;
 
+if (empty($LatLng)):
+  $LatLng = new Read;
+endif;
+
 $Day = filter_input(INPUT_GET, 'day', FILTER_VALIDATE_INT);
 $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 ?>
@@ -39,7 +43,8 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
       </div>
     </article>
 
-    <article class="box box100 ">    
+
+    <article class="box box100">    
       <article class="box box50">
         <header class="no-print">
           <?php
@@ -55,96 +60,144 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         <div class="box_content">
 
           <!--SELECT DO TÉCNICO-->
-          <article class='box box50 no-print'>
-            <label class="label">
+          <div class="label_50 no-print">
+              <label class="label">
               <span class="legend"><b>Técnico:</b></span>
               <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>">
-                <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>
-                  <?php/*
-                  $Setor = 2;
-                  $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
-                    FROM [Funcionários] AS [p]
-                    WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = :setor
-                    ORDER BY [p].[NOME COMPLETO]","setor={$Setor}");
-                    if ($Read->getResult()):
-                      foreach ($Read->getResult() as $FUNC):
-                        echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME COMPLETO']}</option>";
-                      endforeach;
-                    endif;*/
-                    ?>
-                  </select>
-                </label>
-              </article>
-              <div class='box box50'>
+                <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>             
+                <?php
+                $Setor = 2;
+                $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
+                  FROM [Funcionários] AS [p]
+                  WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = :setor
+                  ORDER BY [p].[NOME COMPLETO]","setor={$Setor}");
+                if ($Read->getResult()):
+                  foreach ($Read->getResult() as $FUNC):
+                    echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME COMPLETO']}</option>";
+                  endforeach;
+                endif;
+                ?>
+              </select>
+            </label>
+            <label class="label">
                 <br>
+                <button class="btn btn_darkblue no-print m_left" onclick="print()"><i class="icon-printer"></i>&ensp;Imprimir</button>
+            </label>          
+          </div>
+          
 
-                <button class="btn btn_darkblue no-print" onclick="print()"><i class="icon-printer"></i>&ensp;Imprimir</button>
-                
-              </div>
-              <?php
-               /* if($Semana == '1'):
-                  $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
-                                    NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO,
-                                    [60_OS].Tecnico, [60_OS].turno as TURNO,
-                                    [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                    inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                    inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                    inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                    inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID
-                                    WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())"," ");
-                else:
-                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].Tecnico, [60_OS].turno as TURNO,
-                                    [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                    inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                    inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                    inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                    inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :data","data={$Day}");
-                                  endif;*/
-                                  ?>
-                                  <article class='box box100'>
-                                    <div class="table-responsive no-print">
-                                      <table id="dataTable"class="cell-border compact stripe table">
-                                        <thead>
-                                          <tr>
-                                            <th>Cliente</th>
-                                            <th>OS</th>
-                                            <th>Nome OS</th>
-                                            <th>Endereço</th>
-                                            <th>Data</th>
-                                            <th>Técnico</th>
-                                            <th>Período</th>
-                                            <th>Ação</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>            
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </article>
-                                </div>
-                              </article>
-                              <article class="box box50 no-print">
-                                <header class="">
-                                  <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $Hoje; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
-                                  <?php
-                                  echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
-                                  ?>           
-                                </header>
-                                <div class="box_content no-print">
-                                  <div id="map"></div>
-                                </div>
-                              </article>
-                            </div>
-                          </article>
-                        </div>
+          <?php
+
+          $LatLng->FullRead("SELECT Id, Endereco, Bairro, Municipio, Cep FROM [60_OS] WHERE Latitude IS NUll AND Longitude IS NULL", " ");
+
+          ?>
+          <article class='box box100'>
+            <div class="table-responsive no-print">
+              <table id="dataTable"class="cell-border compact stripe table">
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>OS</th>
+                    <th>Nome OS</th>
+                    <th>Endereço</th>
+                    <th>Data</th>
+                    <th>Técnico</th>
+                    <th>Período</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>            
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </article>
+      <article class="box box50">
+        <header class="no-print">
+          <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $Hoje; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
+          <?php
+
+          if($Semana == '1'):
+            $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
+              NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
+              [60_OS].Tecnico, [60_OS].turno as TURNO,
+              [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
+              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+              inner join [60_OS] on [60_OT].Id = [60_OS].OT
+              WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())"," ");
+          else:
+            $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
+              [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
+              [60_OS].Tecnico, [60_OS].turno as TURNO,
+              [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
+              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+              inner join [60_OS] on [60_OT].Id = [60_OS].OT
+              AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :day","day={$Day}");
+          endif;
+
+          echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
+          ?>           
+        </header>
+        <div class="box_content">
+          <div id="map" class="no-print"></div>
+        </div>
+      </article>
+    </div>
+  </article>
+</div>
+
+<!--Faz as requisições na API do Google Maps-->
+<script>
+  $(document).ready( function () {
 
 
+    <?php foreach ($LatLng->getResult() as $ENDERECOS): 
+      extract($ENDERECOS);?>
 
+      axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+        params:{
+          address: '<?php echo "{$Endereco} {$Bairro} {$Municipio} - {$Cep}";?>',
+          key:'AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0'
+        }
 
-  <!--inicia o Google Maps
-  <script>
+      })
+      .then(function(response){
 
+        formattedAddress = [response.data.results[0].formatted_address];
+        lat = response.data.results[0].geometry.location.lat; 
+        lng = response.data.results[0].geometry.location.lng;
+
+        console.log(lat, lng);
+
+        var Callback = 'Agendamentos';
+        var Callback_action = 'consultar_Os';
+        var Id = '<?php echo "{$Id}";?>';
+        $.post('_ajax/gns/'+ Callback +'.ajax.php', {callback: Callback, callback_action: Callback_action, Id: Id, Latitude: lat, Longitude: lng}, function (data) {
+
+                                //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+                                if (data.trigger) {
+                                  Trigger(data.trigger);                
+                                }
+                              }, 'json');
+      });        
+
+    <?php endforeach ?>
+
+    $('#dataTable').DataTable({
+      paging: true,
+      compact: true,
+      hover: true,
+      searching: true,
+      info: false
+    });
+
+  } );
+</script>
+
+<!--inicia o Google Maps-->
+<script>
   function initMap() {
     var myLatLng = {lat: -22.9068467, lng: -43.1728965};
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -159,39 +212,33 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
     <?php
     foreach ($Read->getResult() as $OS):
       extract($OS);                                
-    echo "var marker".$Id." = new google.maps.Marker({
-      position: myLatLng,
-      map: map,";
-      if($Status == "0"):
-        echo"icon: image1,";
-      elseif($Status == "1"):
-        echo"icon: image2,";
-      else:
-        echo"icon: image3,";                      
-      endif;       
-      echo "animation: google.maps.Animation.DROP,
-      position: {lat:".$LATITUDE.", lng: ".$LONGITUDE."},     
-      title: 'Hello World!'});";
+      echo "var marker".$Id." = new google.maps.Marker({
+        position: myLatLng,
+        map: map,";        
+        echo"icon: image1,";     
+        echo "animation: google.maps.Animation.DROP,
+        position: {lat:".$Latitude.", lng: ".$Longitude."},     
+        title: 'Hello World!'});";
 
-echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span></div></div>';";
+        echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span></div></div>';";
 
+        echo "var infowindow".$Id." = new google.maps.InfoWindow({
+          content: contentString,
+          maxWidth: 400
+        });";
 
-echo "var infowindow".$Id." = new google.maps.InfoWindow({
-  content: contentString,
-  maxWidth: 400
-});";
+        echo "marker".$Id.".addListener('click', function () {
+          infowindow".$Id.".open(map, marker".$Id.");
+        });";     
 
-echo "marker".$Id.".addListener('click', function () {
-  infowindow".$Id.".open(map, marker".$Id.");
-});";       
-endforeach;
-?>            
-};
+      endforeach;
+      ?>            
+    };
 
+  </script>
 
-</script>
+  <!--Chamada da API do Google Maps-->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="_js/gns.js"></script>
 
-Chamada da API do Google Maps-->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="_js/gns.js"></script>

@@ -1,73 +1,9 @@
-
-$(document).ready( function () {
-
-    var Callback = 'Agendamentos';
-    var Callback_action = 'consultar_Os';
-    var  formattedAddress = null;
-
-    $.post('_ajax/gns/'+ Callback +'.ajax.php', {callback: Callback, callback_action: Callback_action}, function (data) {
-
-            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if (data.trigger) {
-                Trigger(data.trigger);                
-            }
-
-
-            if (data.OS_Send) {
-
-                var enderecos = data.OS_Send;
-                var i = 0;
-                while(i < enderecos.length){
-                   axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
-
-                    params:{
-                        address: enderecos[i],
-                        key:'AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0'
-                    }
-
-                })
-                   .then(function(response){
-
-                     formattedAddress = response.data.results[0].formatted_address;
-                    var lat = response.data.results[0].geometry.location.lat;
-                    var lng = response.data.results[0].geometry.location.lng;
-
-                    console.log(formattedAddress);
-
-               })
-
-                   i++;
-               }
-
-    
-           } 
-
-
-
-
-     }, 'json'); // POST
-
-
-    $('#dataTable').DataTable({
-      paging: false,
-      compact: true,
-      hover: false,
-      searching: false,
-      info: false
-  });
-
-
-});
-
-
-
 //CONSULTA NO BANCO QUANDO MUDA O TÉCNICO NO SELECT
 $(function(){
     $('#Tecnico').change(function(){
         var Tecnico = $(this).val();
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
-
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico}, function (data) {
 
@@ -92,13 +28,9 @@ $(function(){
                     $("#orcamento-list").remove();
                     $(data.addOrcamentolist).appendTo('.orcamento-list');
                 } 
-
             }, 'json');
-
     });
 });
-
-
 
     //ADICIONA O.S PARA O TÉCNICO
     $('html, body').on('click', '.j_add_tecnico', function (e) {

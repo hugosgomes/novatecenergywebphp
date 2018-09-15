@@ -160,20 +160,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               endif;
             break;
 
-            case 'consultar_Os':
-            $Read->FullRead("SELECT Endereco, Bairro, Municipio, Cep FROM [60_OS] WHERE Latitude IS NUll AND Longitude IS NULL");
-            if($Read->getResult()):
-              $jSON['OS_Send'] = null;
-             // var_dump($Read->getResult());
-             
-                $jSON['OS_Send'] = $Read->getResult();
-    
-                else:
-                  $jSON['trigger'] = true;
-            endif;
-
-            break; // OS SEM ENDERECO
-
+        case 'consultar_Os':
+          $Id = $PostData['Id'];
+          unset($PostData['Id']);
+          $Update->ExeUpdate("[60_OS]", $PostData, " WHERE [Id] = :id", "id={$Id}");
+          if($Read->getResult()):             
+          else:
+             $jSON['trigger'] = true;
+          endif;
+        break;
     endswitch;
 
     //RETORNA O CALLBACK
