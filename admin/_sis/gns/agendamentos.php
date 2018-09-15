@@ -12,22 +12,21 @@ endif;
 $Day = filter_input(INPUT_GET, 'day', FILTER_VALIDATE_INT);
 $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 ?>
-
-<header class="dashboard_header">
+<link rel="stylesheet" type="text/css" href="_css/print.css" media="print" />
+<header class="dashboard_header no-print">
   <div class="dashboard_header_title">
     <h1 class="icon-hammer">GNS</h1>
     <p class="dashboard_header_breadcrumbs">
-      &raquo;</span>
-      <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
-      <span class="crumb">/</span>
-      Agendamentos
-    </p>
-  </div>
+    &raquo;</span>
+    <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
+    <span class="crumb">/</span>
+    Agendamentos
+  </p>
+</div>
 </header>
-
-<div class="dashboard_content custom_app">
+<div class="dashboard_content custom_app" >
   <!--BOTÕES SUPERIORES-->
-  <article class="box box100">   
+  <article class="box box100 no-print">   
     <div class="box_content">
       <div class="box box40">
         <a title="OS Sem Endereço" href="dashboard.php?wc=gns/osEndereco" class="btn btn_darkblue flt_left icon-plus">OS sem Endereço</a>
@@ -38,11 +37,11 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
       <div class="box box40">
         <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_left icon-plus">Clientes Sem OT / OS</a>
       </div>
-  </article>
+    </article>
 
-  <article class="box box100">    
+    <article class="box box100 ">    
       <article class="box box50">
-        <header>
+        <header class="no-print">
           <?php
           $Data = new DateTime();
           $Hoje = $Data->format('Ymd');
@@ -54,14 +53,14 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           ?>
         </header>
         <div class="box_content">
-          
+
           <!--SELECT DO TÉCNICO-->
-          <article class='box box50'>
+          <article class='box box50 no-print'>
             <label class="label">
               <span class="legend"><b>Técnico:</b></span>
               <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>">
                 <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>
-                  <?php
+                  <?php/*
                   $Setor = 2;
                   $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
                     FROM [Funcionários] AS [p]
@@ -71,14 +70,19 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                       foreach ($Read->getResult() as $FUNC):
                         echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME COMPLETO']}</option>";
                       endforeach;
-                    endif;
+                    endif;*/
                     ?>
-                </select>
-              </label>
-          </article>
+                  </select>
+                </label>
+              </article>
+              <div class='box box50'>
+                <br>
 
-            <?php
-                if($Semana == '1'):
+                <button class="btn btn_darkblue no-print" onclick="print()"><i class="icon-printer"></i>&ensp;Imprimir</button>
+                
+              </div>
+              <?php
+               /* if($Semana == '1'):
                   $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
                                     NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO,
                                     [60_OS].Tecnico, [60_OS].turno as TURNO,
@@ -95,61 +99,50 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                                     inner join [60_OS] on [60_OT].Id = [60_OS].OT
                                     inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
                                     inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :data","data={$Day}");
-                endif;
-            ?>
-            <article class='box box100'>
-              <div class="table-responsive">
-                <table id="dataTable"class="cell-border compact stripe table">
-                  <thead>
-                    <tr>
-                      <th>Cliente</th>
-                      <th>OS</th>
-                      <th>Nome OS</th>
-                      <th>Endereço</th>
-                      <th>Data</th>
-                      <th>Técnico</th>
-                      <th>Período</th>
-                      <th>Ação</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>            
-                  </tbody>
-                </table>
-              </div>
-            </article>
-          </div>
-        </article>
-        <article class="box box50">
-          <header>
-            <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $Hoje; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
-            <?php
-            echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
-            ?>           
-          </header>
-          <div class="box_content">
-            <div id="map"></div>
-          </div>
-        </article>
-      </div>
-    </article>
-  </div>
-
-  <!--Inicia o data table-->
-  <script>
-  $(document).ready( function () {
-    $('#dataTable').DataTable({
-      paging: true,
-      compact: true,
-      hover: true,
-      searching: true,
-      info: false
-    });
-  } );
-  </script>
+                                  endif;*/
+                                  ?>
+                                  <article class='box box100'>
+                                    <div class="table-responsive no-print">
+                                      <table id="dataTable"class="cell-border compact stripe table">
+                                        <thead>
+                                          <tr>
+                                            <th>Cliente</th>
+                                            <th>OS</th>
+                                            <th>Nome OS</th>
+                                            <th>Endereço</th>
+                                            <th>Data</th>
+                                            <th>Técnico</th>
+                                            <th>Período</th>
+                                            <th>Ação</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>            
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </article>
+                                </div>
+                              </article>
+                              <article class="box box50 no-print">
+                                <header class="">
+                                  <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $Hoje; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
+                                  <?php
+                                  echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
+                                  ?>           
+                                </header>
+                                <div class="box_content no-print">
+                                  <div id="map"></div>
+                                </div>
+                              </article>
+                            </div>
+                          </article>
+                        </div>
 
 
-  <!--inicia o Google Maps-->
+
+
+  <!--inicia o Google Maps
   <script>
 
   function initMap() {
@@ -198,7 +191,7 @@ endforeach;
 
 </script>
 
-<!--Chamada da API do Google Maps-->
+Chamada da API do Google Maps-->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
-
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="_js/gns.js"></script>

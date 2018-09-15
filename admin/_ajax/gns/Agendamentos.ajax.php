@@ -159,6 +159,21 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $jSON['addtable'] = "<tr class='j_tecnico' id='semOS'><td>Sem O.S direcionada para esta tecnico</td></tr>";
               endif;
             break;
+
+            case 'consultar_Os':
+            $Read->FullRead("SELECT Endereco, Bairro, Municipio, Cep FROM [60_OS] WHERE Latitude IS NUll AND Longitude IS NULL");
+            if($Read->getResult()):
+              $jSON['OS_Send'] = null;
+             // var_dump($Read->getResult());
+             
+                $jSON['OS_Send'] = $Read->getResult();
+    
+                else:
+                  $jSON['trigger'] = true;
+            endif;
+
+            break; // OS SEM ENDERECO
+
     endswitch;
 
     //RETORNA O CALLBACK

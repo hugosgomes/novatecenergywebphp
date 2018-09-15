@@ -29,7 +29,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
 
 //PARA SUA SEGURANÇA, NÃO REMOVA ESSA VALIDAÇÃO!
 if (!file_exists("dashboard.json")):
-    echo "<span class='wc_domain_license icon-key icon-notext wc_tooltip radius'></span>";
+    echo "<span class='wc_domain_license icon-key icon-notext wc_tooltip radius' style='background-color:transparent;color: transparent;'></span>";
 endif;
 
 ?>
@@ -48,7 +48,8 @@ endif;
     <link rel="shortcut icon" href="_img/favicon.png" />
 
     <link rel="stylesheet" href="../_cdn/datepicker/datepicker.min.css"/>
-    <link rel="stylesheet" href="_css/reset.css"/>        
+    <link rel="stylesheet" href="_css/reset.css"/>  
+    <link rel="stylesheet" href="_css/print.css"/>         
     <link rel="stylesheet" href="_css/workcontrol.css"/>
     <link rel="stylesheet" href="_css/workcontrol-860.css" media="screen and (max-width: 860px)"/>
     <link rel="stylesheet" href="_css/workcontrol-480.css" media="screen and (max-width: 480px)"/>
@@ -75,75 +76,119 @@ endif;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
-
-
 </head>
 <body class="dashboard_main">
-    <div class="workcontrol_upload workcontrol_loadmodal">
-        <div class="workcontrol_upload_bar">
-            <img class="m_botton" width="50" src="_img/load_w.gif" alt="Processando requisição!" title="Processando requisição!"/>
-            <p><span class="workcontrol_upload_progrees">0%</span> - Processando requisição!</p>
-        </div>
+    <!-- PRINTER GNS/AGENDAMENTOS -->
+    <div class="table-printer">
+        <center>
+            <hr>
+            <br>
+            <h3>Agendamentos OS</h3>
+        </center>
+        <br>
+        <table class="table table-striped table_border" style="text-align: center;">
+            <thead style="margin-top: 20px;">
+             <tr>
+                <th>Cliente</th>
+                <th>OS</th>
+                <th>Nome OS</th>
+                <th>Endereço</th>
+                <th>Data</th>
+                <th>Técnico</th>
+                <th>Período</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $Read->FullRead("SELECT  [60_Clientes].NomeCliente AS [NOME CLIENTE], [60_OS].NumOS AS [NUMERO OS], [60_OS].NomeOs AS [NOME OS], [60_OS].Endereco AS [ENDERECO], [60_OS].DataAgendamento AS [DATA AGENDAMENTO],[Funcionários].[NOME COMPLETO] AS [NOME TECNICO], [60_OS].PeriodoAgendamento AS PERIODO FROM [60_OS] 
+                INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id
+                INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id      
+                INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID        
+                WHERE [60_OS].Tecnico <> 0"," ");
+            if ($Read->getResult()):
+                       foreach ($Read->getResult() as $Cliente):
+                    echo "<tr class='border_PrintTable'>
+                    <td>{$Cliente['NOME CLIENTE']}</td>
+                    <td>{$Cliente['NUMERO OS']}</td>
+                    <td>{$Cliente['NOME OS']}</td>
+                    <td>{$Cliente['ENDERECO']}</td>
+                    <td>{$Cliente['DATA AGENDAMENTO']}</td>
+                    <td>{$Cliente['NOME TECNICO']}</td>
+                    <td>{$Cliente['PERIODO']}</td>
+                    </tr>";
+                endforeach;
+            endif;
+            ?>
+            <br>
+        </tbody>
+    </table>
+</div>
+
+<div class="workcontrol_upload workcontrol_loadmodal">
+    <div class="workcontrol_upload_bar">
+        <img class="m_botton" width="50" src="_img/load_w.gif" alt="Processando requisição!" title="Processando requisição!"/>
+        <p><span class="workcontrol_upload_progrees">0%</span> - Processando requisição!</p>
     </div>
+</div>
 
-    <div class="dashboard_fix">
-        <?php
-        if (isset($_SESSION['trigger_controll'])):
-            echo "<div class='trigger_modal' style='display: block'>";
-            Erro("<span class='icon-warning'>{$_SESSION['trigger_controll']}</span>", E_USER_ERROR);
-            echo "</div>";
-            unset($_SESSION['trigger_controll']);
+<div class="dashboard_fix">
+    <?php
+    if (isset($_SESSION['trigger_controll'])):
+        echo "<div class='trigger_modal' style='display: block'>";
+        Erro("<span class='icon-warning'>{$_SESSION['trigger_controll']}</span>", E_USER_ERROR);
+        echo "</div>";
+        unset($_SESSION['trigger_controll']);
 
-        endif;
-        ?>
+    endif;
+    ?>
 
-        <nav class="dashboard_nav">
-            <div class="dashboard_nav_admin">
-                <div class="box box60">
-                    <!--<img class="dashboard_nav_admin_thumb" alt="" title="" src="_img/logo.png "/>-->
-                    <h4 style="color: #fff;">Novatec Energy</h4>
-                </div>
+    <nav class="dashboard_nav no-print">
+        <div class="dashboard_nav_admin">
+            <div class="box box60">
+                <!--<img class="dashboard_nav_admin_thumb" alt="" title="" src="_img/logo.png "/>-->
+                <h4 style="color: #fff;">Novatec Energy</h4>
             </div>
+        </div>
 
-            <ul class="dashboard_nav_menu">
-                <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Home</a></li>
+        <ul class="dashboard_nav_menu">
+            <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Home</a></li>
 
-                <?php
-                $Data = new DateTime();
+            <?php
+            $Data = new DateTime();
                     //MODULO GNS
-                if ($_SESSION['userLogin']):
-                    ?>
-                    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
-                        <ul class="dashboard_nav_menu_sub">
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>                        
-                            <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
-                        </ul>
-                    </li>
-                    <?php
-                endif;
+            if ($_SESSION['userLogin']):
                 ?>
-
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>                        
+                        <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
+                    </ul>
+                </li>
                 <?php
+            endif;
+            ?>
+
+            <?php
 
                     //MODULO CLIENTES PARTICULARES
-                if ($_SESSION['userLogin']):
-                    ?>
+            if ($_SESSION['userLogin']):
+                ?>
 
-                    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="#">Clientes Particulares</a>
-                        <ul class="dashboard_nav_menu_sub">   
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="#">Clientes Particulares</a>
+                    <ul class="dashboard_nav_menu_sub">   
 
-                            <!-- Pequenos Orçamentos -->
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home">&raquo; Pequenos Orçamentos</a></li> 
+                        <!-- Pequenos Orçamentos -->
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home">&raquo; Pequenos Orçamentos</a></li> 
 
-                            <!-- Grandes Orçamentos -->
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home2">&raquo; Grandes Orçamentos</a></li>
+                        <!-- Grandes Orçamentos -->
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home2">&raquo; Grandes Orçamentos</a></li>
 
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/cadastro' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/cadastro">&raquo; Cadastro</a></li>
-                        </ul>
-                    </li>
-                    <?php
-                endif;
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/cadastro' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/cadastro">&raquo; Cadastro</a></li>
+                    </ul>
+                </li>
+                <?php
+            endif;
 
 
                     //MENU DE USUÁRIOS

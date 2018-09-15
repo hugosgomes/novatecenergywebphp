@@ -162,9 +162,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 <?php
 
 $enderecos = array(
- $enderecos[0] = "Rua Conde de Agrolongo, Penha Rio de Janeiro - RJ 21020-190",
- $enderecos[1] = "R. Francisca Peixoto, São Mateus São João de Meriti - RJ 25520-450",
- $enderecos[2] = "R. Luís de Camões - Centro Rio de Janeiro - RJ 20051-020");
+ $enderecos[0] = "RUA HISTO. WERNECK DA SILVA 47 B02 / 208 RECREIO DOS BANDEIRANTES RIO DE JANEIRO 22790832");
 
  ?>
  <script>

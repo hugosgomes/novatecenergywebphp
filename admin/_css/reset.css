@@ -540,11 +540,29 @@ form .section{
 }
 /* >>>>>>>>> CSS INCORPORADO */
 /*TABLE*/
-.table{
-    font-size: 13px;
+.table-responsive2{
+    overflow-y: auto;
+    height: 40%;
+}
+.table-printer{
+    display: none;
+}
+
+.table {
+     font-size: 14px;
+         width: 100%;
+    max-width: 100%
+}
+.table thead tr th{
+        vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
 }
 .table-responsive{
     overflow-x:auto;
+    
 }
 /*MONITORAMENTO */
 .select-monitoramento{
@@ -556,3 +574,9 @@ form .section{
 .lista-monitoramento li{
     padding:3px 0px;
 }
+ .table_border {border-collapse: collapse;}
+.table_border thead tr {
+    font-size: 15px;
+    border:1px solid #f5f5f5;padding:10px;
+}
+.table_border tr td {border:1px solid #f5f5f5;padding:10px;}
