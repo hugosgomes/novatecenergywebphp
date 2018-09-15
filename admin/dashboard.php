@@ -55,6 +55,9 @@ endif;
     <link rel="stylesheet" href="_css/workcontrol-480.css" media="screen and (max-width: 480px)"/>
     <link rel="stylesheet" href="../_cdn/bootcss/fonticon.css"/>
 
+    <!-- CSS para impressão -->
+    <link rel="stylesheet" type="text/css" href="_css/print.css" media="print" />
+
     <script src="../_cdn/jquery.js"></script>
     <script src="../_cdn/jquery.form.js"></script>
     <script src="_js/workcontrol.js"></script>

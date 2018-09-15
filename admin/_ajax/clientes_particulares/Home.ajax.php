@@ -373,8 +373,8 @@ function preencherHistorico($PostData){
 
 function getCor($id){
     $Read = new Read;
-    $Read->FullRead("SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA FROM [80_Chamados] INNER JOIN [80_Orcamentos]
-                    ON [80_Chamados].IDORCAMENTO = [80_Orcamentos].ID WHERE [80_Orcamentos].ID = 2","");
+    $Read->FullRead("SELECT [80_Chamados].DATAAGENDADA AS DATAAGENDADA FROM [80_Chamados] INNER JOIN [80_Orcamentos]
+                    ON [80_Chamados].IDORCAMENTO = [80_Orcamentos].ID WHERE [80_Orcamentos].ID = :id ORDER BY [80_Chamados].ID DESC","id={$id}");
     $Result = $Read->getResult();
     $data = new DateTime($Result[0]["DATAAGENDADA"]);
     $dataAtual = new DateTime();

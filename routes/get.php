@@ -20,8 +20,7 @@ $app->get('/tecnicos/', function (Request $request, Response $response, array $a
 //GET QUE BUSCA AS PEÇAS CADASTRADAS NO SISTEMA
 $app->get('/pecas/', function (Request $request, Response $response, array $args) {    
     $Read = new Read;
-    $Read->FullRead("SELECT [Id], [Peca] ,[40_Unidades].[UNIDADE], [ValorFinal] FROM [BDNVT].[dbo].[60_Pecas]
-                            INNER JOIN [40_Unidades] on [60_Pecas].[Unidade] = [40_Unidades].[COD]", " ");
+    $Read->FullRead("SELECT [Id], [Peca] , [ValorFinal] FROM [60_Pecas]", " ");
     if($Read->getResult()):
         return $response->withJson($Read->getResult());
     else:
