@@ -75,7 +75,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td style='width: 80%;'>{$NumOT}</td><td callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$PostData['cli_id']}' id='{$Id}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
                     endforeach;              
                 else:
-                    $jSON['trigger'] = AjaxErro("Sem OT para vincular!");   
+                    $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");   
                 endif;
             break;
 

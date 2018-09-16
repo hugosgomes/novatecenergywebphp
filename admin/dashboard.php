@@ -96,7 +96,7 @@ endif;
              <tr>
                 <th>Cliente</th>
                 <th>OS</th>
-                <th>Nome OS</th>
+                <th>Serviço</th>
                 <th>Endereço</th>
                 <th>Data</th>
                 <th>Técnico</th>
@@ -105,21 +105,22 @@ endif;
         </thead>
         <tbody>
             <?php 
-            $Read->FullRead("SELECT  [60_Clientes].NomeCliente AS [NOME CLIENTE], [60_OS].NumOS AS [NUMERO OS], [60_OS].NomeOs AS [NOME OS], [60_OS].Endereco AS [ENDERECO], [60_OS].DataAgendamento AS [DATA AGENDAMENTO],[Funcionários].[NOME COMPLETO] AS [NOME TECNICO], [60_OS].PeriodoAgendamento AS PERIODO FROM [60_OS] 
+            $Read->FullRead("SELECT  [60_Clientes].NomeCliente, [60_OS].NumOS, [60_OS].NomeOs, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, 
+CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcionários].[NOME COMPLETO], [60_OS].Turno AS Turno FROM [60_OS] 
                 INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id
                 INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id      
                 INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID        
-                WHERE [60_OS].Tecnico <> 0"," ");
+                WHERE [60_OS].Tecnico <> 0 AND [60_OS].DataAgendamento = CONVERT(VARCHAR(8), GETDATE(), 112)"," ");
             if ($Read->getResult()):
-                       foreach ($Read->getResult() as $Cliente):
+                foreach ($Read->getResult() as $Cliente):
                     echo "<tr class='border_PrintTable'>
-                    <td>{$Cliente['NOME CLIENTE']}</td>
-                    <td>{$Cliente['NUMERO OS']}</td>
-                    <td>{$Cliente['NOME OS']}</td>
-                    <td>{$Cliente['ENDERECO']}</td>
-                    <td>{$Cliente['DATA AGENDAMENTO']}</td>
-                    <td>{$Cliente['NOME TECNICO']}</td>
-                    <td>{$Cliente['PERIODO']}</td>
+                    <td>{$Cliente['NomeCliente']}</td>
+                    <td>{$Cliente['NumOS']}</td>
+                    <td>{$Cliente['NomeOs']}</td>
+                    <td>{$Cliente['Endereco']} {$Cliente['Bairro']} - {$Cliente['Municipio']}</td>
+                    <td>{$Cliente['DataAgendamento']}</td>
+                    <td>". strstr($Cliente['NOME COMPLETO'], ' ', true)."</td>
+                    <td>{$Cliente['Turno']}</td>
                     </tr>";
                 endforeach;
             endif;

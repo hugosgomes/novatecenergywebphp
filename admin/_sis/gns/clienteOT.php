@@ -39,9 +39,7 @@ $ID = 0;
                     <select style="font-size: 1.2em;" id="cliente" name="IDCLIENTE">
                         <option value="">Selecione um Cliente</option>
                         <?php
-                        $Read->FullRead("SELECT [Id],[EnderecoId],[NumCliente],[NomeCliente],[Telefone1],[Telefone2],[Telefone3],[Criadoem] ,[UsuarioColetivo],[CPFCNPJ],[SituacaoCliente],[Mercado],[SituacaoFornecimento],[AreaAgendamento],[AreaOrigem] 
-                            FROM [60_Clientes]
-                            WHERE [SituacaoCliente] = :situacao ORDER BY [NomeCliente] ASC","situacao=1");
+                        $Read->FullRead("SELECT [Id],[NomeCliente] FROM [60_Clientes] ORDER BY [NomeCliente] ASC"," ");
                         if ($Read->getResult()):
                             foreach ($Read->getResult() as $CLI):
                                 echo "<option value='{$CLI['Id']}'>{$CLI['NomeCliente']}</option>";

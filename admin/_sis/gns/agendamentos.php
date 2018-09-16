@@ -33,13 +33,12 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
   <article class="box box100 no-print">   
     <div class="box_content">
       <div class="box box40">
-        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/osEndereco" class="btn btn_darkblue flt_left icon-plus">OS sem Endereço</a>
+        <?php $Read->FullRead("SELECT ID FROM [60_OS] WHERE Latitude IS NULL AND Longitude IS NULL", " ");?>
+        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/osEndereco" class="btn btn_darkblue flt_left">(<?php echo count($Read->getResult());?>) - OS sem Endereço</a>
       </div>
       <div class="box box40">
-        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/relatorioDiario" class="btn btn_darkblue flt_left icon-plus">Relatório Exp. Diário</a>
-      </div>
-      <div class="box box40">
-        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_left icon-plus">Clientes Sem OT / OS</a>
+        <?php $Read->FullRead("SELECT ID FROM [60_ClientesSemOT] WHERE IDOT IS NULL", " ");?>
+        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_lefts">(<?php echo count($Read->getResult());?>) - Clientes Sem OT / OS</a>
       </div>
     </article>
 
@@ -67,13 +66,12 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                 <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>             
                 <?php
                 $Setor = 2;
-                $Read->FullRead("SELECT [p].[ID],  [p].[NOME COMPLETO], [p].[SETOR], [p].[TITULO (FUNÇÃO)]
-                  FROM [Funcionários] AS [p]
-                  WHERE [p].[DATA DE DEMISSÃO] IS NULL AND ([p].[TITULO (FUNÇÃO)] = 5) AND [p].[SETOR] = :setor
-                  ORDER BY [p].[NOME COMPLETO]","setor={$Setor}");
+                $Read->FullRead("SELECT [Funcionários].ID AS id,[NOME COMPLETO] AS nome FROM Funcionários
+                        WHERE [Funcionários].GNSMOBILE = 1 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
+                        ORDER BY [NOME COMPLETO]"," ");
                 if ($Read->getResult()):
                   foreach ($Read->getResult() as $FUNC):
-                    echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME COMPLETO']}</option>";
+                    echo "<option value='{$FUNC['id']}'>{$FUNC['nome']}</option>";
                   endforeach;
                 endif;
                 ?>
@@ -126,7 +124,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
               [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
               inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
               inner join [60_OS] on [60_OT].Id = [60_OS].OT
-              WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())"," ");
+              WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE()) AND [60_OS].Tecnico = 0"," ");
           else:
             $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
               [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,

@@ -54,31 +54,24 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     if($PostData['Tecnico'] == 't'):
                         $jSON['trigger'] = AjaxErro("DIRECIONE PARA APENAS UM TÉCNICO. A SELEÇÃO TODOS ESTÁ MARCADA!", E_USER_WARNING);
                     else:
-                        $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                              [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                              inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
-                                              WHERE [60_OS].Id = :id","id={$OSId}");
+                        $Read->FullRead("SELECT Id FROM [60_OS] WHERE [60_OS].Id = :id","id={$OSId}");
                         if ($Read->getResult()):
                             $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>OS adicionada com sucesso ao técnico!");
                             $jSON['success'] = true;
                             $Update->ExeUpdate("[60_OS]", $PostData, "WHERE [60_OS].Id = :id", "id={$OSId}");
                             if($Update->getResult()):
-                                $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                              [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
+                                $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                                          [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico FROM [60_Clientes]
                                               inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
                                               inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                              inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
+                                              INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
                                               WHERE [60_OS].Id = :id","id={$OSId}");
-                                $jSON['addtable'] = "<tr class='j_tecnico' id='{$Read->getResult()[0]['Id']}'><td>{$Read->getResult()[0]['NomeCliente']}</td><td>{$Read->getResult()[0]['NumOS']}</td><td>{$Read->getResult()[0]['OSServico']}</td><td>{$Read->getResult()[0]['ENDERECO']}</td><td>". date('d/m/Y', strtotime($Read->getResult()[0]['DataAgendamento'])) ."</td><td>{$PostData['Tecnico']}</td><td>{$Read->getResult()[0]['TURNO']}</td><td><span rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cancel-circle btn btn_red' id='{$Read->getResult()[0]['Id']}'></span></td></td>";
+                                $jSON['addtable'] = "<tr class='j_tecnico' id='{$Read->getResult()[0]['Id']}'><td>{$Read->getResult()[0]['NomeCliente']}</td><td>{$Read->getResult()[0]['NumOS']}</td><td>{$Read->getResult()[0]['NomeOS']}</td><td>{$Read->getResult()[0]['Endereco']} {$Read->getResult()[0]['Bairro']} {$Read->getResult()[0]['Municipio']}</td><td>". date('d/m/Y', strtotime($Read->getResult()[0]['DataAgendamento'])) ."</td><td>". strstr($Read->getResult()[0]['Tecnico'], ' ', true)."</td><td>{$Read->getResult()[0]['TURNO']}</td><td><span rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cancel-circle btn btn_red' id='{$Read->getResult()[0]['Id']}'></span></td></td>";
                             else:
                                  $jSON['trigger'] = AjaxErro("Erro ao adicionar OS ao Técnico! Por favor tente novamente.");           
                             endif;
                         else:
-                            $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>Erro ao adicionar OS!");
+                            $jSON['trigger'] = AjaxErro("Erro ao adicionar OS!");
                             $jSON['success'] = true;
                         endif;
                     endif;
@@ -93,32 +86,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 if(!$PostData['Tecnico']):
                     $jSON['trigger'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING);
                 else:
-                    if($PostData['Tecnico'] == 't'):
-                        $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                              [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                              inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
-                                              WHERE [60_OS].Id = :id","id={$OSId}");
-                    else:
-                        $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                          [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                          inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                          inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                          inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
-                                          WHERE [60_OS].Id = :id AND [60_OS].Tecnico = :tecnico","id={$OSId}&tecnico={$PostData['Tecnico']}");
-                    endif;
-
+                        $Read->FullRead("SELECT [60_OS].Id FROM [60_OS] WHERE Id = :id","id={$OSId}");
                     if ($Read->getResult()):
-                        $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>OS retirada do técnico!");
-                        $jSON['success'] = true;
                         $Update->ExeUpdate("[60_OS]", $Tecnico, "WHERE [60_OS].Id = :id", "id={$OSId}");
-                        var_dump($Update->getResult());
-                        $jSON['deltable'] = $OSId;
+                        if($Update->getResult()):
+                          $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>OS retirada do técnico!");
+                          $jSON['success'] = true;                        
+                          $jSON['deltable'] = $OSId;
+                        else:
+                          $jSON['trigger'] = AjaxErro("Erro ao tentar retirar a OS do Técnico!");
+                        endif;
                     else:
-                        $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>Erro ao retirar a OS!");
+                        $jSON['trigger'] = AjaxErro("Erro ao retirar a OS!");
                         $jSON['success'] = true;
                     endif;
                 endif;
@@ -128,20 +107,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               //VERIFICA DE O FOI SELECIONADO TODOS OS TÉCNICOS
               if($PostData['semana'] == 1):
                 if($PostData['Tecnico'] == 't'):
-                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                          [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                          inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                          inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                          inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID
+                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                                          [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico FROM [60_Clientes]
+                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                              INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
                                           WHERE [60_OS].Tecnico <> 0",NULL);
                 else:
-                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].Tecnico, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_Enderecos].ENDERECO, [60_OS].turno as TURNO,
-                                          [00_Logradouro].LATITUDE, [00_Logradouro].LONGITUDE FROM [60_Clientes]
-                                          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                          inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                          inner join [60_Enderecos] on [60_Clientes].EnderecoId = [60_Enderecos].ID
-                                          inner join [00_Logradouro] on [60_Enderecos].LOGRADOUROID = [00_Logradouro].ID 
+                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                                          [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico FROM [60_Clientes]
+                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                              INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
                                           WHERE [60_OS].Tecnico = :tecnico","tecnico={$PostData['Tecnico']}");
                 endif;
               endif;
@@ -151,7 +128,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       extract($OS);
                       $jSON['trigger'] = true;
                       $jSON['success'] = true;
-                      $jSON['addtable'] .= "<tr class='j_tecnico' id='{$Id}'><td>{$NomeCliente}</td><td>{$NumOS}</td><td>{$NomeOS}</td><td>{$ENDERECO}</td><td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td><td>{$Tecnico}</td><td>{$TURNO}</td><td><span rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cancel-circle btn btn_red' id='{$Id}'></span></td></td>";
+                      $jSON['addtable'] .= "<tr class='j_tecnico' id='{$Id}'><td>{$NomeCliente}</td><td>{$NumOS}</td><td>{$NomeOS}</td><td>{$Endereco} {$Bairro} {$Municipio}</td><td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td><td>". strstr($Tecnico, ' ', true)."</td><td>{$TURNO}</td><td><span rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cancel-circle btn btn_red' id='{$Id}'></span></td></td>";
                   endforeach;                   
               else:
                   $jSON['trigger'] = true;

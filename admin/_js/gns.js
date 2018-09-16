@@ -33,7 +33,7 @@ $(function(){
 });
 
     //ADICIONA O.S PARA O TÉCNICO
-    $('html, body').on('click', '.j_add_tecnico', function (e) {
+    $('html').on('click', '.j_add_tecnico', function (e) {
         var Prevent = $(this);
         var OSId = $(this).attr('id');
         var RelTo = $(this).attr('rel');
@@ -56,7 +56,7 @@ $(function(){
             //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
             if (data.addtable) {
                 $('#semOS').fadeOut('fast');
-                $(data.addtable).prependTo('.dataTable');
+                $(data.addtable).appendTo('.dataTable');
                 $('.info-window').fadeOut(400);
             }
 
@@ -71,7 +71,7 @@ $(function(){
     });
 
     //DELETA O.S DO TÉCNICO
-    $('html, body').on('click', '.j_del_tecnico', function (e) {
+    $('html').on('click', '.j_del_tecnico', function (e) {
         var Prevent = $(this);
         var OSId = $(this).attr('id');
         var RelTo = $(this).attr('rel');
@@ -106,7 +106,7 @@ $(function(){
     });
 
     //PESQUISA OT PARA VINCULO
-    $('html, body').on('click', '.j_pesquisa_ot', function (e) {
+    $('html').on('click', '.j_pesquisa_ot', function (e) {
         var Prevent = $(this);
         var CliId = $(this).attr('rel');
         var Callback = $(this).attr('callback');
@@ -130,7 +130,7 @@ $(function(){
     });
 
     //PESQUISA VINCULA OT AO CLIENTE
-    $('html, body').on('click', '.j_insere_ot', function (e) {
+    $('html').on('click', '.j_insere_ot', function (e) {
         var Prevent = $(this);
         var CliId = $(this).attr('rel');
         var OTId = $(this).attr('id');
@@ -157,7 +157,7 @@ $(function(){
 
 
  //
- $('html, body').on('click', '#clientesOT', function (e) {
+ $('html').on('click', '#clientesOT', function (e) {
     var Callback = $(this).attr('callback');
     var Callback_action = $(this).attr('callback_action');
     var Cliente = $("#cliente").val();
@@ -174,6 +174,10 @@ $(function(){
             if (data.ot) {
                 $('.j_ot').remove();
                 $('#'+ data.ot).fadeOut(400);
+            }
+            if (data.redirect) {
+                window.location.href = data.redirect;
+                //window.location.reload();
             }
         }, 'json');
 
