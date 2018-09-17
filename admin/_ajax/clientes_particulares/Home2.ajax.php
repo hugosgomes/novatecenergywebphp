@@ -266,7 +266,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         case 'salvachamado':
             //Salvando chamado
-            $chamado = array('IDORCAMENTO' => $PostData["idOrcamento"],
+            $chamado = array(
+                'IDORCAMENTO' => $PostData["idOrcamento"],
+                'VALOR' => isset($PostData["VALOR"]) ? $PostData["VALOR"] : NULL,
                 'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
                 'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
                 'OBS' => $PostData["OBS"],
@@ -283,17 +285,19 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL
                 );
 
-                if (isset($PostData["VALOR"])) {
+                
+                if (!isset($PostData["VALOR"])) {
                     unset($orcamento['VALOR']);
                 }
 
-                if (isset($PostData["QNTPARCELAS"])) {
+                if (!isset($PostData["QNTPARCELAS"])) {
                     unset($orcamento['NUM_PARCELAS']);
                 }
 
-                if (isset($PostData["FORMAPAGAMENTO"])) {
+                if (!isset($PostData["FORMAPAGAMENTO"])) {
                     unset($orcamento['FORMAPAGAMENTO']);
                 }
+                
 
                 $Update->ExeUpdate('[80_Orcamentos]', $orcamento, "WHERE ID = :ID", "ID={$PostData['idOrcamento']}");
                 if ($Update->getResult()) {
@@ -331,7 +335,7 @@ function preencherHistorico($PostData){
     $primeiro = false;
     $classe = 'buttons_chamados';
     $status = 'Aberto';
-    $Read->FullRead("SELECT [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   [80_Chamados].TIPO_SERVICO, CONVERT(VARCHAR,[80_Chamados].DATAAGENDADA,103) AS DATAAGENDADA, [80_Orcamentos].VALOR, [80_Orcamentos].NUM_PARCELAS FROM [80_Orcamentos]
+    $Read->FullRead("SELECT [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   [80_Chamados].TIPO_SERVICO, CONVERT(VARCHAR,[80_Chamados].DATAAGENDADA,103) AS DATAAGENDADA, [80_Chamados].VALOR, [80_Orcamentos].NUM_PARCELAS FROM [80_Orcamentos]
                     INNER JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO
                     INNER JOIN Funcionários ON [80_Chamados].USUARIO_SISTEMA = Funcionários.ID
                     WHERE [80_Orcamentos].ID = " . $idCliente . " ORDER BY [80_Chamados].DATA_SISTEMA DESC","");

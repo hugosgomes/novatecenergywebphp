@@ -12,6 +12,12 @@ $ID = 0;
 
 ?>
 
+<style type="text/css">
+.blocker{
+z-index: 98;
+}
+</style>
+
 <header class="dashboard_header">
     <div class="dashboard_header_title">
         <h1 class="icon-hammer">GNS</h1>
@@ -90,15 +96,12 @@ $ID = 0;
                         <tr>
                         <td id='{$IDCLIENTE}'>{$Read->getResult()[0]['NomeCliente']}</td>
                         <td>" . date('d/m/Y', strtotime($DATAAGENDAMENTO)) . "</td>
-                        <td><span class='j_pesquisa_ot icon-search btn btn_darkblue' rel='{$IDCLIENTE}' callback='ClientesOT' callback_action='consulta'>&ensp;Consultar OT/OS</span></td>
+                        <td><span class='j_pesquisa_ot icon-search btn btn_darkblue' rel='{$IDCLIENTE}' linhaSemOs = '{$ID}' callback='ClientesOT' callback_action='consulta'>&ensp;Consultar OT/OS</span></td>
                         </tr>";
-
-
                     endforeach;
                 endif;
                 ?>
             </table>
-
         </div>
     </article>
     <!--LOCAL ONDE É APRESENTADO AS SUGESTÕES DE OT PARA VINCULAR-->

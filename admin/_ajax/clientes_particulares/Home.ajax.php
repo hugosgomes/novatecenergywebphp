@@ -266,7 +266,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         case 'salvachamado':
             //Salvando chamado
-            $chamado = array('IDORCAMENTO' => $PostData["idOrcamento"],
+            $chamado = array(
+                'IDORCAMENTO' => $PostData["idOrcamento"],
+                'VALOR' => isset($PostData["VALOR"]) ? $PostData["VALOR"] : NULL,
                 'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
                 'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
                 'OBS' => $PostData["OBS"],

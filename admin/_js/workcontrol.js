@@ -17,13 +17,13 @@
     });
 
     //WC LOGIN FIX
-    setInterval(function () {
+    /*setInterval(function () {
         $.post('_ajax/Dashboard.ajax.php', {callback: 'Dashboard', callback_action: 'wc_login_fix'}, function (data) {
             if (data.redirect) {
                 window.location.href = data.redirect;
             }
         }, 'json');
-    }, 5 * 60 * 3000);
+    }, 5 * 60 * 3000);*/
 
     if ($(window).outerWidth() < '480') {
         $.getScript('../_cdn/jquery.mobile.js', function () {

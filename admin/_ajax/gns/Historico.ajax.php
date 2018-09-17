@@ -64,15 +64,19 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
     	break;
 
+
+        //CARREGA O HISTÓRICO DE OS's NA LATERAL DIREITA DA PÁGINA
 	    case 'CarregarHistorico':
 	    $jSON['historicoOs'] = null;
-	    $Read->FullRead("SELECT NomeOs, NumOS, Status, Valorcobrar, Atualizadopor, Tecnico, CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG FROM [60_OS] 
-					INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id
+	    $Read->FullRead("SELECT NomeOs, NumOS, [60_OS].Status, Valorcobrar, Users.[NOME COMPLETO] AS Atualizadopor, Tecnicos.[NOME COMPLETO] AS Tecnico, CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG FROM [60_OS] INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id
+                    LEFT JOIN Funcionários Tecnicos ON [60_OS].Tecnico = Tecnicos.ID LEFT JOIN Funcionários Users ON [60_OS].Atualizadopor = Users.ID
 					WHERE [60_Clientes].Id = " . $PostData['idCliente'] . " ORDER BY Atualizadoem DESC","");
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $Oss):
                 	$valor = number_format($Oss['Valorcobrar'],2,',','.');
                 	$status = getStatusOs($Oss['Status']);
+                    $tecnico = $Oss['Tecnico'] ? $Oss['Tecnico'] : 'Não Associado';
+                    $atualizadopor = $Oss['Atualizadopor'] ? $Oss['Atualizadopor'] : 'Não Associado';
                 	$jSON['historicoOs'] .= "<hr><hr>
 									          <div class='box box100' style='padding-bottom: 0px;'>
 									            <li style='padding-bottom: 5px;'><h3><b><i class='icon-history'></i>&ensp;{$Oss['NomeOs']}</b></h3></li>
@@ -80,11 +84,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									          <div class='box box50' style='padding-bottom: 0px;'>
 									            <li style='padding-bottom: 5px;font-size: 12px;'>OS:{$Oss['NumOS']}</li>
 									            <li style='padding-bottom: 5px;font-size: 12px;'>Valor: R$ {$valor}</li>
-									            <li style='padding-bottom: 5px;font-size: 12px;'>Técnico: {$Oss['Tecnico']}</li>
+									            <li style='padding-bottom: 5px;font-size: 12px;'>Técnico: {$tecnico}</li>
 									          </div>
 									          <div class='box box50' style='padding-bottom: 0px;text-align: right;'>
 									            <li style='padding-bottom: 5px;font-size: 12px;'>Status: {$status}</li>
-									            <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>Usuário: {$Oss['Atualizadopor']}</li>
+									            <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>Usuário: {$atualizadopor}</li>
 									            <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>Atualizado em: {$Oss['ATUALIZADO_EM']}</li>
 									          </div>
 									          <div class='box box100' style='padding-top: 0px;'>

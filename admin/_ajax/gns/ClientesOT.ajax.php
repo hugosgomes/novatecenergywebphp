@@ -68,16 +68,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             //PESQUISA SE JÁ EXISTE NO BANCO UMA OT CRIADA PARA ESTE CLIENTE
             $Read->FullRead("SELECT Id, NumOT FROM [60_OT] WHERE [Cliente] = :cliente","cliente={$PostData['cli_id']}");
-                if ($Read->getResult()):
-                    foreach ($Read->getResult() as $OT):
-                        extract($OT);
-                        $jSON['trigger'] = true;
-                        $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td style='width: 80%;'>{$NumOT}</td><td callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$PostData['cli_id']}' id='{$Id}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
-                    endforeach;              
-                else:
-                    $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");   
-                endif;
-            break;
+            if ($Read->getResult()):
+                foreach ($Read->getResult() as $OT):
+                    extract($OT);
+                    $jSON['trigger'] = true;
+                    $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td style='width: 80%;'>{$NumOT}</td><td callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$PostData['cli_id']}' id='{$Id}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
+                endforeach;              
+            else:
+                $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");   
+            endif;
+        break;
 
         case 'insere':
             $OT['IDOT'] = intval($PostData['IDOT']);
@@ -89,9 +89,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['ot'] = $PostData['IDCLIENTE'];
             else:
                 $jSON['trigger'] = AjaxErro("Erro ao vincular endereço!", E_USER_WARNING);
-            endif;
-            
-            break;        
+            endif;            
+        break;        
     endswitch;
 
     //RETORNA O CALLBACK

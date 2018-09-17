@@ -110,10 +110,12 @@ $(function(){
     $('html').on('click', '.j_pesquisa_ot', function (e) {
         var Prevent = $(this);
         var CliId = $(this).attr('rel');
+        var LinhaSemOs = $(this).attr('linhaSemOs');
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
+        alert($(this).attr('linhaSemOs'));
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId, linhaSemOs: LinhaSemOs}, function (data) {
 
             //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
             if (data.addOT) {
@@ -187,14 +189,8 @@ $(function(){
 });
 
 
-
-
-
-
-
- function carregaDados(){
-        //alert('Teste');
-
+    //CARREGA OS DADOS DA TELA DE HISTÓRICO DE CLIENTES E SUAS OS's
+    function carregaDados(){
         var Callback = $('#dataTable').attr('callback');
         var Callback_action = $('#dataTable').attr('callback_action');
         var idCliente = $('#j_selectClientes').val();
