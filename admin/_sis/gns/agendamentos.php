@@ -209,7 +209,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 
     <?php
     foreach ($Read->getResult() as $OS):
-      extract($OS);                                
+      extract($OS);      
       echo "var marker".$Id." = new google.maps.Marker({
         position: myLatLng,
         map: map,";        

@@ -166,8 +166,9 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion√
                     <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
                         <ul class="dashboard_nav_menu_sub">
                             <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>                        
-                            <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Historico dos Clientes" href="dashboard.php?wc=gns/historicoCliente">&raquo; Historico dos Clientes</a></li>-->
+                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
+                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/historico' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/historico">&raquo; Hist√≥rico de Clientes</a></li>                           
+                            <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
                         </ul>
                     </li>
                     <?php

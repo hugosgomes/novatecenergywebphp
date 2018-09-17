@@ -333,3 +333,22 @@ function getFormaPagamento($Transaction = null)
         return $RealtyTransaction;
     endif;
 }
+
+
+function getStatusOs($Transaction = null){
+    $RealtyTransaction = [
+        0 => 'Associado',
+        1 => 'Atendido',
+        2 => 'Cancelado',
+        3 => 'Ausente',
+        4 => 'Reagendado NVT',
+        5 => 'Reagendado GNS',
+        6 => 'Sem Atender'
+    ];
+    
+    if ($Transaction!=null):
+        return $RealtyTransaction[$Transaction];
+    else:
+        return $RealtyTransaction;
+    endif;
+}
