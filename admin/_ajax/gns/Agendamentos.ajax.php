@@ -141,11 +141,58 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
           $Id = $PostData['Id'];
           unset($PostData['Id']);
           $Update->ExeUpdate("[60_OS]", $PostData, " WHERE [Id] = :id", "id={$Id}");
-          if($Read->getResult()):             
+          if($Update->getResult()):             
           else:
              $jSON['trigger'] = true;
           endif;
         break;
+
+         case 'os_s_end':
+
+         $Read->FullRead("SELECT Id, Endereco, Bairro, Municipio, Cep, Latitude, Longitude FROM [60_OS] WHERE Latitude IS NULL AND Longitude IS NULL"," ");
+
+             
+              if ($Read->getResult()):
+
+                  $jSON['OS_sem_end'] = null;
+                  foreach ($Read->getResult() as $os_s_end):
+                      $jSON['trigger'] = true;
+                      $jSON['OS_sem_end'] .= "
+                      <tr class='j_table_S_END' id='{$os_s_end['Id']}'>
+                      <td style='padding-left: 10px;'>{$os_s_end['Endereco']}</td>
+                      <td style='padding-left: 10px;'>{$os_s_end['Bairro']}</td>
+                      <td style='text-align: center;'>{$os_s_end['Municipio']}</td>
+                      <td style='text-align: center;'>{$os_s_end['Cep']}</td>
+
+                      <form id='{$os_s_end['Id']}'><td style='text-align: center;'><input type='text' id='lat{$os_s_end['Id']}' name='latitude' placeholder='Inserir Latitude'/></td>
+                      <td style='text-align: center;'><input type='text' id='lng{$os_s_end['Id']}' name='longitude' placeholder='Inserir Longitude'/></td>
+
+                      <td style='text-align: center;'><span class='btn btn_darkblue j_inserir_coord' callback='Agendamentos' callback_action='inserir_coord' id='{$os_s_end['Id']}'><i class='icon-plus'></i>Adicionar</span></td></form>
+
+                      </tr>";
+                  endforeach;                   
+              else:
+                  $jSON['trigger'] = true;
+                  $jSON['OS_sem_end'] = "<tr class='j_table_S_END'><td>Nenhum endereço foi encontrado</td></tr>";
+                endif;
+                break;
+
+                case 'inserir_coord':
+                $coord_id = $PostData['Id'];
+                unset($PostData['Id']);
+
+                if($PostData['Latitude'] == NULL || $PostData['Longitude'] == NULL):
+                   $jSON['campos_nulos'] = "Insira valor de Latitude e Longitude";  
+                 else:
+                 $Update->ExeUpdate("[60_OS]", $PostData, " WHERE [Id] = :id", "id={$coord_id}");
+                 if($Update->getResult()):  
+                  $jSON['exclui_linha'] = $coord_id;           
+                else:
+                 $jSON['trigger'] = true;
+
+               endif;
+             endif;
+             break;
     endswitch;
 
     //RETORNA O CALLBACK

@@ -4088,3 +4088,7 @@ display:block;
 .pointer{
 cursor: pointer;
 }
+.tabela-responsivel{
+    height: 65%;
+    overflow-y: auto;
+}

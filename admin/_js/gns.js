@@ -1,3 +1,4 @@
+
 //CONSULTA NO BANCO QUANDO MUDA O TÉCNICO NO SELECT
 $(function(){
     $('#Tecnico').change(function(){
@@ -191,7 +192,7 @@ $(function(){
 
 
 
-    function carregaDados(){
+ function carregaDados(){
         //alert('Teste');
 
         var Callback = $('#dataTable').attr('callback');
@@ -199,7 +200,7 @@ $(function(){
         var idCliente = $('#j_selectClientes').val();
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idCliente: idCliente}, function (data) {
-            
+
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);                
@@ -214,7 +215,7 @@ $(function(){
             if (data.selectClientes) {
                 $(data.selectClientes).appendTo('#j_selectClientes');             
             }
-                        
+
 
         }, 'json');       
 
@@ -222,13 +223,13 @@ $(function(){
     }
 
 
-$('html').on('click', '.pointer', function (e) {
-    var Callback = $(this).attr('callback');
-    var Callback_action = $(this).attr('callback_action');
-    var idCliente = $(this).attr('value');
+    $('html').on('click', '.pointer', function (e) {
+        var Callback = $(this).attr('callback');
+        var Callback_action = $(this).attr('callback_action');
+        var idCliente = $(this).attr('value');
 
-    $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idCliente: idCliente}, function (data) {
-            
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idCliente: idCliente}, function (data) {
+
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);                
@@ -238,10 +239,66 @@ $('html').on('click', '.pointer', function (e) {
                 $('#j_historicosOs *').remove();
                 $(data.historicoOs).appendTo('#j_historicosOs');             
             }
-                        
+
 
         }, 'json');
 
-});
+    });
 
-$('#j_selectClientes').change(carregaDados);
+    $('#j_selectClientes').change(carregaDados);
+
+
+    function os_SemEnd(){
+
+      var Callback = $("#dataTable").attr('callback');
+      var Callback_action = $("#dataTable").attr('callback_action');
+
+      $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action}, function (data) {
+
+                //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+                if(data.Trigger){
+                    Trigger(data.trigger);
+                }
+                //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
+                if (data.OS_sem_end) {
+
+                    $(".j_table_S_END").remove();
+                    $(data.OS_sem_end).appendTo('#j_table_S_END');
+                }
+
+
+
+
+            }, 'json');
+
+  }
+
+  $('html').on('click', '.j_inserir_coord', function (e) {
+
+      var Callback = $(this).attr('callback');
+      var Callback_action = $(this).attr('callback_action');
+      var Id = $(this).attr('id');
+      var lat = $("#lat"+Id).val();
+      var lng = $("#lng"+Id).val();
+
+      $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Id: Id, Latitude: lat, Longitude:lng}, function (data) {
+
+                //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+                if(data.Trigger){
+                    Trigger(data.trigger);
+                }
+                //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
+
+                if (data.campos_nulos){
+                    alert(data.campos_nulos);
+
+                }
+
+                if (data.exclui_linha) {
+                    $('.j_table_S_END[id="' + data.exclui_linha + '"]').remove();   
+                } 
+
+            }, 'json');
+
+
+  });
