@@ -12,7 +12,6 @@ endif;
 <link rel="stylesheet" href="_css/clientes_particulares.css"/>
 <header class="dashboard_header">
   <div class="dashboard_header_title">
-    <h1 class="icon-users">Grandes Orçamentos</h1>
     <p class="dashboard_header_breadcrumbs">
     &raquo;</span>
     <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
@@ -62,24 +61,25 @@ endif;
   </div>
 </div>
 <div class="box box42">
-  <div class="box_content" style="margin: 0px;padding-top: 5px;padding-bottom: 10px;">
+  <div class="box_content" style="margin: 0px;padding-top: 5px;padding-bottom: 10px;height: 4.6%;">
    <label class="label" style="margin-bottom: 0px;text-align: center;">
-    <span><b>MÊS:</b></span>
-    <select id="mes" style="font-family: Arial;font-size: 11px;width: 30%;" callback="Home2" callback_action="consulta">
-      <option value="01">JANEIRO</option>
-      <option value="02">FEVEREIRO</option>
-      <option value="03">MARÇO</option>
-      <option value="04">ABRIL</option>
-      <option value="05">MAIO</option>
-      <option value="06">JUNHO</option>
-      <option value="07">JULHO</option>
-      <option value="08">AGOSTO</option>
-      <option value="09">SETEMBRO</option>
-      <option value="10">OUTUBRO</option>
-      <option value="11">NOVEMBRO</option>
-      <option value="12">DEZEMBRO</option>
-    </select>
-  </label>
+      <h5 class="title_view" style="float: left;padding-top: 10px;padding-left: 45%;">MÊS</h5>
+   <button class="btn btn_darkblue" onclick="filtro_mes('mes')" style="float: right;padding-right: 10px;outline: none;margin-top: 3px;"><span class="icon-filter">Filtrar por Mês</span></button>
+   <select id="mes" style="font-family: Arial;font-size: 11px;width: 20%;display: none;margin-top: 2px;" callback="Home2" callback_action="consulta"  class="target">
+    <option value="01" id="meses">JANEIRO</option>
+    <option value="02" id="meses">FEVEREIRO</option>
+    <option value="03" id="meses">MARÇO</option>
+    <option value="04" id="meses">ABRIL</option>
+    <option value="05" id="meses">MAIO</option>
+    <option value="06" id="meses">JUNHO</option>
+    <option value="07" id="meses">JULHO</option>
+    <option value="08" id="meses">AGOSTO</option>
+    <option value="09" id="meses">SETEMBRO</option>
+    <option value="10" id="meses">OUTUBRO</option>
+    <option value="11" id="meses">NOVEMBRO</option>
+    <option value="12" id="meses">DEZEMBRO</option>
+  </select>
+</label>
 </div>
 </div>
 <div class="box box100">

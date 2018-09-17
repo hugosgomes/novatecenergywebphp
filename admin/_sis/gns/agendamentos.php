@@ -19,7 +19,6 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 <link rel="stylesheet" type="text/css" href="_css/print.css" media="print" />
 <header class="dashboard_header no-print">
   <div class="dashboard_header_title">
-    <h1 class="icon-hammer">GNS</h1>
     <p class="dashboard_header_breadcrumbs">
     &raquo;</span>
     <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>

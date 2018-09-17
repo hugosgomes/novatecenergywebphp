@@ -20,12 +20,11 @@ input{
 </style>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-hammer">GNS</h1>
-        <p class="dashboard_header_breadcrumbs">
+         <p class="dashboard_header_breadcrumbs">
         &raquo;</span>
         <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
         <span class="crumb">/</span>
-        <a title="Novatec Energy" href="dashboard.php?wc=gns/agendamentos">Agendamentos</a>
+        <a title="Novatec Energy" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">Agendamentos</a>
         <span class="crumb">/</span>
         OS Sem Endereço
     </p>

@@ -13,7 +13,6 @@ endif;
 
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-hammer">GNS</h1>
         <p class="dashboard_header_breadcrumbs">
             &raquo;</span>
             <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
