@@ -103,7 +103,7 @@ endif;
                 <th>Período</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="font-size: 10px;">
             <?php 
             $Read->FullRead("SELECT  [60_Clientes].NomeCliente, [60_OS].NumOS, [60_OS].NomeOs, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, 
 CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcionários].[NOME COMPLETO], [60_OS].Turno AS Turno FROM [60_OS] 

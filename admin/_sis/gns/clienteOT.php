@@ -41,7 +41,7 @@ z-index: 98;
             <label class="label_100">
                 <label class="label">
                     <span class="legend">Cliente:</span>
-                    <select style="font-size: 1.2em;" id="cliente" name="IDCLIENTE">
+                    <select style="font-size: 0.9em;" id="cliente" name="IDCLIENTE">
                         <option value="">Selecione um Cliente</option>
                         <?php
                         $Read->FullRead("SELECT [Id],[NomeCliente] FROM [60_Clientes] ORDER BY [NomeCliente] ASC"," ");
@@ -57,7 +57,7 @@ z-index: 98;
 
                 <label class="label">
                     <span class="legend">Data de Agendamento:</span>
-                    <input style="font-size: 1.2em;" class="jwc_datepicker" readonly="readonly" type="text" name="DATAAGENDAMENTO" placeholder="Data Agendamento" id="data" required/>
+                    <input style="font-size: 0.9em;" class="jwc_datepicker" readonly="readonly" type="text" name="DATAAGENDAMENTO" placeholder="Data Agendamento" id="data" required/>
                 </label>
 
                 <div class="clear"></div>
