@@ -52,7 +52,7 @@ input{
                      <th>Endereço</th>
                      <th>Bairro</th>
                      <th>Município</th>
-                     <th>Cep</th>
+                     <th>CEP</th>
                      <th>Latitude</th>
                      <th>Longitude</th>
                      <th>Inserir Coordenadas</th>

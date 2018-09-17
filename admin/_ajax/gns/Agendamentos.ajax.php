@@ -173,7 +173,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   endforeach;                   
               else:
                   $jSON['trigger'] = true;
-                  $jSON['OS_sem_end'] = "<tr class='j_table_S_END'><td>Nenhum endereço foi encontrado</td></tr>";
+                  $jSON['OS_sem_end'] = "<tr class='j_table_S_END'><td colspan='7' style='font-size: 15px;'><center>Nenhum endereço foi encontrado</center></td></tr>";
                 endif;
                 break;
 
