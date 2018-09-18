@@ -30,6 +30,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):        
         case 'consulta':
+        $naoassociados = 0;
         $associados = 0;
         $atendidos = 0;
         $cancelados = 0;
@@ -53,6 +54,17 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
+                            $naoassociados = $QUANTIDADE;
+                        endforeach;                   
+                    else:
+                        $naoassociados = 0;
+                    endif;
+
+                    //CLIENTES ASSOCIADOS
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 1 " . $criterioTec,"");
+                    if ($Read->getResult()):
+                        foreach ($Read->getResult() as $OS):
+                            extract($OS);
                             $associados = $QUANTIDADE;
                         endforeach;                   
                     else:
@@ -60,7 +72,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES ATENDIDOS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 1 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 2 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -71,7 +83,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES CANCELADOS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 2 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 3 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -82,7 +94,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES AUSENTES  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 3 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 4 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -93,7 +105,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES REAGENDADOS NVT  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 4 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 5 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -104,7 +116,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES REAGENDADOS GNS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 5 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 6 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -115,7 +127,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES SEM ATENDER  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 6 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 7 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -162,6 +174,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     
                     $jSON['trigger'] = true;
                     $jSON['addlist'] = "<table id='dataList' class='cell-border compact stripe table' style='width: 50%;font-size: 15px;'>
+                    <tr>
+                    <td>Não Associado(s):</td>
+                    <td>{$naoassociados}</td>
+                    </tr>
                     <tr>
                     <td>Associado(s):</td>
                     <td>{$associados}</td>

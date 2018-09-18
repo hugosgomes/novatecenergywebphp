@@ -7,27 +7,21 @@ endif;
 if (empty($Read)):
     $Read = new Read;
 endif;
+
 ?>
+
 <header class="dashboard_header">
     <div class="dashboard_header_title">
+        <p class="dashboard_header_breadcrumbs">
+            &raquo; <?= ADMIN_NAME; ?>
+            <span class="crumb">/</span>
+            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Dashboard</a>
+            <span class="crumb">/</span>
+            Usuários
+        </p>
     </div>
 </header>
 
-<div class="dashboard_content bgdashboard" align="center">
-    <div class="box box50">
-        <img class="dashboar_backgroud " alt="" title=""  style="width: 70%;" src="_img/dashboard.png "/>
-    </div>
-    <div class="clear"></div>
+<div class="dashboard_content">
+    <h1>TI</h1>
 </div>
-
-<script>
-    //ICON REFRESH IN DASHBOARD
-    /*$('#loopDashboard').click(function () {
-        Dashboard();
-    });
-
-    //DASHBOARD REALTIME
-    /*setInterval(function () {
-        Dashboard();
-    }, 10000);*/
-    </script>

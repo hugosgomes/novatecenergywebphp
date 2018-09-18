@@ -24,7 +24,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         //LOGIN
         case 'admin_login':
 
-        //VERIFICA O PRENCHIMENTO CORRETO DO FORMULÁRIO
+            //VERIFICA O PRENCHIMENTO CORRETO DO FORMULÁRIO
             if (in_array('', $PostData)):
 
                 $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> Informe seu login e senha!', E_USER_NOTICE);
@@ -43,15 +43,44 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         
 
                         //COMPARAÇÃO DO QUE FOI INFORMADO COM O QUE TEM NO BD
-                        $Read->FullRead("SELECT ID FROM " . DB_FUNCIONARIOS . " WHERE [E-MAIL CORPORATIVO] = :login AND [SENHA] = :senha", "login={$LOGIN}&senha={$SENHA}");
+                        $Read->FullRead("SELECT [Funcionários].ID FROM [Funcionários] INNER JOIN [00_NivelAcesso] ON [00_NivelAcesso].IDFUNCIONARIO = [Funcionários].ID WHERE [E-MAIL CORPORATIVO] = :login AND [SENHA] = :senha ", "login={$LOGIN}&senha={$SENHA}");
                         if (!$Read->getResult()):
-                            $jSON['trigger'] = AjaxErro('<b>ERRO:</b> Login e senha não conferem!', E_USER_ERROR);
+                            $jSON['trigger'] = AjaxErro('<b>ERRO:</b> Login e senha não conferem ou você não tem permissão de acesso!', E_USER_ERROR);
                         else:
                             $_SESSION['userLogin'] = $Read->getResult()[0];
-                            $jSON['trigger'] = AjaxErro("<b>Bem-vindo(a) ao Sistema Novatec!");
-                            $jSON['redirect'] = 'dashboard.php?wc=home';                           
+                            
+                            if($SENHA == '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'):
+                                $jSON['trigger'] = AjaxErro("Bem-vindo(a) ao Sistema Novatec! É necessário atualizar sua senha de acesso.");
+                                $jSON['redirect'] = 'dashboard.php?wc=users/meusdados';
+                            else:
+                                $jSON['trigger'] = AjaxErro("<b>Bem-vindo(a) ao Sistema Novatec!");
+                                $jSON['redirect'] = 'dashboard.php?wc=home';
+                            endif;                           
                         endif;
                     endif;
+            endif;
+            break;
+
+        case 'alterar_senha':
+            
+            $ID = $PostData['ID'];
+            unset($PostData['ID']);
+            if (!empty($PostData['SENHA1']) || !empty($PostData['SENHA2'])):                
+                if($PostData['SENHA1'] === $PostData['SENHA2']):
+                    $SENHA['SENHA'] = hash('sha1', $PostData['SENHA1']);
+                    unset($PostData['SENHA1'], $PostData['SENHA2']);
+                    $Update = new Update;
+                    $Update->ExeUpdate("[Funcionários]", $SENHA, "WHERE [Funcionários].Id = :id", "id={$ID}");
+                    if($Update->getResult()):
+                        $jSON['trigger'] = AjaxErro('Senha atualizada com sucesso!');
+                    else:
+                        $jSON['trigger'] = AjaxErro('Erro ao atualizar a senha! Tente novamente.');
+                    endif;
+                else:
+                    $jSON['trigger'] = AjaxErro('As senhas digitadas não conferem!', E_USER_WARNING);
+                endif;
+            else:
+                $jSON['trigger'] = AjaxErro('Os campos de senha não devem estar vazios', E_USER_WARNING);
             endif;
             break;
 

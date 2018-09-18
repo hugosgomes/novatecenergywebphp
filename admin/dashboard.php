@@ -6,6 +6,8 @@ require '../_app/Config.inc.php';
 if (isset($_SESSION['userLogin'])):
     $Admin = $_SESSION['userLogin'];
     $DashboardLogin = true;
+    $Read->FullRead("SELECT * FROM [00_NivelAcesso] WHERE IDFUNCIONARIO = :id", "id={$_SESSION['userLogin']['ID']}");
+    $Permissao = $Read->getResult()[0];
     $Read = new Read;
     $Read->FullRead("SELECT [NOME COMPLETO] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
     $NOME = $Read->getResult()[0];
@@ -161,14 +163,13 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 <?php
                 $Data = new DateTime();
                     //MODULO GNS
-                if ($_SESSION['userLogin']):
+                if ($_SESSION['userLogin'] && ($Permissao['GNS'] == 1)):
                     ?>
                     <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
                         <ul class="dashboard_nav_menu_sub">
                             <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
                             <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/historico' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/historico">&raquo; Histórico de Clientes</a></li>                           
-                            <!--<li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/home">&raquo; Lista de OS's</a></li>-->
+                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/historico' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/historico">&raquo; Histórico de Clientes</a></li>   
                         </ul>
                     </li>
                     <?php
@@ -178,7 +179,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 <?php
 
                     //MODULO CLIENTES PARTICULARES
-                if ($_SESSION['userLogin']):
+                if ($_SESSION['userLogin'] && ($Permissao['CLIENTES_PARTICULARES'] == 1)):
                     ?>
 
                     <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="#">Clientes Particulares</a>
@@ -196,9 +197,19 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                     <?php
                 endif;
 
+                    //MENU DE USUÁRIOS
+                    if ($_SESSION['userLogin'] && ($Permissao['TI'] == 1)):
+                        ?>
+                        <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-database" title="Usuários" href="#">TI</a>
+                            <ul class="dashboard_nav_menu_sub">
+                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/create' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Ver Usuários" href="dashboard.php?wc=ti/create">&raquo; Controle de Usuários</a></li>
+                            </ul>
+                        </li>
+                        <?php
+                    endif;
 
                     //MENU DE USUÁRIOS
-                    /*if (APP_USERS && $_SESSION['userLogin']['user_level'] >= LEVEL_WC_USERS):
+                    /*if ($_SESSION['userLogin'] && ($Permissao['GNS'] == 1)):
                         ?>
                         <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'users/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Usuários" href="dashboard.php?wc=users/home">Usuários</a>
                             <ul class="dashboard_nav_menu_sub">

@@ -1200,13 +1200,13 @@ return false;
     });
 
     //WC LOGIN FIX
-    setInterval(function () {
+    /*setInterval(function () {
         $.post('_ajax/Dashboard.ajax.php', {callback: 'Dashboard', callback_action: 'wc_login_fix'}, function (data) {
             if (data.redirect) {
                 window.location.href = data.redirect;
             }
         }, 'json');
-    }, 5 * 60 * 4000);
+    }, 5 * 60 * 4000);*/
 
     //WC LICENSE
     $('.wc_domain_license').click(function () {

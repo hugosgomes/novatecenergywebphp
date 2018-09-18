@@ -58,7 +58,7 @@ $Cookie = filter_input(INPUT_COOKIE, 'workcontrol', FILTER_VALIDATE_EMAIL);
                     <input type="password" name="SENHA" placeholder="Digite sua senha" required style="border: 0px;"/>
                 </label>
                 <img class="form_load none" style="float: right; margin-top: 3px; margin-left: 10px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load_w.gif"/>
-                <a href="#" class="fl_left minhasenha">Esqueceu a senha?</a>
+                <!--<a href="#" class="fl_left minhasenha">Esqueceu a senha?</a>-->
                 <button class="btn_default btn_white icon-enter fl_right">Login</button>
                 <div class="clear"></div>
             </form>
