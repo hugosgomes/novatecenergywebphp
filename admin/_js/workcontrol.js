@@ -1431,58 +1431,7 @@ function wcUrlParam(name) {
     });
 
 
-    //PESQUISA OT PARA VINCULO
-    $('html, body').on('click', '.j_pesquisa_ot', function (e) {
-        var Prevent = $(this);
-        var CliId = $(this).attr('rel');
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');
-
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId}, function (data) {
-
-            //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
-            if (data.addOT) {
-                $('.j_ot').remove();
-                $(data.addOT).appendTo('.ot');
-            }
-            //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
-            if (data.deltable) {
-                $('#'+ data.deltable).fadeOut(400);
-            }
-        }, 'json');
-
-        e.preventDefault();
-        e.stopPropagation();
-    });
-
-    //PESQUISA VINCULA OT AO CLIENTE
-    $('html, body').on('click', '.j_insere_ot', function (e) {
-        var Prevent = $(this);
-        var CliId = $(this).attr('rel');
-        var OTId = $(this).attr('id');
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');
-
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOT: OTId, IDCLIENTE:CliId}, function (data) {
-
-            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if (data.trigger) {
-                Trigger(data.trigger);                
-            }
-
-            //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
-            if (data.ot) {
-                $('.j_ot').remove();
-                $('#'+ data.ot).fadeOut(400);
-            }
-        }, 'json');
-
-        e.preventDefault();
-        e.stopPropagation();
-    });
-
-
-  //CONSULTA NO BANCO SE O CLIENTE JÁ EXISTE
+    //CONSULTA NO BANCO SE O CLIENTE JÁ EXISTE
   $(function(){
     $('.j_consulta_cliente').change(function(){
         var CpfCnpj = $(this).val();

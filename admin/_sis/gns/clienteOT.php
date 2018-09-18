@@ -79,29 +79,12 @@ z-index: 98;
     <article class='box box100'>
         <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
         <article class="box box50">
-            <div class="j_cliente_semOT">
-               <table class='table' style="width: 100%;">
-                <?php
-                $Read->FullRead("SELECT ID, IDCLIENTE, DATAAGENDAMENTO FROM [60_ClientesSemOT]
-                    WHERE [IDOT] IS NULL ORDER BY [DATAAGENDAMENTO] ASC"," ");
-
-                if ($Read->getResult()):
-                    foreach ($Read->getResult() as $CLI):
-                        extract($CLI);
-
-                        $Read->FullRead("SELECT NomeCliente FROM [60_Clientes] WHERE [Id] = :id","id={$IDCLIENTE}");
-                        echo "
-                        <tr>
-                        <td id='{$IDCLIENTE}'>{$Read->getResult()[0]['NomeCliente']}</td>
-                        <td>" . date('d/m/Y', strtotime($DATAAGENDAMENTO)) . "</td>
-                        <td><span class='j_pesquisa_ot icon-search btn btn_darkblue' rel='{$IDCLIENTE}' linhaSemOs = '{$ID}' callback='ClientesOT' callback_action='consulta'>&ensp;Consultar OT/OS</span></td>
-                        </tr>";
-                    endforeach;
-                endif;
-                ?>
-            </table>
-        </div>
-    </article>
+            <div class="">
+               <table id='j_cliente_semOT' class='table' style="width: 100%;">
+                    <!--LOCAL ONDE CARREGA OS DADOS DOS CLIENTES VINDOS DO AJAX-->
+                </table>
+            </div>
+        </article>
     <!--LOCAL ONDE É APRESENTADO AS SUGESTÕES DE OT PARA VINCULAR-->
     <article class="box box_50">
         <table class="ot" style="font-size: 0.9em;">           
@@ -111,3 +94,6 @@ z-index: 98;
 </article>
 </div>
 <script src="_js/gns.js"></script>
+<script>
+    $(document).ready(carregarTabela);
+</script>

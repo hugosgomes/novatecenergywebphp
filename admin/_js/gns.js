@@ -110,10 +110,10 @@ $(function(){
     $('html').on('click', '.j_pesquisa_ot', function (e) {
         var Prevent = $(this);
         var CliId = $(this).attr('rel');
-        var LinhaSemOs = $(this).attr('linhaSemOs');
+        var LinhaSemOs = $(this).attr('linha_sem_os');
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
-        alert($(this).attr('linhaSemOs'));
+        
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId, linhaSemOs: LinhaSemOs}, function (data) {
 
@@ -136,11 +136,12 @@ $(function(){
     $('html').on('click', '.j_insere_ot', function (e) {
         var Prevent = $(this);
         var CliId = $(this).attr('rel');
+        var LinhaSemOs = $(this).attr('linha_sem_os');
         var OTId = $(this).attr('id');
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOT: OTId, IDCLIENTE:CliId}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOT: OTId, IDCLIENTE:CliId, linhaSemOs: LinhaSemOs }, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -149,8 +150,9 @@ $(function(){
 
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.ot) {
-                $('.j_ot').remove();
+                $('.j_ot, .table *').remove();
                 $('#'+ data.ot).fadeOut(400);
+                carregarTabela();
             }
         }, 'json');
 
@@ -212,9 +214,7 @@ $(function(){
                 $(data.selectClientes).appendTo('#j_selectClientes');             
             }
 
-
-        }, 'json');       
-
+        }, 'json');
         
     }
 
@@ -240,6 +240,7 @@ $(function(){
         }, 'json');
 
     });
+
 
     $('#j_selectClientes').change(carregaDados);
 
@@ -298,3 +299,25 @@ $(function(){
 
 
   });
+
+  //FUNÇÃO PARA CARREGAR OS DADOS DA TABGELA DA TELA DE CLIENTES SEM OT
+  function carregarTabela(){
+    var Callback = 'ClientesOT';
+    var Callback_action = 'carregarTabela';
+
+    $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action}, function (data) {
+
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if(data.Trigger){
+            Trigger(data.trigger);
+        }
+        //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
+
+        if (data.addTabela){
+            $('#j_cliente_semOT *').remove();
+            $(data.addTabela).appendTo('#j_cliente_semOT');
+        }
+
+    }, 'json');
+
+  }
