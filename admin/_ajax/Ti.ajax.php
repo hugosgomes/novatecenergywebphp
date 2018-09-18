@@ -45,214 +45,62 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'manager':
-            var_dump($PostData);
+            if(!isset($PostData['TI'])):
+                $PostData['TI'] = 0;
+            endif;
+            if(!isset($PostData['GNS'])):
+                $PostData['GNS'] = 0;
+            endif;
+            if(!isset($PostData['CLIENTES_PARTICULARES'])):
+                $PostData['CLIENTES_PARTICULARES'] = 0;
+            endif;
+
+            $Read->FullRead("SELECT * FROM [00_NivelAcesso] WHERE IDFUNCIONARIO = :idfunc","idfunc={$PostData['ID']}");
+            if($Read->getResult()):
+                $ID = $PostData['ID'];
+                unset($PostData['ID']);
+                $Update->ExeUpdate("[Funcionários]", $PostData, "WHERE ID= :id", "id={$ID}");
+            else:
+                $ID = $PostData['ID'];
+                unset($PostData['ID']);
+                $Create->ExeCreate("[80_Chamados]",$PostData);
+            endif;
+
+
             break;
 
-        case 'delete':
-            $UserId = $PostData['del_id'];
-            $Read->ExeRead(DB_USERS, "WHERE user_id = :user", "user={$UserId}");
-            if (!$Read->getResult()):
-                $jSON['trigger'] = AjaxErro("<b class='icon-warning'>USUÁRIO NÃO EXISTE:</b> Olá {$_SESSION['userLogin']['user_name']}, você tentou deletar um usuário que não existe ou já foi removido!", E_USER_WARNING);
-            else:
-                extract($Read->getResult()[0]);
-                if ($user_id == $_SESSION['userLogin']['user_id']):
-                    $jSON['trigger'] = AjaxErro("<b class='icon-warning'>OPPSSS:</b> Olá {$_SESSION['userLogin']['user_name']}, por questões de segurança, o sistema não permite que você remova sua própria conta!", E_USER_WARNING);
-                elseif ($user_level > $_SESSION['userLogin']['user_level']):
-                    $jSON['trigger'] = AjaxErro("<b class='icon-warning'>PERMISSÃO NEGADA:</b> Desculpe {$_SESSION['userLogin']['user_name']}, mas {$user_name} tem acesso superior ao seu. Você não pode remove-lo!", E_USER_WARNING);
+        case 'consultaUsuario':
+                         
+                $Read->FullRead("SELECT * FROM [00_NivelAcesso] WHERE IDFUNCIONARIO = :idfunc","idfunc={$PostData['ID']}");
+                if($Read->getResult()):
+                    $jSON['permissoesUsuario'] = "<div id='permissoesUsuario'><input type='hidden' name='ID' value='{$Read->getResult()[0]['ID']}'/><input class='' name='GNS' type='checkbox' value='1' ".($Read->getResult()[0]['GNS'] == 1 ? 'checked':'')."> GNS <input class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1' ".($Read->getResult()[0]['CLIENTES_PARTICULARES'] == 1 ? 'checked':'')."> Clientes Particulares <input class='' name='TI' type='checkbox' value='1' ".($Read->getResult()[0]['TI'] == 1 ? 'checked':'')." > TI </br></div>";
+                    
+                    $Read->FullRead("SELECT * FROM [Funcionários] WHERE ID = :id","id={$PostData['ID']}");
+                    if($Read->getResult()):
+                    $jSON['dadosUsuario'] = "<div id='dadosUsuario'><h5>{$Read->getResult()[0]['NOME COMPLETO']}</h5><p>{$Read->getResult()[0]['E-MAIL CORPORATIVO']}</p><span rel='agendamentos' callback='Ti' callback_action='resetarSenha' class='j_resetar_senha icon-cancel-circle btn btn_red m_top' id='{$Read->getResult()[0]['ID']}'>Resetar Senha</span></div>";
+                    else:
+                        $jSON['trigger'] = AjaxErro("Usuário não encontrado", E_USER_WARNING);
+                    endif;
                 else:
-                    $Delete->ExeDelete(DB_ORDERS_ITEMS, "WHERE order_id IN(SELECT order_id FROM " . DB_ORDERS . " WHERE user_id = :user)", "user={$user_id}");
-                    $Delete->ExeDelete(DB_ORDERS, "WHERE user_id = :user", "user={$user_id}");
-                    $Delete->ExeDelete(DB_USERS_ADDR, "WHERE user_id = :user", "user={$user_id}");
-
-                    //COMMENT CONTROL
-                    $Read->FullRead("SELECT id FROM " . DB_COMMENTS . " WHERE user_id = :user", "user={$user_id}");
-                    if ($Read->getResult()):
-                        //RESPONSES REMOVE
-                        foreach ($Read->getResult() as $DelId):
-                            $Delete->ExeDelete(DB_COMMENTS, "WHERE alias_id = :in", "in={$DelId['id']}");
-                        endforeach;
-                        //COMMENT REMOVE
-                        $Delete->ExeDelete(DB_COMMENTS, "WHERE user_id = :user", "user={$user_id}");
-                        $Delete->ExeDelete(DB_COMMENTS_LIKES, "WHERE user_id = :user", "user={$user_id}");
-                    endif;
-
-                    if (file_exists("../../uploads/{$user_thumb}") && !is_dir("../../uploads/{$user_thumb}")):
-                        unlink("../../uploads/{$user_thumb}");
-                    endif;
-
-                    $Delete->ExeDelete(DB_USERS, "WHERE user_id = :user", "user={$user_id}");
-                    $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>USUÁRIO REMOVIDO COM SUCESSO!</b>");
-                    $jSON['redirect'] = "dashboard.php?wc=users/home";
+                    $Read->FullRead("SELECT * FROM [Funcionários] WHERE ID = :id","id={$PostData['ID']}");
+                    if($Read->getResult()):
+                        $jSON['dadosUsuario'] = "<div id='dadosUsuario'></div>";
+                        $jSON['permissoesUsuario'] = "<div id='permissoesUsuario'><input type='hidden' name='ID' value='{$Read->getResult()[0]['ID']}'/><input class='' name='GNS' type='checkbox' value='1'> GNS <input class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1'> Clientes Particulares <input class='' name='TI' type='checkbox' value='1'> TI </br></div>";                
+                        $jSON['trigger'] = AjaxErro("Usuário sem permissões. Ao cadastrar, o mesmo passará a usar o sistema com as devidas permissões escolhidas."); 
+                    endif;               
                 endif;
-            endif;
             break;
 
-        case 'addr_add':
-            $AddrId = $PostData['addr_id'];
-            unset($PostData['addr_id']);
-
-            $Update->ExeUpdate(DB_USERS_ADDR, $PostData, "WHERE addr_id = :addr", "addr={$AddrId}");
-            $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>ENDEREÇO ATUALIZADO COM SUCESSO!</b>");
-            break;
-
-        case 'addr_delete':
-            $Read->ExeRead(DB_ORDERS, "WHERE order_addr = :addr", "addr={$PostData['del_id']}");
-            if ($Read->getResult()):
-                $jSON['trigger'] = AjaxErro("<b class='icon-warning'>ERRO AO DELETAR:</b> Olá {$_SESSION['userLogin']['user_name']}, deletar um endereço vinculado a pedidos não é permitido pelo sistema!", E_USER_WARNING);
+        case 'resetarSenha':
+            $SENHA['SENHA'] = hash('sha1', "1234");
+            $Update->ExeUpdate("[Funcionários]", $SENHA, "WHERE ID= :id", "id={$PostData['ID']}");
+            if($Update->getResult()):
+                $jSON['trigger'] = AjaxErro("Senha resetada com sucesso!");
             else:
-                $Delete->ExeDelete(DB_USERS_ADDR, "WHERE addr_id = :addr", "addr={$PostData['del_id']}");
-                $jSON['sucess'] = true;
+                $jSON['trigger'] = AjaxErro("Erro ao tentar resetar a senha do usuário!");
             endif;
             break;
 
-        case 'block_user':
-
-            //ADD NOTE
-            $Read->ExeRead(DB_USERS, "WHERE user_id = :user", "user={$PostData['admin_id']}");
-            $AdminName = $Read->getResult()[0]['user_name'] . ' ' . $Read->getResult()[0]['user_lastname'];
-            $NoteBlock = [
-                'user_id' => $PostData['user_id'],
-                'admin_id' => $PostData['admin_id'],
-                'note_text' => "<b class='font_red'>Usuário bloqueado</b> Motivo: {$PostData['user_blocking_reason']}",
-                'note_datetime' => date('Y-m-d H:i:s')
-            ];
-
-            $Create->ExeCreate(DB_USERS_NOTES, $NoteBlock);
-
-            //BLOCK USER
-            $Block = [
-                'user_blocking_reason' => $PostData['user_blocking_reason']
-            ];
-            $Update->ExeUpdate(DB_USERS, $Block, "WHERE user_id = :user", "user={$PostData['user_id']}");
-
-            //SEND NOTIFICATION
-            $Read->LinkResult(DB_USERS, "user_id", $PostData['user_id']);
-            $Student = $Read->getResult()[0];
-
-            require '../../_ead/wc_ead.email.php';
-            $MailBody = "
-                    <p style='font-size: 1.4em;'>Olá {$Student['user_name']},</p>
-                    <p>Este e-mail é para informar que sua conta foi <b>bloqueada</b> na nossa Escola Online.</p>
-                    <p>Analise o motivo do bloqueio abaixo:</p>
-                    <p>{$Block['user_blocking_reason']}</p>
-                    <p>Se acredita que sua conta foi bloqueada de forma equivocada, não deixe de responder este e-mail!</p>
-                ";
-
-            $MailContent = str_replace("#mail_body#", $MailBody, $MailContent);
-            $Email = new Email;
-            $Email->EnviarMontando("Sua conta foi suspensa da escola online!", $MailContent, MAIL_SENDER, MAIL_USER, "{$Student['user_name']} {$Student['user_lastname']}", $Student['user_email']);
-
-
-            $jSON['redirect'] = 'dashboard.php?wc=teach/students_gerent&id=' . $PostData['user_id'];
-            $jSON['success'] = true;
-            $jSON['clear'] = true;
-            break;
-
-        case 'unblock_user':
-
-            //ADD NOTE
-            $Read->ExeRead(DB_USERS, "WHERE user_id = :user", "user={$PostData['admin_id']}");
-            $AdminName = $Read->getResult()[0]['user_name'] . ' ' . $Read->getResult()[0]['user_lastname'];
-            $NoteBlock = [
-                'user_id' => $PostData['user_id'],
-                'admin_id' => $PostData['admin_id'],
-                'note_text' => "<b class='font_green'>Usuário desbloqueado!</b> Motivo: {$PostData['user_blocking_reason']}",
-                'note_datetime' => date('Y-m-d H:i:s')
-            ];
-
-            $Create->ExeCreate(DB_USERS_NOTES, $NoteBlock);
-
-            //BLOCK USER
-            $Block = [
-                'user_blocking_reason' => null
-            ];
-            $Update->ExeUpdate(DB_USERS, $Block, "WHERE user_id = :user", "user={$PostData['user_id']}");
-
-            //SEND NOTIFICATION
-            $Read->LinkResult(DB_USERS, "user_id", $PostData['user_id']);
-            $Student = $Read->getResult()[0];
-
-            require '../../_ead/wc_ead.email.php';
-            $MailBody = "
-                    <p style='font-size: 1.4em;'>Olá {$Student['user_name']},</p>
-                    <p>Este e-mail é para informar que sua conta foi <b>desbloqueada</b> na nossa Escola Online.</p>
-                    <p>Seja bem vindo de volta!</p>
-                    <p>Se tiver qualquer problema, não deixe de responder este e-mail!</p>
-                ";
-
-            $MailContent = str_replace("#mail_body#", $MailBody, $MailContent);
-            $Email = new Email;
-            $Email->EnviarMontando("Sua conta foi desbloqueada na escola online!", $MailContent, MAIL_SENDER, MAIL_USER, "{$Student['user_name']} {$Student['user_lastname']}", $Student['user_email']);
-
-            $jSON['redirect'] = 'dashboard.php?wc=teach/students_gerent&id=' . $PostData['user_id'];
-            $jSON['success'] = true;
-            $jSON['clear'] = true;
-            break;
-
-        case 'note_draft':
-            $Draft = ['note_status' => 1];
-            $Update->ExeUpdate(DB_USERS_NOTES, $Draft, "WHERE note_id = :id", "id={$PostData['del_id']}");
-            $jSON['success'] = true;
-            break;
-
-        case 'note_add':
-            $Note = [
-                'user_id' => $PostData['user_id'],
-                'admin_id' => $PostData['admin_id'],
-                'note_text' => $PostData['note_text'],
-                'note_datetime' => date('Y-m-d H:i:s')
-            ];
-
-            $Create->ExeCreate(DB_USERS_NOTES, $Note);
-
-            //GET NOTES USER
-            $Read->ExeRead(DB_USERS_NOTES, "WHERE user_id = :user AND note_status IS NULL ORDER BY note_datetime DESC", "user={$PostData['user_id']}");
-            if ($Read->getResult()):
-                $ContentDiv = "";
-
-                foreach ($Read->getResult() as $Note):
-                    $Read->LinkResult(DB_USERS, "user_id", "{$Note['admin_id']}", 'user_id, user_name, user_lastname');
-                    $UserName = $Read->getResult()[0]['user_name'] . ' ' . $Read->getResult()[0]['user_lastname'];
-                    $DateNote = date('d/m/Y H:i', strtotime($Note['note_datetime']));
-                    $ContentDiv .= "<article class='student_gerent_home_anotation' id='" . $Note['note_id'] . "'>
-                        <span class='icon-cross icon-notext student_gerent_home_anotation_remove j_delete_action_confirm' callback='Users' callback_action='note_draft' id='" . $Note['note_id'] . "' rel='student_gerent_home_anotation'></span>
-                        <div class='student_gerent_home_anotation_content icon-pushpin'>
-                            " . nl2br($Note['note_text']) . "
-                            <p class='icon-calendar'>" . $DateNote . " por " . $UserName . "</p>
-                        </div>
-                    </article>";
-                endforeach;
-            endif;
-
-            $jSON['content'] = ['.j_content_note' => $ContentDiv];
-            $jSON['success'] = true;
-            $jSON['clear'] = true;
-            break;
-
-        case 'list_notes_all':
-
-            //GET NOTES USER
-            $Read->ExeRead(DB_USERS_NOTES, "WHERE user_id = :user ORDER BY note_datetime DESC", "user={$PostData['user_id']}");
-            if ($Read->getResult()):
-                $ContentDiv = "";
-
-                foreach ($Read->getResult() as $Note):
-                    $Read->LinkResult(DB_USERS, "user_id", "{$Note['admin_id']}", 'user_id, user_name, user_lastname');
-                    $UserName = $Read->getResult()[0]['user_name'] . ' ' . $Read->getResult()[0]['user_lastname'];
-                    $DateNote = date('d/m/Y H:i', strtotime($Note['note_datetime']));
-                    $ContentDiv .= "<article class='student_gerent_home_anotation' id='" . $Note['note_id'] . "'>
-                        <span class='icon-cross icon-notext student_gerent_home_anotation_remove j_delete_action_confirm' callback='Users' callback_action='note_draft' id='" . $Note['note_id'] . "' rel='student_gerent_home_anotation'></span>
-                        <div class='student_gerent_home_anotation_content icon-pushpin'>
-                            " . nl2br($Note['note_text']) . "
-                            <p class='icon-calendar'>" . $DateNote . " por " . $UserName . "</p>
-                        </div>
-                    </article>";
-                endforeach;
-            endif;
-
-            $jSON['content'] = ['.j_content_note' => $ContentDiv];
-            $jSON['success'] = true;
-            break;
     endswitch;
 
     //RETORNA O CALLBACK

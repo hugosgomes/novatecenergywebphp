@@ -34,7 +34,7 @@ endif;
                 <!--SELECT DO TÉCNICO-->
                 <div class="label_50">
                     <label class="label">
-                        <select id="Usuario" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>">
+                        <select id="Usuario" callback="Ti" callback_action="consultaUsuario" >
                             <option value="t">Selecione o Usuário</option>             
                             <?php
                             $Setor = 2;
@@ -45,41 +45,34 @@ endif;
                             endforeach;
                         endif;
                         ?>
-                    </select>
-                </label>       
-            </div>
+                        </select>
+                    </label>
+                </div> 
 
+                <div class="permissoesUsuarios"></div>            
+            
             <form class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="callback" value="Ti"/>
                 <input type="hidden" name="callback_action" value="manager"/>
-
-                <label class="label">
-                    <span class="legend">Nome:</span>
-                    <input value="" type="text" name="user_name" placeholder="Nome:" required />
-                </label>
+                
                 <div class="label_50">
-                    <label class="label">
-                        <span class="legend">E-mail:</span>
-                        <input value="" type="email" name="user_email" placeholder="E-mail:" required />
-                    </label>
-                    <label class="label">
-                        <span class="legend">Senha:</span>
-                        <input value="" type="password" name="user_password" placeholder="Senha:" />
+                    <h4 class="m_botton">Permissões de Usuários</h4>
+                    <label class="label permissoesUsuario">
                     </label>
                 </div>
-                
-                <h2 class="m_botton">Permissões de Usuários</h2>
-                <label class="label">
-                    <input name="GNS" type="checkbox" value="1"> GNS
-                    <input name="CLIENTES_PARTICULARES" type="checkbox" value="1"> Clientes Particulares
-                    <input name="TI" type="checkbox" value="1" checked> TI
-                </label>
-
-                <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
-                <button name="public" value="1" class="btn btn_green fl_right icon-share" style="margin-left: 5px;">Atualizar Usuário!</button>
+                <img class="form_load none fl_left" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
+                <button name="public" value="1" class="btn btn_green fl_left icon-share" style="margin-left: 5px;">Atualizar Usuário!</button>
                 <div class="clear"></div>
             </form>
         </div>
     </article>
 </div>
+
+<div class="box box30">
+    <article class="wc_tab_target wc_active" id="profile">
+        <div class="panel dadosUsuario"></div>
+    </article>
 </div>
+</div>
+
+<script src="_js/ti.js"></script>

@@ -204,7 +204,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                         ?>
                         <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-database" title="Usuários" href="#">TI</a>
                             <ul class="dashboard_nav_menu_sub">
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/create' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Ver Usuários" href="dashboard.php?wc=ti/create">&raquo; Controle de Usuários</a></li>
+                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/controleUsuarios' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=ti/controleUsuarios">&raquo; Controle de Usuários</a></li>
                             </ul>
                         </li>
                         <?php
