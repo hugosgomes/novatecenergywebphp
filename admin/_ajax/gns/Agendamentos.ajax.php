@@ -124,12 +124,21 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                           WHERE [60_OS].Tecnico = :tecnico","tecnico={$PostData['Tecnico']}");
                 endif;
               else:
-                $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                          [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico FROM [60_Clientes]
-                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
-                                          WHERE [60_OS].Tecnico = :tecnico AND [60_OS].[DataAgendamento] = :dia","tecnico={$PostData['Tecnico']}&dia={$PostData['dia']}");
+                if($PostData['Tecnico'] == 't'):
+                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                                            [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico FROM [60_Clientes]
+                                                inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                                inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                                INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
+                                            WHERE [60_OS].[DataAgendamento] = :dia","dia={$PostData['dia']}");
+                else:
+                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                                            [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico FROM [60_Clientes]
+                                                inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                                inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                                INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
+                                            WHERE [60_OS].Tecnico = :tecnico AND [60_OS].[DataAgendamento] = :dia","tecnico={$PostData['Tecnico']}&dia={$PostData['dia']}");
+                endif;
               endif;
               if ($Read->getResult()):
                   $jSON['addtable'] = null;

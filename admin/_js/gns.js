@@ -1,36 +1,30 @@
 
 //CONSULTA NO BANCO QUANDO MUDA O TÉCNICO NO SELECT
-$(function(){
-    $('#Tecnico').change(function(){
-        var Tecnico = $(this).val();
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');
+ $('#Tecnico').change(function(){
+    var Tecnico = $(this).val();
+    var Callback = $(this).attr('callback');
+    var Callback_action = $(this).attr('callback_action');
+    var Dia = $(this).attr('rel');
+    var S = $(this).attr('semana');
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico}, function (data) {
+    $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
 
-                //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-                if(data.Trigger){
-                    Trigger(data.trigger);
-                }
-                //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
-                if (data.addtable) {
-                    $("#dataTable .j_tecnico").remove();
-                    $(data.addtable).appendTo('.dataTable');
-                }
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if(data.Trigger){
+            Trigger(data.trigger);
+        }
+        //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
+        if (data.addtable) {
+            $("#dataTable .j_tecnico").remove();
+            $(data.addtable).appendTo('.dataTable');
+        }
 
-                //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
-                if (data.addlist) {
-                    $("#dataList").remove();
-                    $(data.addlist).appendTo('.dataList');
-                } 
-
-                //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
-                if (data.addOrcamentolist) {
-                    $("#orcamento-list").remove();
-                    $(data.addOrcamentolist).appendTo('.orcamento-list');
-                } 
-            }, 'json');
-    });
+        //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
+        if (data.addlist) {
+            $("#dataList").remove();
+            $(data.addlist).appendTo('.dataList');
+        }            
+    }, 'json');
 });
 
     //ADICIONA O.S PARA O TÉCNICO
@@ -320,4 +314,61 @@ $(function(){
 
     }, 'json');
 
+  }
+
+
+  function iniciaPagina(){
+    var dataAtual = new Date();
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear()-1)+'>' + (dataAtual.getFullYear()-1) + '</option>');
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear())+' selected="selected">' + dataAtual.getFullYear() + '</option>');
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear()+1)+'>' + (dataAtual.getFullYear()+1) + '</option>');
+    $('#j_ano').selected = '2018';
+
+    document.getElementById('j_mes').selectedIndex = dataAtual.getMonth();
+
+    $('#j_statusOrcamento').append('<option value="0">APROVADO</option>');
+    $('#j_statusOrcamento').append('<option value="1">RECUSADO</option>');
+    $('#j_statusOrcamento').append('<option value="2">EXECUTADO</option>');
+
+    carregaTabelaOrcamento();
+  }
+
+  $('#j_ano, #j_mes, #j_statusOrcamento').change(carregaTabelaOrcamento);
+
+
+  function carregaTabelaOrcamento(){
+    var Callback = $('#dataTable').attr('callback');
+    var Callback_action = $('#dataTable').attr('callback_action');
+    var Ano = $('#j_ano').val();
+    var Mes = $('#j_mes').val();
+    var Status = $('#j_statusOrcamento').val();
+
+    $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ano: Ano, mes: Mes, Status}, function (data) {
+
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if(data.Trigger){
+            Trigger(data.trigger);
+        }
+
+        //ADICIONA OS DADOS NA TABELA DA TELA DE ORÇAMENTOS
+        if (data.addTabela){
+            $('#dataTable tbody *').remove();
+            $(data.addTabela).appendTo('#dataTable tbody');
+        }
+
+        if (data.addAprovado){
+            $('#j_aprovado').val(data.addAprovado);
+        }
+
+        if (data.addReprovado){
+            $('#j_recusado').val(data.addReprovado);
+        }
+
+        if (data.addExecutado){
+            $('#j_executado').val(data.addExecutado);
+        }
+
+        $('#j_aprovado, #j_recusado, #j_executado').attr('disabled', true);
+
+    }, 'json');
   }

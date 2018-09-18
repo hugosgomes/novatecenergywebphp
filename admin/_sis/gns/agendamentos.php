@@ -148,6 +148,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 <script>
   $(document).ready( function () {
 
+    $('#Tecnico').change();
 
     <?php foreach ($LatLng->getResult() as $ENDERECOS): 
       extract($ENDERECOS);?>

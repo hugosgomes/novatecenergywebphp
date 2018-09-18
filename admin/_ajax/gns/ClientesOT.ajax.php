@@ -67,12 +67,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'consulta':
 
             //PESQUISA SE JÁ EXISTE NO BANCO UMA OT CRIADA PARA ESTE CLIENTE
-            $Read->FullRead("SELECT Id, NumOT FROM [60_OT] WHERE [Cliente] = :cliente","cliente={$PostData['cli_id']}");
+            $Read->FullRead("SELECT Id, NumOT, TipoOT FROM [60_OT] WHERE [Cliente] = :cliente","cliente={$PostData['cli_id']}");
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $OT):
                     extract($OT);
                     $jSON['trigger'] = true;
-                    $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td style='width: 80%;'>{$NumOT}</td><td callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$PostData['cli_id']}' id='{$Id}' linha_sem_os='{$PostData['linhaSemOs']}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
+                    $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td style='width: 80%;'>{$NumOT} - {$TipoOT}</td><td callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$PostData['cli_id']}' id='{$Id}' linha_sem_os='{$PostData['linhaSemOs']}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
                 endforeach;
             else:
                 $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");
@@ -111,6 +111,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endforeach;
             else:
                 $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");
+                 $jSON['addTabela'] = 
             endif;
         break;
 

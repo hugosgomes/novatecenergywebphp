@@ -16,8 +16,6 @@ endif;
             &raquo;</span>
             <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
-            <a title="Novatec Energy" href="dashboard.php?wc=gns/agendamentos">Agendamentos</a>
-            <span class="crumb">/</span>
             Histórico de Clientes
         </p>
     </div>
