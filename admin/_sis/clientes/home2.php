@@ -198,7 +198,7 @@ endif;
 
         <label class="label" style="width: 20.6%;">
           <span class="legend">VALOR:</span>
-          <input class="input j_valor wc_value" style="font-family: Arial;font-size: 11px;" name="VALOR" type="text" size='10' value='' onkeypress='return SomenteNumeroVirgula(this,event)' name="campo3" placeholder="R$" required/>
+          <input class="input j_valor wc_value" style="font-family: Arial;font-size: 11px;" name="VALOR" type="text" size='10' value='' onkeypress='return SomenteNumeroVirgula(this,event)' id="valor" name="campo3" placeholder="R$" required/>
         </label>
 
         <label class="label" style="margin-left: 0px;">

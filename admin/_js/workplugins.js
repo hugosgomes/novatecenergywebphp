@@ -98,6 +98,8 @@ $(function () {
         $("." + SpanCount).text(addZeros(parseInt(SpanText) + parseInt(1)));
     });
 
+    $("#valor").maskMoney({showSymbol:false, thousands:'.', decimal:',', symbolStay: false});
+
 });
 
 //FUNCTION TINYMCE

@@ -63,6 +63,7 @@ endif;
     <script src="../_cdn/jquery.js"></script>
     <script src="../_cdn/jquery.form.js"></script>
     <script src="_js/workcontrol.js"></script>
+    <script src="_js/jquery.maskMoney.js" type="text/javascript"></script>
 
     <script src="_js/tinymce/tinymce.min.js"></script>
     <script src="_js/maskinput.js"></script>

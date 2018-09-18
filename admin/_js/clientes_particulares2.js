@@ -217,6 +217,35 @@ $('html').on('click', '#wc_pdt_stoc', function () {
     return false;
 });
 
+$('html').on('click', '#j_edit_chamado', function (e) {
+  var ID = $(this).attr('rel');
+  var Callback = $(this).attr('callback');
+  var Callback_action = $(this).attr('callback_action');
+
+  $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ID: ID}, function (data) {
+
+            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+            if (data.trigger) {
+                Trigger(data.trigger);
+            }
+
+            //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
+            if (data.editaChamado) {
+                $('.j_statusOrcamento').val(1);
+                $('.j_tecnico').val(data.editaChamado['TECNICO']);
+                $('.j_valor').val(data.editaChamado['VALOR']);
+                $('.j_forma').val(data.editaChamado['FORMAPAGAMENTO']);
+                $('.j_qnt').val(data.editaChamado['NUM_PARCELAS']);
+                $('.j_obs').val(data.editaChamado['OBS']);
+            }
+            if(data.addIdChamado){
+               $(data.addIdChamado).prependTo('#j_form');
+            }
+        }, 'json');
+
+        e.preventDefault();
+        e.stopPropagation();
+});
 
 function mesAtual(){
   var data = new Date();

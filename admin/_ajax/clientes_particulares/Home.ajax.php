@@ -265,7 +265,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         break;
 
         case 'salvachamado':
-            //Salvando chamado
+            //Salvando chamado   
+            if(isset($PostData["VALOR"])):
+                $PostData["VALOR"] = str_replace("." , "" , $PostData["VALOR"]); // Primeiro tira os pontos
+                $PostData["VALOR"] = substr($PostData["VALOR"], 0, strpos($PostData["VALOR"], ","));
+            endif;                    
             $chamado = array(
                 'IDORCAMENTO' => $PostData["idOrcamento"],
                 'VALOR' => isset($PostData["VALOR"]) ? $PostData["VALOR"] : NULL,
@@ -273,11 +277,21 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
                 'OBS' => $PostData["OBS"],
                 'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
-                'TIPO_SERVICO' => $PostData["STATUS"]
+                'TIPO_SERVICO' => $PostData["STATUS"],
+                'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL,
+                'NUM_PARCELAS' => isset($PostData["QNTPARCELAS"]) ? $PostData["QNTPARCELAS"] : NULL
             );
-            $Create->ExeCreate("[80_Chamados]",$chamado);
 
-            if ($Create->getResult()) {
+            $Resultado = NULL;
+            if(isset($PostData['IDCHAMADO'])):                
+                $Update->ExeUpdate("[80_Chamados]", $chamado, "WHERE [80_Chamados].ID = :id", "id={$PostData['IDCHAMADO']}");
+                $Resultado = 1;
+            else:
+                $Create->ExeCreate("[80_Chamados]",$chamado);
+                $Resultado = 1;
+            endif;
+
+            if ($Resultado == 1) {
                     $orcamento = array(
                     'VALOR' => isset($PostData["VALOR"]) ? $PostData["VALOR"] : NULL,
                     'NUM_PARCELAS' => isset($PostData["QNTPARCELAS"]) ? $PostData["QNTPARCELAS"] : NULL,
@@ -310,6 +324,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
 
         break;
+        case 'editar':
+            //Salvando chamado
+            $Read->FullRead("SELECT ID, DATAAGENDADA, OBS, TECNICO, VALOR, FORMAPAGAMENTO, NUM_PARCELAS FROM [80_Chamados] WHERE ID = :id","id={$PostData['ID']}");
+            if($Read->getResult()):
+                $jSON['editaChamado'] = $Read->getResult()[0];
+                $jSON['addIdChamado'] = "<input type='hidden' name='IDCHAMADO' value='{$Read->getResult()[0]['ID']}'/>";
+            else:
+                $jSON['trigger'] = AjaxErro('Chamado não foi encontrado!', E_USER_ERROR);
+            endif;
+        break;
 
     endswitch;
     //RETORNA O CALLBACK
@@ -333,17 +357,20 @@ function preencherHistorico($PostData){
     $primeiro = false;
     $classe = 'buttons_chamados';
     $status = 'Aberto';
-    $Read->FullRead("SELECT [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   
-                    [80_Chamados].TIPO_SERVICO, CONVERT(VARCHAR,[80_Chamados].DATAAGENDADA,103) AS DATAAGENDADA, [80_Orcamentos].VALOR, [80_Orcamentos].NUM_PARCELAS FROM [80_Orcamentos]
+    
+    $Read->FullRead("SELECT [80_Chamados].ID, [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   
+                    [80_Chamados].TIPO_SERVICO, CONVERT(VARCHAR,[80_Chamados].DATAAGENDADA,103) AS DATAAGENDADA, [80_Chamados].VALOR, [80_Orcamentos].NUM_PARCELAS FROM [80_Orcamentos]
                     INNER JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO
                     INNER JOIN Funcionários ON [80_Chamados].USUARIO_SISTEMA = Funcionários.ID
                     WHERE [80_Orcamentos].ID = " . $idCliente . " ORDER BY [80_Chamados].DATA_SISTEMA DESC","");
+
+    $btEditar = $Read->getResult() ? "<span rel='{$Read->getResult()[0]['ID']}' callback='Home' callback_action='editar' class='icon-pencil btn btn_blue' id='j_edit_chamado'>Editar Chamado</span>" : "";
+
     if ($Read->getResult()):
-        $Check = new Check;
         $obs = null;
         $jSON['addHistorico'] = null;//É necessário desclarar como numo por causa da fraca tipação
         foreach ($Read->getResult() as $addHistorico):
-            $obs = substr($addHistorico['OBS'],0,76).'...';
+            $obs = substr($addHistorico['OBS'],0,76);
             $valor = number_format($addHistorico['VALOR'],2,',','.');
             $tipoServico = getStatusOrcamento()[$addHistorico['TIPO_SERVICO']];
             $historico .= "<div class='box_content buttons_chamados {$classe}' style='height: auto;''>
@@ -358,6 +385,7 @@ function preencherHistorico($PostData){
                                 <li style='padding-bottom: 5px;font-size: 12px;'>Status: {$status}</li>
                                 <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>Usuário: {$addHistorico['NOME COMPLETO']}</li>
                                 <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>Registrado em: {$addHistorico['DATA']}</li>
+                                <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>{$btEditar}</li>
                               </div>
                               <div class='box box100' style='padding-top: 0px;'>
                                 <li style='padding-bottom: 5px;font-size: 12px;'>OBS.:".$obs."</li>
@@ -366,6 +394,7 @@ function preencherHistorico($PostData){
                           </div>";
             $classe = 'buttons_chamados_block';
             $status = 'Fechado';
+            $btEditar = "";
         endforeach;
     endif;
 
@@ -389,7 +418,10 @@ function getCor($id){
         return 'buttons_clientes_verde';
     }
 }
-
+function before ($tag, $inthat)
+    {
+        echo substr($inthat, 0, strpos($inthat, $tag));
+    };
 
 
 ?>
