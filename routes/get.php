@@ -7,7 +7,7 @@ $app = new \Slim\App($config);
 //GET QUE DEVOLVE TODOS OS TECNICOS CADASTRADOS
 $app->get('/tecnicos/', function (Request $request, Response $response, array $args) {
     $Read = new Read;
-    $Read->FullRead("SELECT [Funcionários].ID AS id,[NOME COMPLETO] AS nome FROM Funcionários
+    $Read->FullRead("SELECT [Funcionários].ID AS id,[NOME COMPLETO] AS nome, [Funcionários].[SENHA] AS senha FROM Funcionários
                         WHERE [Funcionários].GNSMOBILE = 1 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
                         ORDER BY [NOME COMPLETO]"," ");
     if($Read->getResult()):

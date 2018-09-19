@@ -157,12 +157,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endif;               
       break;
     case 'consulta':       
-            if(!empty($PostData["CPFCNPJ"])):
+    var_dump($PostData);
+            if(!empty($PostData["Valor"])):
                 
                 //VERIFICA SE É UM CPF
-                if(strlen($PostData["CPFCNPJ"]) == 14):
+                if(strlen($PostData["Valor"]) == 14):
                     //TRATAMENTO DE CPF RETIRANDO PONTOS E TRAÇO DO CPF
-                    $PostData["CPF"] = $PostData["CPFCNPJ"];
+                    $PostData["CPF"] = $PostData["Valor"];
                     $CPF2 = str_replace(".", "", $PostData["CPF"]);
                     $AUXCPF = str_replace("-", "", $CPF2);
                     $PostData["CPF"] = $AUXCPF;
@@ -186,7 +187,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     else:
                         $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
                     endif;
-                elseif (strlen($PostData["CPFCNPJ"]) == 18):
+                elseif (strlen($PostData["Valor"]) == 18):
                     //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
                     $PostData["CNPJ"] = $PostData["CPFCNPJ"];
                     $CNPJ = $PostData["CNPJ"];
@@ -210,12 +211,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                                 $jSON['enderecoCLiente'] .= "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span></td></tr>";
                             endforeach;
-                        endif;
+                        endif;                    
                     else:
                         $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
                     endif;
+                 elseif (strlen($PostData["Valor"]) < 13):
+                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE CNPJ = :cnpj","cnpj={$PostData['CNPJ']}");
                  else:
-
+                    $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
                  endif;
             endif;
         break;

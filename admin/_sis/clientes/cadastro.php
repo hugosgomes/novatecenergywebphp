@@ -34,6 +34,53 @@ textarea, input, select{
     </div>
 </header>
 <div class="dashboard_content custom_app">
+    <article class="box box100">
+        <div class="box_content">
+            <article class="box box50">
+                <div class="label_50">
+                    <label class="label">
+                      <select rel="0" class="j_consulta_cliente" callback="Clientes" callback_action="consulta" >
+                        <option value="">PESQUISA POR CLIENTE</option>             
+                        <?php
+                        $Read->FullRead("SELECT ID, NOME FROM [80_ClientesParticulares] ORDER BY NOME"," ");
+                        if ($Read->getResult()):
+                          foreach ($Read->getResult() as $CLIENTE):
+                            echo "<option value='{$CLIENTE['ID']}'>{$CLIENTE['NOME']}</option>";
+                          endforeach;
+                        endif;
+                        ?>
+                      </select>
+                    </label>
+                    <label class="label">
+                      <select rel="1" class="j_consulta_cliente" callback="Clientes" callback_action="consulta">
+                        <option value="">PESQUISA POR ENDEREÇO</option>             
+                        <?php
+                        $Read->FullRead("SELECT * FROM [80_Enderecos] ORDER BY [LOGRADOURO]"," ");
+                        if ($Read->getResult()):
+                          foreach ($Read->getResult() as $ENDERECO):
+                            echo "<option value='{$ENDERECO['ID']}'>{$ENDERECO['LOGRADOURO']}, {$ENDERECO['NUMERO']} - {$ENDERECO['BAIRRO']} / {$ENDERECO['CIDADE']} - {$ENDERECO['UF']} ({$ENDERECO['COMPLEMENTO']})</option>";
+                          endforeach;
+                        endif;
+                        ?>
+                      </select>
+                    </label>
+                </div>
+            </article> 
+            <article class="box box50">
+                <div class="label_50">             
+                    <label class="label">
+                        <input type="text" style="font-size: 1.0em;" name="CPF" class="wc_cpf  j_consulta_cliente formCpf wc_value" callback="Clientes" callback_action="consulta" value="" rel='2' placeholder="CPF:" />
+                    </label>    
+                        <!--PESQUISA AUTOMATICAMENTE NO BANCO O CNPJ DIGITADO AO MUDAR DE CAMPO DE FORMULARIO-->
+                    <label class="label">
+                        <input type="text" style="font-size: 1.0em;" name="CNPJ" class="j_consulta_cliente wc_cnpj wc_value formCnpj" callback="Clientes" callback_action="consulta" value="" rel='4' placeholder="Digite CNPJ"/>
+                    </label>
+                </div>
+            </article> 
+        </div>
+    </article>
+</div>
+<div class="dashboard_content custom_app">
     <article class="box box70">
         <header>
           <h3 style="text-align: center;">Cadastro de Clientes e Orçamentos</h3>
@@ -49,12 +96,12 @@ textarea, input, select{
                     <!--PESQUISA AUTOMATICAMENTE NO BANCO O CPF DIGITADO AO MUDAR DE CAMPO DE FORMULARIO-->
                     <label class="label">
                         <span class="legend">CPF:</span>
-                        <input type="text" style="font-size: 1.0em;" name="CPF" class="wc_cpf  j_consulta_cliente formCpf wc_value" callback="Clientes" callback_action="consulta" value="" placeholder="CPF:" />
+                        <input type="text" style="font-size: 1.0em;" name="CPF" class="wc_cpf formCpf wc_value" callback="Clientes" callback_action="consulta" value="" placeholder="CPF:" />
                     </label>    
                     <!--PESQUISA AUTOMATICAMENTE NO BANCO O CNPJ DIGITADO AO MUDAR DE CAMPO DE FORMULARIO-->
                     <label class="label">
                         <span class="legend">CNPJ:</span>
-                        <input type="text" style="font-size: 1.0em;" name="CNPJ" class="j_consulta_cliente wc_cnpj wc_value formCnpj" callback="Clientes" callback_action="consulta" value="" placeholder="Digite CNPJ"/>
+                        <input type="text" style="font-size: 1.0em;" name="CNPJ" class="wc_cnpj wc_value formCnpj" callback="Clientes" callback_action="consulta" value="" placeholder="Digite CNPJ"/>
                     </label>
                     <div class="clear"></div>
                 </div>
@@ -180,3 +227,5 @@ textarea, input, select{
 </div>
 </article>
 </div>
+
+<script src="_js/cadastro_clientes_particulares.js"></script>
