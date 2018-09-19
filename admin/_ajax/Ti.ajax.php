@@ -45,7 +45,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'manager':
-            if(!isset($PostData['TI'])):
+        var_dump($PostData);
+            /*if(!isset($PostData['TI'])):
                 $PostData['TI'] = 0;
             endif;
             if(!isset($PostData['GNS'])):
@@ -59,12 +60,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if($Read->getResult()):
                 $ID = $PostData['ID'];
                 unset($PostData['ID']);
-                $Update->ExeUpdate("[Funcionários]", $PostData, "WHERE ID= :id", "id={$ID}");
+                $Update->ExeUpdate("[00_NivelAcesso]", $PostData, "WHERE ID= :id", "id={$ID}");
             else:
                 $ID = $PostData['ID'];
                 unset($PostData['ID']);
-                $Create->ExeCreate("[80_Chamados]",$PostData);
-            endif;
+                $Create->ExeCreate("[00_NivelAcesso]",$PostData);
+            endif;*/
 
 
             break;

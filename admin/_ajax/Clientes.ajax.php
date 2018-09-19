@@ -48,48 +48,34 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 
                 $Cliente = null; 
                 $IdCli = null;
+                $IdEnd = null;
+
                 //TESTA SE O CEP TEM O TRAÇO OU NÃO
                 if (strstr($PostData['CEP'], '-')):
                     $Quebra = explode("-", $PostData['CEP']);
                     $PostData['CEP'] = $Quebra[0].$Quebra[1];
                 endif;
+
                 //CASO O CLIENTE NÃO TENHA CPF E CNPJ
-                if(empty($PostData['CNPJ']) && empty($PostData['CNPJ'])):
-                                      
+                if(empty($PostData['CPF']) && empty($PostData['CNPJ'])):
+
                     $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"]);
                     $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
                     if ($Create->getResult()):
                         $IdCli = $Create->getResult();
-                    else:
-                        $jSON['trigger'] = AjaxErro("Erro ao cadastrar cliente!");
-                    endif;   
+                    endif;
 
-                            //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
-                        $Read->FullRead("SELECT ID, CEP, NUMERO, COMPLEMENTO FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");
-                        $IdEnd = null;               
-                        if(!$Read->getResult()):
-                            $IdEnd = null;                   
-                            //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
-                            $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>$PostData["LOGRADOURO"],"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>$PostData["BAIRRO"], "CIDADE"=>$PostData["CIDADE"],"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
-                            $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
-                            $IdEnd = $Create->getResult();
-                        endif;
-                                  
-                        //CRIA ARRAY DE ORÇAMENTO
-                        $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"], "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]);
-                        $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
+                endif;
 
-                        $jSON['inpuval'] = "null"; 
-                        $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
-                        $jSON['success'] = true;  
-                elseif (!empty($PostData['CPF'])):
+                if(!empty($PostData['CPF'])):   
+
                     //TRATAMENTO DE CPF RETIRANDO PONTOS E TRAÇO DO CPF
                     $CPF2 = str_replace(".", "", $PostData["CPF"]);
                     $AUXCPF = str_replace("-", "", $CPF2);
                     $PostData["CPF"] = $AUXCPF;
 
                     //PESQUISA DE EXISTE O CPF INFORMADO
-                    $Read->FullRead("SELECT ID, CPF FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
+                    $Read->FullRead("SELECT ID FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
                     if(!$Read->getResult()):   
                         //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
                         $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CPF"=>$PostData["CPF"]);
@@ -97,34 +83,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $IdCli = $Create->getResult();                       
                     else:
                         $IdCli = $Read->getResult()[0]["ID"];                                
-                    endif;   
+                    endif; 
+                endif; 
 
-                            //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
-                        $Read->FullRead("SELECT ID, CEP, NUMERO, COMPLEMENTO FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");
-                        $IdEnd = null;               
-                        if(!$Read->getResult()):
-                            $IdEnd = null;                   
-                            //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
-                            $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>$PostData["LOGRADOURO"],"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>$PostData["BAIRRO"], "CIDADE"=>$PostData["CIDADE"],"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
-                            $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
-                            $IdEnd = $Create->getResult();
-                        endif;
-                                  
-                        //CRIA ARRAY DE ORÇAMENTO
-                        $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"], "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]);
-                        $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
+                if (!empty($PostData['CNPJ'])):
 
-                        $jSON['inpuval'] = "null"; 
-                        $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
-                        $jSON['success'] = true;     
-                elseif(!empty($PostData['CNPJ'])):
                     //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
                     $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
                     $CNPJ3 = str_replace("/", "", $CNPJ2);
                     $AUXCNPJ = str_replace("-", "", $CNPJ3);
                     $PostData["CNPJ"] = $AUXCNPJ;
 
-                    $Read->FullRead("SELECT ID, CPF FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
+                    $Read->FullRead("SELECT ID, CNPJ FROM [80_ClientesParticulares] WHERE CNPJ = :cnpj","cnpj={$PostData['CNPJ']}");
                     if(!$Read->getResult()):   
                         //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
                         $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CNPJ"=>$PostData["CNPJ"]);
@@ -132,49 +102,46 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $IdCli = $Create->getResult();
                     else:
                         $IdCli = $Read->getResult()[0]["ID"];                                
-                    endif;
-
-                        //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
-                    $Read->FullRead("SELECT ID, CEP, NUMERO, COMPLEMENTO FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");
-                    $IdEnd = null;               
-                    if(!$Read->getResult()):
-                        $IdEnd = null;                   
+                    endif; 
+                endif;                
+                    
+                     //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
+                    $Read->FullRead("SELECT ID FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");                        
+                           
+                    if(!$Read->getResult()):                  
                         //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
                         $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>$PostData["LOGRADOURO"],"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>$PostData["BAIRRO"], "CIDADE"=>$PostData["CIDADE"],"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
                         $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
                         $IdEnd = $Create->getResult();
+                    else:
+                        $IdEnd = $Read->getResult()[0]['ID'];
                     endif;
-                              
-                    //CRIA ARRAY DE ORÇAMENTO
-                    $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"], "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]);
-                    $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
 
-                    $jSON['inpuval'] = "null"; 
-                    $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
-                    $jSON['success'] = true;
-                else:
-                    $jSON['trigger'] = AjaxErro("Erro ao cadastrar cliente!");
-                endif;               
+                    //CRIA ARRAY DE ORÇAMENTO
+                    if($IdCli && $IdEnd):
+                        $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"], "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]);
+                        $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
+
+                        $jSON['inpuval'] = "null"; 
+                        $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
+                        $jSON['success'] = true;  
+                    else:
+                        $jSON['trigger'] = AjaxErro("Erro ao cadastrar o Orçamento");
+                    endif;            
       break;
     case 'consulta':       
-    var_dump($PostData);
-            if(!empty($PostData["Valor"])):
-                
-                //VERIFICA SE É UM CPF
-                if(strlen($PostData["Valor"]) == 14):
-                    //TRATAMENTO DE CPF RETIRANDO PONTOS E TRAÇO DO CPF
-                    $PostData["CPF"] = $PostData["Valor"];
-                    $CPF2 = str_replace(".", "", $PostData["CPF"]);
-                    $AUXCPF = str_replace("-", "", $CPF2);
-                    $PostData["CPF"] = $AUXCPF;
-
+            switch ($PostData["Rel"]):
+                case 0:
                     //PESQUISA SE O CLIENTE JÁ EXISTE BUSCANDO PELO CPF
-                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
+                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE ID = :id","id={$PostData['Valor']}");
                     if($Read->getResult()):
                         $IdCliente = $Read->getResult()[0]['ID'];
                         $jSON['trigger'] = true;
                         $jSON['cliente'] = $Read->getResult()[0];
-                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p><b>E-mail: </b>{$Read->getResult()[0]['EMAIL']}<br><b>Telefone: </b>{$Read->getResult()[0]['TELEFONE']}</p></article>";
+
+                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p>".($Read->getResult()[0]['CPF'] ? "<b>CPF: </b>{$Read->getResult()[0]['CPF']}<br>" : "").($Read->getResult()[0]['CNPJ'] ? "<b>CNPJ: </b>{$Read->getResult()[0]['CNPJ']}<br>" : "")."<b>Telefone: </b>{$Read->getResult()[0]['TELEFONE']}<br><b>E-mail: </b>{$Read->getResult()[0]['EMAIL']}<br><a class='link' href='#ex1' rel='modal:open' id='{$Read->getResult()[0]['ID']}' callback='Clientes' callback_action='edita_cliente' onclick='abreModal(this);'><span class='btn btn_blue'>Editar Dados de Clientes</span></a></p></article>";
+                        
+
                         $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE IDCLIENTE = :id","id={$IdCliente}");
                         if($Read->getResult()):
                             $jSON['enderecoCLiente'] = null;
@@ -187,9 +154,65 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     else:
                         $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
                     endif;
-                elseif (strlen($PostData["Valor"]) == 18):
-                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
-                    $PostData["CNPJ"] = $PostData["CPFCNPJ"];
+
+
+                break;
+                case 1:
+                    $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE ID = :id","id={$PostData['Valor']}");
+                    if($Read->getResult()):
+                        $jSON['enderecoCLiente'] = null;
+                        foreach ($Read->getResult() as $ENDERECO):
+                            extract($ENDERECO);                       
+
+                            $jSON['enderecoCLiente'] = "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span></td></tr>";
+
+                            $jSON['trigger'] = true;
+                            
+                            $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE ID = :id","id={$IDCLIENTE}");
+                            $jSON['cliente'] = $Read->getResult()[0];
+
+                            $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p>".($Read->getResult()[0]['CPF'] ? "<b>CPF: </b>{$Read->getResult()[0]['CPF']}<br>" : "").($Read->getResult()[0]['CNPJ'] ? "<b>CNPJ: </b>{$Read->getResult()[0]['CNPJ']}<br>" : "")."<b>Telefone: </b>{$Read->getResult()[0]['TELEFONE']}<br><b>E-mail: </b>{$Read->getResult()[0]['EMAIL']}<br><a class='link' href='#ex1' rel='modal:open' id='{$Read->getResult()[0]['ID']}' callback='Clientes' callback_action='edita_cliente' onclick='abreModal(this);'><span class='btn btn_blue'>Editar Dados de Clientes</span></a></p></article>";
+                            
+
+                        endforeach;
+                    else:
+                        $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
+                    endif;
+                
+                break;
+                case 2:
+
+                    $PostData["CPF"] = $PostData["Valor"];
+                    $CPF2 = str_replace(".", "", $PostData["CPF"]);
+                    $AUXCPF = str_replace("-", "", $CPF2);
+                    $PostData["CPF"] = $AUXCPF;
+
+                    //PESQUISA SE O CLIENTE JÁ EXISTE BUSCANDO PELO CPF
+                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
+                    if($Read->getResult()):
+                        $IdCliente = $Read->getResult()[0]['ID'];
+                        $jSON['trigger'] = true;
+                        $jSON['cliente'] = $Read->getResult()[0];
+
+                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p>".($Read->getResult()[0]['CPF'] ? "<b>CPF: </b>{$Read->getResult()[0]['CPF']}<br>" : "").($Read->getResult()[0]['CNPJ'] ? "<b>CNPJ: </b>{$Read->getResult()[0]['CNPJ']}<br>" : "")."<b>Telefone: </b>{$Read->getResult()[0]['TELEFONE']}<br><b>E-mail: </b>{$Read->getResult()[0]['EMAIL']}<br><a class='link' href='#ex1' rel='modal:open' id='{$Read->getResult()[0]['ID']}' callback='Clientes' callback_action='edita_cliente' onclick='abreModal(this);'><span class='btn btn_blue'>Editar Dados de Clientes</span></a></p></article>";
+
+                        $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE IDCLIENTE = :id","id={$IdCliente}");
+                        if($Read->getResult()):
+                            $jSON['enderecoCLiente'] = null;
+                            foreach ($Read->getResult() as $ENDERECO):
+                                extract($ENDERECO);                       
+
+                                $jSON['enderecoCLiente'] .= "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span></td></tr>";
+                            endforeach;
+                        endif;
+                    else:
+                        $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
+                    endif;
+                
+                break;
+                case 3:
+
+                    $PostData["CNPJ"] = $PostData["Valor"];
                     $CNPJ = $PostData["CNPJ"];
                     $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
                     $CNPJ3 = str_replace("/", "", $CNPJ2);
@@ -202,7 +225,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $IdCliente = $Read->getResult()[0]['ID'];
                         $jSON['trigger'] = true;
                         $jSON['cliente'] = $Read->getResult()[0];
-                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p><b>E-mail: </b>{$Read->getResult()[0]['EMAIL']}<br><b>Telefone: </b>{$Read->getResult()[0]['TELEFONE']}</p></article>";
+
+                        $jSON['dadosCliente'] = "<article class='dados'><h1>{$Read->getResult()[0]['NOME']}</h1><p>".($Read->getResult()[0]['CPF'] ? "<b>CPF: </b>{$Read->getResult()[0]['CPF']}<br>" : "").($Read->getResult()[0]['CNPJ'] ? "<b>CNPJ: </b>{$Read->getResult()[0]['CNPJ']}<br>" : "")."<b>Telefone: </b>{$Read->getResult()[0]['TELEFONE']}<br><b>E-mail: </b>{$Read->getResult()[0]['EMAIL']}<br><a class='link' href='#ex1' rel='modal:open' id='{$Read->getResult()[0]['ID']}' callback='Clientes' callback_action='edita_cliente' onclick='abreModal(this);'><span class='btn btn_blue'>Editar Dados de Clientes</span></a></p></article>";
+
                         $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE IDCLIENTE = :id","id={$IdCliente}");
                         if($Read->getResult()):
                             $jSON['enderecoCLiente'] = null;
@@ -214,14 +239,74 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         endif;                    
                     else:
                         $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
-                    endif;
-                 elseif (strlen($PostData["Valor"]) < 13):
-                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE CNPJ = :cnpj","cnpj={$PostData['CNPJ']}");
-                 else:
-                    $jSON['enderecoCLiente'] = "<article class='dados'><h1>Cliente não cadastrado!</h1></article>";
-                 endif;
+                    endif;                
+                break;
+            endswitch;
+        break;
+
+        case 'edita_cliente':
+            $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE ID = :id","id={$PostData['ID']}");
+            if($Read->getResult()):
+                $jSON['editaDados'] = $Read->getResult()[0];
             endif;
         break;
+
+        case 'alteraCliente':
+
+                //CASO O CLIENTE NÃO TENHA CPF E CNPJ
+                if(empty($PostData['CPF']) && empty($PostData['CNPJ'])):
+                    $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"]);
+                    $Update->ExeUpdate("[80_ClientesParticulares]", $CLIENTE, "WHERE ID= :id", "id={$PostData['ID']}");
+                    if ($Update->getResult()):
+                        $jSON['trigger'] = AjaxErro("Cliente alterado com sucesso");
+                        $jSON['redirect'] = 'dashboard.php?wc=clientes/cadastro';
+                    else:
+                        $jSON['trigger'] = AjaxErro('Erro ao atualizar os dados do cliente!', E_USER_ERROR);
+                        $jSON['redirect'] = 'dashboard.php?wc=clientes/cadastro';
+                    endif;
+
+                endif;
+
+                if(!empty($PostData['CPF'])):   
+
+                    //TRATAMENTO DE CPF RETIRANDO PONTOS E TRAÇO DO CPF
+                    $CPF2 = str_replace(".", "", $PostData["CPF"]);
+                    $AUXCPF = str_replace("-", "", $CPF2);
+                    $PostData["CPF"] = $AUXCPF;
+
+                    //PESQUISA DE EXISTE O CPF INFORMADO
+                    $Read->FullRead("SELECT ID FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
+                    if(!$Read->getResult()):   
+                        //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
+                        $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CPF"=>$PostData["CPF"]);
+                        $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
+                        $jSON['trigger'] = AjaxErro("Cliente alterado com sucesso"); 
+                        $jSON['redirect'] = 'dashboard.php?wc=clientes/cadastro';                    
+                    else:
+                        $jSON['trigger'] = AjaxErro('Já existe cliente com este CPF cadastrado!', E_USER_ERROR);                        
+                    endif; 
+                endif; 
+
+                if (!empty($PostData['CNPJ'])):
+
+                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
+                    $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
+                    $CNPJ3 = str_replace("/", "", $CNPJ2);
+                    $AUXCNPJ = str_replace("-", "", $CNPJ3);
+                    $PostData["CNPJ"] = $AUXCNPJ;
+
+                    $Read->FullRead("SELECT ID, CNPJ FROM [80_ClientesParticulares] WHERE CNPJ = :cnpj","cnpj={$PostData['CNPJ']}");
+                    if(!$Read->getResult()):   
+                        //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
+                        $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CNPJ"=>$PostData["CNPJ"]);
+                        $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
+                        $jSON['trigger'] = AjaxErro("Cliente alterado com sucesso");
+                        $jSON['redirect'] = 'dashboard.php?wc=clientes/cadastro';
+                    else:
+                        $jSON['trigger'] = AjaxErro('Já existe cliente com este CNPJ cadastrado!', E_USER_ERROR);                              
+                    endif; 
+                endif;          
+      break;
     endswitch;
 
     //RETORNA O CALLBACK
