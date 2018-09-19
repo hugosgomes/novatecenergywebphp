@@ -21,6 +21,10 @@ function ordenarOrcamentoAnalise(){
     mostraDados('Home2','consulta',1,"analise");
 }
 
+function ordenarOrcamentoAgendado(){
+    mostraDados('Home2','consulta',1,"agendado");
+}
+
 function ordenarOrcamentoExecutando(){
     mostraDados('Home2','consulta',1,"executando");
 }
@@ -33,10 +37,11 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
   var Mes = $('#mes').val();
   var ordemAnalise = $('#j_ordemEmAnalise').attr('ordemAnalise');
   var ordemExecutando = $('#j_ordemExecutando').attr('ordemExecutando');
+  var ordemAgendado = $('#j_ordemAgendado').attr('ordemAgendado');
 
 
   $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, endereco: Endereco, cliente: Cliente, mes:Mes, 
-    inicial: inicial, ordemAnalise: ordemAnalise, ordemExecutando: ordemExecutando, ordem: ordem}, function (data) {  
+    inicial: inicial, ordemAnalise: ordemAnalise, ordemExecutando: ordemExecutando, ordem: ordem, ordemAgendado: ordemAgendado}, function (data) {  
 
        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
@@ -111,9 +116,24 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
             $(data.addEmAnalise).appendTo('#js_emAnalise');
         }
 
+        if (data.addServicoAgendado) {            
+            $('.js_h2_agendado').remove();
+            $(data.addServicoAgendado).appendTo('#js_agendado');
+        }
+
         if (data.addExecutando) {            
             $('.js_h2_executando').remove();
             $(data.addExecutando).appendTo('#js_executando');
+        }
+
+        if (data.addExecutado) {            
+            $('.js_h2_executado').remove();
+            $(data.addExecutado).appendTo('#js_executado');
+        }
+
+        if (data.addCanceladoRecusado) {            
+            $('.js_h2_canceladoRecusado').remove();
+            $(data.addCanceladoRecusado).appendTo('#js_canceladoRecusado');
         }
 
   }, 'json');

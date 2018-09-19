@@ -125,7 +125,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 4 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 5 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
                         "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna5'] = null;//É necessário desclarar como numo por causa da fraca tipação
@@ -140,7 +140,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 5 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 6 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
                         "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna6'] = null;//É necessário desclarar como numo por causa da fraca tipação
@@ -155,7 +155,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 6 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 7 AND [80_ClientesParticulares].TIPO = 2". $criterioMes .
                         "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna7'] = null;//É necessário desclarar como numo por causa da fraca tipação
@@ -180,7 +180,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
-            $jSON['addEmAnalise'] = "<h2 class='js_h2_emAnalise'><a href='#'  onclick='ordenarOrcamentoAnalise();'><i id='j_ordemEmAnalise' ordemAnalise='". $valueOrdem . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Em Análise (R$){$totais['VALOR']}<br></h2>";
+            $jSON['addEmAnalise'] = "<h2 class='js_h2_emAnalise'><a href='#'  onclick='ordenarOrcamentoAnalise();'><i id='j_ordemEmAnalise' ordemAnalise='". $valueOrdem . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Em Análise <p style='color: white;padding-right: 15px;'>(R$){$totais['VALOR']}</p><br></h2>";
         endforeach;
 
 
@@ -193,7 +193,44 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
-            $jSON['addExecutando'] = "<h2 class='js_h2_executando'><a href='#'  onclick='ordenarOrcamentoExecutando();'><i id='j_ordemExecutando' ordemExecutando='". $valueOrdemExecutando . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Executando (R$){$totais['VALOR']}<br></h2>";
+            $jSON['addExecutando'] = "<h2 class='js_h2_executando'><a href='#'  onclick='ordenarOrcamentoExecutando();'><i id='j_ordemExecutando' ordemExecutando='". $valueOrdemExecutando . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Serviço Agendado <p style='color: white;padding-right: 15px;'>(R$){$totais['VALOR']}</p><br></h2>";
+        endforeach;
+
+
+        //PREENCHER TOTAL EXECUTADO
+        $jSON['addExecutado'] = NULL;
+        $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
+                        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 5 "  . $criterioEndereco . $ctiterioCliente . 
+                        "AND [80_ClientesParticulares].TIPO = 2","");
+        foreach ($Read->getResult() as $totais):        
+            $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
+            $jSON['trigger'] = true;
+            $jSON['addExecutado'] = "<h2 class='js_h2_executado'><a href='#'><i class='' id='j_ordemExecutado' ordemExecutado='data' callback='Home' callback_action='consulta' style='font-size: 15px;float: right;color: white;'></i></a>Executado <p style='color: white;'>(R$){$totais['VALOR']}</p></h2>";
+        endforeach;
+
+        //PREENCHER TOTAL CANCELADO
+        $jSON['addCancelado'] = NULL;
+        $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
+                        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 6 "  . $criterioEndereco . $ctiterioCliente . 
+                        "AND [80_ClientesParticulares].TIPO = 2","");
+        foreach ($Read->getResult() as $totais):        
+            $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
+            $jSON['trigger'] = true;
+            $jSON['addCancelado'] = "<h2 class='js_h2_cancelado'><a href='#'><i class='' id='j_ordemCancelado' ordemCancelado='data' callback='Home' callback_action='consulta' style='font-size: 15px;float: right;color: white;'></i></a>Cancelado <p style='color: white;'>(R$){$totais['VALOR']}</p></h2>";
+        endforeach;
+
+        //PREENCHER TOTAL RECUSADO
+        $jSON['addRecusado'] = NULL;
+        $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
+                        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 7 "  . $criterioEndereco . $ctiterioCliente . 
+                        "AND [80_ClientesParticulares].TIPO = 2","");
+        foreach ($Read->getResult() as $totais):        
+            $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
+            $jSON['trigger'] = true;
+            $jSON['addRecusado'] = "<h2 class='js_h2_recusado'><a href='#'><i class='' id='j_ordemrecusado' ordemRecusado='data' callback='Home' callback_action='consulta' style='font-size: 15px;float: right;color: white;'></i></a>Recusado <p style='color: white;'>(R$){$totais['VALOR']}</p></h2>";
         endforeach;
 
 
@@ -244,7 +281,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 $paramStatus = $PostData['status'];
                 foreach (getStatusOrcamento($paramStatus) as $key => $value) {
-                  $jSON['statusOrcamento'] .= "<option value='{$key}'>$value</option>";
+                    //EVITANDO QUE O STATUS EXECUTANDO ENTRE NA LISTA DE STATUS 
+                    if ($key != 4) {
+                        $jSON['statusOrcamento'] .= "<option value='{$key}'>$value</option>";
+                    }                  
                 }
             endif;
 

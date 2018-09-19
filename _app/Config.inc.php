@@ -293,6 +293,7 @@ function getMesAtual(){
 }
 
 
+//FUNÇÃO DA TELA DE CLIENTES PARTICULARES
 function getStatusOrcamento($Status = null)
 {   
 
@@ -302,10 +303,11 @@ function getStatusOrcamento($Status = null)
             0 => 'SEM CONTATO',
             1 => 'VISITA AGENDADA',
             2 => 'EM ANÁLISE',
-            3 => 'EXECUTANDO',
-            4 => 'EXECUTADO',
-            5 => 'CANCELADO',
-            6 => 'RECUSADO'
+            3 => 'SERVIÇO AGENDADO',
+            4 => 'EXECUTANDO',
+            5 => 'EXECUTADO',
+            6 => 'CANCELADO',
+            7 => 'RECUSADO'
         ];
     }else{
         $RealtyTransaction = [

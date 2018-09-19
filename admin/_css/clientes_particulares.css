@@ -63,6 +63,7 @@ li a{
 }
 /* BOTÕES BRANCOS DAS COLUNAS */
 .buttons_clientes{
+  margin-top: 5px;
   -webkit-transition: width 2s; /* Safari */
   box-shadow: 0 1px 3px rgba(0,0,0,.08);
   margin-bottom: 5px;
@@ -75,11 +76,16 @@ li a{
 
 /* BOTÕES VERDE DAS COLUNAS */
 .buttons_clientes_verde{
- background-color: rgba(171, 239, 171, 0.4);
+  margin-top: 5px;
+text-align: center;
+  background-image:  linear-gradient(#7aea7d, #07732e);
  -webkit-transition: width 2s; /* Safari */
  box-shadow: 0 1px 3px rgba(0,0,0,.08);
  margin-bottom: 5px;
  height: 12%;
+}
+.buttons_clientes_verde ul li a span{
+  color: white;
 }
 .buttons_clientes_verde:hover{
  background-color: rgba(171, 239, 171, 0.4);
@@ -88,6 +94,9 @@ li a{
 
 /* BOTÕES AMARELO DAS COLUNAS */
 .buttons_clientes_amarelo{
+  margin-top: 5px;
+  text-align: center;
+  background-image: linear-gradient(#ead77a, #ffbc00);
   background-color: rgba(237, 239, 153, 0.4);
   -webkit-transition: width 2s; /* Safari */
   box-shadow: 0 1px 3px rgba(0,0,0,.08);
@@ -101,12 +110,18 @@ li a{
 
 /* BOTÕES VERMELHO DAS COLUNAS */
 .buttons_clientes_vermelho{
-  background-color: rgba(239, 153, 153, 0.4);
+  margin-top: 5px;
+  text-align: center;
+  background-image: linear-gradient(#ea7a7a, #a01010);
   -webkit-transition: width 2s; /* Safari */
   box-shadow: 0 1px 3px rgba(0,0,0,.08);
   margin-bottom: 5px;
   height: 12%;
 }
+.buttons_clientes_vermelho ul li a span{
+color: white;
+}
+
 .buttons_clientes_vermelho:hover{
  background-color: rgba(239, 153, 153, 0.4);
  box-shadow: 0 5px 20px rgba(0,0,0,.09);
@@ -233,6 +248,7 @@ select {
 }
 
 .panel_header.darkblue_gradient{
+
   background-image: linear-gradient(#0b4480, #052242);
   border-top: 5px solid #052242 !important;
   border-bottom: 1px solid #052242 !important; 

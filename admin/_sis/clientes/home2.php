@@ -8,6 +8,12 @@ if (empty($Read)):
   $Read = new Read;
 endif;
 ?>
+<style type="text/css">
+  .panel_header{
+    padding: 0px;
+  padding-top: 12px;
+}
+</style>
 <link rel="stylesheet" href="_css/clientes_particulares.css"/>
 <header class="dashboard_header">
   <div class="dashboard_header_title">
@@ -54,17 +60,17 @@ endif;
 </form>
 </div>
 <div class="top_border" style="border-top: solid; border-color: #052242;"></div>
-<div class="box box57">
+<div class="box box70" style="width: 71.3%;padding-right: 4px;">
   <div class="box_content" style="margin: 0px;">
     <h5 class="title_view">GERAL</h5>
   </div>
 </div>
-<div class="box box42">
+<div class="box box30" style="width: 28.5%;padding-left: 0px;">
   <div class="box_content" style="margin: 0px;padding-top: 5px;padding-bottom: 10px;height: 4.6%;">
    <label class="label" style="margin-bottom: 0px;text-align: center;">
-      <h5 class="title_view" style="float: left;padding-top: 10px;padding-left: 45%;">MÊS</h5>
+      <h5 class="title_view" style="float: left;padding-top: 10px;padding-left: 35%;">MÊS</h5>
    <button class="btn btn_darkblue" onclick="filtro_mes('mes')" style="float: right;padding-right: 10px;outline: none;margin-top: 3px;"><span class="icon-filter">Filtrar por Mês</span></button>
-   <select id="mes" style="font-family: Arial;font-size: 11px;width: 20%;display: none;margin-top: 2px;" callback="Home2" callback_action="consulta"  class="target">
+   <select id="mes" style="font-family: Arial;font-size: 11px;width: 25%;display: none;margin-top: 2px;" callback="Home2" callback_action="consulta"  class="target">
     <option value="01" id="meses">JANEIRO</option>
     <option value="02" id="meses">FEVEREIRO</option>
     <option value="03" id="meses">MARÇO</option>
@@ -86,7 +92,6 @@ endif;
     <div class="panel_header darkblue_gradient" style="text-align: center;">
       <h2 class="">Sem Contato</h2>
     </div>
-    <br>
     <div class="coluna j_coluna_1">
 
     </div>
@@ -95,25 +100,22 @@ endif;
     <div class="panel_header darkblue_gradient" style="text-align: center;">
       <h2 class="">Visita Agendada</h2>
     </div>
-    <br>
     <div class="coluna j_coluna_2">
 
     </div>
   </div>
   <div class="box box14 bbox">
-    <div class="panel_header darkblue_gradient" id="js_emAnalise" style="text-align: center;">
-      <h2 class='js_h2_emAnalise'><span class='icon-sort-numberic-desc' id="j_ordemEmAnalise" ordemAnalise="data" callback="Home2" callback_action="consulta" style='font-size: 15px;float: right;color: white;'></span>Em Análise (R$)0,00}<br></h2>
+    <div class="panel_header darkblue_gradient" id="js_emAnalise" style="text-align: center;padding-top: 3px;">
+      <h2 class='js_h2_emAnalise'><span class='icon-sort-numberic-desc' id="j_ordemEmAnalise" ordemAnalise="data" callback="Home2" callback_action="consulta" style='font-size: 15px;float: right;color: white;'></span>Em Análise <p style="color: white;">(R$)0,00}</p></h2>
     </div>
-    <br>
-    <div class="coluna j_coluna_3">
+      <div class="coluna j_coluna_3">
 
     </div>
   </div>
   <div class="box box14 bbox">
-    <div class="panel_header darkblue_gradient" id="js_executando" style="text-align: center;">
-     <h2 class="js_h2_executando"><a href="#"><i class="icon-sort-numberic-desc" id="j_ordemExecutando" ordemExecutando="data" callback="Home2" callback_action="consulta" style="font-size: 15px;float: right;color: white;"></i></a>Executando (R$)0,00<br></h2>
-   </div>
-   <br>
+    <div class="panel_header darkblue_gradient" id="js_agendado" style="text-align: center;padding-top: 3px;">
+     <h2 class="js_h2_agendado"><a href="#"><i class="icon-sort-numberic-desc" id="j_ordemAgendado" ordemAgendado="data" callback="Home2" callback_action="consulta" style="font-size: 15px;float: right;color: white;"></i></a>Serviço Agendado <p style="color: white;">(R$)0,00</p></h2>
+    </div>
    <div class="coluna j_coluna_4">
 
    </div>
@@ -121,33 +123,30 @@ endif;
  <!-- SEGUNDO BLOCO DE COLUNAS -->
 
  <div class="box box14 bbox">
-  <div class="panel_header info_gradient" style="text-align: center;">
-    <h2 class="">Executado</h2>
+  <div class="panel_header darkblue_gradient" id="js_executando" style="text-align: center;padding-top: 3px;">
+     <h2 class="js_h2_executando"><a href="#"><i class="icon-sort-numberic-desc" id="j_ordemExecutando" ordemExecutando="data" callback="Home2" callback_action="consulta" style="font-size: 15px;float: right;color: white;"></i></a>Executando <p style="color: white;">(R$)0,00</p></h2>
   </div>
-  <br>
-  <div class="coluna j_coluna_5">
+   <div class="coluna j_coluna_5">
 
   </div>
 </div>
 <div class="box box14 bbox">
-  <div class="panel_header info_gradient" style="text-align: center;">
-    <h2 class="">Cancelado</h2>
+  <div class="panel_header info_gradient" id="js_executado" style="text-align: center;padding-top: 3px;">
+    <h2 class="js_h2_executado"><a href="#"><i class="" id="j_ordemExecutado" ordemExecutado="data" callback="Home2" callback_action="consulta" style="font-size: 15px;float: right;color: white;"></i></a>Executado <p style="color: white;">(R$)0,00</p></h2>
   </div>
-  <br>
-  <div class="coluna j_coluna_6">
+   <div class="coluna j_coluna_6">
+  </div>
 
-  </div>
 </div>
 <div class="box box14 bbox">
-  <div class="panel_header info_gradient" style="text-align: center;">
-    <h2 class="">Recusado</h2>
+  <div class="panel_header info_gradient" id="js_canceladoRecusado" style="text-align: center;padding-top: 3px;">
+    <h2 class="js_h2_canceladoRecusado"><a href="#"><i class="" id="j_ordemCanceladoRecusado" ordemCanceladoRecusado="data" callback="Home2" callback_action="consulta" style="font-size: 15px;float: right;color: white;"></i></a>Cancelado/Recusado <p style="color: white;">(R$)0,00</p></h2>
   </div>
-  <br>
-  <div class="coluna j_coluna_7">
+    <div class="coluna j_coluna_7">
+  </div>  
+</div>
+</div>
 
-  </div>
-</div>
-</div>
 <div id="ex1" class="modal" style="height: auto;">
   <div class="panel_header" style=" border-bottom: 1px solid #04182e;
   border-width: 2px;">

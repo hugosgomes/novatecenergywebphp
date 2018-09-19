@@ -116,6 +116,21 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
             $(data.addExecutando).appendTo('#js_executando');
         }
 
+        if (data.addExecutado) {  
+            $('.js_h2_executado').remove();
+            $(data.addExecutado).appendTo('#js_executado');
+        }
+
+        if (data.addCancelado) {            
+            $('.js_h2_cancelado').remove();
+            $(data.addCancelado).appendTo('#js_cancelado');
+        }
+
+        if (data.addRecusado) {            
+            $('.js_h2_recusado').remove();
+            $(data.addRecusado).appendTo('#js_recusado');
+        }
+
   }, 'json');
 }
 
@@ -279,8 +294,8 @@ $('#j_statusOrcamento').change(function(){
 function travaCampos(valor){
   switch(valor){
     case '0':
-    case '5':
     case '6':
+    case '7':
       $('#j_select_tecnicos').attr('disabled', true);
       $('.j_data').attr('disabled', true);
       $('.j_valor').attr('disabled', true);
@@ -289,6 +304,9 @@ function travaCampos(valor){
       break;
 
     case '1':
+    case '3':
+    case '4':
+    case '5':
       $('#j_select_tecnicos').attr('disabled', false);
       $('.j_data').attr('disabled', false);
       $('.j_valor').attr('disabled', true);
@@ -302,15 +320,6 @@ function travaCampos(valor){
       $('.j_valor').attr('disabled', false);
       $('.j_forma').attr('disabled', false);
       $('.j_qnt').attr('disabled', false);
-      break;
-
-    case '3':
-    case '4':
-      $('#j_select_tecnicos').attr('disabled', false);
-      $('.j_data').attr('disabled', false);
-      $('.j_valor').attr('disabled', true);
-      $('.j_forma').attr('disabled', true);
-      $('.j_qnt').attr('disabled', true);
       break;
   }
 }
