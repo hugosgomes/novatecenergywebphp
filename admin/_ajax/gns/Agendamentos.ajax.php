@@ -199,8 +199,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $coord_id = $PostData['Id'];
                 unset($PostData['Id']);
 
-                if($PostData['Latitude'] == NULL || $PostData['Longitude'] == NULL):
-                   $jSON['campos_nulos'] = "Insira valor de Latitude e Longitude";  
+                if(empty($PostData['Latitude']) || empty($PostData['Longitude'])):
+                    $jSON['Trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Insira valor de Latitude e Longitude!', E_USER_WARNING);
                  else:
                  $Update->ExeUpdate("[60_OS]", $PostData, " WHERE [Id] = :id", "id={$coord_id}");
                  if($Update->getResult()):  

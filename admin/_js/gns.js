@@ -276,14 +276,8 @@
 
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
-                    Trigger(data.trigger);
-                }
-                //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
-
-                if (data.campos_nulos){
-                    alert(data.campos_nulos);
-
-                }
+                         Trigger(data.Trigger);
+               }
 
                 if (data.exclui_linha) {
                     $('.j_table_S_END[id="' + data.exclui_linha + '"]').remove();   
