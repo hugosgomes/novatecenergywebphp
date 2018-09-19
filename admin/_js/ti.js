@@ -14,13 +14,19 @@ $(function(){
                 //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
                 if (data.dadosUsuario) {
                     $("#dadosUsuario").remove();
+                    $(".blocoDados").remove();
                     $(data.dadosUsuario).appendTo('.dadosUsuario');
                 }
                 //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
                 if (data.permissoesUsuario) {
                     $("#permissoesUsuario").remove();
                     $(data.permissoesUsuario).appendTo('.permissoesUsuario');
+                    //CHECKBOX ALL
+                    $("#modulos").click(function () {
+                     $('input:checkbox').not(this).prop('checked', this.checked);
+                 });
                 }
+
             }, 'json');
     });
 });
@@ -55,4 +61,25 @@ $('html, body').on('click', '.j_resetar_senha', function (e) {
 
     e.preventDefault();
     e.stopPropagation();
+});
+
+//DESATIVAR CONTA
+$('html, body').on('click', '.j_desativar_conta', function (e) {
+    var ID = $(this).attr('id');
+    var Callback = $(this).attr('callback');
+    var Callback_action = $(this).attr('callback_action');
+
+    $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ID: ID}, function (data) {
+
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if (data.trigger) {
+            Trigger(data.trigger);
+            $("#dadosUsuario").remove();
+            $("#permissoesUsuario").remove();
+            $(".blocoDados").remove();
+        }
+
+
+    }, 'json');
+
 });

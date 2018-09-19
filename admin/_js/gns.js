@@ -16,7 +16,8 @@
         //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
         if (data.addtable) {
             $("#dataTable .j_tecnico").remove();
-            $(data.addtable).appendTo('.dataTable');
+            $("#dataTable2 .j_tecnico2").remove();
+           $(data.addtable).appendTo('.dataTable');      
         }
 
         //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO

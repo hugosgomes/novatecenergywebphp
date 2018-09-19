@@ -45,40 +45,54 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'manager':
-        var_dump($PostData);
-            /*if(!isset($PostData['TI'])):
-                $PostData['TI'] = 0;
-            endif;
-            if(!isset($PostData['GNS'])):
-                $PostData['GNS'] = 0;
-            endif;
-            if(!isset($PostData['CLIENTES_PARTICULARES'])):
-                $PostData['CLIENTES_PARTICULARES'] = 0;
-            endif;
+        $PostData['TI'] = (!isset($PostData['TI']) ? $PostData['TI'] = "0" : $PostData['TI'] = 1);
+        $PostData['GNS'] = (!isset($PostData['GNS']) ?  $PostData['GNS'] = "0" : $PostData['GNS'] = 1);
+        $PostData['CLIENTES_PARTICULARES'] = (!isset($PostData['CLIENTES_PARTICULARES']) ? $PostData['CLIENTES_PARTICULARES'] = "0" : $PostData['CLIENTES_PARTICULARES'] = 1);
 
-            $Read->FullRead("SELECT * FROM [00_NivelAcesso] WHERE IDFUNCIONARIO = :idfunc","idfunc={$PostData['ID']}");
+          $Read->FullRead("SELECT * FROM [00_NivelAcesso] WHERE IDFUNCIONARIO = :idfunc","idfunc={$PostData['ID']}");
+       
             if($Read->getResult()):
                 $ID = $PostData['ID'];
-                unset($PostData['ID']);
-                $Update->ExeUpdate("[00_NivelAcesso]", $PostData, "WHERE ID= :id", "id={$ID}");
+              unset($PostData['ID']);
+                $Update->ExeUpdate("[00_NivelAcesso]", $PostData, "WHERE IDFUNCIONARIO = :id", "id={$ID}");
+                $jSON['trigger'] = AjaxErro("Permissão de Funcionário Atualizada!"); 
             else:
                 $ID = $PostData['ID'];
-                unset($PostData['ID']);
-                $Create->ExeCreate("[00_NivelAcesso]",$PostData);
-            endif;*/
-
-
+              unset($PostData['ID']);
+             $Create->ExeCreate("[00_NivelAcesso]",$PostData);
+             $jSON['trigger'] = AjaxErro("Permissão de Funcionário Criada!"); 
+            endif;
             break;
 
         case 'consultaUsuario':
                          
                 $Read->FullRead("SELECT * FROM [00_NivelAcesso] WHERE IDFUNCIONARIO = :idfunc","idfunc={$PostData['ID']}");
                 if($Read->getResult()):
-                    $jSON['permissoesUsuario'] = "<div id='permissoesUsuario'><input type='hidden' name='ID' value='{$Read->getResult()[0]['ID']}'/><input class='' name='GNS' type='checkbox' value='1' ".($Read->getResult()[0]['GNS'] == 1 ? 'checked':'')."> GNS <input class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1' ".($Read->getResult()[0]['CLIENTES_PARTICULARES'] == 1 ? 'checked':'')."> Clientes Particulares <input class='' name='TI' type='checkbox' value='1' ".($Read->getResult()[0]['TI'] == 1 ? 'checked':'')." > TI </br></div>";
+                    $jSON['permissoesUsuario'] = "
+                    <div id='permissoesUsuario' style='font-size: 15px;'>
+                    <input type='hidden' name='ID' value='{$Read->getResult()[0]['IDFUNCIONARIO']}'/>
+                    <input style='width: 5%;' id='modulos' type='checkbox' />Selecionar Todos<br><br>
+                    <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1' ".($Read->getResult()[0]['GNS'] == 1 ? 'checked':'').">GNS <br>
+                    <input style='width: 5%;' class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1' ".($Read->getResult()[0]['CLIENTES_PARTICULARES'] == 1 ? 'checked':'').">Clientes Particulares <br>
+                    <input style='width: 5%;' class='' name='TI' type='checkbox' value='1' ".($Read->getResult()[0]['TI'] == 1 ? 'checked':'')." >TI </br></div>";
                     
                     $Read->FullRead("SELECT * FROM [Funcionários] WHERE ID = :id","id={$PostData['ID']}");
                     if($Read->getResult()):
-                    $jSON['dadosUsuario'] = "<div id='dadosUsuario'><h5>{$Read->getResult()[0]['NOME COMPLETO']}</h5><p>{$Read->getResult()[0]['E-MAIL CORPORATIVO']}</p><span rel='agendamentos' callback='Ti' callback_action='resetarSenha' class='j_resetar_senha icon-cancel-circle btn btn_red m_top' id='{$Read->getResult()[0]['ID']}'>Resetar Senha</span></div>";
+                    $jSON['dadosUsuario'] = "
+                    <article class='wc_tab_target wc_active blocoDados' id='profile'  style='border-top: 5px solid #1a4a7b;'>
+                    <div class='panel'>
+                    <div id='dadosUsuario' style='text-align: center;'>
+                    <h5>{$Read->getResult()[0]['NOME COMPLETO']}</h5>
+                    <p>{$Read->getResult()[0]['E-MAIL CORPORATIVO']}</p>
+                    <div class='box box50'>
+                    <span rel='agendamentos' callback='Ti' callback_action='resetarSenha' class='j_resetar_senha icon-cancel-circle btn btn_red m_top' id='{$Read->getResult()[0]['ID']}'>Resetar Senha</span>
+                    </div>
+                    <div class='box box50'>
+                    <span rel='agendamentos' callback='Ti' callback_action='desativarConta' class='j_desativar_conta icon-cancel-circle btn btn_default m_top' id='{$Read->getResult()[0]['ID']}'>Desativar Conta</span>
+                    </div>
+                    </div>
+                     </article>
+                    </div>";
                     else:
                         $jSON['trigger'] = AjaxErro("Usuário não encontrado", E_USER_WARNING);
                     endif;
@@ -86,7 +100,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $Read->FullRead("SELECT * FROM [Funcionários] WHERE ID = :id","id={$PostData['ID']}");
                     if($Read->getResult()):
                         $jSON['dadosUsuario'] = "<div id='dadosUsuario'></div>";
-                        $jSON['permissoesUsuario'] = "<div id='permissoesUsuario'><input type='hidden' name='ID' value='{$Read->getResult()[0]['ID']}'/><input class='' name='GNS' type='checkbox' value='1'> GNS <input class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1'> Clientes Particulares <input class='' name='TI' type='checkbox' value='1'> TI </br></div>";                
+                        $jSON['permissoesUsuario'] = "
+                        <div id='permissoesUsuario' style='font-size: 15px;'>
+                        <input type='hidden' name='ID' value='{$Read->getResult()[0]['ID']}'/>
+                        <input style='width: 5%;' id='modulos' type='checkbox' />Selecionar Todos<br><br>
+                        <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1'/>GNS <br>
+                        <input style='width: 5%;' class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1' />Clientes Particulares<br> 
+                        <input style='width: 5%;' class='' name='TI' type='checkbox' value='1' />TI </br>
+                        </div>";   
+
                         $jSON['trigger'] = AjaxErro("Usuário sem permissões. Ao cadastrar, o mesmo passará a usar o sistema com as devidas permissões escolhidas."); 
                     endif;               
                 endif;
@@ -99,6 +121,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['trigger'] = AjaxErro("Senha resetada com sucesso!");
             else:
                 $jSON['trigger'] = AjaxErro("Erro ao tentar resetar a senha do usuário!");
+            endif;
+            break;
+
+            case 'desativarConta':
+            $Delete->ExeDelete("[00_NivelAcesso]", "WHERE IDFUNCIONARIO = :id", "id={$PostData['ID']}");
+             if($Delete->getResult()):
+                $jSON['trigger'] = AjaxErro("Conta desativada com sucesso!", E_USER_WARNING);
+            else:
+                $jSON['trigger'] = AjaxErro("Erro ao tentar desativar conta", E_USER_WARNING);
             endif;
             break;
 

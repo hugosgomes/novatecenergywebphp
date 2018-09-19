@@ -13,7 +13,6 @@ if (empty($Create)):
     $Create = new Create;
 endif;
 ?>
-
 <header class="dashboard_header">
     <div class="dashboard_header_title">
         <p class="dashboard_header_breadcrumbs">
@@ -30,7 +29,7 @@ endif;
     <div class="box box70">
         <article class="wc_tab_target wc_active" id="profile">
 
-            <div class="panel">
+            <div class="panel" style="border-top: 5px solid #1a4a7b;">
                 <!--SELECT DO TÉCNICO-->
                 <div class="label_50">
                     <label class="label">
@@ -38,40 +37,39 @@ endif;
                             <option value="t">Selecione o Usuário</option>             
                             <?php
                             $Setor = 2;
-                            $Read->FullRead("SELECT [Funcionários].ID AS id,[NOME COMPLETO] AS nome FROM Funcionários ORDER BY [NOME COMPLETO]"," ");
+                            $Read->FullRead("SELECT [Funcionários].ID AS id,[NOME COMPLETO] AS nome FROM Funcionários  WHERE [DATA DE DEMISSÃO] IS NULL ORDER BY [NOME COMPLETO]"," ");
                             if ($Read->getResult()):
                               foreach ($Read->getResult() as $FUNC):
                                 echo "<option value='{$FUNC['id']}'>{$FUNC['nome']}</option>";
                             endforeach;
                         endif;
                         ?>
-                        </select>
-                    </label>
-                </div> 
+                    </select>
+                </label>
+            </div> 
 
-                <div class="permissoesUsuarios"></div>            
+            <div class="permissoesUsuarios"></div>            
             
             <form class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="callback" value="Ti"/>
                 <input type="hidden" name="callback_action" value="manager"/>
-                
+
                 <div class="label_50">
                     <h4 class="m_botton">Permissões de Usuários</h4>
+                    <br>
                     <label class="label permissoesUsuario">
-                    </label>
-                </div>
-                <img class="form_load none fl_left" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
-                <button name="public" value="1" class="btn btn_green fl_left icon-share" style="margin-left: 5px;">Atualizar Usuário!</button>
-                <div class="clear"></div>
-            </form>
-        </div>
-    </article>
+                   </label>
+               </div>
+               <img class="form_load none fl_left" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
+               <button name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 5px;">Atualizar Usuário!</button>
+               <div class="clear"></div>
+           </form>
+       </div>
+   </article>
 </div>
 
-<div class="box box30">
-    <article class="wc_tab_target wc_active" id="profile">
-        <div class="panel dadosUsuario"></div>
-    </article>
+<div class="box box30 dadosUsuario">
+
 </div>
 </div>
 

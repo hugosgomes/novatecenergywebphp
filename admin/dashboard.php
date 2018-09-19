@@ -86,8 +86,43 @@ endif;
 
 </head>
 <body class="dashboard_main">
-        <!-- PRINTER GNS/AGENDAMENTOS -->
+    <!-- PRINTER GNS/AGENDAMENTOS -->
+
     <div class="table-printer">
+        <center>
+            <hr>
+            <br>
+            <h3>Agendamentos OS</h3>
+        </center>
+        <br>
+        <table id="dataTable2" class="cell-border compact stripe table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>OS</th>
+                <th>Nome OS</th>
+                <th>Endereço</th>
+                <th>Data</th>
+                <th>Técnico</th>
+                <th>Período</th>
+                <th class="no-print">Ação</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 11px;">
+            <tr class="j_tecnico2"><td>Selecione o Técnico</td></tr>            
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+ $('#dataTable2').DataTable({
+  paging: true,
+  compact: true,
+  hover: true,
+  searching: true,
+  info: false
+});
+</script>
+   <!--<div class="table-printer">
         <center>
             <hr>
             <br>
@@ -131,84 +166,84 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
             <br>
         </tbody>
     </table>
-</div>
-    <div class="workcontrol_upload workcontrol_loadmodal">
-        <div class="workcontrol_upload_bar">
-            <img class="m_botton" width="50" src="_img/load_w.gif" alt="Processando requisição!" title="Processando requisição!"/>
-            <p><span class="workcontrol_upload_progrees">0%</span> - Processando requisição!</p>
-        </div>
+</div>-->
+<div class="workcontrol_upload workcontrol_loadmodal">
+    <div class="workcontrol_upload_bar">
+        <img class="m_botton" width="50" src="_img/load_w.gif" alt="Processando requisição!" title="Processando requisição!"/>
+        <p><span class="workcontrol_upload_progrees">0%</span> - Processando requisição!</p>
     </div>
+</div>
 
-    <div class="dashboard_fix">
-        <?php
-        if (isset($_SESSION['trigger_controll'])):
-            echo "<div class='trigger_modal' style='display: block'>";
-            Erro("<span class='icon-warning'>{$_SESSION['trigger_controll']}</span>", E_USER_ERROR);
-            echo "</div>";
-            unset($_SESSION['trigger_controll']);
+<div class="dashboard_fix">
+    <?php
+    if (isset($_SESSION['trigger_controll'])):
+        echo "<div class='trigger_modal' style='display: block'>";
+        Erro("<span class='icon-warning'>{$_SESSION['trigger_controll']}</span>", E_USER_ERROR);
+        echo "</div>";
+        unset($_SESSION['trigger_controll']);
 
-        endif;
-        ?>
+    endif;
+    ?>
 
-        <nav class="dashboard_nav no-print">
-            <div class="dashboard_nav_admin">
-                <div class="box box60">
-                    <!--<img class="dashboard_nav_admin_thumb" alt="" title="" src="_img/logo.png "/>-->
-                    <h4 style="color: #fff;">Novatec Energy</h4>
-                </div>
+    <nav class="dashboard_nav no-print">
+        <div class="dashboard_nav_admin">
+            <div class="box box60">
+                <!--<img class="dashboard_nav_admin_thumb" alt="" title="" src="_img/logo.png "/>-->
+                <h4 style="color: #fff;">Novatec Energy</h4>
             </div>
+        </div>
 
-            <ul class="dashboard_nav_menu">
-                <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Home</a></li>
+        <ul class="dashboard_nav_menu">
+            <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Home</a></li>
 
-                <?php
-                $Data = new DateTime();
+            <?php
+            $Data = new DateTime();
                     //MODULO GNS
-                if ($_SESSION['userLogin'] && ($Permissao['GNS'] == 1)):
-                    ?>
-                    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
-                        <ul class="dashboard_nav_menu_sub">
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/historico' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/historico">&raquo; Histórico de Clientes</a></li>  
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/orcamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/orcamentos">&raquo; Orçamentos</a></li>  
-                        </ul>
-                    </li>
-                    <?php
-                endif;
+            if ($_SESSION['userLogin'] && ($Permissao['GNS'] == 1)):
                 ?>
-
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'gns/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-hammer" title="GNS" href="#">GNS</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/historico' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/historico">&raquo; Histórico de Clientes</a></li>  
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/orcamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/orcamentos">&raquo; Orçamentos</a></li>  
+                    </ul>
+                </li>
                 <?php
+            endif;
+            ?>
+
+            <?php
 
                     //MODULO CLIENTES PARTICULARES
-                if ($_SESSION['userLogin'] && ($Permissao['CLIENTES_PARTICULARES'] == 1)):
-                    ?>
+            if ($_SESSION['userLogin'] && ($Permissao['CLIENTES_PARTICULARES'] == 1)):
+                ?>
 
-                    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="#">Clientes Particulares</a>
-                        <ul class="dashboard_nav_menu_sub">   
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'clientes/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Clientes Particulares" href="#">Clientes Particulares</a>
+                    <ul class="dashboard_nav_menu_sub">   
 
-                            <!-- Pequenos Orçamentos -->
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home">&raquo; Pequenos Orçamentos</a></li> 
+                        <!-- Pequenos Orçamentos -->
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home">&raquo; Pequenos Orçamentos</a></li> 
 
-                            <!-- Grandes Orçamentos -->
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home2">&raquo; Grandes Orçamentos</a></li>
+                        <!-- Grandes Orçamentos -->
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home2">&raquo; Grandes Orçamentos</a></li>
 
-                            <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/cadastro' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/cadastro">&raquo; Cadastro</a></li>
-                        </ul>
-                    </li>
-                    <?php
-                endif;
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/cadastro' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/cadastro">&raquo; Cadastro</a></li>
+                    </ul>
+                </li>
+                <?php
+            endif;
 
                     //MENU DE USUÁRIOS
-                    if ($_SESSION['userLogin'] && ($Permissao['TI'] == 1)):
-                        ?>
-                        <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-database" title="Usuários" href="#">TI</a>
-                            <ul class="dashboard_nav_menu_sub">
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/controleUsuarios' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=ti/controleUsuarios">&raquo; Controle de Usuários</a></li>
-                            </ul>
-                        </li>
-                        <?php
-                    endif;
+            if ($_SESSION['userLogin'] && ($Permissao['TI'] == 1)):
+                ?>
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-database" title="Usuários" href="#">TI</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/controleUsuarios' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=ti/controleUsuarios">&raquo; Controle de Usuários</a></li>
+                    </ul>
+                </li>
+                <?php
+            endif;
 
                     //MENU DE USUÁRIOS
                     /*if ($_SESSION['userLogin'] && ($Permissao['GNS'] == 1)):

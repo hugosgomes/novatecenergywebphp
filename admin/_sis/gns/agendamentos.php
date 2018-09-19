@@ -87,8 +87,8 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           $LatLng->FullRead("SELECT Id, Endereco, Bairro, Municipio, Cep FROM [60_OS] WHERE Latitude IS NUll AND Longitude IS NULL", " ");
 
           ?>
-          <article class='box box100'>
-            <div class="table-responsive no-print">
+          <article class='box box100' style="padding: 0px;">
+            <div class="tabela-responsivel no-print"  style="overflow-x: hidden;height: 50%;">
               <table id="dataTable"class="cell-border compact stripe table">
                 <thead>
                   <tr>
@@ -102,7 +102,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                     <th>Ação</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody style="font-size: 11px;">
                   <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>            
                 </tbody>
               </table>
