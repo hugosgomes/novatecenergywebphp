@@ -245,6 +245,16 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 <?php
             endif;
 
+ //MENU DE USUÁRIOS
+            if ($_SESSION['userLogin'] && ($Permissao['CLIENTES_PARTICULARES'] == 1 ) || ($Permissao['GNS'] == 1 )):
+                ?>
+                <li class="dashboard_nav_menu_li"><a class="icon-cog" title="Usuários" href="#">Geral</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        <li class="dashboard_nav_menu_sub_li "><a title="Controle de Usuários" href="http://novatecenergy.ddns.net:8000/SistemaNovatecEnergy" target="_blank">&raquo; Agendar Sala</a></li>
+                    </ul>
+                </li>
+                <?php
+            endif;
                     //MENU DE USUÁRIOS
                     /*if ($_SESSION['userLogin'] && ($Permissao['GNS'] == 1)):
                         ?>

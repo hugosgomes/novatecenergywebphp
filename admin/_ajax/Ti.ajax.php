@@ -85,10 +85,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     <h5>{$Read->getResult()[0]['NOME COMPLETO']}</h5>
                     <p>{$Read->getResult()[0]['E-MAIL CORPORATIVO']}</p>
                     <div class='box box50'>
-                    <span rel='agendamentos' callback='Ti' callback_action='resetarSenha' class='j_resetar_senha icon-cancel-circle btn btn_red m_top' id='{$Read->getResult()[0]['ID']}'>Resetar Senha</span>
+                    <span rel='agendamentos' callback='Ti' callback_action='resetarSenha' class='j_resetar_senha btn btn_darkblue m_top' id='{$Read->getResult()[0]['ID']}'>Resetar Senha</span>
                     </div>
                     <div class='box box50'>
-                    <span rel='agendamentos' callback='Ti' callback_action='desativarConta' class='j_desativar_conta icon-cancel-circle btn btn_default m_top' id='{$Read->getResult()[0]['ID']}'>Desativar Conta</span>
+                    <span rel='agendamentos' callback='Ti' callback_action='desativarConta' class='j_desativar_conta icon-cancel-circle btn btn_red m_top' id='{$Read->getResult()[0]['ID']}'>Desativar Conta</span>
                     </div>
                     </div>
                      </article>

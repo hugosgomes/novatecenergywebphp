@@ -24,7 +24,11 @@
         if (data.addlist) {
             $("#dataList").remove();
             $(data.addlist).appendTo('.dataList');
-        }            
+        }       
+         if (data.addOrcamentolist) {
+            $("#orcamento-list").remove();
+            $(data.addOrcamentolist).appendTo('.orcamento-list');
+        }         
     }, 'json');
 });
 

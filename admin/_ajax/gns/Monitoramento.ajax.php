@@ -50,7 +50,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $criterioTec = $PostData['Tecnico'] != "t" ? " AND Tecnico = " . $PostData['Tecnico'] : "";
 
                     //CLIENTES ASSOCIADOS
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 0 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 0 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -61,7 +62,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES ASSOCIADOS
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 1 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 1 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -72,7 +74,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES ATENDIDOS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 2 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 2 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -83,7 +86,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES CANCELADOS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 3 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 3 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -94,7 +98,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES AUSENTES  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 4 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 4 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -105,7 +110,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES REAGENDADOS NVT  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 5 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 5 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -116,7 +122,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES REAGENDADOS GNS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 6 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 6 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -127,7 +134,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES SEM ATENDER  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 7 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 7 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -138,7 +146,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //ORÇAMENTOS APROVADOS 
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS2 = 0 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Orcamentos]
+                        INNER JOIN [60_OS] ON [60_Orcamentos].IdOS = [60_OS].Id
+                        WHERE [60_Orcamentos].Status = 0 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -149,7 +159,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //ORÇAMENTOS EXECUTADOS 
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS2 = 1 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Orcamentos]
+                        INNER JOIN [60_OS] ON [60_Orcamentos].IdOS = [60_OS].Id
+                        WHERE [60_Orcamentos].Status = 1 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -160,7 +172,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //ORÇAMENTOS REPROVADOS 
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS2 = 2 " . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Orcamentos]
+                        INNER JOIN [60_OS] ON [60_Orcamentos].IdOS = [60_OS].Id
+                        WHERE [60_Orcamentos].Status =  2 " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -173,7 +187,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $orcamentoTotal = $orcamentoAprov + $orcamentoExec + $orcamentoReprov;
                     
                     $jSON['trigger'] = true;
-                    $jSON['addlist'] = "<table id='dataList' class='cell-border compact stripe table' style='width: 50%;font-size: 15px;'>
+                    $jSON['addlist'] = "<table id='dataList' class='cell-border compact stripe table' style='width: 80%;font-size: 15px;'>
                     <tr>
                     <td>Não Associado(s):</td>
                     <td>{$naoassociados}</td>
@@ -208,7 +222,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     </tr>
                     </table>";
 
-                    $jSON['addOrcamentolist'] = "<table id='orcamento-list' class='cell-border compact stripe table' style='width: 40%;font-size: 15px;'>
+                    $jSON['addOrcamentolist'] = "<table id='orcamento-list' class='cell-border compact stripe table' style='width: 60%;font-size: 15px;'>
                     <tr>
                     <td>Aprovado(s):</td>
                     <td>{$orcamentoAprov}</td>

@@ -137,7 +137,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           ?>           
         </header>
         <div class="box_content">
-          <div id="map" class="no-print"></div>
+          <div id="map" class="no-print" style="height: 59.3%;"></div>
         </div>
       </article>
     </div>
@@ -215,7 +215,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         echo"icon: image1,";     
         echo "animation: google.maps.Animation.DROP,
         position: {lat:".$Latitude.", lng: ".$Longitude."},     
-        title: 'Hello World!'});";
+        title: ''});";
 
         echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span></div></div>';";
 

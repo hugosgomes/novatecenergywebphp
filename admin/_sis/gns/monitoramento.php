@@ -8,7 +8,14 @@ if (empty($Read)):
   $Read = new Read;
 endif;
 ?>
+<style type="text/css">
+  .nao-associado{
+    background-color: red;
+    width:15px; 
+    height: 15px;
 
+  }
+</style>
 <header class="dashboard_header">
   <div class="dashboard_header_title">
     <p class="dashboard_header_breadcrumbs">
@@ -20,11 +27,11 @@ endif;
 </div>
 </header>
 <div class="dashboard_content custom_app">
-  <article class="box box50">
+  <article class="box box33" style="width: 33%;">
     <header>
       <h3>Monitoramento</h3>
     </header> 
-    <div class="box_content">
+    <div class="box_content" style="height:78.3%;">
       <label class="label">
         <span class="legend">Técnico:</span>
         <select id="Tecnico" name="tecnico" callback="Monitoramento" callback_action="consulta">
@@ -59,7 +66,7 @@ endif;
 
       ?>
       <article class="box box50 datalist">
-        <table id="dataList" class="cell-border compact stripe table" style="width: 60%;font-size: 15px;">
+        <table id="dataList" class="cell-border compact stripe table" style="width: 100%;font-size: 15px;">
           <tr>
             <td>Não Associado(s):</td>
           </tr>
@@ -116,14 +123,15 @@ endif;
   </div>
 </article>
 <!--MAPA-->
-<article class="box box50">
+<article class="box box50" style="width:67%;">
   <header>
     <?php
-    echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
+    echo "<div class='box box50'><span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span></div><div class='box box50'>
+    <ul>&ensp;Não Associado</div>";
     ?>           
   </header>
   <div class="box_content">
-    <div id="map"></div>
+    <div id="map" style="height: 73.5%;"></div>
   </div>
 </article>
 </div>
@@ -137,8 +145,8 @@ endif;
       center: myLatLng
     });
     var image1 = './_img/marcador.png';
-    var image2 = './_img/marcador2.png';
-    var image3 = './_img/marcador3.png';
+    var image2 = './_img/marcador3.png';
+    var image3 = './_img/marcador2.png';
     var number = 5;
 
     <?php
@@ -157,9 +165,9 @@ endif;
 
         echo "animation: google.maps.Animation.DROP,
         position: {lat:".$Latitude.", lng: ".$Longitude."},     
-        title: 'Hello World!'});";
+        title: ''});";
 
-        echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span></div></div>';";
+        echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><!--<span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span>--></div></div>';";
 
         echo "var infowindow".$Id." = new google.maps.InfoWindow({
           content: contentString,
