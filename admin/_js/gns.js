@@ -22,7 +22,7 @@
 
         //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
         if (data.addlist) {
-            $("#dataList").remove();
+            $("#dataList").remove();            
             $(data.addlist).appendTo('.dataList');
         }       
          if (data.addOrcamentolist) {
@@ -92,7 +92,8 @@
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
-                $('#'+ data.deltable).fadeOut(400);
+                $('#dataTable2 #'+ data.deltable).fadeOut(400);
+                $('#dataTable #'+ data.deltable).fadeOut(400);
             }
 
             //DINAMIC CONTENT

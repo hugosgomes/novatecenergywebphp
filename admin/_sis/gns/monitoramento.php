@@ -11,8 +11,20 @@ endif;
 <style type="text/css">
   .nao-associado{
     background-color: red;
-    width:15px; 
-    height: 15px;
+    width:10px; 
+    height: 10px;
+
+  }
+    .associado{
+    background-color: #ffd400;
+    width:10px; 
+    height: 10px;
+
+  }
+    .atendido{
+    background-color: #0dbb0d;
+    width:10px; 
+    height: 10px;
 
   }
 </style>
@@ -31,7 +43,7 @@ endif;
     <header>
       <h3>Monitoramento</h3>
     </header> 
-    <div class="box_content" style="height:78.3%;">
+    <div class="box_content" style="height:77.2%;">
       <label class="label">
         <span class="legend">Técnico:</span>
         <select id="Tecnico" name="tecnico" callback="Monitoramento" callback_action="consulta">
@@ -53,13 +65,12 @@ endif;
 
       <?php
       $Data = date('d/m/Y');
-      $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
-                        [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
-                        [60_OS].Tecnico, [60_OS].turno as TURNO,
-                        [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
-                        inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                        inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                        AND [DataAgendamento] = :day","day={$Data}");
+      $Read->FullRead("SELECT  NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
+        [60_OS].Tecnico, [60_OS].turno as TURNO,
+        [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
+        inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+        inner join [60_OS] on [60_OT].Id = [60_OS].OT
+        AND [DataAgendamento] = :day","day={$Data}");
 
       $ReadClientesAssoc = new Read();
       $ReadClientesAssoc->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]", "");
@@ -126,12 +137,18 @@ endif;
 <article class="box box50" style="width:67%;">
   <header>
     <?php
-    echo "<div class='box box50'><span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span></div><div class='box box50'>
-    <ul>&ensp;Não Associado</div>";
+    echo "<div class='box box25'><span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span></div>
+    <div class='box box50'>
+    <table>
+    <tr>
+    <td><div class='nao-associado'></div></td><td>&ensp;Não Associado&ensp;</td>
+    <td><div class='associado'></div></td><td>&ensp;Associado&ensp;</td>
+    <td><div class='Atendido'></div></td><td>&ensp;Atendido</td>
+    </tr></table></div>";
     ?>           
   </header>
   <div class="box_content">
-    <div id="map" style="height: 73.5%;"></div>
+    <div id="map" style="height: 72%;"></div>
   </div>
 </article>
 </div>
@@ -167,7 +184,7 @@ endif;
         position: {lat:".$Latitude.", lng: ".$Longitude."},     
         title: ''});";
 
-        echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><!--<span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span>--></div></div>';";
+        echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p></p><p>Nome Os: <b>".$NomeOs."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><!--<span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span>--></div></div>';";
 
         echo "var infowindow".$Id." = new google.maps.InfoWindow({
           content: contentString,

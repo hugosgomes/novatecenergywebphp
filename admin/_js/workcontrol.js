@@ -1327,7 +1327,7 @@ function wcUrlParam(name) {
 ###############################################################*/
 
     //ADICIONA O.S PARA O TÉCNICO
-    $('html, body').on('click', '.j_add_tecnico', function (e) {
+    /*$('html, body').on('click', '.j_add_tecnico', function (e) {
         var Prevent = $(this);
         var OSId = $(this).attr('id');
         var RelTo = $(this).attr('rel');
@@ -1397,7 +1397,7 @@ function wcUrlParam(name) {
 
         e.preventDefault();
         e.stopPropagation();
-    });
+    });*/
 
 
 // ALETERNAR TELA
