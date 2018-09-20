@@ -222,17 +222,25 @@
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         var idCliente = $(this).attr('value');
+        var idOrcamento = $(this).attr('idOrcamento');
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idCliente: idCliente}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idCliente: idCliente, idOrcamento}, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);                
             }
 
+            //RETORNOS CORRESPONDENTES A TELA DE HISTÓRICO DE CLIENTES
             if (data.historicoOs) {
                 $('#j_historicosOs *').remove();
                 $(data.historicoOs).appendTo('#j_historicosOs');             
+            }
+
+            //RETORNOS CORRESPONDENTES A TELA DE DETALHES DE ORÇAMENTOS
+            if (data.addDetalhes) {
+                $('.j_detalhes *').remove();
+                $(data.addDetalhes).appendTo('.j_detalhes');             
             }
 
 
@@ -326,14 +334,14 @@
     document.getElementById('j_mes').selectedIndex = dataAtual.getMonth();
 
     $('#j_statusOrcamento').append('<option value="0">APROVADO</option>');
-    $('#j_statusOrcamento').append('<option value="1">RECUSADO</option>');
-    $('#j_statusOrcamento').append('<option value="2">EXECUTADO</option>');
+    $('#j_statusOrcamento').append('<option value="2">RECUSADO</option>');
+    $('#j_statusOrcamento').append('<option value="1">EXECUTADO</option>');
 
     carregaTabelaOrcamento();
+
   }
 
   $('#j_ano, #j_mes, #j_statusOrcamento').change(carregaTabelaOrcamento);
-
 
   function carregaTabelaOrcamento(){
     var Callback = $('#dataTable').attr('callback');

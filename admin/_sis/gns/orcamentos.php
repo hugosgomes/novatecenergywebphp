@@ -26,44 +26,54 @@ endif;
 
 <article class="box box100">
   <div class="box_content">
-    <div class="box box50" style="padding-left: 13%;">
-    <label >Ano</label>
-    <select id="j_ano" style="font-family: Arial;font-size: 11px; width: 100px;">
-    <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
-        <option value="t">Todos</option>
-    </select>
-    <label>Mês</label>
-    <select id="j_mes" style="font-family: Arial;font-size: 11px; width: 110px;">
-        <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
-        <option value="t" id="meses">Todos</option>
-        <option value="01" id="meses">JANEIRO</option>
-        <option value="02" id="meses">FEVEREIRO</option>
-        <option value="03" id="meses">MARÇO</option>
-        <option value="04" id="meses">ABRIL</option>
-        <option value="05" id="meses">MAIO</option>
-        <option value="06" id="meses">JUNHO</option>
-        <option value="07" id="meses">JULHO</option>
-        <option value="08" id="meses">AGOSTO</option>
-        <option value="09" id="meses">SETEMBRO</option>
-        <option value="10" id="meses">OUTUBRO</option>
-        <option value="11" id="meses">NOVEMBRO</option>
-        <option value="12" id="meses">DEZEMBRO</option>
-    </select>
-    <label style="font-family: Arial;font-size: 11px;">Todos</label>
-    <select id="j_statusOrcamento" style="font-family: Arial;font-size: 11px; width: 110px;">
-    <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
-        <option value="t">Todos</option>
-    </select>
-</div>
-<div class="box box50">
-    <label>Valor Aprovado</label>
-    <input id="j_aprovado" class="" type="text" style="font-family: Arial;font-size: 11px; width: 100px;">
-    <label>Valor Recusado</label>
-    <input id="j_recusado" class="" type="text" style="font-family: Arial;font-size: 11px; width: 100px;">
-    <label>Valor Executado</label>
-    <input id="j_executado" class="" type="text" style="font-family: Arial;font-size: 11px; width: 100px;">
+    <div class="box box50">
+      <div class="label_33">
+        <label class="label">Ano
+          <select id="j_ano">
+              <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
+              <option value="t">TODOS OS ANOS</option>
+          </select>
+        </label>
+        <label class="label">Mês
+          <select id="j_mes">
+              <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
+              <option value="t" id="meses">TODOS OS MESES</option>
+              <option value="01" id="meses">JANEIRO</option>
+              <option value="02" id="meses">FEVEREIRO</option>
+              <option value="03" id="meses">MARÇO</option>
+              <option value="04" id="meses">ABRIL</option>
+              <option value="05" id="meses">MAIO</option>
+              <option value="06" id="meses">JUNHO</option>
+              <option value="07" id="meses">JULHO</option>
+              <option value="08" id="meses">AGOSTO</option>
+              <option value="09" id="meses">SETEMBRO</option>
+              <option value="10" id="meses">OUTUBRO</option>
+              <option value="11" id="meses">NOVEMBRO</option>
+              <option value="12" id="meses">DEZEMBRO</option>
+          </select>
+        </label>
+        <label class="label">Status
+          <select id="j_statusOrcamento">
+          <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
+              <option value="t">TODOS OS STATUS</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="box box50">
+      <div class="label_33">
+        <label class="label">Valor Aprovado
+          <input id="j_aprovado" class="">
+        </label>
+        <label class="label">Valor Recusado
+          <input id="j_recusado" class="" type="text">
+        </label>
+        <label class="label">Valor Executado
+          <input id="j_executado" class="" type="text">
+        </label>
+      </div>
+    </div>
   </div>
-</div>
 </article>
 
 <article class="box box70">
@@ -87,24 +97,19 @@ endif;
 <article class="box box30">
   <div class="box_content">
     <center><h4>Informações Detalhadas</h4></center>
-    <span>Data Entrada:</span><br>
-    <span>Técnico Entrada:</span><br>
-    <span>Data Execução:</span><br>
-    <span>Técnico Execução:</span><br>
-    <span>Status:</span><br>
+    <ul class="j_detalhes">
+      <li><center><span id="j_btn_editar" class="btn btn_darkblue icon-share" >Editar</span></center></li>
+      <br>
+      <li>Data Entrada: </li>
+      <li>Técnico Entrada: </li>
+      <li>Data Execução: </li>
+      <li>Técnico Execução: </li>
+      <li>Status: </li>
+      <li>Valor: </li>
+  </ul>
   </div>
 </article>  
 
-
-<style type="text/css">
-select, input{
-    margin-right: 15px;
-}
-label, span{
-  font-family: Arial;
-  font-size: 11px;
-}
-</style>
 
 <script src="_js/gns.js"></script>
 <script>$(document).ready(iniciaPagina);</script>
@@ -117,3 +122,13 @@ label, span{
           info: false
         });
 </script>
+
+<style type="text/css">
+
+
+.j_detalhes li{  
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+</style>
