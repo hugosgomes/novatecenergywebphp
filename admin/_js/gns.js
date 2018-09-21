@@ -21,7 +21,7 @@
 
         //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
         if (data.addlist) {
-            $("#dataList").remove();
+            $("#dataList").remove();            
             $(data.addlist).appendTo('.dataList');
         }            
     }, 'json');
@@ -41,6 +41,7 @@
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);
+             
                 $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
                     $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action:eq(0)').fadeIn('fast');
                 });
@@ -50,8 +51,10 @@
 
             //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
             if (data.addtable) {
-                $('#semOS').fadeOut('fast');
+                $('#dataTable2 #semOS').fadeOut('fast');
+                $('#dataTable #semOS').fadeOut('fast');
                 $(data.addtable).appendTo('.dataTable');
+               // location.reload();
                 $('.info-window').fadeOut(400);
             }
 
@@ -79,15 +82,19 @@
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);
+
                 $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
+
                     $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action:eq(0)').fadeIn('fast');
                 });
             } else {
+
                 $('.' + RelTo + '[id="' + DelId + '"]').fadeOut('fast');
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
-                $('#'+ data.deltable).fadeOut(400);
+             $('#dataTable2 #'+ data.deltable).fadeOut(400);
+               $('#dataTable #'+ data.deltable).fadeOut(400);
             }
 
             //DINAMIC CONTENT
@@ -118,7 +125,9 @@
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
-                $('#'+ data.deltable).fadeOut(400);
+               // $('#'+ data.deltable).fadeOut(400);
+                $('#dataTable2 #'+ data.deltable).fadeOut(400);
+                 $('#dataTable #'+ data.deltable).fadeOut(400);
             }
         }, 'json');
 

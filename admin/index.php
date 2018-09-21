@@ -39,7 +39,7 @@ $Cookie = filter_input(INPUT_COOKIE, 'workcontrol', FILTER_VALIDATE_EMAIL);
     <div class="container login_container">
 
         <div class="box box100">
-            <img class="logotipo" alt="<?= ADMIN_NAME; ?>" title="<?= ADMIN_NAME; ?>" src="_img/logo.png"/>
+            <img class="logotipo img-responsive" alt="<?= ADMIN_NAME; ?>" title="<?= ADMIN_NAME; ?>" src="_img/logo.png"/>
             <form class="formulario" name="work_login" action="" method="post" enctype="multipart/form-data">
                 <div class="callback_return m_botton">
                     <?php
@@ -51,15 +51,18 @@ $Cookie = filter_input(INPUT_COOKIE, 'workcontrol', FILTER_VALIDATE_EMAIL);
                 </div>
                 <input type="hidden" name="callback" value="Login">
                 <input type="hidden" name="callback_action" value="admin_login">
-                <label class="label">
-                    <input type="text" name="LOGIN" value="<?= $Cookie ? $Cookie : ''; ?>"  placeholder="Digite seu usuário "  required style="border: 0px;"/>
-                </label>
-                <label class="label">
-                    <input type="password" name="SENHA" placeholder="Digite sua senha" required style="border: 0px;"/>
-                </label>
-                <img class="form_load none" style="float: right; margin-top: 3px; margin-left: 10px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load_w.gif"/>
-                <!--<a href="#" class="fl_left minhasenha">Esqueceu a senha?</a>-->
-                <button class="btn_default btn_white icon-enter fl_right">Login</button>
+                    <center>
+                        <label class="label" style="padding-bottom: 10px;width: 318px;">
+                            <input type="text" name="LOGIN" value="<?= $Cookie ? $Cookie : ''; ?>"  placeholder="Digite seu usuário "  required style="border: 0px;    width: 90%;"/>
+                            <span class="input-group-addon" style="border-radius: 0px;background-color: rgba(231, 234, 239, 0.27);border: 0px;color: white;"><i class=" icon-user" style="float: right;padding-top: 8px;background-color: rgba(231, 234, 239, 0.24);height: 35px;width: 10%;padding-left: 7px;"></i></span>
+                        </label>
+                        <label class="label" style="width: 318px;">
+                            <input type="password" name="SENHA" placeholder="Digite sua senha" required style="border: 0px;width: 90%;"/>
+                            <span class="input-group-addon" style="border-radius: 0px;background-color: rgba(231, 234, 239, 0.27);border: 0px;color: white;"><i class=" icon-lock" style="float: right;padding-top: 8px;background-color: rgba(231, 234, 239, 0.24);height: 35px;width: 10%;padding-left: 7px;"></i></span>
+                        </label>
+                        <img class="form_load none" style="float: right; margin-top: 3px; margin-left: 10px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load_w.gif"/>
+                        <!--<a href="#" class="fl_left minhasenha">Esqueceu a senha?</a>-->
+                        <button class="btn_default btn_white icon-enter ">Login</button></center>
                 <div class="clear"></div>
             </form>
             <div class="container_center">

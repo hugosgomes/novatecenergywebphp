@@ -109,7 +109,7 @@ endif;
             </tr>
         </thead>
         <tbody style="font-size: 11px;">
-            <tr class="j_tecnico2"><td>Selecione o Técnico</td></tr>            
+            <tr class="j_tecnico2 no-print"><td>Selecione o Técnico</td></tr>            
         </tbody>
     </table>
 </div>
@@ -248,7 +248,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
  //MENU DE USUÁRIOS
             if ($_SESSION['userLogin'] && ($Permissao['FERRAMENTAS'] == 1)):
                 ?>
-                <li class="dashboard_nav_menu_li"><a class="icon-cog" title="Usuários" href="#">Geral</a>
+                <li class="dashboard_nav_menu_li"><a class="icon-cog" title="Usuários" href="#">Ferramentas</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li "><a title="Controle de Usuários" href="http://novatecenergy.ddns.net:8000/SistemaNovatecEnergy" target="_blank">&raquo; Agendar Sala</a></li>
                     </ul>

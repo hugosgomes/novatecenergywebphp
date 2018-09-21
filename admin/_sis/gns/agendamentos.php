@@ -75,12 +75,14 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                 ?>
               </select>
             </label>
+                  <div class="label_25 no-print">
             <label class="label">
-                <br>
-                <button class="btn btn_darkblue no-print m_left" onclick="print()"><i class="icon-printer"></i>&ensp;Imprimir</button>
-            </label>          
+              <br>
+              <a class="btn btn_darkblue no-print m_left" onclick="print()" style="height: 35px;padding-top: 10px;"><i class="icon-printer"></i>&ensp;Imprimir</a>
+            </label>  
           </div>
-          
+          </div>
+
 
           <?php
 
@@ -112,19 +114,31 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
       </article>
       <article class="box box50">
         <header class="no-print">
-          <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $Hoje; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
+          <?php
+
+          $url = $_SERVER['QUERY_STRING'];
+          if($url == "wc=gns/agendamentos&day=".$Hoje){
+            $url = $Hoje;
+          } else if($url == "wc=gns/agendamentos&day=".$Amanha){
+            $url = $Amanha;
+          }else {
+            $url = $Hoje .'&s=1';
+          }
+
+          ?>
+          <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $url; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
           <?php
 
           if($Semana == '1'):
             $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
-              NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
+              NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
               [60_OS].Tecnico, [60_OS].turno as TURNO,
               [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
               inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
               inner join [60_OS] on [60_OT].Id = [60_OS].OT
               WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE()) AND [60_OS].Tecnico = 0"," ");
           else:
-            $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
+            $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
               [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
               [60_OS].Tecnico, [60_OS].turno as TURNO,
               [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
@@ -216,9 +230,9 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         echo "animation: google.maps.Animation.DROP,
         position: {lat:".$Latitude.", lng: ".$Longitude."},     
         title: ''});";
-
-        echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span></div></div>';";
-
+?>
+        var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS; ?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p><p>Serviço: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='<?php echo $Id;?>'>Add</span></div></div>";
+<?php
         echo "var infowindow".$Id." = new google.maps.InfoWindow({
           content: contentString,
           maxWidth: 400
