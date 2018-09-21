@@ -16,19 +16,14 @@
         //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
         if (data.addtable) {
             $("#dataTable .j_tecnico").remove();
-            $("#dataTable2 .j_tecnico2").remove();
-           $(data.addtable).appendTo('.dataTable');      
+            $(data.addtable).appendTo('.dataTable');
         }
 
         //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
         if (data.addlist) {
             $("#dataList").remove();
             $(data.addlist).appendTo('.dataList');
-        }       
-         if (data.addOrcamentolist) {
-            $("#orcamento-list").remove();
-            $(data.addOrcamentolist).appendTo('.orcamento-list');
-        }         
+        }            
     }, 'json');
 });
 
@@ -379,3 +374,93 @@
 
     }, 'json');
   }
+
+
+$('html').on('click', '#j_btn_editar', function (e) {
+    var Callback = $(this).attr('callback');
+    var Callback_action = $(this).attr('callback_action');
+    var idOrcamento = $(this).attr('idOrcamento');
+
+    $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idOrcamento}, function (data) {
+
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if(data.Trigger){
+            Trigger(data.trigger);
+        }
+
+        if(data.addTecnicos){
+            $(data.addTecnicos).appendTo("#j_tecnicoEntrada");
+            $(data.addTecnicos).appendTo("#j_tecnicoExecucao");
+        }   
+
+        if(data.addStatus){
+            $(data.addStatus).appendTo("#j_status");
+        }
+
+        if(data.addId){
+            $("#j_id").val(data.addId);
+        }
+
+    }, 'json');
+
+});
+
+
+
+$('html').on('click', '#j_btn_salvar', function (e) {
+    var form = $("#j_form");
+    var callback = form.find('input[name="callback"]').val();
+    var callback_action = form.find('input[name="callback_action"]').val();
+    var id = form.find('input[name="ID"]').val();
+
+    if (typeof tinyMCE !== 'undefined') {
+        tinyMCE.triggerSave();
+    }
+
+    form.ajaxSubmit({            
+        url: '_ajax/Orcamentos/' + callback + '.ajax.php',
+        dataType: 'json',
+        beforeSubmit: function () {
+            $('.workcontrol_pdt_size').fadeIn('fast');
+        },
+        uploadProgress: function (evento, posicao, total, completo) {
+            var porcento = completo + '%';
+            $('.workcontrol_upload_progrees').text(porcento);
+
+            if (completo <= '80') {
+                $('.workcontrol_upload').fadeIn().css('display', 'flex');
+            }
+            if (completo >= '99') {
+                $('.workcontrol_upload').fadeOut('slow', function () {
+                    $('.workcontrol_upload_progrees').text('0%');
+                });
+            }
+            //PREVENT TO RESUBMIT IMAGES GALLERY
+            form.find('input[name="image[]"]').replaceWith($('input[name="image[]"]').clone());
+        },
+        success: function (data) {
+            if (data.trigger) {
+                Trigger(data.trigger);
+            }
+
+            //DATA CLEAR INPUT
+            if (data.inpuval) {
+                if (data.inpuval === 'null') {
+                    $('.wc_value').val("");
+                } else {
+                    $('.wc_value').val(data.inpuval);
+                }
+            }                        
+        }
+    });
+
+});
+
+
+
+$('html').on('click', '#j_btn_cancelar', function (e) {
+    $('#j_modal, .blocker').hide();
+});
+
+
+

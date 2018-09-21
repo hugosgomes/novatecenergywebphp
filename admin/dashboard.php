@@ -246,7 +246,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
             endif;
 
  //MENU DE USUÁRIOS
-            if ($_SESSION['userLogin'] && ($Permissao['CLIENTES_PARTICULARES'] == 1 ) || ($Permissao['GNS'] == 1 )):
+            if ($_SESSION['userLogin'] && ($Permissao['FERRAMENTAS'] == 1)):
                 ?>
                 <li class="dashboard_nav_menu_li"><a class="icon-cog" title="Usuários" href="#">Geral</a>
                     <ul class="dashboard_nav_menu_sub">

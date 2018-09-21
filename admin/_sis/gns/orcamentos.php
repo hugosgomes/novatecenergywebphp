@@ -79,36 +79,92 @@ endif;
 <article class="box box70">
   <div class="box_content">
     <table id="dataTable"class="cell-border compact stripe table" callback="Orcamentos" callback_action="consulta">
-        <thead>
+      <thead>
           <tr>
             <th>Nº Cliente</th>
             <th>OS</th>
             <th>Endereço</th>
             <th>Tipo Serviço</th>
           </tr>
-        </thead>
-        <tbody>
-          <tr><td colspan="4"><center>Nenhuma informação</center></td></tr>            
-        </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <tr><td colspan="4"><center>Nenhuma informação</center></td></tr>
+      </tbody>
+    </table>
   </div>
 </article> 
 
 <article class="box box30">
   <div class="box_content">
     <center><h4>Informações Detalhadas</h4></center>
+    <br>
     <ul class="j_detalhes">
-      <li><center><span id="j_btn_editar" class="btn btn_darkblue icon-share" >Editar</span></center></li>
+      <li><center><a id="j_btn_editar" class="btn btn_darkblue icon-share" >Editar</a></center></li>
       <br>
-      <li>Data Entrada: </li>
-      <li>Técnico Entrada: </li>
-      <li>Data Execução: </li>
-      <li>Técnico Execução: </li>
-      <li>Status: </li>
-      <li>Valor: </li>
-  </ul>
+      <li><span>Data Entrada: </span></li>
+      <li><span>Técnico Entrada: </span></li>
+      <li><span>Data Execução: </span></li>
+      <li><span>Técnico Execução: </span></li>
+      <li><span>Status: </span></li>
+      <li><span>Valor: </span></li>
+    </ul>
   </div>
-</article>  
+</article>
+
+
+
+<div id="j_modal" class="modal" style="height: auto;">
+  <h3 style="text-align: center;">EDIÇÃO DE CLIENTES</h3>
+  <hr style="height: 4px; background-color: black;">
+  
+      <br>
+      <form id="j_form" method="post">
+        <input id="j_id" type="hidden" name="ID" value="0">
+        <input type="hidden" name="callback" value="Orcamentos">
+        <input type="hidden" name="callback_action" value="atualizar">
+        <div class="label_50">
+
+          <label class="label" style="width: 26%;">
+            <span>Data Entrada:</span>
+            <input type="text" placeholder="" class="jwc_datepicker" name="DataEnt" required/>
+          </label>
+        
+          <label class="label" style="width: 72%;">
+            <span>Técnico Entrada: </span>
+            <select id="j_tecnicoEntrada" class="" name="TecnicoEnt" required/>
+              <option value = "t">SELECIONE UM TÉCNICO</option>
+            </select>
+          </label>
+
+          <label class="label"  style="width: 26%;">
+            <span>Data Execução: </span>
+            <input type="text" placeholder="" class="jwc_datepicker" name="DataExe" required/>
+          </label>
+
+          <label class="label"  style="width: 72%;">
+            <span>Técnico Execução: </span>
+            <select id="j_tecnicoExecucao" class="" name="TecExe" required/>
+              <option value = "t">SELECIONE UM TÉCNICO</option>
+            </select>
+          </label>
+
+          <label class="label">
+            <span>Status: </span>
+            <select id="j_status" class="" name="Status" required/>
+              <option value = "t">SELECIONE UM STATUS</option>
+            </select>
+          </label>
+
+          <label class="label">
+            <span>Valor: </span>
+            <input type="text" placeholder="" class="" name="Valor" required/>
+          </label>
+
+          <center><a id="j_btn_salvar" class="btn btn_darkblue icon-share" style="width: 104px;">Salvar</a>&ensp;<a id="j_btn_cancelar" class="btn btn_red icon-cancel-circle" >Cancelar</a></center>
+        </div>
+      </form>
+    
+</div>
 
 
 <script src="_js/gns.js"></script>
@@ -125,8 +181,11 @@ endif;
 
 <style type="text/css">
 
+.blocker{
+  z-index: 100;
+}
 
-.j_detalhes li{  
+.j_detalhes span{  
   padding-top: 10px;
   font-weight: bold;
 }

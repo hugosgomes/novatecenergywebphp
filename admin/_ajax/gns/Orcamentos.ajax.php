@@ -27,6 +27,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $Read = new Read;
     endif;
 
+    if (empty($Update)):
+        $Update = new Update;
+    endif;
+
     //SELECIONA AÇÃO
     switch ($Case):
         case 'consulta':
@@ -107,19 +111,54 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     foreach ($Read->getResult() as $detalhes):
                         $valor = number_format($detalhes['Valor'],2,',','.');
                         $status = getStatusOrcamentoGNS($detalhes['Status']);
-                        $jSON['addDetalhes'] = "<li><center><span id='j_btn_editar' class='btn btn_darkblue icon-share' >Editar</span></center></li>
+                        $jSON['addDetalhes'] = "<li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>Editar</a></center></li>
                               <br>
-                              <li>Data Entrada: {$detalhes['DataEnt']}</li>
-                              <li>Técnico Entrada: {$detalhes['TecnicoEnt']}</li>
-                              <li>Data Execução: {$detalhes['DataExe']}</li>
-                              <li>Técnico Execução: {$detalhes['TecExe']}</li>
-                              <li>Status: $status</li>
-                              <li>Valor: (R$)$valor</li>";
+                              <li><span>Data Entrada: </span>{$detalhes['DataEnt']}</li>
+                              <li><span>Técnico Entrada: </span>{$detalhes['TecnicoEnt']}</li>
+                              <li><span>Data Execução: </span>{$detalhes['DataExe']}</li>
+                              <li><span>Técnico Execução: </span>{$detalhes['TecExe']}</li>
+                              <li><span>Status: </span>$status</li>
+                              <li><span>Valor: </span>(R$)$valor</li>";
                     endforeach;
                 else:
                     $jSON['addDetalhes'] = 0;
                 endif;
+        break;
 
+        case 'editar':
+            $jSON['addTecnicos'] = null;
+            $jSON['addStatus'] = null;
+            $jSON['addId'] = $PostData['idOrcamento'];
+
+            //SOMATÓRIO DE VALOR EXECUTADO
+            $Read->FullRead("SELECT ID, [NOME COMPLETO] FROM Funcionários WHERE GNSMOBILE = 1 AND  [DATA DE DEMISSÃO] IS NULL ORDER BY [NOME COMPLETO]","");
+            if ($Read->getResult()):
+                foreach ($Read->getResult() as $tecnicos):
+                    $jSON['addTecnicos'] .= "<option value = '{$tecnicos['ID']}'>{$tecnicos['NOME COMPLETO']}</option>";
+                endforeach;
+            else:
+                $jSON['addTecnicos'] = "<option value = 't'>SELECIONE UM TÉCNICO</option>";
+            endif;
+
+            foreach (getStatusOrcamentoGNS() as $key => $value) {
+                $jSON['addStatus'] .= "<option value = '{$key}'>{$value}</option>";
+            }
+        break;
+
+        case 'atualizar':
+            $jSON['addTecnicos'] = 'Teste';
+            /*var_dump($PostData);
+            $jSON['teste'] = true;*/
+
+            /*$Resultado = NULL;
+            if(isset($PostData['IDCHAMADO'])):                
+                $Update->ExeUpdate("[80_Chamados]", $chamado, "WHERE [80_Chamados].ID = :id", "id={$PostData['IDCHAMADO']}");
+                $Resultado = 1;
+            else:
+                $Create->ExeCreate("[80_Chamados]",$chamado);
+                $Resultado = 1;
+            endif;*/
+            
         break;
     endswitch;
 
