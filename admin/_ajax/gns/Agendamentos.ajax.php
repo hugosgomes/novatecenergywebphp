@@ -162,7 +162,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               else:
                   $jSON['trigger'] = true;
                   $jSON['success'] = true;
-                  $jSON['addtable'] = "<tr class='j_tecnico' id='semOS'><td>Sem O.S direcionada para esta tecnico</td></tr>";
+                  $jSON['addtable'] = "<tr class='j_tecnico no-print' id='semOS'><td>Sem O.S direcionada para esta tecnico</td></tr>";
               endif;
             break;
 

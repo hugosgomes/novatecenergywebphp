@@ -36,17 +36,61 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $where = $PostData['idCliente'] != 't' ? "WHERE [60_Clientes].Id = {$PostData['idCliente']}" : "";
 
         //Carrega e retorna os dados da tabela
-        $Read->FullRead("SELECT [60_Clientes].Id, NomeCliente, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio FROM [60_Clientes]
-						INNER JOIN [60_OT] ON [60_Clientes].Id = [60_OT].Cliente
-						INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT {$where}
-						ORDER BY NomeCliente","");
+        $Read->FullRead("SELECT [60_Clientes].Id, [60_Siebel].areaResponsavel,  FORMAT( [60_OS].DataAgendamento, 'dd/MM/yyyy', 'pt-BR' ) AS DataAgendamento, [60_Clientes].NumCliente,[60_Clientes].NomeCliente, [60_Clientes].Telefone1, [60_OT].TipoOT, 
+            [60_OT].NumOT, [60_OS].NomeOs, [60_OS].NumOS, [60_OS].Endereco, [60_OS].Bairro, [60_Clientes].SituacaoCliente, [60_OS].Cep, [60_OT].ObsOT, 
+            [60_OS].ObsCEG,  FORMAT(  [60_OS].Criadoem, 'dd/MM/yyyy', 'pt-BR' ) AS Criadoem, [60_OS].Criadopor, [60_OS].Municipio, FORMAT(  [60_OS].Atualizadoem, 'dd/MM/yyyy', 'pt-BR' ) AS Atualizadoem, [60_OS].Atualizadopor, 
+            [60_OS].ExecutorServico, [60_OS].CPFExecutorServico, [60_OS].Prioridade, [60_Clientes].Mercado, [60_OS].NovoPeriodoAgendamento, 
+            [60_Clientes].SituacaoFornecimento, CONVERT(VARCHAR(10),[60_Siebel].DataSolicitacao, 103 ) AS DataSolicitacao, [60_Clientes].Telefone2, [60_Clientes].Telefone3, [60_Siebel].Zona,[60_Siebel].SubZona,[60_Siebel].[No.OSgarantia] AS noOSgarantia, [60_Siebel].Valoracobrar, [60_Siebel].[Obs.Empreiteira] AS obsEmpreiteira, [60_Clientes].CPFCNPJ, [60_OS].PeriodoAgendamento, [60_Siebel].TelefoneZeus, [60_Clientes].EmailGns FROM [60_Clientes]
+
+            INNER JOIN [60_Siebel] ON [60_Clientes].NumCliente = [60_Siebel].NumeroCliente
+            INNER JOIN [60_OS] ON [60_Siebel].NumeroOS = [60_OS].NumOS
+            INNER JOIN [60_OT] ON [60_Siebel].NumeroOT = [60_OT].NumOT {$where} ORDER BY NomeCliente"," ");
+
+
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $historico):
                 	$jSON['historico'] .= "<tr role='row' class='odd pointer j_table' value='{$historico['Id']}' callback='Historico' callback_action='CarregarHistorico'>
-	                							<td>{$historico['NomeCliente']}</td>
-	                							<td>{$historico['Endereco']}</td>
-	                							<td>{$historico['Bairro']}</td>
-	                							<td>{$historico['Municipio']}</td>
+	                                             <td style='text-align: center;'>{$historico['areaResponsavel']}</td>
+                                                 <td style='text-align: center;'>{$historico['DataAgendamento']}</td>
+                                                 <td style='text-align: center;'>{$historico['NumCliente']}</td>
+                                                 <td>{$historico['NomeCliente']}</td>
+                                                 <td style='text-align: center;'>{$historico['Telefone1']}</td>
+                                                 <td>{$historico['TipoOT']}</td>
+                                                 <td style='text-align: center;'>{$historico['NumOT']}</td>
+                                                 <td style='text-align: center;'>{$historico['NomeOs']}</td>
+                                                 <td style='text-align: center;'>{$historico['NumOS']}</td>
+                                                 <td>{$historico['Endereco']}</td>
+
+                                                 <td style='text-align: center;'>{$historico['Bairro']}</td>
+                                                 <td style='text-align: center;'>{$historico['SituacaoCliente']}</td>
+                                                 <td style='text-align: center;'>{$historico['Cep']}</td>
+                                                 <td>{$historico['ObsOT']}</td>
+                                                 <td>{$historico['ObsCEG']}</td>
+                                                 <td style='text-align: center;'>{$historico['Criadoem']}</td>
+                                                 <td style='text-align: center;'>{$historico['Criadopor']}</td>
+                                                 <td style='text-align: center;'>{$historico['Municipio']}</td>
+                                                 <td style='text-align: center;'>{$historico['Atualizadoem']}</td>
+                                                 <td style='text-align: center;'>{$historico['Atualizadopor']}</td>
+
+                                                 <td>{$historico['ExecutorServico']}</td>
+                                                 <td style='text-align: center;'>{$historico['CPFExecutorServico']}</td>
+                                                 <td style='text-align: center;'>{$historico['Prioridade']}</td>
+                                                 <td style='text-align: center;'>{$historico['Mercado']}</td>
+                                                 <td style='text-align: center;'>{$historico['NovoPeriodoAgendamento']}</td>
+                                                 <td style='text-align: center;'>{$historico['SituacaoFornecimento']}</td>
+                                                 <td style='text-align: center;'>{$historico['DataSolicitacao']}</td>
+                                                 <td style='text-align: center;'>{$historico['Telefone2']}</td>
+                                                 <td style='text-align: center;'>{$historico['Telefone3']}</td>
+                                                 <td style='text-align: center;'>{$historico['Zona']}</td>
+
+                                                 <td style='text-align: center;'>{$historico['SubZona']}</td>
+                                                 <td style='text-align: center;'>{$historico['noOSgarantia']}</td>
+                                                 <td style='text-align: center;'>{$historico['Valoracobrar']}</td>
+                                                 <td style='text-align: center;'>{$historico['obsEmpreiteira']}</td>
+                                                 <td style='text-align: center;'>{$historico['CPFCNPJ']}</td>
+                                                 <td style='text-align: center;'>{$historico['PeriodoAgendamento']}</td>
+                                                 <td style='text-align: center;'>{$historico['TelefoneZeus']}</td>
+                                                 <td style='text-align: center;'>{$historico['EmailGns']}</td>
                 						   </tr>";
                 endforeach;                   
             else:
