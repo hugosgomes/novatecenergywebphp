@@ -158,6 +158,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if(in_array('', $PostData) || in_array('t', $PostData)):
                 $jSON['trigger'] = AjaxErro('<b class="icon-warning">Um ou mais campos em branco!</b>', E_USER_ERROR);
             else:
+                if(isset($PostData["Valor"])):
+                    $PostData["Valor"] = str_replace("." , "" , $PostData["Valor"]); // Primeiro tira os pontos
+                    $PostData["Valor"] = str_replace("," , "." , $PostData["Valor"]); // Substitui a vírgula pelo ponto
+                endif;
                 $id = $PostData['ID'];
                 unset($PostData['ID']);
                 $Update->ExeUpdate("[60_Orcamentos]", $PostData, "WHERE [60_Orcamentos].ID = :id", "id={$id}");

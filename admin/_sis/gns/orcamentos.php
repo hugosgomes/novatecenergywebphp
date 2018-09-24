@@ -157,7 +157,7 @@ endif;
 
           <label class="label">
             <span>Valor: </span>
-            <input id="j_valor" type="text" placeholder="" class="" name="Valor" required/>
+            <input id="j_valor" type="text" placeholder="R$" class="" name="Valor" onkeypress='return SomenteNumeroVirgula(this,event)' required/>
           </label>
 
           <hr style="height: 4px; background-color: black;">

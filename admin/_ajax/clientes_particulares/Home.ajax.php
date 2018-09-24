@@ -308,7 +308,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //Salvando chamado   
             if(isset($PostData["VALOR"])):
                 $PostData["VALOR"] = str_replace("." , "" , $PostData["VALOR"]); // Primeiro tira os pontos
-                $PostData["VALOR"] = substr($PostData["VALOR"], 0, strpos($PostData["VALOR"], ","));
+                $PostData["VALOR"] = str_replace("," , "." , $PostData["VALOR"]); // Substitui a vírgula pelo ponto
             endif;                    
             $chamado = array(
                 'IDORCAMENTO' => $PostData["idOrcamento"],
