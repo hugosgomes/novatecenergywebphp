@@ -45,7 +45,7 @@ textarea, input, select{
                         $Read->FullRead("SELECT ID, NOME FROM [80_ClientesParticulares] ORDER BY NOME"," ");
                         if ($Read->getResult()):
                           foreach ($Read->getResult() as $CLIENTE):
-                            echo "<option value='{$CLIENTE['ID']}'>{$CLIENTE['NOME']}</option>";
+                            echo "<option value='{$CLIENTE['ID']}' style='text-transform:uppercase'>{$CLIENTE['NOME']}</option>";
                         endforeach;
                     endif;
                     ?>
@@ -58,7 +58,7 @@ textarea, input, select{
                 $Read->FullRead("SELECT * FROM [80_Enderecos] ORDER BY [LOGRADOURO]"," ");
                 if ($Read->getResult()):
                   foreach ($Read->getResult() as $ENDERECO):
-                    echo "<option value='{$ENDERECO['ID']}'>{$ENDERECO['LOGRADOURO']}, {$ENDERECO['NUMERO']} - {$ENDERECO['BAIRRO']} / {$ENDERECO['CIDADE']} - {$ENDERECO['UF']} ({$ENDERECO['COMPLEMENTO']})</option>";
+                    echo "<option style='text-transform:uppercase' value='{$ENDERECO['ID']}'>{$ENDERECO['LOGRADOURO']}, {$ENDERECO['NUMERO']} - {$ENDERECO['BAIRRO']} / {$ENDERECO['CIDADE']} - {$ENDERECO['UF']} ({$ENDERECO['COMPLEMENTO']})</option>";
                 endforeach;
             endif;
             ?>
@@ -69,11 +69,11 @@ textarea, input, select{
 <article class="box box50">
     <div class="label_50">             
         <label class="label">
-            <input type="text" style="font-size: 1.0em;" name="jCPF" class="j_consulta_cliente formCpf wc_value" callback="Clientes" callback_action="consulta" value="" rel='2' placeholder="CPF:" />
+            <input type="text" style="font-size: 1.0em;" name="jCPF" class="j_consulta_cliente formCpf wc_value" callback="Clientes" callback_action="consulta" value="" rel='2' placeholder="Pesquisa por CPF" />
         </label>    
         <!--PESQUISA AUTOMATICAMENTE NO BANCO O CNPJ DIGITADO AO MUDAR DE CAMPO DE FORMULARIO-->
         <label class="label">
-            <input type="text" style="font-size: 1.0em;" name="jCNPJ" class="j_consulta_cliente wc_value formCnpj" callback="Clientes" callback_action="consulta" value="" rel='3' placeholder="Digite CNPJ"/>
+            <input type="text" style="font-size: 1.0em;" name="jCNPJ" class="j_consulta_cliente wc_value formCnpj" callback="Clientes" callback_action="consulta" value="" rel='3' placeholder="Pesquisa por CNPJ"/>
         </label>
     </div>
 </article> 

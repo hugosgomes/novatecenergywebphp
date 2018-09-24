@@ -90,6 +90,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 
           ?>
           <article class='box box100' style="padding: 0px;">
+            <h3 class="m_tp m_bottom">OS's Vinculadas</h3>
             <div class="tabela-responsivel no-print"  style="overflow-x: hidden;height: 50%;">
               <table id="dataTable"class="cell-border compact stripe table">
                 <thead>
@@ -147,7 +148,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
               AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :day","day={$Day}");
           endif;
 
-          echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
+          echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b> ".count($Read->getResult())."</span>";
           ?>           
         </header>
         <div class="box_content">
