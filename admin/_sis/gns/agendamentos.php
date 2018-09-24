@@ -112,7 +112,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           </article>
         </div>
       </article>
-      <article class="box box50">
+      <article class="box box50 teste">
         <header class="no-print">
           <?php
 
@@ -150,11 +150,12 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           echo "<span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span>";
           ?>           
         </header>
-        <div class="box_content">
+        <div class="box_content mapa">
           <div id="map" class="no-print" style="height: 59.3%;"></div>
         </div>
       </article>
     </div>
+
   </article>
 </div>
 
@@ -223,7 +224,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
     <?php
     foreach ($Read->getResult() as $OS):
       extract($OS);      
-      echo "var marker".$Id." = new google.maps.Marker({
+      echo "marker".$Id." = new google.maps.Marker({
         position: myLatLng,
         map: map,";        
         echo"icon: image1,";     
@@ -231,9 +232,9 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         position: {lat:".$Latitude.", lng: ".$Longitude."},     
         title: ''});";
 ?>
-        var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS; ?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p><p>Serviço: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='<?php echo $Id;?>'>Add</span></div></div>";
+        var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS; ?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p><p>Serviço: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='<?php echo $Id;?>' >Add</span></div></div>";
 <?php
-        echo "var infowindow".$Id." = new google.maps.InfoWindow({
+        echo "infowindow".$Id." = new google.maps.InfoWindow({
           content: contentString,
           maxWidth: 400
         });";

@@ -55,7 +55,20 @@
                 $('#dataTable #semOS').fadeOut('fast');
                 $(data.addtable).appendTo('.dataTable');
                // location.reload();
-                $('.info-window').fadeOut(400);
+                //$('.info-window').fadeOut(400);
+
+            /*if(data.idOS){
+                //var id = int(data.idOS);
+                data.idOS;
+
+            }*/
+                
+
+               /*if(data.mapa){
+                  setTimeout(function () {
+                      $(".mapa").load(".teste");
+                  }, 300)
+              }*/
             }
 
             //DINAMIC CONTENT
@@ -93,8 +106,8 @@
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
-             $('#dataTable2 #'+ data.deltable).fadeOut(400);
-               $('#dataTable #'+ data.deltable).fadeOut(400);
+             $('#dataTable2 .j_tecnico'+ data.deltable).fadeOut(400);
+               $('#dataTable .j_tecnico'+ data.deltable).fadeOut(400);
             }
 
             //DINAMIC CONTENT
