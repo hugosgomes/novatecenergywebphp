@@ -90,7 +90,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 
           ?>
           <article class='box box100' style="padding: 0px;">
-            <h3 class="m_tp m_bottom">OS's Vinculadas</h3>
+           <!--<h3 class="m_tp m_bottom">OS's Vinculadas</h3>-->
             <div class="tabela-responsivel no-print"  style="overflow-x: hidden;height: 50%;">
               <table id="dataTable"class="cell-border compact stripe table">
                 <thead>
