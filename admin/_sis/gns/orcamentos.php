@@ -25,7 +25,7 @@ endif;
 
 
 <article class="box box100">
-  <div class="box_content">
+  <div style="padding-bottom: 0px; padding-top: 0px;" class="box_content">
     <div class="box box50">
       <div class="label_33">
         <label class="label">Ano

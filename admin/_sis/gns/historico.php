@@ -24,10 +24,13 @@ endif;
 <div class="dashboard_content custom_app">
 
     <article class="box box100">
-      <div class="box_content">
-        <select id="j_selectClientes" style="font-family: Arial;font-size: 11px; width: 400px;">
+      <div class="box_content s_filtros">
+        <select id="j_selectClientes" style="width: 360px;">
           <option value="t">TODOS OS CLIENTES</option>
         </select>
+        <!--
+        <input type="text" class="jwc_datepicker" placeholder="Data Agendamento" style="width: 120px;">
+      -->
       </div>
     </article>
 
@@ -40,45 +43,22 @@ endif;
           <table id="dataTable"class="cell-border compact stripe table" callback="Historico" callback_action="Carregar">
             <thead>
               <tr style="font-size: 12px;">
-                <th>Área Responsável</th>
                 <th>Data Agendamento</th>
                 <th>Número Cliente</th>
                 <th>Nome Cliente</th>
                 <th>Telefone</th>
-                <th>Nome OT</th>
-                <th>Número OT</th>
-                <th>Nome OS</th>
-                <th>Número OS</th>
                 <th>Endereço</th>
 
                 <th>Bairro</th>
-                <th>Situação Cliente</th>
                 <th>CEP</th>
-                <th>Obs OT</th>
-                <th>Obs CEG</th>
-                <th>Criado em</th>
-                <th>Criado por</th>
                 <th>Município</th>
-                <th>Atualizado em</th>
-                <th>Atualizado por</th>
-
-                <th>Executor Serviço</th>
-                <th>CPF Executor Serviço</th>
-                <th>Prioridade</th>
-                <th>Mercado</th>
-                <th>Novo Periodo de agendamento</th>
-                <th>Situação de Fornecimento</th>
-                <th>Data Solicitação</th>
+                
                 <th>Telefone</th>
                 <th>Telefone</th>
                 <th>Zona</th>
 
                 <th>SubZona</th>
-                <th>No. OS garantia</th>
-                <th>Valor a cobrar</th>
-                <th>Obs. Empreiteira</th>
                 <th>CPF/CNPJ</th>
-                <th>Periodo de agendamento</th>
                 <th>Telefone Zeus</th>
                 <th>E-Mail GNS</th>
 
@@ -123,3 +103,10 @@ endif;
 
 
 </script>
+
+<style type="text/css">
+  .s_filtros *{
+    font-family: Arial;font-size: 11px;
+  }
+
+</style>
