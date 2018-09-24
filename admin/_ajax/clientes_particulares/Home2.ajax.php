@@ -342,15 +342,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL
                 );
                 
-                if (!isset($PostData["VALOR"])) {
+                if (empty($PostData["VALOR"])) {
                     unset($orcamento['VALOR']);
                 }
 
-                if (!isset($PostData["QNTPARCELAS"])) {
+                if (empty($PostData["QNTPARCELAS"])) {
                     unset($orcamento['NUM_PARCELAS']);
                 }
 
-                if (!isset($PostData["FORMAPAGAMENTO"])) {
+                if (empty($PostData["FORMAPAGAMENTO"])) {
                     unset($orcamento['FORMAPAGAMENTO']);
                 }
                 

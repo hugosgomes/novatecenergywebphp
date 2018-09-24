@@ -328,6 +328,7 @@
   }
 
 
+  //INCIALIZAÇÃO DA PÁGINA DE ORÇAMENTOS
   function iniciaPagina(){
     var dataAtual = new Date();
     $('#j_ano').append('<option value='+(dataAtual.getFullYear()-1)+'>' + (dataAtual.getFullYear()-1) + '</option>');
@@ -335,7 +336,7 @@
     $('#j_ano').append('<option value='+(dataAtual.getFullYear()+1)+'>' + (dataAtual.getFullYear()+1) + '</option>');
     $('#j_ano').selected = '2018';
 
-    document.getElementById('j_mes').selectedIndex = dataAtual.getMonth();
+    document.getElementById('j_mes').selectedIndex = dataAtual.getMonth()+1;
 
     $('#j_statusOrcamento').append('<option value="0">APROVADO</option>');
     $('#j_statusOrcamento').append('<option value="2">RECUSADO</option>');
@@ -408,6 +409,12 @@ $('html').on('click', '#j_btn_editar', function (e) {
 
         if(data.addId){
             $("#j_id").val(data.addId);
+            $("#j_dataEntrada").val(dataAtualFormatada(data[0]['DataEnt']));
+            $('#j_tecnicoEntrada').val(data[0]['TecnicoEnt']);
+            $("#j_dataExecucao").val(dataAtualFormatada(data[0]['DataExe']));
+            $('#j_tecnicoExecucao').val(data[0]['TecExe']);
+            $('#j_status').val(data[0]['Status']);
+            $('#j_valor').val(numeroParaMoeda(data[0]['Valor'],2,',','.'));
         }
 
     }, 'json');
@@ -427,7 +434,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
     }
 
     form.ajaxSubmit({            
-        url: '_ajax/Orcamentos/' + callback + '.ajax.php',
+        url: '_ajax/gns/' + callback + '.ajax.php',
         dataType: 'json',
         beforeSubmit: function () {
             $('.workcontrol_pdt_size').fadeIn('fast');
@@ -453,18 +460,16 @@ $('html').on('click', '#j_btn_salvar', function (e) {
             }
 
             //DATA CLEAR INPUT
-            if (data.inpuval) {
-                if (data.inpuval === 'null') {
-                    $('.wc_value').val("");
-                } else {
-                    $('.wc_value').val(data.inpuval);
-                }
-            }                        
+            if (data.ID) {
+                $('.pointer[idorcamento="'+data.ID+'"]').click(); 
+                $('#j_btn_cancelar').click();
+                $('#j_form input').val("");
+                $('#j_form select').val("t");
+            }
         }
     });
 
 });
-
 
 
 $('html').on('click', '#j_btn_cancelar', function (e) {
@@ -472,4 +477,8 @@ $('html').on('click', '#j_btn_cancelar', function (e) {
 });
 
 
-
+function numeroParaMoeda(n, c, d, t)
+{
+    c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+}
