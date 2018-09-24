@@ -310,7 +310,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //Salvando chamado
             if(isset($PostData["VALOR"])):
                 $PostData["VALOR"] = str_replace("." , "" , $PostData["VALOR"]); // Primeiro tira os pontos
-                $PostData["VALOR"] = substr($PostData["VALOR"], 0, strpos($PostData["VALOR"], ","));
+                $PostData["VALOR"] = str_replace("," , "." , $PostData["VALOR"]); // Substitui a vírgula pelo ponto
             endif;  
 
             $chamado = array(
@@ -342,15 +342,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL
                 );
                 
-                if (!isset($PostData["VALOR"])) {
+                if (empty($PostData["VALOR"])) {
                     unset($orcamento['VALOR']);
                 }
 
-                if (!isset($PostData["QNTPARCELAS"])) {
+                if (empty($PostData["QNTPARCELAS"])) {
                     unset($orcamento['NUM_PARCELAS']);
                 }
 
-                if (!isset($PostData["FORMAPAGAMENTO"])) {
+                if (empty($PostData["FORMAPAGAMENTO"])) {
                     unset($orcamento['FORMAPAGAMENTO']);
                 }
                 

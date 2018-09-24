@@ -59,7 +59,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 //CASO O CLIENTE NÃO TENHA CPF E CNPJ
                 if(empty($PostData['CPF']) && empty($PostData['CNPJ'])):
 
-                    $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"]);
+                    $CLIENTE = array("NOME"=>strtoupper($PostData["NOME"]),"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"]);
                     $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
                     if ($Create->getResult()):
                         $IdCli = $Create->getResult();
@@ -78,7 +78,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $Read->FullRead("SELECT ID FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
                     if(!$Read->getResult()):   
                         //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
-                        $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CPF"=>$PostData["CPF"]);
+                        $CLIENTE = array("NOME"=>strtoupper($PostData["NOME"]),"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CPF"=>$PostData["CPF"]);
                         $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
                         $IdCli = $Create->getResult();                       
                     else:
@@ -97,7 +97,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $Read->FullRead("SELECT ID, CNPJ FROM [80_ClientesParticulares] WHERE CNPJ = :cnpj","cnpj={$PostData['CNPJ']}");
                     if(!$Read->getResult()):   
                         //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
-                        $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CNPJ"=>$PostData["CNPJ"]);
+                        $CLIENTE = array("NOME"=>strtoupper($PostData["NOME"]),"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CNPJ"=>$PostData["CNPJ"]);
                         $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
                         $IdCli = $Create->getResult();
                     else:
@@ -110,7 +110,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                            
                     if(!$Read->getResult()):                  
                         //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
-                        $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>$PostData["LOGRADOURO"],"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>$PostData["BAIRRO"], "CIDADE"=>$PostData["CIDADE"],"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
+                        $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>strtoupper($PostData["LOGRADOURO"]),"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>strtoupper($PostData["BAIRRO"]), "CIDADE"=>strtoupper($PostData["CIDADE"]),"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
                         $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
                         $IdEnd = $Create->getResult();
                     else:

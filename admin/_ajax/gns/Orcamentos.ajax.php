@@ -130,7 +130,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['addStatus'] = null;
             $jSON['addId'] = $PostData['idOrcamento'];
 
-            //SOMATÓRIO DE VALOR EXECUTADO
+            //DADOS PARA PREENCHER OS SELECTS DO MODAL
             $Read->FullRead("SELECT ID, [NOME COMPLETO] FROM Funcionários WHERE GNSMOBILE = 1 AND  [DATA DE DEMISSÃO] IS NULL ORDER BY [NOME COMPLETO]","");
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $tecnicos):
@@ -143,21 +143,31 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             foreach (getStatusOrcamentoGNS() as $key => $value) {
                 $jSON['addStatus'] .= "<option value = '{$key}'>{$value}</option>";
             }
+
+            //DADOS PARA PREENCHER OS CAMPOS DO MODAL COM AS INFORMAÇÕES ATUAIS DO ORÇAMENTO
+            $Read->FullRead("SELECT * FROM [60_Orcamentos] WHERE ID = " . $PostData['idOrcamento'],"");
+            //var_dump("SELECT * FROM [80_Orcamentos] WHERE ID = " . $PostData['idOrcamento']);
+            if ($Read->getResult()):
+                foreach ($Read->getResult() as $key => $value):
+                    $jSON[$key] = $value;
+                endforeach;
+            endif;
         break;
 
         case 'atualizar':
-            $jSON['addTecnicos'] = 'Teste';
-            /*var_dump($PostData);
-            $jSON['teste'] = true;*/
-
-            /*$Resultado = NULL;
-            if(isset($PostData['IDCHAMADO'])):                
-                $Update->ExeUpdate("[80_Chamados]", $chamado, "WHERE [80_Chamados].ID = :id", "id={$PostData['IDCHAMADO']}");
-                $Resultado = 1;
+            if(in_array('', $PostData) || in_array('t', $PostData)):
+                $jSON['trigger'] = AjaxErro('<b class="icon-warning">Um ou mais campos em branco!</b>', E_USER_ERROR);
             else:
-                $Create->ExeCreate("[80_Chamados]",$chamado);
-                $Resultado = 1;
-            endif;*/
+                if(isset($PostData["Valor"])):
+                    $PostData["Valor"] = str_replace("." , "" , $PostData["Valor"]); // Primeiro tira os pontos
+                    $PostData["Valor"] = str_replace("," , "." , $PostData["Valor"]); // Substitui a vírgula pelo ponto
+                endif;
+                $id = $PostData['ID'];
+                unset($PostData['ID']);
+                $Update->ExeUpdate("[60_Orcamentos]", $PostData, "WHERE [60_Orcamentos].ID = :id", "id={$id}");
+                $jSON['trigger'] = AjaxErro('<b class="icon-warning">Orçamento Atualizado Com Êxito!</b>', E_USER_ERROR);
+                $jSON['ID'] = $id;
+            endif;
             
         break;
     endswitch;

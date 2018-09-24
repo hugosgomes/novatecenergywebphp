@@ -39,6 +39,19 @@ $app->get('/servicos/', function (Request $request, Response $response, array $a
     endif;
 });
 
+//GET QUE BUSCA OS MANOMETROS CADASTRADOS
+$app->get('/manometro/', function (Request $request, Response $response, array $args) {    
+    $Read = new Read;
+    $Read->FullRead("SELECT Id AS id, CODIGO AS codigo, PRODUTO AS manometro
+                        FROM [40_Produtos]
+                        WHERE (PRODUTO LIKE N'%MANÔMETRO%') AND CODIGO IS NOT NULL", " ");
+    if($Read->getResult()):
+        return $response->withJson($Read->getResult());
+    else:
+        return $response->withJson($Read->getResult());
+    endif;
+});
+
 
 //GET QUE TESTA O LOGIN DO TECNICO
 $app->get('/tecnicos/login/{id}/{senha}', function (Request $request, Response $response, array $args) {
@@ -69,7 +82,7 @@ $app->get('/atendimentos/{tecnico}', function (Request $request, Response $respo
                FROM [60_Clientes] 
                INNER JOIN [60_OT] on [60_Clientes].Id = [60_OT].Cliente
                INNER JOIN [60_OS] on [60_OT].Id = [60_OS].OT
-               WHERE [Tecnico] = :tecnico AND [Status] = 0 AND (DataAgendamento = CONVERT (date, GETDATE())   OR DataAgendamento = DATEADD(day,1,(CONVERT (date, GETDATE()))))","tecnico={$tecnico}");
+               WHERE [Tecnico] = :tecnico AND [Status] = 1 AND (DataAgendamento = CONVERT (date, GETDATE())   OR DataAgendamento = DATEADD(day,1,(CONVERT (date, GETDATE()))))","tecnico={$tecnico}");
     if($Read->getResult()):
         return $response->withJson($Read->getResult());
     else:

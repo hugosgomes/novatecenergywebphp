@@ -25,7 +25,7 @@ endif;
 
 
 <article class="box box100">
-  <div class="box_content">
+  <div style="padding-bottom: 0px; padding-top: 0px;" class="box_content">
     <div class="box box50">
       <div class="label_33">
         <label class="label">Ano
@@ -112,7 +112,7 @@ endif;
 </article>
 
 
-
+<!--CÓDIGO DO MODAL-->
 <div id="j_modal" class="modal" style="height: auto;">
   <h3 style="text-align: center;">EDIÇÃO DE CLIENTES</h3>
   <hr style="height: 4px; background-color: black;">
@@ -126,7 +126,7 @@ endif;
 
           <label class="label" style="width: 26%;">
             <span>Data Entrada:</span>
-            <input type="text" placeholder="" class="jwc_datepicker" name="DataEnt" required/>
+            <input id="j_dataEntrada" type="text" placeholder="" class="jwc_datepicker" name="DataEnt" required/>
           </label>
         
           <label class="label" style="width: 72%;">
@@ -138,7 +138,7 @@ endif;
 
           <label class="label"  style="width: 26%;">
             <span>Data Execução: </span>
-            <input type="text" placeholder="" class="jwc_datepicker" name="DataExe" required/>
+            <input id="j_dataExecucao" type="text" placeholder="" class="jwc_datepicker" name="DataExe" required/>
           </label>
 
           <label class="label"  style="width: 72%;">
@@ -157,14 +157,16 @@ endif;
 
           <label class="label">
             <span>Valor: </span>
-            <input type="text" placeholder="" class="" name="Valor" required/>
+            <input id="j_valor" type="text" placeholder="R$" class="" name="Valor" onkeypress='return SomenteNumeroVirgula(this,event)' required/>
           </label>
+
+          <hr style="height: 4px; background-color: black;">
 
           <center><a id="j_btn_salvar" class="btn btn_darkblue icon-share" style="width: 104px;">Salvar</a>&ensp;<a id="j_btn_cancelar" class="btn btn_red icon-cancel-circle" >Cancelar</a></center>
         </div>
-      </form>
-    
+      </form>    
 </div>
+<!--FIM DO CÓDIGO DO MODAL-->
 
 
 <script src="_js/gns.js"></script>
@@ -182,12 +184,16 @@ endif;
 <style type="text/css">
 
 .blocker{
-  z-index: 100;
+  z-index: 98;
 }
 
 .j_detalhes span{  
   padding-top: 10px;
   font-weight: bold;
+}
+
+.btn{
+  margin-top: 12;
 }
 
 </style>
