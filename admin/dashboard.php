@@ -255,6 +255,17 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 </li>
                 <?php
             endif;
+
+            //MÓDULO DE DIRETORIA
+            if ($_SESSION['userLogin'] && ($Permissao['DIRETORIA'] == 1)):
+                ?>
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-stats-dots" title="Usuários" href="#">Diretoria</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/previsoes' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/previsoes">&raquo; Previsões</a></li>
+                    </ul>
+                </li>
+                <?php
+            endif;
                     //MENU DE USUÁRIOS
                     /*if ($_SESSION['userLogin'] && ($Permissao['GNS'] == 1)):
                         ?>
