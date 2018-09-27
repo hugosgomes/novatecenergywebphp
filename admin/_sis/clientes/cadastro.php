@@ -20,6 +20,9 @@ textarea, input, select{
     resize: none;
     outline: none;
 }
+.blocker{
+    z-index: 98;
+}
 </style>
 
 <header class="dashboard_header">
@@ -33,12 +36,13 @@ textarea, input, select{
         <a title="Novatec Energy" href="dashboard.php?wc=clientes/cadastro">Cadastro</a>
     </div>
 </header>
-<div class="dashboard_content custom_app">
-    <article class="box box100">
-        <div class="box_content">
+<div class="dashboard_content custom_app" style="padding-bottom: 0px;">
+    <article class="box box100" style="padding-bottom: 0px;">
+        <div class="box_content" style="height: 6%;padding-top: 0px;">
             <article class="box box50">
                 <div class="label_50">
                     <label class="label">
+                       <!-- <input id="tags" type="text" idCliente="" value="" placeholder="PESQUISA POR CLIENTE" class="j_buscar_cliente" callback="Clientes" callback_action="busca_clientes" />-->
                       <select rel="0" class="j_consulta_cliente" callback="Clientes" callback_action="consulta" >
                         <option value="">PESQUISA POR CLIENTE</option>             
                         <?php
@@ -83,7 +87,7 @@ textarea, input, select{
 <div class="dashboard_content custom_app">
     <article class="box box70">
         <header>
-          <h3 style="text-align: center;">Cadastro de Clientes e Orçamentos</h3>
+          <h3 style="text-align: center;">Cadastro de Clientes</h3>
       </header> 
       <div class="box_content">
         <form  class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
@@ -92,6 +96,7 @@ textarea, input, select{
            <div class="box box25"></div>
            <div class="box box33">
             <div class="container_small">
+     
                 <div class="label_50">
                     <!--PESQUISA AUTOMATICAMENTE NO BANCO O CPF DIGITADO AO MUDAR DE CAMPO DE FORMULARIO-->
                     <label class="label">
@@ -154,7 +159,7 @@ textarea, input, select{
                 </label>
                 <label class="label">
                     <span class="legend">Complemento:</span>
-                    <input class="wc_value" style="font-size: 1.0em;" type="text" name="COMPLEMENTO" placeholder="Complemento" required/>
+                    <input class="wc_complemento wc_value" style="font-size: 1.0em;" type="text" name="COMPLEMENTO" placeholder="Complemento" required/>
                 </label>
                 <div class="clear"></div>
             </div>
@@ -200,7 +205,8 @@ textarea, input, select{
             <div class="label_100">
                 <label class="label">
                     <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
-                    <button name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 5px;">Cadastrar</button>
+                    <button name="public" value="1" class="btn btn_darkblue fl_left icon-share cad_cadastro" style="margin-left: 5px;display: block;">Cadastrar</button>
+                     <button name="public" value="1" class="btn btn_darkblue fl_left icon-share abrir_chamado" style="margin-left: 5px;display: none;">Abrir Chamado</button>
                     <div class="clear"></div>
                 </label>
             </div>
@@ -274,13 +280,16 @@ textarea, input, select{
         <div class="label_100">
             <label class="label">
                 <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
-                <button name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 5px;">Cadastrar</button>
+                <button name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 5px;">Salvar</button>
                 <div class="clear"></div>
             </label>
         </div>
     </form>
     </div>
 </div>
-
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ 
 <script src="_js/cadastro_clientes_particulares.js"></script>
 <script src="_js/modal.js"></script>

@@ -60,7 +60,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           <div class="label_50 no-print">
               <label class="label">
               <span class="legend"><b>Técnico:</b></span>
-              <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>">
+              <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>" style="outline: none;">
                 <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>             
                 <?php
                 $Setor = 2;
@@ -233,7 +233,8 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         position: {lat:".$Latitude.", lng: ".$Longitude."},     
         title: ''});";
 ?>
-        var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS; ?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p><p>Serviço: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='<?php echo $Id;?>' >Add</span></div></div>";
+        var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS; ?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p><p>Serviço: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='<?php echo $Id;?>' onclick='infowindow<?php echo $Id;?>.fadeOut(100);'>Add</span></div></div>";
+
 <?php
         echo "infowindow".$Id." = new google.maps.InfoWindow({
           content: contentString,
