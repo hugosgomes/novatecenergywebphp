@@ -40,7 +40,7 @@ $app->get('/servicos/', function (Request $request, Response $response, array $a
 });
 
 //GET QUE BUSCA OS MANOMETROS CADASTRADOS
-$app->get('/manometro/', function (Request $request, Response $response, array $args) {    
+$app->get('/manometros/', function (Request $request, Response $response, array $args) {    
     $Read = new Read;
     $Read->FullRead("SELECT Id AS id, CODIGO AS codigo, PRODUTO AS manometro
                         FROM [40_Produtos]

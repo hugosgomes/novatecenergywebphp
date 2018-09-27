@@ -584,3 +584,22 @@ form .section{
 .btn_white{background-color: #fff;}
 .btn_white:hover{background-color: #e2e2e2;}
 .btn_white_noaction:hover{background: #0E96E5 !important; cursor: default !important;}
+
+  .nao-atendido{
+    background-color: red;
+    width:10px; 
+    height: 10px;
+
+  }
+    .associado{
+    background-color: #ffd400;
+    width:10px; 
+    height: 10px;
+
+  }
+    .atendido{
+    background-color: #0dbb0d;
+    width:10px; 
+    height: 10px;
+
+  }

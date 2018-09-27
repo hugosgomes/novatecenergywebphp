@@ -16,6 +16,7 @@
         //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA NA TELA DE AGENDAMENTOS
         if (data.addtable) {
             $("#dataTable .j_tecnico").remove();
+            $("#dataTable2 .j_tecnico").remove();
             $(data.addtable).appendTo('.dataTable');
         }
 
@@ -39,9 +40,11 @@
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if (data.trigger) {
-                Trigger(data.trigger);
-             
+            if (data.triggerErro) {
+              Trigger(data.triggerErro);
+             }
+
+             if(data.trigger){
                 $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
                     $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action:eq(0)').fadeIn('fast');
                 });
@@ -56,6 +59,19 @@
                 $(data.addtable).appendTo('.dataTable');
                // location.reload();
                 $('.info-window').fadeOut(400);
+
+            /*if(data.idOS){
+                //var id = int(data.idOS);
+                data.idOS;
+
+            }*/
+                
+
+               /*if(data.mapa){
+                  setTimeout(function () {
+                      $(".mapa").load(".teste");
+                  }, 300)
+              }*/
             }
 
             //DINAMIC CONTENT
@@ -81,7 +97,7 @@
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
-                Trigger(data.trigger);
+              //  Trigger(data.trigger).fadeOut('fast');
 
                 $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
 
@@ -93,8 +109,10 @@
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
-             $('#dataTable2 #'+ data.deltable).fadeOut(400);
-               $('#dataTable #'+ data.deltable).fadeOut(400);
+                 $('#Tecnico').change();
+            
+            //  $('#dataTable2 .j_tecnico').fadeOut(400);
+               //$('#dataTable .j_tecnico').fadeOut(400);
             }
 
             //DINAMIC CONTENT

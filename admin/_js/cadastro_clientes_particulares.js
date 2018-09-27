@@ -21,6 +21,10 @@
                     $('.wc_endereco').val(data.cliente['ENDERECO']);
                     $('.wc_email').val(data.cliente['EMAIL']);
                     $('.wc_tipo').val(data.cliente['TIPO']);
+
+                     // MUDAR BOTÃO AO ESCOLHER CLIENTE
+                     $(".abrir_chamado").show();
+                     $(".cad_cadastro").hide();
                 } 
                 if (data.dadosCliente) {
                     $('.dados').remove();
@@ -102,3 +106,72 @@
 
     }, 'json');
   }
+  $('html, body').on('click', '.j_usar_endereco', function (e) {
+    var ID = $(this).attr('id');
+    var Callback = $(this).attr('callback');
+    var Callback_action = $(this).attr('callback_action');
+
+    $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ID: ID}, function (data) {
+
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if (data.trigger) {
+            Trigger(data.trigger);
+       
+        }
+        if(data.useEndereco){
+
+            $('.wc_cep').val(data.useEndereco['CEP']);
+            $('.wc_logradouro').val(data.useEndereco['LOGRADOURO']);
+            $('.wc_numero').val(data.useEndereco['NUMERO']);
+            $('.wc_complemento').val(data.useEndereco['COMPLEMENTO']);
+            $('.wc_bairro').val(data.useEndereco['BAIRRO']);
+            $('.wc_localidade').val(data.useEndereco['CIDADE']);
+            $('.wc_uf').val(data.useEndereco['UF']);
+        }
+
+    }, 'json');
+
+});
+
+
+
+
+
+ /*$('html, body').on('click', '.j_buscar_cliente', function (e) {
+    var  availableTags = [];
+
+   //var Cliente = $(this).val();
+   var Callback = $(this).attr('callback');
+   var Callback_action = $(this).attr('callback_action');
+
+   $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action}, function (data) {
+
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if (data.trigger) {
+            Trigger(data.trigger);
+
+        }
+        if(data.buscarCliente){
+
+         for (var i = 0; i < data.buscarCliente.length; i++) {
+            
+               availableTags[i] = data.buscarCliente[i]['ID'] + " - " + data.buscarCliente[i]['NOME'];
+
+               $( "#tags" ).autocomplete({
+                  source: availableTags,
+                  select: function (e, i) {
+                // $(campo txt).attr('input','valor a adicionar');
+                    var valor =  $(this).val();
+                    var id = valor.split(' ')[0];
+
+                    console.log(id)
+
+                }
+            });
+         }
+               //console.log(data.buscarCliente[0]['NOME']);
+        }
+
+    }, 'json');
+
+  });*/

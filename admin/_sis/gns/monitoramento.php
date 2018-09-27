@@ -8,26 +8,7 @@ if (empty($Read)):
   $Read = new Read;
 endif;
 ?>
-<style type="text/css">
-  .nao-associado{
-    background-color: red;
-    width:10px; 
-    height: 10px;
 
-  }
-    .associado{
-    background-color: #ffd400;
-    width:10px; 
-    height: 10px;
-
-  }
-    .atendido{
-    background-color: #0dbb0d;
-    width:10px; 
-    height: 10px;
-
-  }
-</style>
 <header class="dashboard_header">
   <div class="dashboard_header_title">
     <p class="dashboard_header_breadcrumbs">
@@ -70,7 +51,7 @@ endif;
         [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
         inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
         inner join [60_OS] on [60_OT].Id = [60_OS].OT
-        AND [DataAgendamento] = :day","day={$Data}");
+        AND [DataAgendamento] = :day AND [60_OS].Status <> 0","day={$Data}");
 
       $ReadClientesAssoc = new Read();
       $ReadClientesAssoc->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]", "");
@@ -141,8 +122,8 @@ endif;
     <div class='box box50'>
     <table>
     <tr>
-    <td><div class='nao-associado'></div></td><td>&ensp;Não Associado&ensp;</td>
-    <td><div class='associado'></div></td><td>&ensp;Associado&ensp;</td>
+    <td><div class='nao-atendido'></div></td><td>&ensp;Não Atendido&ensp;</td>
+   <!-- <td><div class='associado'></div></td><td>&ensp;Associado&ensp;</td>-->
     <td><div class='Atendido'></div></td><td>&ensp;Atendido</td>
     </tr></table></div>";
     ?>           
@@ -162,8 +143,8 @@ endif;
       center: myLatLng
     });
     var image1 = './_img/marcador.png';
-    var image2 = './_img/marcador3.png';
-    var image3 = './_img/marcador2.png';
+    var image2 = './_img/marcador2.png';
+    //var image3 = './_img/marcador3.png';
     var number = 5;
 
     <?php
@@ -172,12 +153,12 @@ endif;
       echo "var marker".$Id." = new google.maps.Marker({
         position: myLatLng,
         map: map,"; 
-        if($Status == 0):       
+        if($Status == 1):       
           echo"icon: image1,"; 
-        elseif($Status == 1):
+        elseif($Status > 1):
           echo"icon: image2,"; 
         else:
-          echo"icon: image3,"; 
+         // echo"icon: image3,"; 
         endif;
 
         echo "animation: google.maps.Animation.DROP,
