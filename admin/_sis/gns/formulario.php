@@ -107,7 +107,7 @@ tr:nth-child(even) {
                             <span class="legend">Status:</span>
                             <span><input id="ok" type="radio" name="status" value="1" style="width:5%" checked />Ok</span>
                             <span><input id="vazamento" type="radio" name="status" value="2" style="width:5%">Vazamento</span>
-                            <span class="vazamento-L" style="width:5%;display:none"><input type="radio" name="status" value="3">Menor 5L</span>
+                            <span class="vazamento-L" style="width:5%;display:none"><input id="menor-5L" type="radio" name="status" value="3">Menor 5L</span>
                             <span class="vazamento-L" style="width:5%;display:none"><input id="maior-5L" type="radio" name="status" value="4">Maior 5L</span>
                         </label>
                         <label id="status-ocorrencia" class="label box box100" style="display:none">
@@ -569,7 +569,7 @@ tr:nth-child(even) {
                     <span><input id="instalacao-ok" type="radio" name="status" value="1" style="width:5%">Sim</span>
                     <span><input id="instalacao-defeito" type="radio" name="status" value="2" style="width:5%">Não</span>
                     <div id="dados-do-def">
-                        <label id="#foto-defeito" class="label box box50" style="display:none">
+                        <label id="foto-defeito" class="label box box50" style="display:none">
                             <span class="legend">Foto Defeitos:</span>
                             <input type="file" name="user_thumb" class="wc_loadimage" multiple/>
                         </label>
@@ -2177,7 +2177,7 @@ tr:nth-child(even) {
                         $Read->FullRead("SELECT [Id] AS id, [Peca] AS peca, [ValorFinal] AS valor FROM [60_Pecas]", " ");
                         if ($Read->getResult()):
                           foreach ($Read->getResult() as $PECAS):
-                            echo "<option  value='{$PECAS['id']}'>{$PECAS['peca']}</option>";
+                            echo "<option  id='{$PECAS['valor']}'' value='{$PECAS['id']}'>{$PECAS['peca']}</option>";
                         endforeach;
                     endif;
                     ?>
@@ -2187,13 +2187,15 @@ tr:nth-child(even) {
                  <div class="box box14">
                      <label class="label">
                         <span class="legend">Qtd.</span>
-                        <input type="number" style="font-size: 1.0em;"  class="j_qtd_pecas"  value=""  />
+                        <input id="qtd-pecas" type="number" style="font-size: 1.0em;"  class="j_qtd_pecas" min="1" value=""  />
                     </label>    
-                 </div> 
+                 </div>
                  <div class="box box14">
 
                      <span class="legend"></span>
-                    <span class="j_add_pecas icon-plus btn btn_darkblue" callback="Dadostabela" callback_action="consulta">Add Peças</span>
+                     <label>
+                        <span class="j_add_pecas icon-plus btn btn_darkblue" callback="Dadostabela" callback_action="consulta">Add Peças</span>
+                     </label>
                  </div>    
                  </div>
 
@@ -2226,7 +2228,7 @@ tr:nth-child(even) {
                     <button class="btn btn_darkblue" style="height: 35px;margin-top: 14px;"><span class="icon-plus"></span>Add Serviços</button>
                  </div>    
                  </div>-->
-                 <table>
+                 <table id="tabela-pecas">
                     <thead>
                         <tr>
                             <th colspan="4" style="text-align: center">Tabela </th>
@@ -2238,13 +2240,8 @@ tr:nth-child(even) {
                             <th style="text-align: center;">R$ total</th>
                         </tr>
                     </thead>
+                        <!--- linhas adicionadas via Jquery --->
                     <tbody>
-                        <tr>
-                            <td style="text-align: center;">dsds</td>
-                            <td style="text-align: center;">dsds</td>
-                            <td style="text-align: center;">dsds</td>
-                            <td style="text-align: center;">dsds</td>
-                        </tr>
                     </tbody>
                 </table>
 
@@ -2256,13 +2253,16 @@ tr:nth-child(even) {
                 <span><input id="orc-reprovado" type="radio" name="status" value="2" style="width:5%">Não</span>
             </div>
 
-            <div class="">
+            <div id="forma-pgt" style="display:none">
                 <span class="legend">Forma de Pagamento:</span>
                 <span><input id="form-pagt-1" type="radio" name="status" value="1" style="width:5%">á vista</span>
                 <span><input id="form-pagt-2" type="radio" name="status" value="2" style="width:5%">3 parcelas</span>
                 <span><input id="form-pagt-3" type="radio" name="status" value="3" style="width:5%">6 parcelas</span>
                 <span><input id="form-pagt-4" type="radio" name="status" value="4" style="width:5%">12 parcelas</span>
-                <span><input id="form-pagt-5" type="radio" name="status" value="5" style="width:5%">Mais parcelas (autorização do supervisor)</span>
+                <label>
+                    <input id="form-pagt-5" type="number" name="status" value="5" min="2" max="20" style="width:10%;height:20px">
+                    <span><input id="form-pagt-5" type="radio" name="status" value="5" style="width:5%">Mais parcelas (autorização do supervisor)</span>  
+                </label>
                 <p>Valor das parcelas R$<span>200,00</span></p>
             </div>
     

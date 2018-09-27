@@ -1,70 +1,66 @@
-//EXIBER CHECKBOX   
+//EXIBER CHECKBOX  
+var tempoEvento = 500; 
 function exibeCheckbox(){
     $("#vazamento").change(function() {
         if(this.checked) {
-            $('.vazamento-L').fadeIn(100);
+            $('.vazamento-L').fadeIn(tempoEvento);
         }
     });
     $("#ok").change(function() {
         if(this.checked) {
-            $('.vazamento-L').fadeOut(100);
-            $('#status-ocorrencia').fadeOut(100);
+            $('.vazamento-L').fadeOut(tempoEvento);
+            $('#status-ocorrencia').fadeOut(tempoEvento);
 
         }
     });
     $('#maior-5L').change(function(){
         if(this.checked){
-            $('#status-ocorrencia').fadeIn(1000);
+            $('#status-ocorrencia').fadeIn(tempoEvento);
+        }
+    })
+
+    $('#menor-5L').change(function(){
+        if(this.checked){
+            $('#status-ocorrencia').fadeOut(tempoEvento);
         }
     })
 }
 
-
+//EXIBE E OCULTA IMPUTE FOTOS DEFEITOS
 $("#instalacao-ok").change(function() {
     if(this.checked){
-        $('#foto-defeito').fadeIn();
+        $('#foto-defeito').fadeIn(tempoEvento);
+    }
+});
+
+$("#instalacao-defeito").change(function() {
+    if(this.checked){
+        $('#foto-defeito').fadeOut(tempoEvento);
+    }
+});
+
+//EXIBE E OCULTA IMPUTES ORÇAMENTO
+$("#orc-aprovado").change(function() {
+    if(this.checked){
+        $('#forma-pgt').fadeIn(tempoEvento);
+    }
+});
+$("#orc-reprovado").change(function() {
+    if(this.checked){
+        $('#forma-pgt').fadeOut(tempoEvento);
     }
 });
 
 
-
-function exibeTabelaPecas(idTabela){
-    $('#add-pecas').click(function(){
-        $('#pecas').fadeIn(1000);
-        
-    })
-}
-
-
-
-
-function geraLinhaTabela(){
-      var idTr =1;
-      var idSelect = 1;
-      var idOpt = 1;
-      $('#add-pecas').click(function(){
-        var tr =  '<tr id="tr'+(idTr++)+'">'+
-                    '<td><select id="select'+(idSelect++)+'" class="j_consulta-descricao" callback="Dadostabela" callback_action="consulta"><option id="opt'+(idOpt++)+'" value="t" class="j_option_pecas">Selecione descrição</option></td>'+
-                    '<td><input value="" type="number" name="qtd" placeholder="Quantidade:" /></td>'+
-                    '<td><input value="" type="text" name="valor-unit" placeholder="Valor unitário:" /></td>'+
-                    '<td id="total-linha"><input value="" type="text" name="valor-total" placeholder="Valor unitário:" /></td>'+
-                  '</tr>';
-                $('tbody').append(tr);
-      })
-
-}
-
-
-
  //ADICIONA O.S PARA O TÉCNICO
-    $('html').on('click', '.j_add_pecas', function (e) {
+    /*$('html').on('click', '.j_add_pecas', function (e) {
         var PecaId = $("#peca option:selected").val();
         var PecaQtd = $(".j_qtd_pecas").val();
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
 
-        $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, PecaId: PecaId, PecaQtd: PecaQtd}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, PecaId: PecaId, PecaQtd: PecaQtd}, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -82,12 +78,38 @@ function geraLinhaTabela(){
 
         e.preventDefault();
         e.stopPropagation();
-    });
+    });*/
 
 
 
 
+function adicionaLinhaTabela(){
+    $('.j_add_pecas').click(function(){
+        var desc = $('#Peca option:selected').text();
+        var qTd = $('#qtd-pecas').val();
+        var valorUnit = $('#Peca option:selected').attr('id');
 
+        var adicionaLinha = '<tr>'+
+                                '<td style="text-align: center;">'+
+                                   desc+ 
+                                '</td>'+
+                                '<td style="text-align: center;">'+
+                                   qTd +
+                                '</td >'+
+                                '<td style="text-align: center;">'+
+                                   valorUnit+ 
+                                '</td>'+
+                                '<td style="text-align: center;">'+
+                                   (qTd * valorUnit)+
+                                '</td>'+
+                            '</tr>';
+        setTimeout(function(){
+            $('#tabela-pecas').prepend(adicionaLinha);
+        },tempoEvento - 100)
+    })
+}
+
+adicionaLinhaTabela();
 
 
 
@@ -118,7 +140,4 @@ function consultaDescricao(){
 }
 */
 //consultaDescricao();
-
-geraLinhaTabela();
 exibeCheckbox();
-exibeTabelaPecas();
