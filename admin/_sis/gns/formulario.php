@@ -1828,7 +1828,7 @@ tr:nth-child(even) {
            </div>
        </div>
    </div> <!-- box30 -->
-//</form>
+</form>
    </div>
 </div>
 </div>
