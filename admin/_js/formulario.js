@@ -141,3 +141,47 @@ function consultaDescricao(){
 */
 //consultaDescricao();
 exibeCheckbox();
+
+$('#btn_distribuicao_interna').click(function(){
+    var obj = $('#dist-interna select');
+    createHidden(obj);
+});
+
+$('#btn_aparelho_gas').click(function(){
+    var obj = $('#Ap-gas select');
+    createHidden(obj);
+});
+
+$('#btn_liga-ap').click(function(){
+    var obj = $('#liga-ap select');
+    createHidden(obj);
+});
+
+$('#btn_ind-exaust').click(function(){
+    var obj = $('#ind-exaust select');
+    createHidden(obj);
+});
+
+$('#btn_cole-exaust').click(function(){
+    var obj = $('#cole-exaust select');
+    createHidden(obj);
+});
+
+$('#btn_caract-hig').click(function(){
+    var obj = $('#caract-h select');
+    createHidden(obj);
+});
+
+$('#btn_reco').click(function(){
+    var obj = $('#reco select');
+    createHidden(obj);
+});
+
+
+function createHidden(obj){
+    $.each( obj, function( key, value ) {
+    var valor = $(value).val();
+    var id = $(value).attr('id');
+      $("<input type='hidden' value='"+valor+"' name='"+id+"'/>").appendTo('.hiddens');
+    });
+}
