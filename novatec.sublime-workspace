@@ -1,0 +1,392 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Pos",
+				"PostData"
+			],
+			[
+				"appe",
+				"appendTo"
+			],
+			[
+				"opt",
+				"option\tTag"
+			],
+			[
+				"in",
+				"input\tTag"
+			],
+			[
+				"post",
+				"PostData"
+			],
+			[
+				"id",
+				"idOrcamento"
+			],
+			[
+				"cri",
+				"criterioOrdemExecutando"
+			],
+			[
+				"ordem",
+				"ordemAgendado"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"padding",
+				"padding-top\tproperty"
+			],
+			[
+				"text-",
+				"text-align\tproperty"
+			],
+			[
+				"WHE",
+				"where"
+			],
+			[
+				"data",
+				"dataAtual"
+			],
+			[
+				"chan",
+				"changeTecnico"
+			],
+			[
+				"carreg",
+				"carregarTabela"
+			],
+			[
+				"sem",
+				"semana"
+			],
+			[
+				"var",
+				"var_dump"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "admin/_ajax/gns/Historico.ajax.php",
+			"settings":
+			{
+				"buffer_size": 7460,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/gns/historico.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_js/gns.js",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/gns/orcamentos.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/gns/Orcamentos.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/clientes_particulares/Home2.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/clientes_particulares/Home.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_js/clientes_particulares.js",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/clientes/home.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_js/workplugins.js",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_js/workcontrol.js",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/_app/Config.inc.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec.sublime-workspace",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec.sublime-project",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/novatec.sublime-project",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/novatec.sublime-workspace",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/_app/Config/Config.inc.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/dashboard.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_css/reset.css",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_css/login.css",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/gns/Historico.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/clientes/cadastro.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_css/workcontrol.css",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/clientes/home2.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_js/clientes_particulares2.js",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_css/clientes_particulares.css",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/gns/Enderecos.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/gns/Agendamentos.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/gns/ClientesOT.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/gns/agendamentos.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/gns/clienteOT.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/home1.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/_app/Conn/Read.class.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/Dashboard.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_ajax/gns/Monitoramento.ajax.php",
+		"//192.168.0.101/xampp/htdocs/Hugo/novatec/admin/_sis/gns/relatorioDiario.php"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"ctiterioCliente",
+			"poin",
+			"if(data.addTecnicos){\n            $(data.addTecnicos).appendTo(\"#j_tecnicoEntrada\");\n            $(data.addTecnicos).appendTo(\"#j_tecnicoExecucao\");\n        }",
+			"j_detalhes",
+			"pointer",
+			"Home2",
+			"clientes",
+			"Nenhum",
+			"#Tecnico",
+			"semana",
+			"Tecnico",
+			"dataList",
+			"j_cliente_semOT",
+			"cli_id",
+			"j_pesquisa_ot",
+			"}\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"Home"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "admin/_ajax/gns/Historico.ajax.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7460,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3327,
+								3327
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 399.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.xdebug":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "novatec.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false,
+			"restore_index":
+			{
+				"14":
+				{
+					"group": 0,
+					"index": 0
+				}
+			},
+			"restore_layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						2,
+						1
+					],
+					[
+						0,
+						1,
+						1,
+						2
+					],
+					[
+						1,
+						1,
+						2,
+						2
+					]
+				],
+				"cols":
+				[
+					0.0,
+					0.5,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					0.948665297741,
+					1.0
+				]
+			}
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 272.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

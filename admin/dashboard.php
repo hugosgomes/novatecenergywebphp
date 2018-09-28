@@ -92,7 +92,7 @@ endif;
         <center>
             <hr>
             <br>
-            <h3>Agendamentos OS</h3>
+            <h3 style="z-index: 98;color: black;">Agendamentos OS</h3>
         </center>
         <br>
         <table id="dataTable2" class="cell-border compact stripe table">
@@ -109,7 +109,7 @@ endif;
             </tr>
         </thead>
         <tbody style="font-size: 11px;">
-            <tr class="j_tecnico2 no-print"><td>Selecione o Técnico</td></tr>            
+            <tr class="j_tecnico no-print"><td>Selecione o Técnico</td></tr>            
         </tbody>
     </table>
 </div>
@@ -251,6 +251,17 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 <li class="dashboard_nav_menu_li"><a class="icon-cog" title="Usuários" href="#">Ferramentas</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li "><a title="Controle de Usuários" href="http://novatecenergy.ddns.net:8000/SistemaNovatecEnergy" target="_blank">&raquo; Agendar Sala</a></li>
+                    </ul>
+                </li>
+                <?php
+            endif;
+
+            //MÓDULO DE DIRETORIA
+            if ($_SESSION['userLogin'] && ($Permissao['DIRETORIA'] == 1)):
+                ?>
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-stats-dots" title="Usuários" href="#">Diretoria</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/previsoes' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/previsoes">&raquo; Previsões</a></li>
                     </ul>
                 </li>
                 <?php

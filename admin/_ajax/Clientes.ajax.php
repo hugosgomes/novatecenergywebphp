@@ -78,7 +78,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $Read->FullRead("SELECT ID FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
                     if(!$Read->getResult()):   
                         //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
-                        $CLIENTE = array("NOME"=>strtoupper($PostData["NOME"]),"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CPF"=>$PostData["CPF"]);
+                        $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CPF"=>$PostData["CPF"]);
                         $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
                         $IdCli = $Create->getResult();                       
                     else:
@@ -148,7 +148,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             foreach ($Read->getResult() as $ENDERECO):
                                 extract($ENDERECO);                       
 
-                                $jSON['enderecoCLiente'] .= "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span></td></tr>";
+                                $jSON['enderecoCLiente'] .= "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span><br><br><span callback='Clientes' callback_action='use_endereco' class='j_usar_endereco btn btn_darkblue' id='{$ID}'>Usar Endereço</span></td></tr>";
                             endforeach;
                         endif;
                     else:
@@ -164,7 +164,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         foreach ($Read->getResult() as $ENDERECO):
                             extract($ENDERECO);                       
 
-                            $jSON['enderecoCLiente'] = "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span></td></tr>";
+                            $jSON['enderecoCLiente'] = "<tr class='enderecos'><td><span style='font-size: 15px;'><b>Endereço:</b></span></td></tr><tr class='enderecos'><td><span style='font-size: 15px;'>{$LOGRADOURO}, {$NUMERO} {$COMPLEMENTO} - {$BAIRRO} - {$CIDADE} {$UF} - {$CEP}</span><br><br><span callback='Clientes' callback_action='use_endereco' class='j_usar_endereco btn btn_darkblue' id='{$ID}'>Usar Endereço</span></td></tr>";
 
                             $jSON['trigger'] = true;
                             
@@ -307,6 +307,22 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif; 
                 endif;          
       break;
+
+      case 'use_endereco':
+      $Read->FullRead("SELECT * FROM [80_Enderecos] WHERE ID = :id","id={$PostData['ID']}");
+
+     $jSON['useEndereco'] = $Read->getResult()[0];
+      break;
+
+      case 'busca_clientes':
+
+                   $Read->FullRead("SELECT ID, NOME FROM [80_ClientesParticulares]");
+
+                        $jSON['trigger'] = true;
+                        $jSON['buscarCliente'] = $Read->getResult();
+
+           break;
+
     endswitch;
 
     //RETORNA O CALLBACK
