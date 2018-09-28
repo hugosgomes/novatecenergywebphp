@@ -2,7 +2,7 @@
 <?php
 
 session_start();
-require '../../_app/Config.inc.php';
+require '../../../_app/Config.inc.php';
 
 if (empty($_SESSION['userLogin'])):
     $jSON['trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Você não tem permissão para essa ação ou não está logado como administrador!', E_USER_ERROR);
@@ -48,7 +48,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'consulta':
             $Read->FullRead("SELECT [Id] AS id, [Peca] AS peca, [ValorFinal] AS valor FROM [60_Pecas]", " ");
             $Read->getResult();
-            var_dump($Read->getResult());
+           
            
         break;    
     endswitch;
