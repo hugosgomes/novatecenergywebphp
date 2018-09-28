@@ -769,7 +769,7 @@ else{
 
 
 
-/*
+
 $('html').on('click', '#j_btn_salvar', function (e) {
     var form = $("#j_form");
     var callback = form.find('input[name="callback"]').val();
@@ -804,15 +804,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
             if (data.trigger) {
                 Trigger(data.trigger);
             }
-
-            //DATA CLEAR INPUT
-            /*if (data.ID) {
-                $('.pointer[idorcamento="'+data.ID+'"]').click(); 
-                $('#j_btn_cancelar').click();
-                $('#j_form input').val("");
-                $('#j_form select').val("t");
-            }
-        }
+            
     });
 
-});*/
+});
