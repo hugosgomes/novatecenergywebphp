@@ -129,14 +129,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               else:
                 if($PostData['Tecnico'] == 't'):
                   $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                            [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico FROM [60_Clientes]
+                                            [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico, [Funcionários].[ID] IdTecnico FROM [60_Clientes]
                                                 inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
                                                 inner join [60_OS] on [60_OT].Id = [60_OS].OT
                                                 INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
                                             WHERE [60_OS].[DataAgendamento] = :dia","dia={$PostData['dia']}");
                 else:
                   $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                            [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico FROM [60_Clientes]
+                                            [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] Tecnico, [Funcionários].[ID] IdTecnico FROM [60_Clientes]
                                                 inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
                                                 inner join [60_OS] on [60_OT].Id = [60_OS].OT
                                                 INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
@@ -152,7 +152,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       $jSON['addtable'] .= "
                       <tr class='j_tecnico'>
                       <td>{$NomeCliente}</td>
-                      <td>{$NumOS}</td>
+                      <td><a href='dashboard.php?wc=gns/formulario&IdOS={$Id}&IdTecnico={$IdTecnico}''>{$NumOS}</a></td>
                       <td>{$NomeOS}</td>
                       <td>{$Endereco} {$Bairro} {$Municipio}</td>
                       <td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td>

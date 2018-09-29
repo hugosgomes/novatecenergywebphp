@@ -1,5 +1,9 @@
-//EXIBER CHECKBOX  
+
+
+//VARIÁVEL PARA DETERMINAR TEMPO DE EVENTOS JQUERY 
 var tempoEvento = 500; 
+
+//EXIBE CHECKBOX 
 function exibeCheckbox(){
     $("#vazamento").change(function() {
         if(this.checked) {
@@ -40,19 +44,219 @@ $("#instalacao-defeito").change(function() {
 });
 
 //EXIBE E OCULTA IMPUTES ORÇAMENTO
-$("#orc-aprovado").change(function() {
-    if(this.checked){
-        $('#forma-pgt').fadeIn(tempoEvento);
+function exibirEocultarFormaPg(){
+        $('.o_aprovado_reprovado').change(function(){
+
+            var o_status = $(this).val();
+
+        if(o_status == 'o_aprovado'){
+            $('#o_forma-pgt').fadeIn(tempoEvento);
+        }
+        if(o_status == 'o_reprovado'){
+            $('#o_forma-pgt').fadeOut(tempoEvento);
+        }
+    })
+
+}
+
+
+//ADICIONA NOVA LINHA NA TABELA COM NOME DA PEÇA QUANTIDADE VALOR UNITÁRIO E TOTAL
+function adicionaLinhaTabela_peca(){
+    $('.j_add_pecas').click(function(){
+
+        //SELECIONA VALORES 
+        var desc = $('#o_peca option:selected').text();
+        var qTd = $('#o_qtd-pecas').val();
+        var valorUnit = $('#o_peca option:selected').attr('id');
+
+        //ADICIONA MASCARA VALOR UNITARIO
+        var valorUnitMask = numeroParaMoeda(valorUnit, 2, ',', '.');
+
+        var valorTotalLinha = qTd * valorUnit;
+        var valorTotalLinhaMask = numeroParaMoeda(valorTotalLinha, 2, ',', '.');
+
+        //ADICIONA LINHA NA TABELA
+        var adicionaLinha = '<tr>'+
+                                '<td style="text-align: center;">'+
+                                   desc+ 
+                                '</td>'+
+                                '<td style="text-align: center;">'+
+                                   qTd +
+                                '</td >'+
+                                '<td id="j_valor" style="text-align: center;">'+
+                                   valorUnitMask+ 
+                                '</td>'+
+                                '<td id="j_valor" class="valorUnit" style="text-align: center;">'+
+                                   valorTotalLinha+
+
+                                '</td>'+
+                                '<td style="text-align: center;"><span class="j_add_pecas icon-cross btn btn_red"></span>'+
+                                '</td>'+
+                            '</tr>';
+
+            $('#o_tabela-pecasEservicos').prepend(adicionaLinha);
+
+            //console.log(valorTotalLinhaMask);
+           calculaTotalTable();
+    })
+}
+
+//EXIBE SELECT DE ACORDO COM O TIPO DE CLIENTE(COM PLANO/SEM PLANO)
+function tipoDeCliente(){
+    $('.o_tipoCliente').change(function(){
+       valor =  $(this).val();
+       if(valor == 'o_tipoClienteCp'){
+
+            //EXIBE SELECT PARA CLIENTE COM PLANO
+            $('#o_cliente_com_plano').fadeIn(tempoEvento - 200);
+            $('#o_cliente_sem_plano').fadeOut(tempoEvento - 200);
+
+            //SELECIONA VALORES EM PESQUISAR SERVIÇOS PARA CLIENTES COM PLANO
+
+       }
+       if(valor == 'o_tipoClienteSp'){
+
+            //EXIBE SELECT PARA CLIENTE SEM PLANO
+            $('#o_cliente_com_plano').fadeOut(tempoEvento - 200);
+            $('#o_cliente_sem_plano').fadeIn(tempoEvento - 200);
+
+            //SELECIONA VALORES EM PESQUISAR SERVIÇOS PARA CLIENTES COM PLANO
+       }
+    })
+}
+
+//ADICIONA LINHA NA TABELA ORÇAMENTO REFERENTE A SERVICO
+function adicionaLinhaTabela_s(){
+
+        //SELECIONA O VALOR DO REDIOS QUE O CHECKED = CHECKED
+        radiosChecked = $('.o_tipoCliente:checked').val();
+        console.log(radiosChecked);
+
+
+        if(radiosChecked == 'o_tipoClienteCp'){
+
+            //EXIBE SELECT PARA CLIENTE COM PLANO
+            var desc = $('#o_servicos_c_com_p option:selected').text();
+            var qTd = $('#o_qtd_servicos').val();
+            var valorUnit = $('#o_servicos_c_com_p option:selected').attr('id');
+
+       }
+       if(radiosChecked == 'o_tipoClienteSp'){
+
+            //EXIBE SELECT PARA CLIENTE SEM PLANO
+            var desc = $('#o_servicos_s_com_p option:selected').text();
+            var qTd = $('#o_qtd_servicos').val();
+            var valorUnit = $('#o_servicos_s_com_p option:selected').attr('id');
+
+       }
+
+        //ADICIONA MASCARA VALOR UNITARIO
+        var valorUnitMask = numeroParaMoeda(valorUnit, 2, ',', '.');
+
+        var valorTotalLinha = qTd * valorUnit;
+        var valorTotalLinhaMask = numeroParaMoeda(valorTotalLinha, 2, ',', '.');
+
+        //ADICIONA LINHA NA TABELA
+        var adicionaLinha = '<tr>'+
+                                '<td style="text-align: center;">'+
+                                   desc+ 
+                                '</td>'+
+                                '<td style="text-align: center;">'+
+                                   qTd +
+                                '</td >'+
+                                '<td id="j_valor" style="text-align: center;">'+
+                                   valorUnitMask+ 
+                                '</td>'+
+                                '<td id="j_valor" class="valorUnit" style="text-align: center;">'+
+                                   valorTotalLinha+
+
+                                '</td>'+
+                                '<td style="text-align: center;"><span class="j_add_pecas icon-cross btn btn_red"></span>'+
+                                '</td>'+
+                            '</tr>';
+
+            $('#o_tabela-pecasEservicos').prepend(adicionaLinha);
+            console.log(valorTotalLinhaMask);
+           calculaTotalTable();
+    //})
+}
+
+//SOMA DO TOTAL DE TODAS AS LINHAS DA TABELA
+function calculaTotalTable(){
+    valorTotal = 0;
+    $('.valorUnit').each(function(){
+        valorTotal += parseFloat($(this).text());
+        console.log(valorTotal);
+        valorTotalSMask = moedaParaNumero(valorTotal);
+        valorTotalMask = numeroParaMoeda(valorTotalSMask, 2, ',', '.')
+    });
+    if(valorTotal == 0){
+         $('.valor-total').text(0);
+    }else{
+        $('.valor-total').text(valorTotalMask);
     }
-});
-$("#orc-reprovado").change(function() {
-    if(this.checked){
-        $('#forma-pgt').fadeOut(tempoEvento);
+}
+
+//REMOVE LINHA ESPECÍFICA DA TABELA AO CLICAR NO BUTTON REMOVER
+function removeLinhaTabela(){
+    $(document).on('click','#o_tabela-pecasEservicos .icon-cross',function(){
+        $(this).parent().parent().remove();
+        calculaTotalTable();
+    })
+}
+
+//DETERMINA VALOR MÍNIMO
+function valorMinimoInput(){
+    var valorDigitado = $('#o_parcelas-seleciona').val();
+    if(valorDigitado < 13){
+        $('#o_parcelas-seleciona').val(13);
     }
+}
+
+$('#o_parcelas-seleciona').blur(function(){
+     valorMinimoInput();
+})
+
+/*
+* n = numero a converter
+* c = numero de casas decimais
+* d = separador decimal
+* t = separador milhar
+*/
+
+//MASCARA PARA CONVERTAR NÚMERO NO FORMATO MOEDA
+function numeroParaMoeda(n, c, d, t)
+{
+    c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+}
+
+//MASCARA PARA CONVERTER DE MOEDA PARA NÚMERO
+function moedaParaNumero(valor)
+{
+    return isNaN(valor) == false ? parseFloat(valor) :   Number(valor.replace("R$","").replace(".","").replace(",","."));
+}
+
+//DISPONIBILIZAR FUNÇÃO DEPOIS QUE O DOCUMENTO FOR CARREGADO
+$(document).ready(function() {
+    adicionaLinhaTabela_peca();
+
+    $('.j_add_servicos').click(function(){
+        adicionaLinhaTabela_s();
+    })
+    
+    exibeCheckbox();
+    removeLinhaTabela();
+    tipoDeCliente();
+    exibirEocultarFormaPg();
 });
 
 
- //ADICIONA O.S PARA O TÉCNICO
+
+
+//consultaDescricao();
+
+//ADICIONA O.S PARA O TÉCNICO
     /*$('html').on('click', '.j_add_pecas', function (e) {
         var PecaId = $("#peca option:selected").val();
         var PecaQtd = $(".j_qtd_pecas").val();
@@ -81,40 +285,7 @@ $("#orc-reprovado").change(function() {
     });*/
 
 
-
-
-function adicionaLinhaTabela(){
-    $('.j_add_pecas').click(function(){
-        var desc = $('#Peca option:selected').text();
-        var qTd = $('#qtd-pecas').val();
-        var valorUnit = $('#Peca option:selected').attr('id');
-
-        var adicionaLinha = '<tr>'+
-                                '<td style="text-align: center;">'+
-                                   desc+ 
-                                '</td>'+
-                                '<td style="text-align: center;">'+
-                                   qTd +
-                                '</td >'+
-                                '<td style="text-align: center;">'+
-                                   valorUnit+ 
-                                '</td>'+
-                                '<td style="text-align: center;">'+
-                                   (qTd * valorUnit)+
-                                '</td>'+
-                            '</tr>';
-        setTimeout(function(){
-            $('#tabela-pecas').prepend(adicionaLinha);
-        },tempoEvento - 100)
-    })
-}
-
-adicionaLinhaTabela();
-
-
-
-
-/*
+    /*
 function consultaDescricao(){
     $(document).on('click','.j_consulta-descricao',function(){
 
@@ -804,7 +975,8 @@ $('html').on('click', '#j_btn_salvar', function (e) {
             if (data.trigger) {
                 Trigger(data.trigger);
             }
+        }
             
     });
-
 });
+

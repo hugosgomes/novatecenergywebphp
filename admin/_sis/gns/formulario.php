@@ -13,6 +13,12 @@ endif;
 if (empty($Create)):
     $Create = new Create;
 endif;
+
+$IdOS = filter_input(INPUT_GET, 'IdOS', FILTER_VALIDATE_INT);
+$IdTecnico = filter_input(INPUT_GET, 'IdTecnico', FILTER_VALIDATE_INT);
+
+
+
 ?>
 <style>
 .blocker{
@@ -95,7 +101,13 @@ tr:nth-child(even) {
             <button class="btn btn_red" style="outline: none;" id="target2"><span class="icon-cross"></span>Excluir</button>-->
        </div>
    <div class="box_content">
-       <form method="post">
+       <form method="post" id="j_form">
+        <?php 
+          echo "<input type='hidden' name='IdOS' value='{$IdOS}'>";
+          echo "<input type='hidden' name='IdTecnico' value='{$IdTecnico}'>";
+        ?>
+        <input type="hidden" name="callback" value="Dadostabela"/>
+                            <input type="hidden" name="callback_action" value="dados_formulario"/>
            <div class="box box70">
              <article class="wc_tab_target wc_active" id="testeEstanqueidade">
                <div class="panel_header default" style="border-bottom: 2px solid #EEE !important;">
@@ -121,112 +133,10 @@ tr:nth-child(even) {
                <br>
            </div>
            <div class="panel">
-                <div id="orcamento"/>
-        <h4 class="icon-user-plus">Orçamento</h4>
-        <label class="label box box100">
-             <div class="box box100">
-                 <div class="box box33">
-                     <label class="label">
-                        <span class="legend">Descrição</span>
-                         <select rel="0" id="Peca" name="peca">
-                        <option value="">PESQUISA POR PEÇAS</option>             
-                        <?php
-                        $Read->FullRead("SELECT [Id] AS id, [Peca] AS peca, [ValorFinal] AS valor FROM [60_Pecas]", " ");
-                        if ($Read->getResult()):
-                          foreach ($Read->getResult() as $PECAS):
-                            echo "<option  id='{$PECAS['valor']}'' value='{$PECAS['id']}'>{$PECAS['peca']}</option>";
-                        endforeach;
-                    endif;
-                    ?>
-                </select>
-                    </label>    
-                 </div> 
-                 <div class="box box14">
-                     <label class="label">
-                        <span class="legend">Qtd.</span>
-                        <input id="qtd-pecas" type="number" style="font-size: 1.0em;"  class="j_qtd_pecas" min="1" value=""  />
-                    </label>    
-                 </div>
-                 <div class="box box14">
-
-                     <span class="legend"></span>
-                     <label>
-                        <span class="j_add_pecas icon-plus btn btn_darkblue" callback="Dadostabela" callback_action="consulta">Add Peças</span>
-                     </label>
-                 </div>    
-                 </div>
-
-                  <!--<div class="box box100">
-                 <div class="box box33">
-                     <label class="label">
-                        <span class="legend">Descrição</span>
-                         <select rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" >
-                        <option value="">PESQUISA POR SERVIÇOS</option>             
-                        <?php
-                        $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
-                        if ($Read->getResult()):
-                          foreach ($Read->getResult() as $SERVICOS):
-                            echo "<option value='{$SERVICOS['id']}'>{$SERVICOS['descricao']}</option>";
-                        endforeach;
-                    endif;
-                    ?>
-                </select>
-                    </label>    
-                 </div> 
-                 <div class="box box14">
-                     <label class="label">
-                        <span class="legend">Qtd.</span>
-                        <input type="number" style="font-size: 1.0em;" class="j_consulta" callback="Dadostabela" callback_action="consulta" value=""  />
-                    </label>    
-                 </div> 
-                 <div class="box box14">
-
-                     <span class="legend"></span>
-                    <button class="btn btn_darkblue" style="height: 35px;margin-top: 14px;"><span class="icon-plus"></span>Add Serviços</button>
-                 </div>    
-                 </div>-->
-                 <table id="tabela-pecas">
-                    <thead>
-                        <tr>
-                            <th colspan="4" style="text-align: center">Tabela </th>
-                        </tr>
-                        <tr>
-                            <th style="text-align: center;">Descrição</th>
-                            <th style="text-align: center;">Qtd</th>
-                            <th style="text-align: center;">R$ unit</th>
-                            <th style="text-align: center;">R$ total</th>
-                        </tr>
-                    </thead>
-                        <!--- linhas adicionadas via Jquery --->
-                    <tbody>
-                    </tbody>
-                </table>
-
-            <br/>
-
-            <div class="">
-                <span class="legend">Orçamento Aprovado ?:</span>
-                <span><input id="orc-aprovado" type="radio" name="status" value="1" style="width:5%">Sim</span>
-                <span><input id="orc-reprovado" type="radio" name="status" value="2" style="width:5%">Não</span>
-            </div>
-
-            <div id="forma-pgt" style="display:none">
-                <span class="legend">Forma de Pagamento:</span>
-                <span><input id="form-pagt-1" type="radio" name="status" value="1" style="width:5%">á vista</span>
-                <span><input id="form-pagt-2" type="radio" name="status" value="2" style="width:5%">3 parcelas</span>
-                <span><input id="form-pagt-3" type="radio" name="status" value="3" style="width:5%">6 parcelas</span>
-                <span><input id="form-pagt-4" type="radio" name="status" value="4" style="width:5%">12 parcelas</span>
-                <label>
-                    <input id="form-pagt-5" type="number" name="status" value="5" min="2" max="20" style="width:10%;height:20px">
-                    <span><input id="form-pagt-5" type="radio" name="status" value="5" style="width:5%">Mais parcelas (autorização do supervisor)</span>  
-                </label>
-                <p>Valor das parcelas R$<span>200,00</span></p>
-            </div>
-    
-           </div>
+           <?php require_once('tabOrcamento.php');?>
        </article>
    </div><!-- box70 -->
-   <div class="box box30" style="width: 30%;padding-top: 0px;">
+   <div class="box box30" style="width:30%;padding-top:0px;">
        <div class="panel">
            <div class="box_conf_menu" style="font-size: 15px;">
                <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Teste de Estanqueidade</a>
@@ -235,6 +145,7 @@ tr:nth-child(even) {
            </div>
        </div>
    </div> <!-- box30 -->
+
 </form>
    </div>
 </div>
