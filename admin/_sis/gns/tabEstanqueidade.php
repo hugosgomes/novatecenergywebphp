@@ -1,8 +1,7 @@
  
     <h4 class="icon-user-plus">Teste de Estanquidade</h4>
                     <div id="tipo-servico">
-                            <input type="hidden" name="callback" value="Dadostabela"/>
-                            <input type="hidden" name="callback_action" value="dados_formulario"/>
+                            
                      <div class="hiddens">
 
                      </div>
@@ -78,19 +77,19 @@
                                 <article class='box box100'>
                                     <label class="label box box50">
                                         <span class="legend">Tipo:</span>
-                                        <input  type="text" name="t_cozinhaTipo" id="t_cozinhaTipo"  placeholder="Tipo:" required/>
+                                        <input  type="text" id="t_cozinhaTipo"  placeholder="Tipo:" required/>
                                     </label>
                                     <label class="label box box50">
                                         <span class="legend">Marca:</span>
-                                        <input  type="text" name="t_cozinhaMarca" id="t_cozinhaMarca"  placeholder="Marca:" required/>
+                                        <input  type="text" id="t_cozinhaMarca"  placeholder="Marca:" required/>
                                     </label>
                                     <label class="label box box50">
                                         <span class="legend">Modelo:</span>
-                                        <input  type="text" name="t_cozinhaModelo" id="t_cozinhaModelo"  placeholder="Modelo:" required/>
+                                        <input  type="text" id="t_cozinhaModelo"  placeholder="Modelo:" required/>
                                     </label>
                                     <label class="label box box50">
                                         <span class="legend">Pot nominal:</span>
-                                        <input  type="text" type="text" name="t_cozinhaPot" id="t_cozinhaPot" placeholder="Pot nominal:" required/>
+                                        <input  type="text" type="text" id="t_cozinhaPot" placeholder="Pot nominal:" required/>
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Funcionamento:</span>
