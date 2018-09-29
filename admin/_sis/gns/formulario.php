@@ -15,6 +15,9 @@ if (empty($Create)):
 endif;
 ?>
 <style>
+.dashboard_sidebar{
+    height: 69px;
+}
 .blocker{
     z-index: 98;
 }
@@ -76,7 +79,6 @@ tr:nth-child(even) {
 </style>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-user-plus">Novo Usuário</h1>
         <p class="dashboard_header_breadcrumbs">
             &raquo; <?= ADMIN_NAME; ?>
             <span class="crumb">/</span>
@@ -90,10 +92,10 @@ tr:nth-child(even) {
 <!-- CODIGO ADD LINHAS -->
 <div class="dashboard_content custom_app">
    <div class="box box100">
-       <div class="box box25">
-          <!-- <button class="btn btn_green" style="outline: none;" id="target"><span class="icon-plus"></span>Adicionar</button>
-            <button class="btn btn_red" style="outline: none;" id="target2"><span class="icon-cross"></span>Excluir</button>-->
-       </div>
+       <!--<div class="box box25">
+          <button class="btn btn_green" style="outline: none;" id="target"><span class="icon-plus"></span>Adicionar</button>
+            <button class="btn btn_red" style="outline: none;" id="target2"><span class="icon-cross"></span>Excluir</button>
+       </div>-->
    <div class="box_content">
        <form method="post">
            <div class="box box70">
