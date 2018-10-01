@@ -172,6 +172,58 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $Create->ExeCreate("[60_TesteAparelho]",$value);
             }*/
 
+                // DISTRIBUIÇÃO INTERNA
+            for ($i=1; $i <= 23; $i++) {
+                if (isset($PostData['d_distr_interna_'.$i])) {
+                    array_push($aparelhos,array(
+
+                        'IdOs' => $PostData['IdOS'],
+                        'ItemInspecao' => $PostData['d-dist-interna-'.$i],
+                        'InstalacaoInterna' => $PostData['d_distr_interna_'.$i]
+
+
+                    ));
+                }
+            }
+
+                // APARELHO A GÁS
+            for ($i=1; $i <= 29; $i++) {
+               $count = 1;
+               if($count > 3){$count = 1;} else {}
+
+               if (isset($PostData['d_ap-gas_'.$i])) {
+                array_push($aparelhos,array(                                                                     
+                    'IdOs' => $PostData['IdOS'],
+                    'ItemInspecao' => $PostData['d_ap-gas_'.$i],
+                    'Aparelho1' => $PostData['d_ap-gas_'.$i.'-'.$count],
+                    'Aparelho2' => $PostData['d_ap-gas_'.$i.'-'.$count],
+                    'Aparelho3' => $PostData['d_ap-gas_'.$i.'-'.$count]          
+                ));
+                    }  // isset
+                    $count++;
+                }
+
+                // LIGAÇÕES DOS APARELHOS A GÁS
+                for ($i=1; $i <= 29; $i++) {
+                 $count = 1;
+                 if($count > 3){ $count = 1; } else {}
+
+                 if (isset($PostData['d_ap-gas_'.$i])) {
+                    array_push($aparelhos,array(                                                                     
+                        'IdOs' => $PostData['IdOS'],
+                        'ItemInspecao' => $PostData['d_liga-ap_'.$i],
+                        'Aparelho1' => $PostData['d_liga-ap_'.$i.'_'.$count],
+                        'Aparelho2' => $PostData['d_liga-ap_'.$i.'_'.$count],
+                        'Aparelho3' => $PostData['d_liga-ap_'.$i.'_'.$count]          
+                    ));
+                    }  // isset
+                    $count++;
+                }
+
+                  foreach ($aparelhos as $key => $value) {
+                $Create->ExeCreate("[60_Defeitos]",$value);
+            }
+
         break;    
     endswitch;
 

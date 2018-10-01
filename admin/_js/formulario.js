@@ -313,6 +313,23 @@ function consultaDescricao(){
 //consultaDescricao();
 exibeCheckbox();
 
+//LIGAÇÕES DOS APARELHOS A GÁS
+$('#btn_liga-ap').click(function(){
+    var obj = $('#d_liga-ap-tbody span');
+    createHiddenSpan(obj);
+});
+
+//APARELHOS A GÁS
+$('#btn_aparelho_gas').click(function(){
+    var obj = $('#d_ap-gas-tbody span');
+    createHiddenSpan(obj);
+});
+
+//DISTRIBUIÇÃO INTERNA
+$('#btn_distribuicao_interna').click(function(){
+    var obj = $('#d-dist-interna-tbody span');
+    createHiddenSpan(obj);
+});
 
 $('#btn_distribuicao_interna').click(function(){
     var obj = $('#dist-interna select');
@@ -353,6 +370,14 @@ $('#btn_reco').click(function(){
 function createHidden(obj){
     $.each( obj, function( key, value ) {
     var valor = $(value).val();
+    var id = $(value).attr('id');
+      $("<input type='hidden' value='"+valor+"' name='"+id+"'/>").appendTo('.hiddens');
+    });
+}
+
+function createHiddenSpan(obj){
+    $.each( obj, function( key, value ) {
+    var valor = $(value).text();
     var id = $(value).attr('id');
       $("<input type='hidden' value='"+valor+"' name='"+id+"'/>").appendTo('.hiddens');
     });
