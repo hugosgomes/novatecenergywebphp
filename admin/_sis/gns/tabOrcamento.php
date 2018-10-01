@@ -11,7 +11,7 @@
                         $Read->FullRead("SELECT [Id] AS id, [Peca] AS peca, [ValorFinal] AS valor FROM [60_Pecas]", " ");
                         if ($Read->getResult()):
                           foreach ($Read->getResult() as $PECAS):
-                            echo "<option  id='{$PECAS['valor']}'' value='{$PECAS['id']}'>{$PECAS['peca']}</option>";
+                            echo "<option  id='{$PECAS['id']}'' value='{$PECAS['valor']}'>{$PECAS['peca']}</option>";
                         endforeach;
                     endif;
                     ?>
@@ -46,7 +46,7 @@
                         $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
                         if ($Read->getResult()):
                           foreach ($Read->getResult() as $SERVICOS):
-                            echo "<option id='{$SERVICOS['valorcliente']}' value='{$SERVICOS['id']}'>{$SERVICOS['descricao']}</option>";
+                            echo "<option id='{$SERVICOS['id']}' value='{$SERVICOS['valorcliente']}'>{$SERVICOS['descricao']}</option>";
                         endforeach;
                     endif;
                     ?>
@@ -61,7 +61,7 @@
                         $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
                         if ($Read->getResult()):
                           foreach ($Read->getResult() as $SERVICOS):
-                            echo "<option id='{$SERVICOS['valorclientepag']}' value='{$SERVICOS['id']}'>{$SERVICOS['descricao']}</option>";
+                            echo "<option id='{$SERVICOS['id']}' value='{$SERVICOS['valorclientepag']}'>{$SERVICOS['descricao']}</option>";
                         endforeach;
                     endif;
                     ?>
@@ -97,7 +97,10 @@
                     <tbody>
                     </tbody>
                 </table>
-                <p style="font-size:20px;padding-top: 10px;">valor total: R$ <span class="valor-total"><!-- valor total table --></span></p>
+                <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">valor total: R$ <span class="valor-total"><!-- valor total table --></span></p>
+
+                <span class="o_p_hidden"></span><br>
+                <span class="o_s_hidden"></span>
 
             <br/>
 
@@ -109,13 +112,14 @@
 
             <div id="o_forma-pgt" style="display:none">
                 <span class="legend">Forma de Pagamento:</span>
-                <span><input id="o_parcelas-1" type="radio" name="o_parcelas" value="o_parcelas-1" style="width:5%" checked>á vista</span>
-                <span><input id="o_parcelas-3" type="radio" name="o_parcelas" value="o_parcelas-3" style="width:5%">3 parcelas</span>
-                <span><input id="o_parcelas-6" type="radio" name="o_parcelas" value="o_parcelas-6" style="width:5%">6 parcelas</span>
-                <span><input id="o_parcelas-12" type="radio" name="o_parcelas" value="o_parcelas-12" style="width:5%">12 parcelas</span>
+                <span><input class="o_parcelas" id="o_parcelas-1" type="radio" name="o_parcelas" value="o_parcelas-1" style="width:5%" checked>á vista</span>
+                <span><input class="o_parcelas" id="o_parcelas-3" type="radio" name="o_parcelas" value="o_parcelas-3" style="width:5%">3 parcelas</span>
+                <span><input class="o_parcelas" id="o_parcelas-6" type="radio" name="o_parcelas" value="o_parcelas-6" style="width:5%">6 parcelas</span>
+                <span><input class="o_parcelas" id="o_parcelas-12" type="radio" name="o_parcelas" value="o_parcelas-12" style="width:5%">12 parcelas</span>
                 <label>
-                    <span><input id="o_parcelas_maior_12" type="radio" name="o_parcelas" value="o_parcelas_maior_12" style="width:5%">Mais parcelas (autorização do supervisor)</span>
-                    <input id="o_parcelas-seleciona" type="number" name="status" value="" min="13"  style="width:5%;height:20px">
+                    <span><input class="o_parcelas" id="o_parcelas_maior_12" type="radio" name="o_parcelas" value="o_parcelas_maior_12" style="width:5%">Mais parcelas (autorização do supervisor)</span>
+
+                    <input id="o_parcelas-seleciona" type="number" name="o_parcelas-seleciona"  min="13"  style="display:none;width:5%;height:20px">
                 </label>
             </div><br/>
 
