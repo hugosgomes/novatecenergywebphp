@@ -313,6 +313,30 @@ function consultaDescricao(){
 //consultaDescricao();
 exibeCheckbox();
 
+//RECOMENDAÇÕES
+$('#btn_reco').click(function(){
+    var obj = $('#d_reco-tbody span');
+    createHiddenSpan(obj);
+});
+
+//CARACTERÍSTICAS HIGIÊNICAS DA COMBUSTÃO
+$('#btn_caract-hig').click(function(){
+    var obj = $('#d_caract-higi_tbody span');
+    createHiddenSpan(obj);
+});
+
+//COLETIVO DE EXAUSTÃO NATURAL E FORÇADA
+$('#btn_cole-exaust').click(function(){
+    var obj = $('#d_cole-exaust_tbody span');
+    createHiddenSpan(obj);
+});
+
+//INDIVIDUAL DE EXAUSTÃO NATURAL E FORÇADA
+$('#btn_ind-exaust').click(function(){
+    var obj = $('#d_ind-exaust_tbody span');
+    createHiddenSpan(obj);
+});
+
 //LIGAÇÕES DOS APARELHOS A GÁS
 $('#btn_liga-ap').click(function(){
     var obj = $('#d_liga-ap-tbody span');
@@ -994,13 +1018,20 @@ $('html').on('click', '#j_btn_salvar', function (e) {
                 });
             }
             //PREVENT TO RESUBMIT IMAGES GALLERY
-            form.find('input[name="image[]"]').replaceWith($('input[name="image[]"]').clone());
+            form.find('input[name="fotos_arquivos[]"]').replaceWith($('input[name="fotos_arquivos[]"]').clone());
         },
         success: function (data) {
             if (data.trigger) {
                 Trigger(data.trigger);
             }
+
+            if (data.gallery) {          
+              //alert(data.gallery);
+              $(data.gallery).appendTo('.arquivos');
+            }          
         }
+
+
             
     });
 });

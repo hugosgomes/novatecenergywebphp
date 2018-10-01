@@ -7,13 +7,15 @@
 <div id="servicos-defeitos"/>
                 <h4 class="icon-user-plus">Instalação com Defeito?</h4>
                 <label class="label box box100">
-                    <span><input id="instalacao-ok" type="radio" name="status" value="1" style="width:5%">Sim</span>
-                    <span><input id="instalacao-defeito" type="radio" name="status" value="2" style="width:5%">Não</span>
+                    <span><input id="instalacao-ok" type="radio" name="status" value="Sim" style="width:5%">Sim</span>
+                    <span><input id="instalacao-defeito" type="radio" name="status" value="Não" style="width:5%">Não</span>
                     <div id="dados-do-def">
                         <label id="foto-defeito" class="label box box50" style="display:none">
                             <span class="legend">Foto Defeitos:</span>
-                            <input type="file" name="user_thumb" class="wc_loadimage" multiple/>
+                            <input type="file" name="fotos_arquivos[]" class="wc_loadimage" multiple/>
                         </label>
+                        <div class="arquivos">
+                        </div>
                         <label class="label box box100">
                             <a class="btn btn_darkblue" href="#dist-interna" rel="modal:open"><i class="icon-share"></i>Distribuição interna</a>
                             <a class="btn btn_darkblue" href="#Ap-gas" rel="modal:open"><i class="icon-share"></i>Aparelhos a Gás</a>
@@ -1269,13 +1271,9 @@
                                 <tr>
                                     <td>5</td>
                                     <td><span class="legend" id="d_liga-ap_5">Identificação do ponto de gás do aquecedor. Identificado na cor amarela e na posição central.</span></td>
+                                    <td></td>
                                     <td>
-                                        <select id="d_liga-ap_5_1" readonly="readonly">
-                                           
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_liga-ap_5_2">
+                                        <select id="d_liga-ap_5_1">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1283,7 +1281,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select id="d_liga-ap_5_3">
+                                        <select id="d_liga-ap_5_2">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1350,9 +1348,13 @@
                                 <tr>
                                     <td>8</td>
                                     <td><span class="legend" id="d_liga-ap_8">Condições dimensionais das chaminés. Diâmetro do duto igual ao diâmetro da saída da chaminé do aparelho a gás. ( Ou com adaptador conforme Abegas)</span></td>
-                                     <td>
-                                        <select id="d_liga-ap_8_1" readonly="readonly">
-                                           
+                                     <td></td>
+                                    <td>
+                                        <select id="d_liga-ap_8_1">
+                                            <option value="N/A">N/A</option>
+                                            <option value="C">C</option>
+                                            <option value="I">I</option>
+                                            <option value="RI">RI</option>
                                         </select>
                                     </td>
                                     <td>
@@ -1363,25 +1365,13 @@
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
-                                    <td>
-                                        <select id="d_liga-ap_8_3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td>9</td>
                                     <td><span class="legend" id="d_liga-ap_9">Instalação da chaminé individual. Chaminé com encaixes firmes nas conexões com os aparelhos a gás, conforme ABNT NBR 13103.</span></td>
-                                     <td>
-                                        <select id="d_liga-ap_9_1" readonly="readonly">
-                                           
-                                        </select>
-                                    </td>
+                                     <td></td>
                                     <td>
-                                        <select id="d_liga-ap_9_2">
+                                        <select id="d_liga-ap_9_1">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1389,7 +1379,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select id="d_liga-ap_9_3">
+                                        <select id="d_liga-ap_9_2">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1424,6 +1414,7 @@
                                     <th>Item de Inspeção</th>
                                     <th colspan="3">Aparelhos</th>
                                 </tr>
+                                 <tbody id="d_ind-exaust_tbody">
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -1433,7 +1424,7 @@
                                 </tr>
                                 <tr>
                                     <td>1</td>
-                                    <td><span class="legend">Condições do duto de exaustão em aquecedor de circuito aberto de exaustão natural ou forçada. Existência de dutos de exaustão, conforme ABNT NBR 13103.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_1">Condições do duto de exaustão em aquecedor de circuito aberto de exaustão natural ou forçada. Existência de dutos de exaustão, conforme ABNT NBR 13103.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_1-1" style="width: 65;">
@@ -1454,7 +1445,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><span class="legend">Compatibilidade da chaminé com o diâmetro da saída do defletor. Inexistência de estrangulamentos do duto em relação ao defletor do aparelho.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_2">Compatibilidade da chaminé com o diâmetro da saída do defletor. Inexistência de estrangulamentos do duto em relação ao defletor do aparelho.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_2-1">
@@ -1475,7 +1466,7 @@
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><span class="legend">Altura vertical do duto do aquecedor de circuito aberto de exaustão natural. Altura inicial maior ou igual a 35 cm.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_3">Altura vertical do duto do aquecedor de circuito aberto de exaustão natural. Altura inicial maior ou igual a 35 cm.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_3-1">
@@ -1496,7 +1487,7 @@
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td><span class="legend">Declividade do sistema de exaustão. Duto do sistema de exaustão ascendente.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_4">Declividade do sistema de exaustão. Duto do sistema de exaustão ascendente.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_4-1">
@@ -1517,7 +1508,7 @@
                                 </tr>
                                 <tr>
                                     <td>5</td>
-                                    <td><span class="legend">Conexão da chaminé com o duto de exaustão e o terminal em aquecedor de circuito aberto de exaustão natural ou forçada. Conexão firme do duto com o aparelho e o terminal.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_5">Conexão da chaminé com o duto de exaustão e o terminal em aquecedor de circuito aberto de exaustão natural ou forçada. Conexão firme do duto com o aparelho e o terminal.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_5-1">
@@ -1538,7 +1529,7 @@
                                 </tr>
                                 <tr>
                                     <td>6</td>
-                                    <td><span class="legend">Condições físicas dos dutos de exaustão. Inexistência de rachadura, rasgos ou emendas indevidas no duto de exaustão.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_6">Condições físicas dos dutos de exaustão. Inexistência de rachadura, rasgos ou emendas indevidas no duto de exaustão.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_6-1">
@@ -1559,7 +1550,7 @@
                                 </tr>
                                 <tr>
                                     <td>7</td>
-                                    <td><span class="legend">Terminal no exterior da edificação para aquecedor de circuito aberto de exaustão natural ou forçada. Existência do terminal de chaminé no exterior da edificação, conforme ABNT NBR 13103.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_7">Terminal no exterior da edificação para aquecedor de circuito aberto de exaustão natural ou forçada. Existência do terminal de chaminé no exterior da edificação, conforme ABNT NBR 13103.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_7-1">
@@ -1580,7 +1571,7 @@
                                 </tr>
                                 <tr>
                                     <td>8</td>
-                                    <td><span class="legend">Instalação do terminal de chaminé. Instalação levando em consideração limites de distância, conforme ABNT NBR 13103. (10 cm da face da edificação e 40 cm de raio)</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_8">Instalação do terminal de chaminé. Instalação levando em consideração limites de distância, conforme ABNT NBR 13103. (10 cm da face da edificação e 40 cm de raio)</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_8-1">
@@ -1601,7 +1592,7 @@
                                 </tr>
                                 <tr>
                                     <td>9</td>
-                                    <td><span class="legend">Quantidade de curvas e desvios do duto de exaustão em aquecedor de circuito aberto de exaustão natural ou forçada. Inexistência de excessos de curvas e desvios no duto de exaustão, conforme ABNT NBR 13103, ou conforme manual do fabricante.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_9">Quantidade de curvas e desvios do duto de exaustão em aquecedor de circuito aberto de exaustão natural ou forçada. Inexistência de excessos de curvas e desvios no duto de exaustão, conforme ABNT NBR 13103, ou conforme manual do fabricante.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_9-1">
@@ -1622,7 +1613,7 @@
                                 </tr>
                                 <tr>
                                     <td>10</td>
-                                    <td><span class="legend">Situação do ambiente de percurso do sistema de exaustão. Ventilação superior e inferior de no mínimo 200 cm². (Ventilação da Chaminé passando por gesso ou a própria chaminé passando por mais de um cômodo).</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_10">Situação do ambiente de percurso do sistema de exaustão. Ventilação superior e inferior de no mínimo 200 cm². (Ventilação da Chaminé passando por gesso ou a própria chaminé passando por mais de um cômodo).</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_10-1">
@@ -1643,7 +1634,7 @@
                                 </tr>
                                 <tr>
                                     <td>11</td>
-                                    <td><span class="legend">Integridade do material do duto de exaustão. Materiais incombustíveis, suportar temperatura superior a 200°C e ser resistente à corrosão.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_11">Integridade do material do duto de exaustão. Materiais incombustíveis, suportar temperatura superior a 200°C e ser resistente à corrosão.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_11-1">
@@ -1664,7 +1655,7 @@
                                 </tr>
                                 <tr>
                                     <td>12</td>
-                                    <td><span class="legend">Condições de adequação e robustez dos suportes do duto de exaustão. Suportes adequados ao material do duto de exaustão e bem posicionados.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_12">Condições de adequação e robustez dos suportes do duto de exaustão. Suportes adequados ao material do duto de exaustão e bem posicionados.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_12-1">
@@ -1685,7 +1676,7 @@
                                 </tr>
                                 <tr>
                                     <td>13</td>
-                                    <td><span class="legend">Saída dos condutos de exaustão de produtos da combustão em locais não considerados áreas externas. Saídas de produtos da combustão para área externa ou locais considerados áreas externas.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_13">Saída dos condutos de exaustão de produtos da combustão em locais não considerados áreas externas. Saídas de produtos da combustão para área externa ou locais considerados áreas externas.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_ind-exaust_13-1">
@@ -1706,7 +1697,7 @@
                                 </tr>
                                 <tr>
                                     <td>14</td>
-                                    <td><span class="legend">Aparelho de cocção em cozinhas com potência nominal igual ou maior que 360kcal/min, sem coifa exaustora de forma a conduzir os produtos da combustão para fora do ambiente. Existência de coifa exaustora.</span></td>
+                                    <td><span class="legend" id="d_ind-exaust_14">Aparelho de cocção em cozinhas com potência nominal igual ou maior que 360kcal/min, sem coifa exaustora de forma a conduzir os produtos da combustão para fora do ambiente. Existência de coifa exaustora.</span></td>
                                     <td>
                                         <select id="d_ind-exaust_14-1" style="width: 65;">
                                             <option value="N/A">N/A</option>
@@ -1718,8 +1709,7 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
-
-
+                            </tbody>
                             </table>
                         </div>
                         <span id="btn_ind-exaust" name="public" value="1" class="btn btn_darkblue fl_right icon-share" style="margin-left: 5px;margin-top: 20px;">Enviar</span>
@@ -1744,6 +1734,7 @@
                                     <th>Item de Inspeção</th>
                                     <th colspan="3">Aparelhos</th>
                                 </tr>
+                                 <tbody id="d_cole-exaust_tbody">
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -1753,7 +1744,7 @@
                                 </tr>
                                 <tr>
                                     <td>1</td>
-                                    <td><span class="legend">Material das chaminés coletivas. Materiais incombustíveis, suportar temperatura superior a 200°C e ser resistente à corrosão.</span></td>
+                                    <td><span class="legend" id="d_cole-exaust_1">Material das chaminés coletivas. Materiais incombustíveis, suportar temperatura superior a 200°C e ser resistente à corrosão.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_cole-exaust_1-1" style="width: 65;">
@@ -1774,7 +1765,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><span class="legend">Condições dimensionais da chaminé coletiva. Área da chaminé coletiva maior ou igual à maior seção da chaminé individual conectada a ela, e altura mínima de 5m do defletor do último aquecedor até o terminal da chaminé.</span></td>
+                                    <td><span class="legend" id="d_cole-exaust_2">Condições dimensionais da chaminé coletiva. Área da chaminé coletiva maior ou igual à maior seção da chaminé individual conectada a ela, e altura mínima de 5m do defletor do último aquecedor até o terminal da chaminé.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_cole-exaust_2-1">
@@ -1795,7 +1786,7 @@
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><span class="legend">Abertura inferior da chaminé coletiva. Abertura inferior na chaminé de, no mínimo, 100 cm² para limpeza, com possibilidade de acesso e de uma ligação para saída da água de condensação para o esgoto, feita através de tubo resistente à corrosão.</span></td>
+                                    <td><span class="legend" id="d_cole-exaust_3">Abertura inferior da chaminé coletiva. Abertura inferior na chaminé de, no mínimo, 100 cm² para limpeza, com possibilidade de acesso e de uma ligação para saída da água de condensação para o esgoto, feita através de tubo resistente à corrosão.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_cole-exaust_3-1">
@@ -1816,7 +1807,7 @@
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td><span class="legend">Interligação da chaminé individual com a chaminé coletiva. Existência de, no máximo, duas chaminés individuais por pavimento conectado à chaminé coletiva.</span></td>
+                                    <td><span class="legend" id="d_cole-exaust_4">Interligação da chaminé individual com a chaminé coletiva. Existência de, no máximo, duas chaminés individuais por pavimento conectado à chaminé coletiva.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_cole-exaust_4-1">
@@ -1837,7 +1828,7 @@
                                 </tr>
                                 <tr>
                                     <td>5</td>
-                                    <td><span class="legend">Interligação da chaminé individual com a chaminé coletiva. Ligação da chaminé individual na chaminé coletiva no sentido ascendente.</span></td>
+                                    <td><span class="legend" id="d_cole-exaust_5">Interligação da chaminé individual com a chaminé coletiva. Ligação da chaminé individual na chaminé coletiva no sentido ascendente.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_cole-exaust_5-1">
@@ -1858,7 +1849,7 @@
                                 </tr>
                                 <tr>
                                     <td>6</td>
-                                    <td><span class="legend">Terminal de chaminé. Existência e o correto posicionamento do terminal de chaminé no exterior da edificação, conforme ABNT NBR 13103.</span></td>
+                                    <td><span class="legend" id="d_cole-exaust_6">Terminal de chaminé. Existência e o correto posicionamento do terminal de chaminé no exterior da edificação, conforme ABNT NBR 13103.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_cole-exaust_6-1">
@@ -1879,7 +1870,7 @@
                                 </tr>
                                 <tr>
                                     <td>7</td>
-                                    <td><span class="legend">Condições de obstrução do terminal para uso da chaminé coletiva. Chaminé desobstruída.</span></td>
+                                    <td><span class="legend" id="d_cole-exaust_7">Condições de obstrução do terminal para uso da chaminé coletiva. Chaminé desobstruída.</span></td>
                                     <td></td>
                                     <td>
                                         <select id="d_cole-exaust_7-1">
@@ -1898,6 +1889,7 @@
                                         </select>
                                     </td>
                                 </tr>
+                            </tbody>
                             </table>
                         </div>
                         <span id="btn_cole-exaust" name="public" value="1" class="btn btn_darkblue fl_right icon-share" style="margin-left: 5px;margin-top: 20px;">Enviar</span>
@@ -1922,6 +1914,7 @@
                                     <th>Item de Inspeção</th>
                                     <th colspan="3">Aparelhos</th>
                                 </tr>
+                                  <tbody id="d_caract-higi_tbody">
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -1931,10 +1924,10 @@
                                 </tr>
                                 <tr>
                                     <td>1</td>
-                                    <td><span class="legend">Medição de COn das combustões nos aquecedores de circuito aberto. Nota: nos casos de chaminés coletivas considerar o funcionamento simultâneo de pelo menos 60% dos aparelhos a ela conectados. Gases de 2ª família: COn de 500 &micro;mol/mol. Gases de 3ª família: COn menor que 1000 &micro;mol/mol.</span></td>
+                                    <td><span class="legend" id="d_caract-higi_1">Medição de COn das combustões nos aquecedores de circuito aberto. Nota: nos casos de chaminés coletivas considerar o funcionamento simultâneo de pelo menos 60% dos aparelhos a ela conectados. Gases de 2ª família: COn de 500 &micro;mol/mol. Gases de 3ª família: COn menor que 1000 &micro;mol/mol.</span></td>
                                     <td></td>
                                     <td>
-                                        <select id="d_caract-higi_1-1" style="width: 65;">
+                                        <select id="d_caract-higi_1-2" style="width: 65;">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1942,7 +1935,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select id="d_caract-higi_1-2" style="width: 65;">
+                                        <select id="d_caract-higi_1-3" style="width: 65;">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1952,10 +1945,10 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><span class="legend">Medição de CO no ambiente com aquecedores de circuito aberto instalados. Nota: no caso de chaminés coletivas, considerar o funcionamento de pelo menos 60% dos aparelhos a ela conectados. CO menor que 15 &micro;mol/mol. CO maior que 15 &micro;mol/mol e menor que 50 &micro;mol/mol</span></td>
+                                    <td><span class="legend" id="d_caract-higi_2">Medição de CO no ambiente com aquecedores de circuito aberto instalados. Nota: no caso de chaminés coletivas, considerar o funcionamento de pelo menos 60% dos aparelhos a ela conectados. CO menor que 15 &micro;mol/mol. CO maior que 15 &micro;mol/mol e menor que 50 &micro;mol/mol</span></td>
                                     <td></td>
                                     <td>
-                                        <select id="d_caract-higi_2-1">
+                                        <select id="d_caract-higi_2-2">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1963,7 +1956,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select id="d_caract-higi_2-2">
+                                        <select id="d_caract-higi_2-3">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1973,9 +1966,9 @@
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><span class="legend">Fogão e/ou outros aparelhos de cocção (capacidade acima de 360 kcal/min). CO menor que 15 &micro;mol/mol. CO maior que 15 &micro;mol/mol e menor que 50 &micro;mol/mol</span></td>
+                                    <td><span class="legend" id="d_caract-higi_3">Fogão e/ou outros aparelhos de cocção (capacidade acima de 360 kcal/min). CO menor que 15 &micro;mol/mol. CO maior que 15 &micro;mol/mol e menor que 50 &micro;mol/mol</span></td>
                                     <td>
-                                        <select id="d_caract-higi_3-1">
+                                        <select id="d_caract-higi_3-1" style="width: 65;">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -1985,7 +1978,7 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                
+                            </tbody>
                             </table>
                         </div>
                         <span id="btn_caract-hig" name="public" value="1" class="btn btn_darkblue fl_right icon-share" style="margin-left: 5px;margin-top: 20px;">Enviar</span>
@@ -2011,6 +2004,7 @@
                                     <th>Instalação Interna</th>
                                     <th colspan="3">Aparelhos</th>
                                 </tr>
+                                <tbody id="d_reco-tbody">
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -2021,71 +2015,86 @@
                                 </tr>
                                 <tr>
                                     <td>1</td>
-                                    <td><span class="legend">Medidas ao alto invertidas, ou seja, medida ao alto do cliente à esquerda do medidor.</span></td>
+                                    <td><span class="legend" id="d_reco-1">Medidas ao alto invertidas, ou seja, medida ao alto do cliente à esquerda do medidor.</span></td>
                                     <td>
-                                        <select id="d_reco-1">
+                                        <select id="d_reco-1_1">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
+                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><span class="legend">Instalação energizada.</span></td>
+                                    <td><span class="legend" id="d_reco-2">Instalação energizada.</span></td>
                                     <td>
-                                        <select id="d_reco-2">
+                                        <select id="d_reco-2_1">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
+                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><span class="legend">Rede de distribuição interna sem plaquetas de identificação e/ou inadequadas. As plaquetas de identificação da instalação devem estar localizadas a direita do medidor (na rede de distribuição interna), em local visível e ter marcação de forma indelével, informando a unidade a que pertence a instalação.</span></td>
+                                    <td><span class="legend" id="d_reco-3">Rede de distribuição interna sem plaquetas de identificação e/ou inadequadas. As plaquetas de identificação da instalação devem estar localizadas a direita do medidor (na rede de distribuição interna), em local visível e ter marcação de forma indelével, informando a unidade a que pertence a instalação.</span></td>
                                     <td>
-                                        <select id="d_reco-3">
+                                        <select id="d_reco-3_1">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
+                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td><span class="legend">Abrigo de medidores sem porta, sem visor, sem fechadura e/ou cadeado.</span></td>
+                                    <td><span class="legend" id="d_reco-4">Abrigo de medidores sem porta, sem visor, sem fechadura e/ou cadeado.</span></td>
                                     <td>
-                                        <select id="d_reco-4">
+                                        <select id="d_reco-4_1">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
+                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
-                                    <td><span class="legend">Abrigo de medidor inacabados e/ou em mal estado de conservação.</span></td>
+                                    <td><span class="legend" id="d_reco-5">Abrigo de medidor inacabados e/ou em mal estado de conservação.</span></td>
                                     <td>
-                                        <select id="d_reco-5">
+                                        <select id="d_reco-5_1">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
+                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>6</td>
-                                    <td><span class="legend">Aquecedor instalado em área considerada externa sem chaminé para melhorar a eficiência da combustão.</span></td>
+                                    <td><span class="legend" id="d_reco-6">Aquecedor instalado em área considerada externa sem chaminé para melhorar a eficiência da combustão.</span></td>
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <select id="d_reco-6-1" style="width: 65;">
+                                        <select id="d_reco-6_3" style="width: 65;">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
@@ -2093,7 +2102,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select id="d_reco-6-2" style="width: 65;">
+                                        <select id="d_reco-6_4" style="width: 65;">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>

@@ -46,7 +46,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'dados_formulario':
-            foreach ($PostData as $key => $value) {
+            /*foreach ($PostData as $key => $value) {
                 if($PostData[$key] == ''){
                     unset($PostData[$key]);
                 }
@@ -172,8 +172,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $Create->ExeCreate("[60_TesteAparelho]",$value);
             }*/
 
+// DEFEITOS
                 // DISTRIBUIÇÃO INTERNA
-            for ($i=1; $i <= 23; $i++) {
+          /*  for ($i=1; $i <= 23; $i++) {
                 if (isset($PostData['d_distr_interna_'.$i])) {
                     array_push($aparelhos,array(
 
@@ -188,41 +189,238 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 // APARELHO A GÁS
             for ($i=1; $i <= 29; $i++) {
-               $count = 1;
-               if($count > 3){$count = 1;} else {}
 
                if (isset($PostData['d_ap-gas_'.$i])) {
                 array_push($aparelhos,array(                                                                     
                     'IdOs' => $PostData['IdOS'],
                     'ItemInspecao' => $PostData['d_ap-gas_'.$i],
-                    'Aparelho1' => $PostData['d_ap-gas_'.$i.'-'.$count],
-                    'Aparelho2' => $PostData['d_ap-gas_'.$i.'-'.$count],
-                    'Aparelho3' => $PostData['d_ap-gas_'.$i.'-'.$count]          
+                    'Aparelho1' => $PostData['d_ap-gas_'.$i.'-1'],
+                    'Aparelho2' => $PostData['d_ap-gas_'.$i.'-2'],
+                    'Aparelho3' => $PostData['d_ap-gas_'.$i.'-3']          
                 ));
                     }  // isset
-                    $count++;
                 }
 
                 // LIGAÇÕES DOS APARELHOS A GÁS
                 for ($i=1; $i <= 29; $i++) {
-                 $count = 1;
-                 if($count > 3){ $count = 1; } else {}
 
-                 if (isset($PostData['d_ap-gas_'.$i])) {
+                 if (isset($PostData['d_liga-ap_'.$i])) {
                     array_push($aparelhos,array(                                                                     
                         'IdOs' => $PostData['IdOS'],
                         'ItemInspecao' => $PostData['d_liga-ap_'.$i],
-                        'Aparelho1' => $PostData['d_liga-ap_'.$i.'_'.$count],
-                        'Aparelho2' => $PostData['d_liga-ap_'.$i.'_'.$count],
-                        'Aparelho3' => $PostData['d_liga-ap_'.$i.'_'.$count]          
+                        'Aparelho1' => $PostData['d_liga-ap_'.$i.'_1'],
+                        'Aparelho2' => $PostData['d_liga-ap_'.$i.'_2'],
+                        'Aparelho3' => $PostData['d_liga-ap_'.$i.'_3']          
                     ));
                     }  // isset
-                    $count++;
+                }
+
+
+                // INDIVIDUAL DE EXAUSTÃO NATURAL E FORÇADA
+                for ($i=1; $i <= 29; $i++) {
+        
+                 if (isset($PostData['d_ind-exaust_'.$i])) {
+                    array_push($aparelhos,array(                                                                     
+                        'IdOs' => $PostData['IdOS'],
+                        'ItemInspecao' => $PostData['d_ind-exaust_'.$i],
+                        'Aparelho1' => $PostData['d_ind-exaust_'.$i.'-1'],
+                        'Aparelho2' => $PostData['d_ind-exaust_'.$i.'-2'],
+                        'Aparelho3' => $PostData['d_ind-exaust_'.$i.'-3']          
+                    ));
+                    }  // isset
+
+                }
+
+
+                // COLETIVO DE EXAUSTÃO NATURAL E FORÇADA
+                for ($i=1; $i <= 29; $i++) {
+        
+                 if (isset($PostData['d_cole-exaust_'.$i])) {
+                    array_push($aparelhos,array(                                                                     
+                        'IdOs' => $PostData['IdOS'],
+                        'ItemInspecao' => $PostData['d_cole-exaust_'.$i],
+                        'Aparelho1' => $PostData['d_cole-exaust_'.$i.'-1'],
+                        'Aparelho2' => $PostData['d_cole-exaust_'.$i.'-2'],
+                        'Aparelho3' => $PostData['d_cole-exaust_'.$i.'-3']          
+                    ));
+                    }  // isset
+
+                }
+
+                // CARACTERÍSTICAS HIGIÊNICAS DA COMBUSTÃO
+                for ($i=1; $i <= 29; $i++) {
+        
+                 if (isset($PostData['d_caract-higi_'.$i])) {
+                    array_push($aparelhos,array(                                                                     
+                        'IdOs' => $PostData['IdOS'],
+                        'ItemInspecao' => $PostData['d_caract-higi_'.$i],
+                        'Aparelho1' => $PostData['d_caract-higi_'.$i.'-1'],
+                        'Aparelho2' => $PostData['d_caract-higi_'.$i.'-2'],
+                        'Aparelho3' => $PostData['d_caract-higi_'.$i.'-3']          
+                    ));
+                    }  // isset
+
+                }
+
+                // RECOMENDAÇÕES
+                for ($i=1; $i <= 29; $i++) {
+
+                   if (isset($PostData['d_reco-'.$i])) {
+                    array_push($aparelhos,array(                                                                     
+                        'IdOs' => $PostData['IdOS'],
+                        'ItemInspecao' => $PostData['d_reco-'.$i],
+                        'InstalacaoInterna' => $PostData['d_reco-'.$i.'_1'],
+                        'Aparelho1' => $PostData['d_reco-'.$i.'_2'],
+                        'Aparelho2' => $PostData['d_reco-'.$i.'_3'],
+                        'Aparelho3' => $PostData['d_reco-'.$i.'_4']          
+                    ));
+                    }  // isset
+
                 }
 
                   foreach ($aparelhos as $key => $value) {
                 $Create->ExeCreate("[60_Defeitos]",$value);
             }
+*/
+
+//var_dump($PostData, $_FILES, $_POST);
+            //ENVIO DE ARQUIVO
+                    /*  if (empty($Upload)):
+                          $Upload = new Upload('../../uploads/');
+                      endif;
+
+                      $title = "teste";
+                      $GalleryId = $PostData['IdOS'];
+                      $Image = (!empty($_FILES['fotos_arquivos']) ? $_FILES['fotos_arquivos'] : null);
+                      $Size = (!empty($_FILES['fotos_arquivos']['size']) ? array_sum($_FILES['fotos_arquivos']['size']) : null);
+                      $GalleryName = Check::Name($title);
+
+                      unset($PostData['IdOS'], $PostData['fotos_arquivos']);
+
+                      if (!empty($Image)):
+                          $File = $Image;
+                          $gbFile = array();
+                          $gbCount = count($File['type']);
+                          $gbKeys = array_keys($File);
+                          $gbLoop = 0;
+
+                          if ($gbCount > 10):
+                              $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 25 FOTOS!</b>");
+                          else:
+                              for ($gb = 0; $gb < $gbCount; $gb++):
+                                  foreach ($gbKeys as $Keys):
+                                      $gbFiles[$gb][$Keys] = $File[$Keys][$gb];
+                                  endforeach;
+                              endfor;
+
+                              $jSON['gallery'] = null;
+                              foreach ($gbFiles as $UploadFile):
+                                  $gbLoop ++;
+                                  $Upload->Image($UploadFile, "{$GalleryName}-{$GalleryId}-{$gbLoop}-" . time(), IMAGE_W, 'gallery');
+
+                                  if ($Upload->getResult()):
+                                      $gbCreate = ['IdOS' => $GalleryId, "fotos_arquivos" => $Upload->getResult()];
+                                     // $Create->ExeCreate(DB_GALLERY_IMAGES, $gbCreate);
+                                      $jSON['gallery'] .= "<img rel='Gallery' id='{$Create->getResult()}' alt='Imagem em {$title}' title='Imagem em {$title}' src='../uploads/{$Upload->getResult()}'/>";
+                                  endif;
+                              endforeach;
+                          endif;
+                      endif;
+
+                      $Update->ExeUpdate(DB_GALLERY, $PostData, "WHERE gallery_id = :id", "id={$GalleryId}");
+                      $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>ATUALIZADO COM SUCESSO:</b> A Galeria {$title} foi atualizado com sucesso no sistema!");
+                      $jSON['view'] = BASE . "/imovel/{$title}";*/
+
+
+                      if (empty($Upload)):
+                        $Upload = new Upload('../../../uploads/');
+                      endif;
+
+                      $title = "teste";
+                      $arquivos = array($_FILES['fotos_arquivos']['size']);
+                      $GalleryId = $PostData['IdOS'];
+                      $Image = (!empty($_FILES['fotos_arquivos']) ? $_FILES['fotos_arquivos'] : null);
+                      $Size = (!empty($_FILES['fotos_arquivos']['size']) ? array_sum($arquivos) : null);
+                      $GalleryName = Check::Name($title);
+
+                      
+
+                      unset($PostData['IdOS'], $PostData['fotos_arquivos']);
+
+
+                      if (!empty($Image)):
+                          $File = $Image;
+                          $gbFile = array();
+                         // $arquivoTipo = array($File['type']);
+                          $gbCount = count($File['type']);
+                          $gbKeys = array_keys($File);
+                          $gbLoop = 0;
+               
+                            //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
+                     
+                           
+                        if ($gbCount > 10):
+                              $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
+                        else:
+
+                              for ($gb = 0; $gb < $gbCount; $gb++):
+                                  foreach ($gbKeys as $Keys):
+                                      $gbFiles[$gb][$Keys] = $File[$Keys][$gb];
+
+                                  endforeach;
+                              endfor;
+                              //var_dump($gbCount);
+                              $jSON['gallery'] = null;
+                              foreach ($gbFiles as $UploadFile):
+                                  $gbLoop ++;
+                                  $Upload->Image($UploadFile, "{$title}" . time(), IMAGE_W, 'images');
+                                  
+                                  if ($Upload->getResult()):
+
+                                      $gbCreate = ['OS' => $GalleryId, 'Arquivo' => $Upload->getResult()];
+                                   
+                                   // var_dump($gbCreate['IdOS'], $gbCreate['fotos_arquivos']);
+                                     $Create->ExeCreate(['60_OS_Fotos'], $gbCreate);
+                                      // var_dump($gbCreate['IdOS']);
+                                      //$jSON['gallery'] .= "<img rel='Gallery' id='{$GalleryId}' alt='Imagem em {$title}' title='Imagem em {$title}' src='../uploads/{$Upload->getResult()}'/>";
+                                     // $jSON['gallery'] = "teste";
+                                  endif;
+                              endforeach;
+                          endif;
+                        endif;
+                       
+
+                   /* if (isset($_FILES['fotos_arquivos']) && !empty($_FILES['fotos_arquivos']['name'])) {
+
+                        $file_name = $_FILES['fotos_arquivos']['name'];
+                        $file_type = $_FILES['fotos_arquivos']['type'];
+                        $file_size = $_FILES['fotos_arquivos']['size'];
+                        $file_tmp_name = $_FILES['fotos_arquivos']['tmp_name'];
+                        $error = $_FILES['fotos_arquivos']['error'];      
+
+                        //echo $file_name;
+                        //echo $titulo;
+
+                                /*
+                                switch($file_type){
+                                    case 'image/png':  $arq ='.png';break;
+                                    case 'image/jpeg': $arq ='.jpg';break;
+                                    case 'image/gif':  $arq ='.gif';break;
+                                    case 'image/bmp':  $arq ='.bmp';break;
+                                    case 'image/PNG':  $arq ='.PNG';break;
+                                    case 'image/JPEG': $arq ='.JPEG';break;
+                                    case 'image/GIF':  $arq ='.GIF';break;
+                                    case 'image/BMP':  $arq ='.BMP';break;
+
+                                }
+                                */
+/*
+                                $destino = '../../../uploads/images';
+
+                           move_uploaded_file($file_tmp_name,$destino.$file_name);
+
+
+                        }*///end if isset file
 
         break;    
     endswitch;

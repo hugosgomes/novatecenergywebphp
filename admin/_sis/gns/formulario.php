@@ -103,7 +103,7 @@ tr:nth-child(even) {
             <button class="btn btn_red" style="outline: none;" id="target2"><span class="icon-cross"></span>Excluir</button>
        </div>-->
    <div class="box_content">
-       <form method="post" id="j_form">
+       <form method="post" id="j_form" enctype="multipart/form-data">
         <?php 
           echo "<input type='hidden' name='IdOS' value='{$IdOS}'>";
           echo "<input type='hidden' name='IdTecnico' value='{$IdTecnico}'>";
