@@ -290,13 +290,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
 
             //Preenchendo técnicos GNS
-            $Read->FullRead("SELECT Funcionários.ID,[NOME COMPLETO] FROM Funcionários
-                            WHERE Funcionários.GNSMOBILE = 1 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
-                            ORDER BY [NOME COMPLETO]","");
+            $Read->FullRead("SELECT IIF(FUNC.ID IS NOT NULL, FUNC.ID, TERC.ID) AS ID, IIF(FUNC.ID IS NOT NULL, FUNC.[NOME COMPLETO], TERC.NOME) AS NOME
+                FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
+                LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
+                WHERE [00_NivelAcesso].MOBILE_CLIENTES_PARTICULARES = 1 ORDER BY NOME","");
             if ($Read->getResult()):
                 $jSON['addTecnicos'] = null;//É necessário desclarar como numo por causa da fraca tipação
                 foreach ($Read->getResult() as $addTecnicos):
-                    $jSON['addTecnicos'] .= "<option value = '{$addTecnicos['ID']}'>{$addTecnicos['NOME COMPLETO']}</option>";
+                    $jSON['addTecnicos'] .= "<option value = '{$addTecnicos['ID']}'>{$addTecnicos['NOME']}</option>";
                 endforeach;
             endif;
 
@@ -350,8 +351,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 if (empty($PostData["FORMAPAGAMENTO"])) {
                     unset($orcamento['FORMAPAGAMENTO']);
                 }
-
-                var_dump($orcamento);
 
                 $Update->ExeUpdate('[80_Orcamentos]', $orcamento, "WHERE ID = :ID", "ID={$PostData['idOrcamento']}");
                 if ($Update->getResult()) {

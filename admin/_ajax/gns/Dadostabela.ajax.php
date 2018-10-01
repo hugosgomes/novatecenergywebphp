@@ -54,7 +54,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $aparelhos = [];
 
             //SALVANDO O ATENDIMENTO
-            /*$atendimento = array(
+            $atendimento = array(
                 'idOS' => $PostData['IdOS'],
                 'idTecnico' => $PostData['IdTecnico'],
                 'Status' => 1,
@@ -170,7 +170,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             foreach ($aparelhos as $key => $value) {
                 $Create->ExeCreate("[60_TesteAparelho]",$value);
-            }*/
+            }
 
 // DEFEITOS
                 // DISTRIBUIÇÃO INTERNA
@@ -422,7 +422,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                         }*///end if isset file
 
-        break;    
+            for ($i=1; $i <= 6; $i++) { 
+                
+            }
+
+        break;
     endswitch;
 
     //RETORNA O CALLBACK
