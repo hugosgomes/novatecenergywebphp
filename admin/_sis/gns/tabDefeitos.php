@@ -41,8 +41,9 @@
                                 <tr>
                                     <th>Nº</th>
                                     <th>Item de Inspeção</th>
-                                    <th>Instalação Interna</th
+                                    <th>Instalação Interna</th>
                                 </tr>
+                                <tbody id="d-dist-interna-tbody">
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -50,7 +51,7 @@
                                 </tr>
                                 <tr>
                                     <td>1</td>
-                                    <td><span class="legend">Afastamentos de sistemas elétricos de potência em baixa tensão isolados em eletrodutos não metálicos e a ocorrência de interferências com as mesmas. Afastamentos quando em redes em paralelo maior ou igual a 30 mm e quando em cruzamentos maior ou igual a 10 mm (com material isolante aplicado:</span></td>
+                                    <td><span class="legend" id="d-dist-interna-1">Afastamentos de sistemas elétricos de potência em baixa tensão isolados em eletrodutos não metálicos e a ocorrência de interferências com as mesmas. Afastamentos quando em redes em paralelo maior ou igual a 30 mm e quando em cruzamentos maior ou igual a 10 mm (com material isolante aplicado:</span></td>
                                     <td>
                                         <select id="d_distr_interna_1">
                                             <option value="N/A">N/A</option>
@@ -62,7 +63,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><span class="legend">Afastamentos de sistemas elétricos de potência em baixa tensão isolados em eletrodutos metálicos ou sem eletrodutos e a ocorrência de interferências com as mesmas. Afastamentos maior ou igual a 50 mm para cada lado.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-2">Afastamentos de sistemas elétricos de potência em baixa tensão isolados em eletrodutos metálicos ou sem eletrodutos e a ocorrência de interferências com as mesmas. Afastamentos maior ou igual a 50 mm para cada lado.</span></td>
                                     <td>
                                         <select id="d_distr_interna_2">
                                             <option value="N/A">N/A</option>
@@ -74,7 +75,7 @@
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><span class="legend">Afastamentos e a ocorrência de interferências com tubulações de água quente ou fria. Afastamentos quando em redes em paralelo maior ou igual a 30 mm e quando em cruzamentos maior ou igual a 10 mm</span></td>
+                                    <td><span class="legend" id="d-dist-interna-3">Afastamentos e a ocorrência de interferências com tubulações de água quente ou fria. Afastamentos quando em redes em paralelo maior ou igual a 30 mm e quando em cruzamentos maior ou igual a 10 mm</span></td>
                                     <td>
                                         <select id="d_distr_interna_3">
                                             <option value="N/A">N/A</option>
@@ -86,7 +87,7 @@
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td><span class="legend">Afastamentos e a ocorrência de interferências com tubulação de vapor. Afastamentos quando em redes em paralelo maior ou igual a 50 mm e quando em cruzamentos maior ou igual a 10 mm.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-4">Afastamentos e a ocorrência de interferências com tubulação de vapor. Afastamentos quando em redes em paralelo maior ou igual a 50 mm e quando em cruzamentos maior ou igual a 10 mm.</span></td>
                                     <td>
                                         <select id="d_distr_interna_4">
                                             <option value="N/A">N/A</option>
@@ -98,7 +99,7 @@
                                 </tr>
                                 <tr>
                                     <td>5</td>
-                                    <td><span class="legend">Afastamentos e a ocorrência de interferências com chaminés. Afastamentos quando em redes em paralelo maior ou igual a 50 mm e quando em cruzamentos maior ou igual a 50 mm.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-5">Afastamentos e a ocorrência de interferências com chaminés. Afastamentos quando em redes em paralelo maior ou igual a 50 mm e quando em cruzamentos maior ou igual a 50 mm.</span></td>
                                     <td>
                                         <select id="d_distr_interna_5">
                                             <option value="N/A">N/A</option>
@@ -110,7 +111,7 @@
                                 </tr>
                                 <tr>
                                     <td>6</td>
-                                    <td><span class="legend">Afastamentos e a ocorrência de interferências com tubulação de gás. Afastamentos quando em redes em paralelo maior ou igual a 10 mm e quando em cruzamentos maior ou igual a 10 mm.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-6">Afastamentos e a ocorrência de interferências com tubulação de gás. Afastamentos quando em redes em paralelo maior ou igual a 10 mm e quando em cruzamentos maior ou igual a 10 mm.</span></td>
                                     <td>
                                         <select id="d_distr_interna_6">
                                             <option value="N/A">N/A</option>
@@ -122,7 +123,7 @@
                                 </tr>
                                 <tr>
                                     <td>7</td>
-                                    <td><span class="legend">Afastamentos e a ocorrência de interferências com as demais instalações (águas pluviais, esgoto). Afastamentos quando em redes em paralelo maior ou igual a 50 mm e quando em cruzamentos maior ou igual a 10 mm.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-7">Afastamentos e a ocorrência de interferências com as demais instalações (águas pluviais, esgoto). Afastamentos quando em redes em paralelo maior ou igual a 50 mm e quando em cruzamentos maior ou igual a 10 mm.</span></td>
                                     <td>
                                         <select id="d_distr_interna_7">
                                             <option value="N/A">N/A</option>
@@ -134,7 +135,7 @@
                                 </tr>
                                 <tr>
                                     <td>8</td>
-                                    <td><span class="legend">Encaminhamento da tubulação da rede. Rede não passando por vazios, caixas d'água, caixa de escada ou poços de elevadores.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-8">Encaminhamento da tubulação da rede. Rede não passando por vazios, caixas d'água, caixa de escada ou poços de elevadores.</span></td>
                                     <td>
                                         <select id="d_distr_interna_8">
                                             <option value="N/A">N/A</option>
@@ -146,7 +147,7 @@
                                 </tr>
                                 <tr>
                                     <td>9</td>
-                                    <td><span class="legend">Condições dos elementos de suportação. Suportes íntegros, com robustez compatível, adequadamente distanciados, bem fixados e protegidos contra corrosão.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-9">Condições dos elementos de suportação. Suportes íntegros, com robustez compatível, adequadamente distanciados, bem fixados e protegidos contra corrosão.</span></td>
                                     <td>
                                         <select id="d_distr_interna_9">
                                             <option value="N/A">N/A</option>
@@ -158,7 +159,7 @@
                                 </tr>
                                  <tr>
                                     <td>10</td>
-                                    <td><span class="legend">Identificação da tubulação de gás. Pintura na cor padrão ou de etiqueta com a palavra gás.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-10">Identificação da tubulação de gás. Pintura na cor padrão ou de etiqueta com a palavra gás.</span></td>
                                     <td>
                                         <select id="d_distr_interna_10">
                                             <option value="N/A">N/A</option>
@@ -170,7 +171,7 @@
                                 </tr>
                                 <tr>
                                     <td>11</td>
-                                    <td><span class="legend">Tipo de material utilizado na rede, inclusive tubos multicamada e PE x Aço. Utilização de materiais não contemplados na ABNT NBR 15526 e Nota Técnica da ABEGÁS.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-11">Tipo de material utilizado na rede, inclusive tubos multicamada e PE x Aço. Utilização de materiais não contemplados na ABNT NBR 15526 e Nota Técnica da ABEGÁS.</span></td>
                                     <td>
                                         <select id="d_distr_interna_11">
                                             <option value="N/A">N/A</option>
@@ -182,7 +183,7 @@
                                 </tr>
                                 <tr>
                                     <td>12</td>
-                                    <td><span class="legend">Integridade do material utilizado na rede. Inexistência de amassamentos, corrosão ou fissuras.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-12">Integridade do material utilizado na rede. Inexistência de amassamentos, corrosão ou fissuras.</span></td>
                                     <td>
                                         <select id="d_distr_interna_12">
                                             <option value="N/A">N/A</option>
@@ -194,7 +195,7 @@
                                 </tr>
                                 <tr>
                                     <td>13</td>
-                                    <td><span class="legend">Local de instalação dos materiais. Adequação dos materiais quanto a aspectos de proteção, conforme ABNT NBR 15526.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-13">Local de instalação dos materiais. Adequação dos materiais quanto a aspectos de proteção, conforme ABNT NBR 15526.</span></td>
                                     <td>
                                         <select id="d_distr_interna_13">
                                             <option value="N/A">N/A</option>
@@ -206,7 +207,7 @@
                                 </tr>
                                 <tr>
                                     <td>14</td>
-                                    <td><span class="legend">Estanqueidade para a rede de distribuição interna. Vazamento após realização de ensaio entre 1 l/h e 5 l/h.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-14">Estanqueidade para a rede de distribuição interna. Vazamento após realização de ensaio entre 1 l/h e 5 l/h.</span></td>
                                     <td>
                                         <select id="d_distr_interna_14">
                                             <option value="N/A">N/A</option>
@@ -218,7 +219,7 @@
                                 </tr>
                                 <tr>
                                     <td>15</td>
-                                    <td><span class="legend">Estanqueidade para a rede de distribuição interna. Vazamento após realização de ensaio maior que 5 l/h.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-15">Estanqueidade para a rede de distribuição interna. Vazamento após realização de ensaio maior que 5 l/h.</span></td>
                                     <td>
                                         <select id="d_distr_interna_15">
                                             <option value="N/A">N/A</option>
@@ -230,7 +231,7 @@
                                 </tr>
                                 <tr>
                                     <td>16</td>
-                                    <td><span class="legend">Estanqueidade das conexões de ligação dos medidores. Conexões estanques.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-16">Estanqueidade das conexões de ligação dos medidores. Conexões estanques.</span></td>
                                     <td>
                                         <select id="d_distr_interna_16">
                                             <option value="N/A">N/A</option>
@@ -242,7 +243,7 @@
                                 </tr>
                                 <tr>
                                     <td>17</td>
-                                    <td><span class="legend">Condições de acesso ao abrigo. Desobstruído, permitindo a marcação, inspeção e manutenção dos medidores.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-17">Condições de acesso ao abrigo. Desobstruído, permitindo a marcação, inspeção e manutenção dos medidores.</span></td>
                                     <td>
                                         <select id="d_distr_interna_17">
                                             <option value="N/A">N/A</option>
@@ -254,7 +255,7 @@
                                 </tr>
                                 <tr>
                                     <td>18</td>
-                                    <td><span class="legend">Abertura para ventilação permanente no abrigo de medidores. Existência de abertura para ventilação permanente superior ou inferior do abrigo, conforme gás combustível utilizado na instalação.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-18">Abertura para ventilação permanente no abrigo de medidores. Existência de abertura para ventilação permanente superior ou inferior do abrigo, conforme gás combustível utilizado na instalação.</span></td>
                                     <td>
                                         <select id="d_distr_interna_18">
                                             <option value="N/A">N/A</option>
@@ -266,7 +267,7 @@
                                 </tr>
                                 <tr>
                                     <td>19</td>
-                                    <td><span class="legend">Abertura para ventilação permanente no abrigo de medidores. Área da ventilação permanente superior ou inferior equivalente a 1/10 da área da planta baixa.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-19">Abertura para ventilação permanente no abrigo de medidores. Área da ventilação permanente superior ou inferior equivalente a 1/10 da área da planta baixa.</span></td>
                                     <td>
                                         <select id="d_distr_interna_19">
                                             <option value="N/A">N/A</option>
@@ -278,7 +279,7 @@
                                 </tr>
                                 <tr>
                                     <td>20</td>
-                                    <td><span class="legend">Condição de instalação de medidores localizados nos andares. Existência de ventilação permanente, para o exterior.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-20">Condição de instalação de medidores localizados nos andares. Existência de ventilação permanente, para o exterior.</span></td>
                                     <td>
                                         <select id="d_distr_interna_20">
                                             <option value="N/A">N/A</option>
@@ -290,7 +291,7 @@
                                 </tr>
                                 <tr>
                                     <td>21</td>
-                                    <td><span class="legend">Dispositivos no interior do abrigo. Ausência de dispositivos e/ou instalações elétricas no interior do abrigo, que possam produzir chama ou centelhamento.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-21">Dispositivos no interior do abrigo. Ausência de dispositivos e/ou instalações elétricas no interior do abrigo, que possam produzir chama ou centelhamento.</span></td>
                                     <td>
                                         <select id="d_distr_interna_21">
                                             <option value="N/A">N/A</option>
@@ -302,7 +303,7 @@
                                 </tr>
                                  <tr>
                                     <td>22</td>
-                                    <td><span class="legend">Dispositivos no interior do abrigo. Ausência de entulhos, botijões de GLP ou outros materiais no interior do abrigo.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-22">Dispositivos no interior do abrigo. Ausência de entulhos, botijões de GLP ou outros materiais no interior do abrigo.</span></td>
                                     <td>
                                         <select id="d_distr_interna_22">
                                             <option value="N/A">N/A</option>
@@ -314,7 +315,7 @@
                                 </tr>
                                  <tr>
                                     <td>23</td>
-                                    <td><span class="legend">Dispositivos no interior do abrigo. Luminárias, interruptores, tomadas, e/ou outras instalações elétricas para uso da cabine com blindagem a prova de explosão.</span></td>
+                                    <td><span class="legend" id="d-dist-interna-23">Dispositivos no interior do abrigo. Luminárias, interruptores, tomadas, e/ou outras instalações elétricas para uso da cabine com blindagem a prova de explosão.</span></td>
                                     <td>
                                         <select id="d_distr_interna_23">
                                             <option value="N/A">N/A</option>
@@ -324,6 +325,7 @@
                                         </select>
                                     </td>
                                 </tr>
+                            </tbody>
                             </table>
                         </div>
                         <!--FIM DO MODAL DE DISTRIBUIÇÃO INTERNA-->
@@ -351,772 +353,773 @@
                                     <th>Item de Inspeção</th>
                                     <th colspan="3">Aparelhos</th>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td style="text-align: center;">1</td>
-                                    <td style="text-align: center;">2</td>
-                                    <td style="text-align: center;">3</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td><span class="legend">Local de instalação dos aparelhos a gás de circuito aberto. Não devem ser instalados em dormitório e banheiro.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_1-1" style="width: 65;">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_1-2" style="width: 65;">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_1-3" style="width: 65;">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><span class="legend">Volume do local de instalação de aparelho a gás de circuito aberto, com ou sem duto de exaustão natural. Volume mínimo do ambiente maior ou igual a 6 m³.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_2-1" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_2-2" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_2-3" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><span class="legend">Cozinha apenas com fogão de até 216 kcal/min  e com volume maior ou igual que 6 m³. Ventilação com área total útil e permanente de no mínimo 800 cm². (Superior –600 cm² (para uma área externa) e inferior – 200 cm²). Ambientes com aparelhos de potência superior  216kcal/min, será necessário multiplicar a potência por 1,5. Caso dê <= 800 manter ventilação acima, caso seja > 800, 33% desse valor é igual a ventilação inferior e 67% desse valor é igual a ventilação superior.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_3-1" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_3-2" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_3-3" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><span class="legend">Aquecedor de circuito aberto com potência de até 200 Kcal/min instalados em banheiro, condicionado à conformidade das demais adequações e a aplicação de ações mitigadoras. Volume do ambiente maior ou igual a 6m³.</span></td>
-                                    <td>
-                                        
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_4-1" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_4-2" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td><span class="legend">Aquecedor de circuito aberto instalados em banheiro no interior de BOXE. Divisória acima de 1,80 m e vão da divisória ao teto menor que 0,40 m.</span></td>
-                                    <td></td>
-                                    <td>
-                                        <select id="d_ap-gas_5-1" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_5-2" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td><span class="legend">Aparelho a gás de circuito aberto com exaustão mecânica. Exaustão mecânica ligada (condicionado à conformidade das demais adequações e a aplicação de ações mitigadoras).</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_6-1" >
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_6-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_6-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td><span class="legend">Aquecedor instalado no interior de banheiro com exaustão mecânica (RJ).</span></td>
-                                    <td></td>
-                                    <td>
-                                        <select id="d_ap-gas_7-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_7-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td><span class="legend">Aquecedor de circuito aberto instalados em outros ambientes, exceto banheiro. Abertura para ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Inexistência.</span></td>
-                                    <td></td>
-                                    <td>
-                                        <select id="d_ap-gas_8-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_8-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td><span class="legend">Aquecedor de circuito aberto instalados em outros ambientes, exceto banheiro. Abertura para ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Insuficiência.</span></td>
-                                    <td></td>
-                                    <td>
-                                        <select id="d_ap-gas_9-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_9-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td>10</td>
-                                    <td><span class="legend">Aquecedor de circuito aberto instalados em outros ambientes, exceto banheiro. Instalação de duto de exaustão e terminal, conforme ABNT NBR 13103.</span></td>
-                                    <td></td>
-                                    <td>
-                                        <select id="d_ap-gas_10-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_10-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>11</td>
-                                    <td><span class="legend">Ventilação permanente, superior e/ou inferior, no local de instalação do aparelho a gás de circuito aberto, sem duto de exaustão ou duto de exaustão natural. Abertura de ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Inexistência</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_11-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_11-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_11-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>12</td>
-                                    <td><span class="legend">Ventilação permanente, superior e/ou inferior, no local de instalação do aparelho a gás de circuito aberto, sem duto de exaustão ou duto de exaustão natural. Abertura de ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ².Insuficiência</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_12-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_12-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_12-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>13</td>
-                                    <td><span class="legend">Abertura permanente do local de instalação de aparelho a gás de circuito aberto, com exaustão forçada. Abertura de ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Inexistência</span></td>
-                                    <td></td>
-                                    <td>
-                                        <select id="d_ap-gas_13-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_13-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>14</td>
-                                    <td><span class="legend">Abertura permanente do local de instalação de aparelho a gás de circuito aberto, com exaustão forçada. Abertura de ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Insuficiência</span></td>
-                                    <td></td>
-                                    <td>
-                                        <select id="d_ap-gas_14-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_14-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>15</td>
-                                    <td><span class="legend">Aparelho de cocção único em cozinha. Existência de ventilação com área total útil e permanente de no mínimo 800 cm². (Superior – 600 cm² (para uma área externa) e inferior – 200 cm²)</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_15-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_15-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_15-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>16</td>
-                                    <td><span class="legend">Abertura de ventilação permanente indireta através de duto. Comprimento do duto até 3 metros, 1 vez a área mínima da abertura superior.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_16-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_16-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_16-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>17</td>
-                                    <td><span class="legend">Abertura de ventilação permanente indireta através de duto.  Comprimento do duto de 3 até 10 metros, 1,5 vez a área mínima da abertura superior.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_17-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_17-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_17-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>18</td>
-                                    <td><span class="legend">Abertura de ventilação permanente indireta através de duto. Comprimento do duto acima de 10 metros, 2 vezes a área mínima da abertura superior.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_18-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_18-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_18-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>19</td>
-                                    <td><span class="legend">Aparelho permanente superior indireta em comunicação com o exterior. Seção livre mínima de 1600 cm²até o comprimento de 4 m.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_19-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_19-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_19-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>20</td>
-                                    <td><span class="legend">Ventilação permanente superior e inferior de um ambiente contíguo com área livre, mínima, de 1,5 m², com somatório dos volumes igual ou maior que 6 m³. Existência de ventilação permanente superior e inferior conforme ABNT NBR 13103. Inexistência</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_20-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_20-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_20-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>21</td>
-                                    <td><span class="legend">Ventilação permanente superior e inferior de um ambiente contíguo com área livre, mínima, de 1,5 m², com somatório dos volumes igual ou maior que 6 m³. Existência de ventilação permanente superior e inferior conforme ABNT NBR 13103. Insuficiência</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_21-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_21-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_21-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td>22</td>
-                                    <td><span class="legend">Ventilação permanente superior e inferior de um ambiente contíguo com área livre menor que 1,5 m², porém maior ou igual a 1,2 m² e potência total igual ou menor que 216 kcal/min. Ventilação com área total útil e permanente de no mínimo 600 cm² para uma área externa.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_22-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_22-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_22-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td><span class="legend">Condições físicas dos aparelhos a gás. Inexistência de peças e componentes soltos ou danificados.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_23-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_23-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_23-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>24</td>
-                                    <td><span class="legend">Estanqueidade de gás nos aparelhos. Aparelhos a gás estanques, sem vazamento de gás.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_24-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_24-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_24-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>25</td>
-                                    <td><span class="legend">Estanqueidade de água nos aparelhos. Aparelhos a gás estanques, sem vazamento de água.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_25-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_25-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_25-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>26</td>
-                                    <td><span class="legend">Condições de chama do queimador do aparelho. Chama do aparelho estável, sem variação de cor azul (em potência máxima e mínima).</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_26-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_26-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_26-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>27</td>
-                                    <td><span class="legend">Sistema de acendimento automático do aparelho. Sistema automático funcionando conforme as orientações do fabricante.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_27-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_27-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_27-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>28</td>
-                                    <td><span class="legend">Dispositivo de segurança do aparelho. Dispositivo de segurança funcionando conforme as orientações do fabricante.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_28-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_28-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_28-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>29</td>
-                                    <td><span class="legend">Botões de regulagem e elementos de controle. Funcionamento conforme manual do fabricante.</span></td>
-                                    <td>
-                                        <select id="d_ap-gas_29-1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_29-2">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="d_ap-gas_29-3">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
-                                        </select>
-                                    </td>
-                                </tr>
+                                <tbody id="d_ap-gas-tbody">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="text-align: center;">1</td>
+                                        <td style="text-align: center;">2</td>
+                                        <td style="text-align: center;">3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><span class="legend" id="d_ap-gas_1">Local de instalação dos aparelhos a gás de circuito aberto. Não devem ser instalados em dormitório e banheiro.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_1-1" style="width: 65;">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_1-2" style="width: 65;">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_1-3" style="width: 65;">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><span class="legend" id="d_ap-gas_2">Volume do local de instalação de aparelho a gás de circuito aberto, com ou sem duto de exaustão natural. Volume mínimo do ambiente maior ou igual a 6 m³.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_2-1" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_2-2" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_2-3" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><span class="legend" id="d_ap-gas_3">Cozinha apenas com fogão de até 216 kcal/min  e com volume maior ou igual que 6 m³. Ventilação com área total útil e permanente de no mínimo 800 cm². (Superior –600 cm² (para uma área externa) e inferior – 200 cm²). Ambientes com aparelhos de potência superior  216kcal/min, será necessário multiplicar a potência por 1,5. Caso dê <= 800 manter ventilação acima, caso seja > 800, 33% desse valor é igual a ventilação inferior e 67% desse valor é igual a ventilação superior.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_3-1" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_3-2" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_3-3" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><span class="legend" id="d_ap-gas_4">Aquecedor de circuito aberto com potência de até 200 Kcal/min instalados em banheiro, condicionado à conformidade das demais adequações e a aplicação de ações mitigadoras. Volume do ambiente maior ou igual a 6m³.</span></td>
+                                        <td>
 
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_4-1" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_4-2" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td><span class="legend" id="d_ap-gas_5">Aquecedor de circuito aberto instalados em banheiro no interior de BOXE. Divisória acima de 1,80 m e vão da divisória ao teto menor que 0,40 m.</span></td>
+                                        <td></td>
+                                        <td>
+                                            <select id="d_ap-gas_5-1" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_5-2" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td><span class="legend" id="d_ap-gas_6">Aparelho a gás de circuito aberto com exaustão mecânica. Exaustão mecânica ligada (condicionado à conformidade das demais adequações e a aplicação de ações mitigadoras).</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_6-1" >
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_6-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_6-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td><span class="legend" id="d_ap-gas_7">Aquecedor instalado no interior de banheiro com exaustão mecânica (RJ).</span></td>
+                                        <td></td>
+                                        <td>
+                                            <select id="d_ap-gas_7-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_7-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td><span class="legend" id="d_ap-gas_8">Aquecedor de circuito aberto instalados em outros ambientes, exceto banheiro. Abertura para ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Inexistência.</span></td>
+                                        <td></td>
+                                        <td>
+                                            <select id="d_ap-gas_8-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_8-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td><span class="legend" id="d_ap-gas_9">Aquecedor de circuito aberto instalados em outros ambientes, exceto banheiro. Abertura para ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Insuficiência.</span></td>
+                                        <td></td>
+                                        <td>
+                                            <select id="d_ap-gas_9-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_9-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td><span class="legend" id="d_ap-gas_10">Aquecedor de circuito aberto instalados em outros ambientes, exceto banheiro. Instalação de duto de exaustão e terminal, conforme ABNT NBR 13103.</span></td>
+                                        <td></td>
+                                        <td>
+                                            <select id="d_ap-gas_10-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_10-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>11</td>
+                                        <td><span class="legend" id="d_ap-gas_11">Ventilação permanente, superior e/ou inferior, no local de instalação do aparelho a gás de circuito aberto, sem duto de exaustão ou duto de exaustão natural. Abertura de ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Inexistência</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_11-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_11-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_11-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td><span class="legend" id="d_ap-gas_12">Ventilação permanente, superior e/ou inferior, no local de instalação do aparelho a gás de circuito aberto, sem duto de exaustão ou duto de exaustão natural. Abertura de ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ².Insuficiência</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_12-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_12-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_12-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>13</td>
+                                        <td><span class="legend" id="d_ap-gas_13">Abertura permanente do local de instalação de aparelho a gás de circuito aberto, com exaustão forçada. Abertura de ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Inexistência</span></td>
+                                        <td></td>
+                                        <td>
+                                            <select id="d_ap-gas_13-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_13-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>14</td>
+                                        <td><span class="legend" id="d_ap-gas_14">Abertura permanente do local de instalação de aparelho a gás de circuito aberto, com exaustão forçada. Abertura de ventilação permanente superior de 600 cm² e inferior de 200 cm². Somando um total de no mínimo 800 cm ². Insuficiência</span></td>
+                                        <td></td>
+                                        <td>
+                                            <select id="d_ap-gas_14-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_14-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>15</td>
+                                        <td><span class="legend" id="d_ap-gas_15">Aparelho de cocção único em cozinha. Existência de ventilação com área total útil e permanente de no mínimo 800 cm². (Superior – 600 cm² (para uma área externa) e inferior – 200 cm²)</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_15-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_15-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_15-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>16</td>
+                                        <td><span class="legend" id="d_ap-gas_16">Abertura de ventilação permanente indireta através de duto. Comprimento do duto até 3 metros, 1 vez a área mínima da abertura superior.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_16-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_16-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_16-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>17</td>
+                                        <td><span class="legend" id="d_ap-gas_17">Abertura de ventilação permanente indireta através de duto.  Comprimento do duto de 3 até 10 metros, 1,5 vez a área mínima da abertura superior.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_17-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_17-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_17-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>18</td>
+                                        <td><span class="legend" id="d_ap-gas_18">Abertura de ventilação permanente indireta através de duto. Comprimento do duto acima de 10 metros, 2 vezes a área mínima da abertura superior.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_18-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_18-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_18-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>19</td>
+                                        <td><span class="legend" id="d_ap-gas_19">Aparelho permanente superior indireta em comunicação com o exterior. Seção livre mínima de 1600 cm²até o comprimento de 4 m.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_19-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_19-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_19-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>20</td>
+                                        <td><span class="legend" id="d_ap-gas_20">Ventilação permanente superior e inferior de um ambiente contíguo com área livre, mínima, de 1,5 m², com somatório dos volumes igual ou maior que 6 m³. Existência de ventilação permanente superior e inferior conforme ABNT NBR 13103. Inexistência</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_20-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_20-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_20-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>21</td>
+                                        <td><span class="legend" id="d_ap-gas_21">Ventilação permanente superior e inferior de um ambiente contíguo com área livre, mínima, de 1,5 m², com somatório dos volumes igual ou maior que 6 m³. Existência de ventilação permanente superior e inferior conforme ABNT NBR 13103. Insuficiência</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_21-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_21-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_21-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>22</td>
+                                        <td><span class="legend" id="d_ap-gas_22">Ventilação permanente superior e inferior de um ambiente contíguo com área livre menor que 1,5 m², porém maior ou igual a 1,2 m² e potência total igual ou menor que 216 kcal/min. Ventilação com área total útil e permanente de no mínimo 600 cm² para uma área externa.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_22-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_22-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_22-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>23</td>
+                                        <td><span class="legend" id="d_ap-gas_23">Condições físicas dos aparelhos a gás. Inexistência de peças e componentes soltos ou danificados.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_23-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_23-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_23-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>24</td>
+                                        <td><span class="legend" id="d_ap-gas_24">Estanqueidade de gás nos aparelhos. Aparelhos a gás estanques, sem vazamento de gás.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_24-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_24-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_24-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>25</td>
+                                        <td><span class="legend" id="d_ap-gas_25">Estanqueidade de água nos aparelhos. Aparelhos a gás estanques, sem vazamento de água.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_25-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_25-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_25-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>26</td>
+                                        <td><span class="legend" id="d_ap-gas_26">Condições de chama do queimador do aparelho. Chama do aparelho estável, sem variação de cor azul (em potência máxima e mínima).</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_26-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_26-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_26-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>27</td>
+                                        <td><span class="legend" id="d_ap-gas_27">Sistema de acendimento automático do aparelho. Sistema automático funcionando conforme as orientações do fabricante.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_27-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_27-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_27-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>28</td>
+                                        <td><span class="legend" id="d_ap-gas_28">Dispositivo de segurança do aparelho. Dispositivo de segurança funcionando conforme as orientações do fabricante.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_28-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_28-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_28-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>29</td>
+                                        <td><span class="legend" id="d_ap-gas_29">Botões de regulagem e elementos de controle. Funcionamento conforme manual do fabricante.</span></td>
+                                        <td>
+                                            <select id="d_ap-gas_29-1">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_29-2">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="d_ap-gas_29-3">
+                                                <option value="N/A">N/A</option>
+                                                <option value="C">C</option>
+                                                <option value="I">I</option>
+                                                <option value="RI">RI</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         
@@ -1143,6 +1146,7 @@
                                     <th>Item de Inspeção</th>
                                     <th colspan="3">Aparelhos</th>
                                 </tr>
+                                <tbody id="d_liga-ap-tbody">
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -1152,7 +1156,7 @@
                                 </tr>
                                 <tr>
                                     <td>1</td>
-                                    <td><span class="legend">Estanqueidade nas ligações da rede com o aparelho. Ligação do aparelho com a rede estanque.</span></td>
+                                    <td><span class="legend" id="d_liga-ap_1">Estanqueidade nas ligações da rede com o aparelho. Ligação do aparelho com a rede estanque.</span></td>
                                     <td>
                                         <select id="d_liga-ap_1_1" style="width: 65;">
                                             <option value="N/A">N/A</option>
@@ -1180,7 +1184,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><span class="legend">Material utilizado na ligação do aparelho. Tubos flexíveis conforme ABNT NBR 14177, ABNT NBR 113419, ABNT NBR 14745 ou ABNT NBR 14955.</span></td>
+                                    <td><span class="legend" id="d_liga-ap_2">Material utilizado na ligação do aparelho. Tubos flexíveis conforme ABNT NBR 14177, ABNT NBR 113419, ABNT NBR 14745 ou ABNT NBR 14955.</span></td>
                                     <td>
                                         <select id="d_liga-ap_2_1">
                                             <option value="N/A">N/A</option>
@@ -1208,7 +1212,7 @@
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><span class="legend">Condições físicas do tubo flexível. Inexistência de danos físicos nos tubos flexíveis.</span></td>
+                                    <td><span class="legend" id="d_liga-ap_3">Condições físicas do tubo flexível. Inexistência de danos físicos nos tubos flexíveis.</span></td>
                                     <td>
                                         <select id="d_liga-ap_3_1">
                                             <option value="N/A">N/A</option>
@@ -1236,7 +1240,7 @@
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td><span class="legend">Estanqueidade na válvula de bloqueio do aparelho. Válvula de bloqueio estanque.</span></td>
+                                    <td><span class="legend" id="d_liga-ap_4">Estanqueidade na válvula de bloqueio do aparelho. Válvula de bloqueio estanque.</span></td>
                                     <td>
                                         <select id="d_liga-ap_4_1">
                                             <option value="N/A">N/A</option>
@@ -1264,14 +1268,10 @@
                                 </tr>
                                 <tr>
                                     <td>5</td>
-                                    <td><span class="legend">Identificação do ponto de gás do aquecedor. Identificado na cor amarela e na posição central.</span></td>
-                                    <td></td>
+                                    <td><span class="legend" id="d_liga-ap_5">Identificação do ponto de gás do aquecedor. Identificado na cor amarela e na posição central.</span></td>
                                     <td>
-                                        <select id="d_liga-ap_5_1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
+                                        <select id="d_liga-ap_5_1" readonly="readonly">
+                                           
                                         </select>
                                     </td>
                                     <td>
@@ -1282,10 +1282,18 @@
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
+                                    <td>
+                                        <select id="d_liga-ap_5_3">
+                                            <option value="N/A">N/A</option>
+                                            <option value="C">C</option>
+                                            <option value="I">I</option>
+                                            <option value="RI">RI</option>
+                                        </select>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>6</td>
-                                    <td><span class="legend">Localização da válvula de bloqueio do aparelho. Válvula de bloqueio em local de fácil acesso, com ventilação adequada e protegidas, de forma a se evitar acionamento acidental.</span></td>
+                                    <td><span class="legend" id="d_liga-ap_6">Localização da válvula de bloqueio do aparelho. Válvula de bloqueio em local de fácil acesso, com ventilação adequada e protegidas, de forma a se evitar acionamento acidental.</span></td>
                                     <td>
                                         <select id="d_liga-ap_6_1">
                                             <option value="N/A">N/A</option>
@@ -1313,7 +1321,7 @@
                                 </tr>
                                 <tr>
                                     <td>7</td>
-                                    <td><span class="legend">Pontos de espera sem uso. Tamponamento adequado com bujão ou tampa rosqueada de metal e estanque dos pontos.</span></td>
+                                    <td><span class="legend" id="d_liga-ap_7">Pontos de espera sem uso. Tamponamento adequado com bujão ou tampa rosqueada de metal e estanque dos pontos.</span></td>
                                     <td>
                                         <select id="d_liga-ap_7_1">
                                             <option value="N/A">N/A</option>
@@ -1341,14 +1349,10 @@
                                 </tr>
                                 <tr>
                                     <td>8</td>
-                                    <td><span class="legend">Condições dimensionais das chaminés. Diâmetro do duto igual ao diâmetro da saída da chaminé do aparelho a gás. ( Ou com adaptador conforme Abegas)</span></td>
-                                    <td></td>
-                                    <td>
-                                        <select id="d_liga-ap_8_1">
-                                            <option value="N/A">N/A</option>
-                                            <option value="C">C</option>
-                                            <option value="I">I</option>
-                                            <option value="RI">RI</option>
+                                    <td><span class="legend" id="d_liga-ap_8">Condições dimensionais das chaminés. Diâmetro do duto igual ao diâmetro da saída da chaminé do aparelho a gás. ( Ou com adaptador conforme Abegas)</span></td>
+                                     <td>
+                                        <select id="d_liga-ap_8_1" readonly="readonly">
+                                           
                                         </select>
                                     </td>
                                     <td>
@@ -1359,17 +1363,21 @@
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td><span class="legend">Instalação da chaminé individual. Chaminé com encaixes firmes nas conexões com os aparelhos a gás, conforme ABNT NBR 13103.</span></td>
-                                    <td></td>
                                     <td>
-                                        <select id="d_liga-ap_9_1">
+                                        <select id="d_liga-ap_8_3">
                                             <option value="N/A">N/A</option>
                                             <option value="C">C</option>
                                             <option value="I">I</option>
                                             <option value="RI">RI</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td><span class="legend" id="d_liga-ap_9">Instalação da chaminé individual. Chaminé com encaixes firmes nas conexões com os aparelhos a gás, conforme ABNT NBR 13103.</span></td>
+                                     <td>
+                                        <select id="d_liga-ap_9_1" readonly="readonly">
+                                           
                                         </select>
                                     </td>
                                     <td>
@@ -1380,7 +1388,16 @@
                                             <option value="RI">RI</option>
                                         </select>
                                     </td>
+                                    <td>
+                                        <select id="d_liga-ap_9_3">
+                                            <option value="N/A">N/A</option>
+                                            <option value="C">C</option>
+                                            <option value="I">I</option>
+                                            <option value="RI">RI</option>
+                                        </select>
+                                    </td>
                                 </tr>
+                            </tbody>
                             </table>
                         </div>
                         

@@ -67,7 +67,10 @@ function adicionaLinhaTabela_peca(){
         //SELECIONA VALORES 
         var desc = $('#o_peca option:selected').text();
         var qTd = $('#o_qtd-pecas').val();
-        var valorUnit = $('#o_peca option:selected').attr('id');
+        var valorUnit = $('#o_peca option:selected').val();
+        var idTr = $('#o_peca option:selected').attr('id');
+        var idPeca = $('#o_peca option:selected').attr('id');
+
 
         //ADICIONA MASCARA VALOR UNITARIO
         var valorUnitMask = numeroParaMoeda(valorUnit, 2, ',', '.');
@@ -76,18 +79,18 @@ function adicionaLinhaTabela_peca(){
         var valorTotalLinhaMask = numeroParaMoeda(valorTotalLinha, 2, ',', '.');
 
         //ADICIONA LINHA NA TABELA
-        var adicionaLinha = '<tr>'+
-                                '<td style="text-align: center;">'+
-                                   desc+ 
+        var adicionaLinha = '<tr id="pecas'+idTr+'">'+
+                                '<td><input type="text" id="'+idPeca+'" name="'+desc+'" value="'+desc+'" style="width:100% !important;" disabled>'+
+                                   //desc+ 
                                 '</td>'+
-                                '<td style="text-align: center;">'+
-                                   qTd +
+                                '<td><input type="text" id="'+idPeca+'" name="Qtd" value="'+qTd+'" disabled>'+
+                                   //qTd +
                                 '</td >'+
-                                '<td id="j_valor" style="text-align: center;">'+
-                                   valorUnitMask+ 
+                                '<td id="j_valor"><input id="'+idPeca+'" type="text" name="valor" value="'+valorUnitMask+'"  disabled>'+
+                                   //valorUnitMask+ 
                                 '</td>'+
-                                '<td id="j_valor" class="valorUnit" style="text-align: center;">'+
-                                   valorTotalLinha+
+                                '<td id="j_valor" class="valorUnit"><input id="'+idPeca+'" type="text" name="valorTotal" value="'+valorTotalLinha+'"  disabled>'+
+                                   //valorTotalLinha+
 
                                 '</td>'+
                                 '<td style="text-align: center;"><span class="j_add_pecas icon-cross btn btn_red"></span>'+
@@ -138,7 +141,8 @@ function adicionaLinhaTabela_s(){
             //EXIBE SELECT PARA CLIENTE COM PLANO
             var desc = $('#o_servicos_c_com_p option:selected').text();
             var qTd = $('#o_qtd_servicos').val();
-            var valorUnit = $('#o_servicos_c_com_p option:selected').attr('id');
+            var valorUnit = $('#o_servicos_c_com_p option:selected').val();
+            var idTr = $('#o_servicos_c_com_p option:selected').attr('id');
 
        }
        if(radiosChecked == 'o_tipoClienteSp'){
@@ -147,8 +151,12 @@ function adicionaLinhaTabela_s(){
             var desc = $('#o_servicos_s_com_p option:selected').text();
             var qTd = $('#o_qtd_servicos').val();
             var valorUnit = $('#o_servicos_s_com_p option:selected').attr('id');
+            var valorUnit = $('#o_servicos_s_com_p option:selected').val();
+            var idTr = $('#o_servicos_s_com_p option:selected').attr('id');
 
        }
+
+       var input_hidden = '<input id="'+idTr+'" name="'+desc+'" value="'+desc+'">';
 
         //ADICIONA MASCARA VALOR UNITARIO
         var valorUnitMask = numeroParaMoeda(valorUnit, 2, ',', '.');
@@ -157,26 +165,27 @@ function adicionaLinhaTabela_s(){
         var valorTotalLinhaMask = numeroParaMoeda(valorTotalLinha, 2, ',', '.');
 
         //ADICIONA LINHA NA TABELA
-        var adicionaLinha = '<tr>'+
-                                '<td style="text-align: center;">'+
-                                   desc+ 
+        var adicionaLinha = '<tr id="'+idTr+'">'+
+                                '<td style="text-align: center;"><input type="text" name="'+desc+'" value="'+desc+'" style="width:100% !important;" disabled>'+
+                                   //desc+ 
                                 '</td>'+
-                                '<td style="text-align: center;">'+
-                                   qTd +
+                                '<td style="text-align: center;"><input type="text" name="Qtd" value="'+qTd+'" style="width:100% !important;" disabled>'+
+                                   //qTd +
                                 '</td >'+
-                                '<td id="j_valor" style="text-align: center;">'+
-                                   valorUnitMask+ 
+                                '<td id="j_valor" style="text-align: center;"><input type="text" name="valorUnit" value="'+valorUnitMask+'" style="width:100% !important;" disabled>'+
+                                   //valorUnitMask+ 
                                 '</td>'+
-                                '<td id="j_valor" class="valorUnit" style="text-align: center;">'+
-                                   valorTotalLinha+
+                                '<td id="j_valor" class="valorUnit" style="text-align: center;"><input type="text" name="valorTotal" value="'+valorTotalLinha+'" style="width:100% !important;" disabled>'+
+                                   //valorTotalLinha+
 
+                                '</td>'+
                                 '</td>'+
                                 '<td style="text-align: center;"><span class="j_add_pecas icon-cross btn btn_red"></span>'+
                                 '</td>'+
                             '</tr>';
 
             $('#o_tabela-pecasEservicos').prepend(adicionaLinha);
-            console.log(valorTotalLinhaMask);
+            
            calculaTotalTable();
     //})
 }
@@ -184,8 +193,8 @@ function adicionaLinhaTabela_s(){
 //SOMA DO TOTAL DE TODAS AS LINHAS DA TABELA
 function calculaTotalTable(){
     valorTotal = 0;
-    $('.valorUnit').each(function(){
-        valorTotal += parseFloat($(this).text());
+    $('.valorUnit input').each(function(){
+        valorTotal += parseFloat($(this).val());
         console.log(valorTotal);
         valorTotalSMask = moedaParaNumero(valorTotal);
         valorTotalMask = numeroParaMoeda(valorTotalSMask, 2, ',', '.')
@@ -206,16 +215,43 @@ function removeLinhaTabela(){
 }
 
 //DETERMINA VALOR MÍNIMO
-function valorMinimoInput(){
-    var valorDigitado = $('#o_parcelas-seleciona').val();
-    if(valorDigitado < 13){
-        $('#o_parcelas-seleciona').val(13);
+function valorMinimoInput(id,valorMin){
+    var valorDigitado = $(id).val();
+    if(valorDigitado < valorMin){
+        $(id).val(valorMin);
     }
 }
 
+//
+
+//SETAR VALOR MÍNIMO PARA INPUTS
+
 $('#o_parcelas-seleciona').blur(function(){
-     valorMinimoInput();
+     valorMinimoInput('#o_parcelas-seleciona',13);
 })
+
+$('#o_qtd-pecas').blur(function(){
+     valorMinimoInput('#o_qtd-pecas',1);
+})
+
+$('#o_qtd_servicos').blur(function(){
+     valorMinimoInput('#o_qtd_servicos',1);
+})
+
+
+//
+$('.o_parcelas').change(function(){
+    valor = $(this).val();
+  if(valor == 'o_parcelas_maior_12'){
+    $('#o_parcelas-seleciona').fadeIn(tempoEvento);
+    $('#o_parcelas-seleciona').val('');
+  }
+  if(valor !== 'o_parcelas_maior_12'){
+    $('#o_parcelas-seleciona').fadeOut(tempoEvento);
+  }
+})
+  
+
 
 /*
 * n = numero a converter
@@ -313,6 +349,23 @@ function consultaDescricao(){
 //consultaDescricao();
 exibeCheckbox();
 
+//LIGAÇÕES DOS APARELHOS A GÁS
+$('#btn_liga-ap').click(function(){
+    var obj = $('#d_liga-ap-tbody span');
+    createHiddenSpan(obj);
+});
+
+//APARELHOS A GÁS
+$('#btn_aparelho_gas').click(function(){
+    var obj = $('#d_ap-gas-tbody span');
+    createHiddenSpan(obj);
+});
+
+//DISTRIBUIÇÃO INTERNA
+$('#btn_distribuicao_interna').click(function(){
+    var obj = $('#d-dist-interna-tbody span');
+    createHiddenSpan(obj);
+});
 
 $('#btn_distribuicao_interna').click(function(){
     var obj = $('#dist-interna select');
@@ -353,6 +406,14 @@ $('#btn_reco').click(function(){
 function createHidden(obj){
     $.each( obj, function( key, value ) {
     var valor = $(value).val();
+    var id = $(value).attr('id');
+      $("<input type='hidden' value='"+valor+"' name='"+id+"'/>").appendTo('.hiddens');
+    });
+}
+
+function createHiddenSpan(obj){
+    $.each( obj, function( key, value ) {
+    var valor = $(value).text();
     var id = $(value).attr('id');
       $("<input type='hidden' value='"+valor+"' name='"+id+"'/>").appendTo('.hiddens');
     });
@@ -979,4 +1040,5 @@ $('html').on('click', '#j_btn_salvar', function (e) {
             
     });
 });
+
 
