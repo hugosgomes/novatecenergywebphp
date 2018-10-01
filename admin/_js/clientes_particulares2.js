@@ -281,21 +281,32 @@ $('#j_statusOrcamento').change(function(){
 function travaCampos(valor){
   switch(valor){
     case '0':
-    case '5':
     case '6':
+    case '7':
       $('#j_select_tecnicos').attr('disabled', true);
       $('.j_data').attr('disabled', true);
       $('.j_valor').attr('disabled', true);
       $('.j_forma').attr('disabled', true);
       $('.j_qnt').attr('disabled', true);
+      $('#j_select_tecnicos').val('');
+      $('.j_data').val('');
+      $('.j_valor').val('');
+      $('.j_forma').val('');
+      $('.j_qnt').val('');
       break;
 
     case '1':
+    case '3':
+    case '4':
+    case '5':
       $('#j_select_tecnicos').attr('disabled', false);
       $('.j_data').attr('disabled', false);
       $('.j_valor').attr('disabled', true);
       $('.j_forma').attr('disabled', true);
       $('.j_qnt').attr('disabled', true);
+      $('.j_valor').val('');
+      $('.j_forma').val('');
+      $('.j_qnt').val('');
       break;
 
     case '2':
@@ -304,15 +315,8 @@ function travaCampos(valor){
       $('.j_valor').attr('disabled', false);
       $('.j_forma').attr('disabled', false);
       $('.j_qnt').attr('disabled', false);
-      break;
-
-    case '3':
-    case '4':
-      $('#j_select_tecnicos').attr('disabled', false);
-      $('.j_data').attr('disabled', false);
-      $('.j_valor').attr('disabled', true);
-      $('.j_forma').attr('disabled', true);
-      $('.j_qnt').attr('disabled', true);
+      $('#j_select_tecnicos').val('');
+      $('.j_data').val('');
       break;
   }
 }

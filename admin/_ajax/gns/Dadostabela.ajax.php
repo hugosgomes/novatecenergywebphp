@@ -172,7 +172,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $Create->ExeCreate("[60_TesteAparelho]",$value);
             }*/
 
-        break;    
+            for ($i=1; $i <= 6; $i++) { 
+                
+            }
+
+        break;
     endswitch;
 
     //RETORNA O CALLBACK

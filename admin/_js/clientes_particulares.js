@@ -280,7 +280,6 @@ function mesAtual(){
       document.getElementById(el).style.display = 'none';
 
   $( ".target" ).change(function() {
-
       document.getElementById(el).style.display = 'none';
   });
 
@@ -301,9 +300,21 @@ function travaCampos(valor){
       $('.j_valor').attr('disabled', true);
       $('.j_forma').attr('disabled', true);
       $('.j_qnt').attr('disabled', true);
+      $('#j_select_tecnicos').val('');
+      $('.j_data').val('');
+      $('.j_valor').val('');
+      $('.j_forma').val('');
+      $('.j_qnt').val('');
       break;
 
     case '1':
+    $('#j_select_tecnicos').attr('disabled', false);
+      $('.j_data').attr('disabled', false);
+      $('.j_valor').attr('disabled', false);
+      $('.j_forma').attr('disabled', false);
+      $('.j_qnt').attr('disabled', false);
+    break;
+
     case '3':
     case '4':
     case '5':
@@ -312,6 +323,9 @@ function travaCampos(valor){
       $('.j_valor').attr('disabled', true);
       $('.j_forma').attr('disabled', true);
       $('.j_qnt').attr('disabled', true);
+      $('.j_valor').val('');
+      $('.j_forma').val('');
+      $('.j_qnt').val('');
       break;
 
     case '2':
@@ -320,6 +334,8 @@ function travaCampos(valor){
       $('.j_valor').attr('disabled', false);
       $('.j_forma').attr('disabled', false);
       $('.j_qnt').attr('disabled', false);
+      $('#j_select_tecnicos').val('');
+      $('.j_data').val('');
       break;
   }
 }
