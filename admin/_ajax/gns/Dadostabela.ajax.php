@@ -54,7 +54,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $aparelhos = [];
 
             //SALVANDO O ATENDIMENTO
-            $atendimento = array(
+            /*$atendimento = array(
                 'idOS' => $PostData['IdOS'],
                 'idTecnico' => $PostData['IdTecnico'],
                 'Status' => 1,
@@ -170,7 +170,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             foreach ($aparelhos as $key => $value) {
                 $Create->ExeCreate("[60_TesteAparelho]",$value);
-            }
+            }*/
 
 // DEFEITOS
                 // DISTRIBUIÇÃO INTERNA
@@ -283,150 +283,174 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
 */
 
-//var_dump($PostData, $_FILES, $_POST);
-            //ENVIO DE ARQUIVO
-                    /*  if (empty($Upload)):
-                          $Upload = new Upload('../../uploads/');
-                      endif;
-
-                      $title = "teste";
-                      $GalleryId = $PostData['IdOS'];
-                      $Image = (!empty($_FILES['fotos_arquivos']) ? $_FILES['fotos_arquivos'] : null);
-                      $Size = (!empty($_FILES['fotos_arquivos']['size']) ? array_sum($_FILES['fotos_arquivos']['size']) : null);
-                      $GalleryName = Check::Name($title);
-
-                      unset($PostData['IdOS'], $PostData['fotos_arquivos']);
-
-                      if (!empty($Image)):
-                          $File = $Image;
-                          $gbFile = array();
-                          $gbCount = count($File['type']);
-                          $gbKeys = array_keys($File);
-                          $gbLoop = 0;
-
-                          if ($gbCount > 10):
-                              $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 25 FOTOS!</b>");
-                          else:
-                              for ($gb = 0; $gb < $gbCount; $gb++):
-                                  foreach ($gbKeys as $Keys):
-                                      $gbFiles[$gb][$Keys] = $File[$Keys][$gb];
-                                  endforeach;
-                              endfor;
-
-                              $jSON['gallery'] = null;
-                              foreach ($gbFiles as $UploadFile):
-                                  $gbLoop ++;
-                                  $Upload->Image($UploadFile, "{$GalleryName}-{$GalleryId}-{$gbLoop}-" . time(), IMAGE_W, 'gallery');
-
-                                  if ($Upload->getResult()):
-                                      $gbCreate = ['IdOS' => $GalleryId, "fotos_arquivos" => $Upload->getResult()];
-                                     // $Create->ExeCreate(DB_GALLERY_IMAGES, $gbCreate);
-                                      $jSON['gallery'] .= "<img rel='Gallery' id='{$Create->getResult()}' alt='Imagem em {$title}' title='Imagem em {$title}' src='../uploads/{$Upload->getResult()}'/>";
-                                  endif;
-                              endforeach;
-                          endif;
-                      endif;
-
-                      $Update->ExeUpdate(DB_GALLERY, $PostData, "WHERE gallery_id = :id", "id={$GalleryId}");
-                      $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>ATUALIZADO COM SUCESSO:</b> A Galeria {$title} foi atualizado com sucesso no sistema!");
-                      $jSON['view'] = BASE . "/imovel/{$title}";*/
-
+                    // FOTOS DEFEITOS
 
                       if (empty($Upload)):
                         $Upload = new Upload('../../../uploads/');
                       endif;
 
-                      $title = "teste";
-                      $arquivos = array($_FILES['fotos_arquivos']['size']);
-                      $GalleryId = $PostData['IdOS'];
-                      $Image = (!empty($_FILES['fotos_arquivos']) ? $_FILES['fotos_arquivos'] : null);
-                      $Size = (!empty($_FILES['fotos_arquivos']['size']) ? array_sum($arquivos) : null);
-                      $GalleryName = Check::Name($title);
+                      $d_title = "Defeitos";
+                      $d_arquivos = array($_FILES['defeitos_fotos_arquivos']['size']);
+                      $d_GalleryId = $PostData['IdOS'];
+                      $d_Image = (!empty($_FILES['defeitos_fotos_arquivos']) ? $_FILES['defeitos_fotos_arquivos'] : null);
+                      $d_Size = (!empty($_FILES['defeitos_fotos_arquivos']['size']) ? array_sum($d_arquivos) : null);
+                      $d_GalleryName = Check::Name($d_title);
 
                       
 
-                      unset($PostData['IdOS'], $PostData['fotos_arquivos']);
+                     // unset($PostData['IdOS'], $PostData['defeitos_fotos_arquivos']);
 
 
-                      if (!empty($Image)):
-                          $File = $Image;
-                          $gbFile = array();
-                         // $arquivoTipo = array($File['type']);
-                          $gbCount = count($File['type']);
-                          $gbKeys = array_keys($File);
-                          $gbLoop = 0;
+                      if (!empty($d_Image)):
+                          $d_File = $d_Image;
+                          $d_gbFile = array();
+                          $d_gbCount = count($d_File['type']);
+                          $d_gbKeys = array_keys($d_File);
+                          $d_gbLoop = 0;
                
                             //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
                      
                            
-                        if ($gbCount > 10):
+                        if ($d_gbCount > 10):
                               $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
                         else:
 
-                              for ($gb = 0; $gb < $gbCount; $gb++):
-                                  foreach ($gbKeys as $Keys):
-                                      $gbFiles[$gb][$Keys] = $File[$Keys][$gb];
+                              for ($gb = 0; $gb < $d_gbCount; $gb++):
+                                  foreach ($d_gbKeys as $Keys):
+                                      $d_gbFiles[$gb][$Keys] = $d_File[$Keys][$gb];
 
                                   endforeach;
                               endfor;
                               //var_dump($gbCount);
-                              $jSON['gallery'] = null;
-                              foreach ($gbFiles as $UploadFile):
-                                  $gbLoop ++;
-                                  $Upload->Image($UploadFile, "{$title}" . time(), IMAGE_W, 'images');
+                              $jSON['defeitos'] = null;
+                              foreach ($d_gbFiles as $d_UploadFile):
+                                  $d_gbLoop ++;
+                                  $Upload->Image($d_UploadFile, "{$d_title}". time(), IMAGE_W, 'images');
                                   
                                   if ($Upload->getResult()):
 
-                                      $gbCreate = ['OS' => $GalleryId, 'Arquivo' => $Upload->getResult()];
-                                   
-                                   // var_dump($gbCreate['IdOS'], $gbCreate['fotos_arquivos']);
-                                     $Create->ExeCreate(['60_OS_Fotos'], $gbCreate);
-                                      // var_dump($gbCreate['IdOS']);
-                                      //$jSON['gallery'] .= "<img rel='Gallery' id='{$GalleryId}' alt='Imagem em {$title}' title='Imagem em {$title}' src='../uploads/{$Upload->getResult()}'/>";
-                                     // $jSON['gallery'] = "teste";
+                                      $d_gbCreate = array('OS' => $d_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 3);
+                                     //var_dump($UploadFile);
+
+                                      $Create->ExeCreate('[60_OS_Fotos]', $d_gbCreate);
+                                    
+                                      $jSON['defeitos'] .= "<img rel='Gallery' id='{$d_GalleryId}' alt='Imagem em {$d_title}' title='Imagem em {$d_title}' src='../uploads/{$Upload->getResult()}' style='width: 10%;'/>";
+                                     
                                   endif;
                               endforeach;
                           endif;
                         endif;
-                       
-
-                   /* if (isset($_FILES['fotos_arquivos']) && !empty($_FILES['fotos_arquivos']['name'])) {
-
-                        $file_name = $_FILES['fotos_arquivos']['name'];
-                        $file_type = $_FILES['fotos_arquivos']['type'];
-                        $file_size = $_FILES['fotos_arquivos']['size'];
-                        $file_tmp_name = $_FILES['fotos_arquivos']['tmp_name'];
-                        $error = $_FILES['fotos_arquivos']['error'];      
-
-                        //echo $file_name;
-                        //echo $titulo;
-
-                                /*
-                                switch($file_type){
-                                    case 'image/png':  $arq ='.png';break;
-                                    case 'image/jpeg': $arq ='.jpg';break;
-                                    case 'image/gif':  $arq ='.gif';break;
-                                    case 'image/bmp':  $arq ='.bmp';break;
-                                    case 'image/PNG':  $arq ='.PNG';break;
-                                    case 'image/JPEG': $arq ='.JPEG';break;
-                                    case 'image/GIF':  $arq ='.GIF';break;
-                                    case 'image/BMP':  $arq ='.BMP';break;
-
-                                }
-                                */
-/*
-                                $destino = '../../../uploads/images';
-
-                           move_uploaded_file($file_tmp_name,$destino.$file_name);
 
 
-                        }*///end if isset file
+                        // FOTOS MEDIDOR
 
-            for ($i=1; $i <= 6; $i++) { 
-                
-            }
+                      $m_title = "Medidor";
+                      $m_arquivos = array($_FILES['medidor_fotos_arquivos']['size']);
+                      $m_GalleryId = $PostData['IdOS'];
+                      $m_Image = (!empty($_FILES['medidor_fotos_arquivos']) ? $_FILES['medidor_fotos_arquivos'] : null);
+                      $m_Size = (!empty($_FILES['medidor_fotos_arquivos']['size']) ? array_sum($m_arquivos) : null);
+                      $m_GalleryName = Check::Name($m_title);
 
-        break;
+                      
+
+                     // unset($PostData['IdOS'], $PostData['medidor_fotos_arquivos']);
+
+
+                      if (!empty($m_Image)):
+                          $m_File = $m_Image;
+                          $m_gbFile = array();
+                          $m_gbCount = count($m_File['type']);
+                          $m_gbKeys = array_keys($m_File);
+                          $m_gbLoop = 0;
+               
+                            //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
+                     
+                           
+                        if ($m_gbCount > 10):
+                              $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
+                        else:
+
+                              for ($gb = 0; $gb < $m_gbCount; $gb++):
+                                  foreach ($m_gbKeys as $Keys):
+                                      $m_gbFiles[$gb][$Keys] = $m_File[$Keys][$gb];
+
+                                  endforeach;
+                              endfor;
+                              //var_dump($gbCount);
+                              $jSON['medidor'] = null;
+                              foreach ($m_gbFiles as $m_UploadFile):
+                                  $m_gbLoop ++;
+                                  $Upload->Image($m_UploadFile, "{$m_title}". time(), IMAGE_W, 'images');
+                                  
+                                  if ($Upload->getResult()):
+
+                                      $m_gbCreate = array('OS' => $m_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 1);
+                                     //var_dump($UploadFile);
+
+                                      $Create->ExeCreate('[60_OS_Fotos]', $m_gbCreate);
+                                    
+                                      $jSON['medidor'] .= "<img rel='Gallery' id='{$m_GalleryId}' alt='Imagem em {$m_title}' title='Imagem em {$m_title}' src='../uploads/{$Upload->getResult()}' style='width: 10%;'/>";
+                                     
+                                  endif;
+                              endforeach;
+                          endif;
+                        endif;
+
+                          // FOTOS SERVIÇO
+
+                      $s_title = "Servicos";
+                      $s_arquivos = array($_FILES['servico_fotos_arquivos']['size']);
+                      $s_GalleryId = $PostData['IdOS'];
+                      $s_Image = (!empty($_FILES['servico_fotos_arquivos']) ? $_FILES['servico_fotos_arquivos'] : null);
+                      $s_Size = (!empty($_FILES['servico_fotos_arquivos']['size']) ? array_sum($s_arquivos) : null);
+                      $s_GalleryName = Check::Name($s_title);
+
+                      
+
+                     // unset($PostData['IdOS'], $PostData['servico_fotos_arquivos']);
+
+
+                      if (!empty($s_Image)):
+                          $s_File = $s_Image;
+                          $s_gbFile = array();
+                          $s_gbCount = count($s_File['type']);
+                          $s_gbKeys = array_keys($s_File);
+                          $s_gbLoop = 0;
+               
+                            //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
+                     
+                           
+                        if ($s_gbCount > 10):
+                              $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
+                        else:
+
+                              for ($gb = 0; $gb < $s_gbCount; $gb++):
+                                  foreach ($s_gbKeys as $Keys):
+                                      $s_gbFiles[$gb][$Keys] = $s_File[$Keys][$gb];
+
+                                  endforeach;
+                              endfor;
+                              //var_dump($gbCount);
+                              $jSON['servico'] = null;
+                              foreach ($s_gbFiles as $s_UploadFile):
+                                  $s_gbLoop ++;
+                                  $Upload->Image($s_UploadFile, "{$s_title}". time(), IMAGE_W, 'images');
+                                  
+                                  if ($Upload->getResult()):
+
+                                      $s_gbCreate = array('OS' => $s_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 2);
+                                     //var_dump($UploadFile);
+
+                                      $Create->ExeCreate('[60_OS_Fotos]', $s_gbCreate);
+                                    
+                                      $jSON['servico'] .= "<img rel='Gallery' id='{$s_GalleryId}' alt='Imagem em {$s_title}' title='Imagem em {$s_title}' src='../uploads/{$Upload->getResult()}' style='width: 10%;'/>";
+                                     
+                                  endif;
+                              endforeach;
+                          endif;
+                        endif;
+
+        break;    
     endswitch;
 
     //RETORNA O CALLBACK

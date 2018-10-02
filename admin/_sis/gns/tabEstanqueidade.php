@@ -37,7 +37,7 @@
                         <label class="label box box100">
                             <span class="legend">Status:</span>
 
-                            <span><input id="ok" type="radio" name="t_1status" value="ok" style="width:5%" checked />Ok</span>
+                            <span><input id="ok" type="radio" name="t_1status" value="ok" style="width:5%"  />Ok</span>
                             <span><input id="vazamento" type="radio" name="t_1status" value="vazamento" style="width:5%">Vazamento</span>
                             <br>
                             <br>
@@ -51,11 +51,17 @@
                         </label>
                         <label class="label box box50">
                             <span class="legend">Dados do Medidor:</span>
-                            <input type="file" name="t_foto_dados_medidor" id="t_foto_dados_medidor" class="t_foto_dados_medidor" class="wc_loadimage" multiple/>
+                            <input type="file" name="medidor_fotos_arquivos[]" class="wc_loadimage" multiple/>
+                            <div class="dados_medidor">
+
+                            </div>
                         </label>
                         <label class="label box box50">
                             <span class="legend">Foto Situação do Serviço:</span>
-                            <input type="file" name="t_foto_servico" id="t_foto_servico" class="t_foto_servico" class="wc_loadimage" multiple/>
+                            <input type="file" name="servico_fotos_arquivos[]" class="wc_loadimage" multiple/>
+                            <div class="dados_servico">
+
+                            </div>
                         </label>
 
                         <label class="label box box100">
@@ -93,7 +99,7 @@
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Funcionamento:</span>
-                                        <input type="radio" name="t_cozinhaFuncionamento"  value="Bom" style="width:5%" checked />Bom
+                                        <input type="radio" name="t_cozinhaFuncionamento"  value="Bom" style="width:5%"  />Bom
                                         <input type="radio" name="t_cozinhaFuncionamento"  value="Ruim" style="width:5%"/>Ruim
                                         <input type="radio" name="t_cozinhaFuncionamento"   value="Fora de uso" style="width:5%" />Fora de uso
                                     </label>
@@ -129,17 +135,17 @@
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Tiragem:</span>
-                                        <input type="radio" name="t_b_SocialTiragem" value="Natural" style="width:5%" checked />Natural
+                                        <input type="radio" name="t_b_SocialTiragem" value="Natural" style="width:5%"  />Natural
                                         <input type="radio" name="t_b_SocialTiragem" value="Forçada" style="width:5%">Forçada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Combustão:</span>
-                                        <input type="radio" name="t_b_SocialCombustao" value="Aberta" style="width:5%" checked />Aberta
+                                        <input type="radio" name="t_b_SocialCombustao" value="Aberta" style="width:5%"  />Aberta
                                         <input type="radio" name="t_b_SocialCombustao" value="Fechada" style="width:5%">Fechada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Funcionamento:</span>
-                                        <input type="radio" name="t_b_SocialFuncionamento" value="Bom" style="width:5%" checked />Bom
+                                        <input type="radio" name="t_b_SocialFuncionamento" value="Bom" style="width:5%"  />Bom
                                         <input type="radio" name="t_b_SocialFuncionamento" value="Ruim" style="width:5%"/>Ruim
                                         <input type="radio" name="t_b_SocialFuncionamento" value="Fora de uso" style="width:5%">Fora de uso
                                     </label>
@@ -206,17 +212,17 @@
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Tiragem:</span>
-                                        <input type="radio" name="t_b_SuiteTiragem" value="Natural" style="width:5%" checked />Natural
+                                        <input type="radio" name="t_b_SuiteTiragem" value="Natural" style="width:5%"  />Natural
                                         <input type="radio" name="t_b_SuiteTiragem" value="Forçada" style="width:5%" />Forçada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Combustão:</span>
-                                        <input type="radio" name="t_b_SuiteCombustao" value="Aberta" style="width:5%" checked />Aberta
+                                        <input type="radio" name="t_b_SuiteCombustao" value="Aberta" style="width:5%"  />Aberta
                                         <input type="radio" name="t_b_SuiteCombustao" value="Fechada" style="width:5%" />Fechada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Funcionamento:</span>
-                                        <input type="radio" name="t_b_SuiteFuncionamento" value="Bom" style="width:5%" checked />Bom
+                                        <input type="radio" name="t_b_SuiteFuncionamento" value="Bom" style="width:5%"  />Bom
                                         <input type="radio" name="t_b_SuiteFuncionamento" value="Ruim" style="width:5%"/>Ruim
                                         <input type="radio" name="t_b_SuiteFuncionamento" value="Fora de uso" style="width:5%">Fora de uso
                                     </label>
@@ -283,17 +289,17 @@
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Tiragem:</span>
-                                        <input type="radio" name="t_b_ServicoTiragem" value="Natural" style="width:5%" checked />Natural
+                                        <input type="radio" name="t_b_ServicoTiragem" value="Natural" style="width:5%"  />Natural
                                         <input type="radio" name="t_b_ServicoTiragem" value="Forçada" style="width:5%"  />Forçada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Combustão:</span>
-                                        <input type="radio" name="t_b_ServicoCombustao" value="Aberta" style="width:5%" checked />Aberta
+                                        <input type="radio" name="t_b_ServicoCombustao" value="Aberta" style="width:5%"  />Aberta
                                         <input type="radio" name="t_b_ServicoCombustao" value="Fechada" style="width:5%" />Fechada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Funcionamento:</span>
-                                        <input type="radio" name="t_b_ServicoFuncionamento" value="Bom" style="width:5%" checked />Bom
+                                        <input type="radio" name="t_b_ServicoFuncionamento" value="Bom" style="width:5%"  />Bom
                                         <input type="radio" name="t_b_ServicoFuncionamento" value="Ruim" style="width:5%" />Ruim
                                         <input type="radio" name="t_b_ServicoFuncionamento" value="Fora de uso" style="width:5%" />Fora de uso
                                     </label>
@@ -360,17 +366,17 @@
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Tiragem:</span>
-                                        <input type="radio" name="t_a_ServicoTiragem" value="Natural" style="width:5%" checked />Natural
+                                        <input type="radio" name="t_a_ServicoTiragem" value="Natural" style="width:5%"  />Natural
                                         <input type="radio" name="t_a_ServicoTiragem" value="Forçada" style="width:5%"  />Forçada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Combustão:</span>
-                                        <input type="radio" name="t_a_ServicoCombustao" value="Aberta" style="width:5%" checked />Aberta
+                                        <input type="radio" name="t_a_ServicoCombustao" value="Aberta" style="width:5%"  />Aberta
                                         <input type="radio" name="t_a_ServicoCombustao" value="Fechada" style="width:5%" />Fechada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Funcionamento:</span>
-                                        <input type="radio" name="t_a_ServicoFuncionamento" value="Bom" style="width:5%" checked />Bom
+                                        <input type="radio" name="t_a_ServicoFuncionamento" value="Bom" style="width:5%"  />Bom
                                         <input type="radio" name="t_a_ServicoFuncionamento" value="Ruim" style="width:5%" />Ruim
                                         <input type="radio" name="t_a_ServicoFuncionamento" value="Fora de uso" style="width:5%" />Fora de uso
                                     </label>
@@ -436,17 +442,17 @@
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Tiragem:</span>
-                                        <input type="radio" name="t_OutroTiragem" value="Natural" style="width:5%" checked />Natural
+                                        <input type="radio" name="t_OutroTiragem" value="Natural" style="width:5%"  />Natural
                                         <input type="radio" name="t_OutroTiragem" value="Forçada" style="width:5%"  />Forçada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Combustão:</span>
-                                        <input type="radio" name="t_OutroCombustao" value="Aberta" style="width:5%" checked />Aberta
+                                        <input type="radio" name="t_OutroCombustao" value="Aberta" style="width:5%"  />Aberta
                                         <input type="radio" name="t_OutroCombustao" value="Fechada" style="width:5%" />Fechada
                                     </label>
                                     <label class="label box box100">
                                         <span class="legend">Funcionamento:</span>
-                                        <input type="radio" name="t_OutroFuncionamento" value="Bom" style="width:5%" checked />Bom
+                                        <input type="radio" name="t_OutroFuncionamento" value="Bom" style="width:5%"  />Bom
                                         <input type="radio" name="t_OutroFuncionamento" value="Ruim" style="width:5%" />Ruim
                                         <input type="radio" name="t_OutroFuncionamento" value="Fora de uso" style="width:5%" />Fora de uso
                                     </label>

@@ -12,9 +12,10 @@
                     <div id="dados-do-def">
                         <label id="foto-defeito" class="label box box50" style="display:none">
                             <span class="legend">Foto Defeitos:</span>
-                            <input type="file" name="fotos_arquivos[]" class="wc_loadimage" multiple/>
+                            <input type="file" name="defeitos_fotos_arquivos[]" class="wc_loadimage" multiple/>
                         </label>
-                        <div class="arquivos">
+                        <div class="defeitos_arquivos">
+
                         </div>
                         <label class="label box box100">
                             <a class="btn btn_darkblue" href="#dist-interna" rel="modal:open"><i class="icon-share"></i>Distribuição interna</a>

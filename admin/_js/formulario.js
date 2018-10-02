@@ -1054,17 +1054,33 @@ $('html').on('click', '#j_btn_salvar', function (e) {
                 });
             }
             //PREVENT TO RESUBMIT IMAGES GALLERY
-            form.find('input[name="fotos_arquivos[]"]').replaceWith($('input[name="fotos_arquivos[]"]').clone());
+            form.find('input[name="defeitos_fotos_arquivos[]"]').replaceWith($('input[name="defeitos_fotos_arquivos[]"]').clone());
+            form.find('input[name="medidor_fotos_arquivos[]"]').replaceWith($('input[name="medidor_fotos_arquivos[]"]').clone());
+            form.find('input[name="servico_fotos_arquivos[]"]').replaceWith($('input[name="servico_fotos_arquivos[]"]').clone());
         },
         success: function (data) {
             if (data.trigger) {
                 Trigger(data.trigger);
             }
+              // DEFEITOS
+            if (data.defeitos) {     
+              
+              $(data.defeitos).appendTo('.defeitos_arquivos');
+                  
+            }
+              // MEDIDOR
+            if (data.medidor) {     
+               
+              $(data.medidor).appendTo('.dados_medidor');
+                  
+            }
+              // SERVIÇOS
+            if (data.servico) {     
+               
+               $(data.servico).appendTo('.dados_servico');
 
-            if (data.gallery) {          
-              //alert(data.gallery);
-              $(data.gallery).appendTo('.arquivos');
-            }          
+             }
+
         }
 
 
