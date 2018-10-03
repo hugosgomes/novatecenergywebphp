@@ -1,14 +1,12 @@
  
     <h4 class="icon-user-plus">Teste de Estanquidade</h4>
-                    <div id="tipo-servico">
-                            
-                     <div class="hiddens">
-
+                    <div id="tipo-servico">            
+                     <div class="t_hiddens">
                      </div>
                         <label class="label box box100">
-                            <span class="legend">Nº do Manometro:</span>
-                            <select value="" type="text" name="t_num_manometro" >
-                                <option selected disabled value="">Selecione o Nº do Manometro:</option>
+                            <span class="legend"><b>Nº do Manometro:</b></span>
+                            <select value="" type="text" name="t_num_manometro">
+                               <!-- <option selected disabled value="">Selecione o Nº do Manometro:</option>-->
                                 <?php
                                 $Read->FullRead("SELECT Id AS id, CODIGO AS codigo, PRODUTO AS manometro
                                  FROM [40_Produtos]
@@ -18,24 +16,23 @@
                                         echo "<option value='{$manometro['id']}' name='{$manometro['codigo']}'>{$manometro['codigo']} - {$manometro['manometro']}</option>";
                                     endforeach;
                                 endif;
-
                                 ?>
                             </select>
                         </label>
                         <label class="label box box50">
-                            <span class="legend">Pressão Inicial:</span>
+                            <span class="legend"><b>Pressão Inicial:</b></span>
                             <input type="text" name="t_p_inicial" id="t_p_inicial" class="t_p_inicial" placeholder="Inicial:" />
                         </label>
                         <label class="label box box50">
-                            <span class="legend">Pressão Final:</span>
+                            <span class="legend"><b>Pressão Final:</b></span>
                             <input type="text" name="t_p_Final" id="t_p_Final" class="t_p_Final" placeholder="Final:" />
                         </label>
                         <label class="label box box100">
-                            <span class="legend">Tempo do teste:</span>
+                            <span class="legend"><b>Tempo do teste:</b></span>
                             <input type="text" name="t_tempo_teste" id="t_tempo_teste" class="t_tempo_teste"  placeholder="Tempo:" />
                         </label>
                         <label class="label box box100">
-                            <span class="legend">Status:</span>
+                            <span class="legend"><b>Status:</b></span>
 
                             <span><input id="ok" type="radio" name="t_1status" value="ok" style="width:5%"  />Ok</span>
                             <span><input id="vazamento" type="radio" name="t_1status" value="vazamento" style="width:5%">Vazamento</span>
@@ -46,18 +43,18 @@
                         
                         </label>
                         <label id="status-ocorrencia" class="label box box100" style="display:none">
-                            <span class="legend">Nº Ocorrência:</span>
+                            <span class="legend"><b>Nº Ocorrência:</b></span>
                             <input type="text" name="t_num_ocorrencia" id="t_num_ocorrencia" class="t_num_ocorrencia"  placeholder="ocorrência:" />
                         </label>
                         <label class="label box box50">
-                            <span class="legend">Dados do Medidor:</span>
+                            <span class="legend"><b>Dados do Medidor:</b></span>
                             <input type="file" name="medidor_fotos_arquivos[]" class="wc_loadimage" multiple/>
                             <div class="dados_medidor">
 
                             </div>
                         </label>
                         <label class="label box box50">
-                            <span class="legend">Foto Situação do Serviço:</span>
+                            <span class="legend"><b>Foto Situação do Serviço:</b></span>
                             <input type="file" name="servico_fotos_arquivos[]" class="wc_loadimage" multiple/>
                             <div class="dados_servico">
 
@@ -65,13 +62,13 @@
                         </label>
 
                         <label class="label box box100">
-                            <span class="legend">Aparelhos no Local:</span>
-                            <a class="btn btn_darkblue t_aparelho1" href="#aparelho-1" rel="modal:open"><i class="icon-plus"></i><span contador="0" id="t_aparelho1">Cozinha (0)</span></a>
-                            <a class="btn btn_darkblue t_aparelho2" href="#aparelho-2" rel="modal:open"><i class="icon-plus"></i><span contador="0" id="t_aparelho2"> Banheiro Social (0)</span></a>
-                            <a class="btn btn_darkblue t_aparelho3" href="#aparelho-3" rel="modal:open"><i class="icon-plus"></i><span contador="0" id="t_aparelho3"> Banheiro Suíte (0)</span></a>
-                            <a class="btn btn_darkblue t_aparelho4" href="#aparelho-4" rel="modal:open"><i class="icon-plus"></i><span contador="0" id="t_aparelho4"> Banheiro Serviço (0)</span></a>
-                            <a class="btn btn_darkblue t_aparelho5" href="#aparelho-5" rel="modal:open"><i class="icon-plus"></i><span contador="0" id="t_aparelho5"> Área Serviço (0)</span></a>
-                            <a class="btn btn_darkblue t_aparelho6" href="#aparelho-6" rel="modal:open"><i class="icon-plus"></i><span contador="0" id="t_aparelho6"> Outros (0)</span></a>
+                            <span class="legend"><b>Aparelhos no Local:</b></span>
+                            <a class="btn btn_darkblue t_aparelho1" href="#aparelho-1" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho1">Cozinha (0)</span></a>
+                            <a class="btn btn_darkblue t_aparelho2" href="#aparelho-2" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho2"> Banheiro Social (0)</span></a>
+                            <a class="btn btn_darkblue t_aparelho3" href="#aparelho-3" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho3"> Banheiro Suíte (0)</span></a>
+                            <a class="btn btn_darkblue t_aparelho4" href="#aparelho-4" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho4"> Banheiro Serviço (0)</span></a>
+                            <a class="btn btn_darkblue t_aparelho5" href="#aparelho-5" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho5"> Área Serviço (0)</span></a>
+                            <a class="btn btn_darkblue t_aparelho6" href="#aparelho-6" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho6"> Outros (0)</span></a>
                         </label>
 
                         <div id="aparelho-1" class="modal" style="height: auto;">
@@ -104,6 +101,24 @@
                                         <input type="radio" name="t_cozinhaFuncionamento"   value="Fora de uso" style="width:5%" />Fora de uso
                                     </label>
                                 </article>
+                                <div class="t_table_aparelho1">
+                                   <table style="font-size: 90%;">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Tipo:</th>
+                                            <th style="text-align: center;">Marca:</th>
+                                            <th style="text-align: center;">Modelo:</th>
+                                            <th style="text-align: center;">POT Nominal:</th>
+                                            <th style="text-align: center;">Funcionamento:</th>
+                                            <th style="text-align: center;">Excluir:</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="t_aparelho_1" >  
+
+                                    </tbody>
+                                </table>
+                                <br>
+                                </div>
                                <center><span id="t_salvar_cozinha" name="public" value="1" class="t_salvar_cozinha btn btn_darkblue icon-plus" style="margin-left: 5px;">Adicionar</span></center>
                                 <div class="clear"></div>
                             </div>
@@ -133,20 +148,24 @@
                                         <span class="legend">Pot nominal:</span>
                                         <input type="text" name="t_b_SocialPot" id="t_b_SocialPot" placeholder="Pot nominal:"/>
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Tiragem:</span>
                                         <input type="radio" name="t_b_SocialTiragem" value="Natural" style="width:5%"  />Natural
+                                        &ensp;
                                         <input type="radio" name="t_b_SocialTiragem" value="Forçada" style="width:5%">Forçada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Combustão:</span>
                                         <input type="radio" name="t_b_SocialCombustao" value="Aberta" style="width:5%"  />Aberta
+                                         &ensp;
                                         <input type="radio" name="t_b_SocialCombustao" value="Fechada" style="width:5%">Fechada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Funcionamento:</span>
                                         <input type="radio" name="t_b_SocialFuncionamento" value="Bom" style="width:5%"  />Bom
+                                         &ensp;
                                         <input type="radio" name="t_b_SocialFuncionamento" value="Ruim" style="width:5%"/>Ruim
+                                         &ensp;
                                         <input type="radio" name="t_b_SocialFuncionamento" value="Fora de uso" style="width:5%">Fora de uso
                                     </label>
                                        <header>
@@ -179,8 +198,37 @@
                                             <input type="text" name="t_b_Social_h_NumSerie" id="t_b_Social_h_NumSerie"  placeholder="número de série:"/>
                                         </label>
                                     </div>
-                                    
                                 </article>
+                                <div class="t_table_aparelho2">
+                                    <br>
+                                    <div class="tabela-responsivel" style="height: auto;">
+                                       <table style="font-size: 90%;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">Tipo:</th>
+                                                <th style="text-align: center;">Marca:</th>
+                                                <th style="text-align: center;">Modelo:</th>
+                                                <th style="text-align: center;">POT Nominal:</th>
+                                                <th style="text-align: center;">Tiragem:</th>
+                                                <th style="text-align: center;">Combustão:</th>
+                                                <th style="text-align: center;">Funcionamento:</th>
+
+                                                <th style="text-align: center;">H. Tiragem:</th>
+                                                <th style="text-align: center;">H. CON:</th>
+                                                <th style="text-align: center;">H. CO AMB:</th>
+                                                <th style="text-align: center;">Tempo:</th>
+                                                <th style="text-align: center;">Analisador:</th>
+                                                <th style="text-align: center;">Núm. Série:</th>
+                                                <th style="text-align: center;">Excluir:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="t_aparelho_2" >  
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                            </div>
                                <center> <span name="public" value="1" class=" btn btn_darkblue  icon-plus t_salvar_banheiro_social" style="margin-left: 5px;" id="t_salvar_banheiro_social" callback="ClientesOT" callback_action="addCliente">Adicionar</span></center>
                                 <div class="clear"></div>
                             </div>
@@ -210,20 +258,24 @@
                                         <span class="legend">Pot nominal:</span>
                                         <input type="text" name="t_b_SuitePot" id="t_b_SuitePot" placeholder="Pot nominal:"/>
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Tiragem:</span>
                                         <input type="radio" name="t_b_SuiteTiragem" value="Natural" style="width:5%"  />Natural
+                                        &ensp;
                                         <input type="radio" name="t_b_SuiteTiragem" value="Forçada" style="width:5%" />Forçada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Combustão:</span>
                                         <input type="radio" name="t_b_SuiteCombustao" value="Aberta" style="width:5%"  />Aberta
+                                        &ensp;
                                         <input type="radio" name="t_b_SuiteCombustao" value="Fechada" style="width:5%" />Fechada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Funcionamento:</span>
                                         <input type="radio" name="t_b_SuiteFuncionamento" value="Bom" style="width:5%"  />Bom
+                                        &ensp;
                                         <input type="radio" name="t_b_SuiteFuncionamento" value="Ruim" style="width:5%"/>Ruim
+                                        &ensp;
                                         <input type="radio" name="t_b_SuiteFuncionamento" value="Fora de uso" style="width:5%">Fora de uso
                                     </label>
                                        <header>
@@ -256,8 +308,37 @@
                                             <input type="text" name="t_b_Suite_h_NumSerie" id="t_b_Suite_h_NumSerie"  placeholder="número de série:"/>
                                         </label>
                                     </div>
-                                    
                                 </article>
+                                <div class="t_table_aparelho3">
+                                    <br>
+                                    <div class="tabela-responsivel" style="height: auto;">
+                                     <table style="font-size: 90%;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">Tipo:</th>
+                                                <th style="text-align: center;">Marca:</th>
+                                                <th style="text-align: center;">Modelo:</th>
+                                                <th style="text-align: center;">POT Nominal:</th>
+                                                <th style="text-align: center;">Tiragem:</th>
+                                                <th style="text-align: center;">Combustão:</th>
+                                                <th style="text-align: center;">Funcionamento:</th>
+
+                                                <th style="text-align: center;">H. Tiragem:</th>
+                                                <th style="text-align: center;">H. CON:</th>
+                                                <th style="text-align: center;">H. CO AMB:</th>
+                                                <th style="text-align: center;">Tempo:</th>
+                                                <th style="text-align: center;">Analisador:</th>
+                                                <th style="text-align: center;">Núm. Série:</th>
+                                                <th style="text-align: center;">Excluir:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="t_aparelho_3" >  
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                            </div>
                                <center><span name="public" value="1" class="btn btn_darkblue  icon-plus t_salvar_banheiro_suite" style="margin-left: 5px;" id="t_salvar_banheiro_suite" callback="ClientesOT" callback_action="addCliente">Adicionar</span>
                                 <div class="clear"></div></center>
                             </div>
@@ -287,20 +368,24 @@
                                         <span class="legend">Pot nominal:</span>
                                         <input type="text" name="t_b_ServicoPot" id="t_b_ServicoPot" placeholder="Pot nominal:"/>
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Tiragem:</span>
                                         <input type="radio" name="t_b_ServicoTiragem" value="Natural" style="width:5%"  />Natural
+                                        &ensp;
                                         <input type="radio" name="t_b_ServicoTiragem" value="Forçada" style="width:5%"  />Forçada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Combustão:</span>
                                         <input type="radio" name="t_b_ServicoCombustao" value="Aberta" style="width:5%"  />Aberta
+                                        &ensp;
                                         <input type="radio" name="t_b_ServicoCombustao" value="Fechada" style="width:5%" />Fechada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Funcionamento:</span>
                                         <input type="radio" name="t_b_ServicoFuncionamento" value="Bom" style="width:5%"  />Bom
+                                        &ensp;
                                         <input type="radio" name="t_b_ServicoFuncionamento" value="Ruim" style="width:5%" />Ruim
+                                        &ensp;
                                         <input type="radio" name="t_b_ServicoFuncionamento" value="Fora de uso" style="width:5%" />Fora de uso
                                     </label>
                                        <header>
@@ -333,8 +418,37 @@
                                             <input type="text" name="t_b_Servico_h_NumSerie" id="t_b_Servico_h_NumSerie"  placeholder="número de série:"/>
                                         </label>
                                     </div>
-                                    
                                 </article>
+                                 <div class="t_table_aparelho4">
+                                    <br>
+                                    <div class="tabela-responsivel" style="height: auto;">
+                                     <table style="font-size: 90%;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">Tipo:</th>
+                                                <th style="text-align: center;">Marca:</th>
+                                                <th style="text-align: center;">Modelo:</th>
+                                                <th style="text-align: center;">POT Nominal:</th>
+                                                <th style="text-align: center;">Tiragem:</th>
+                                                <th style="text-align: center;">Combustão:</th>
+                                                <th style="text-align: center;">Funcionamento:</th>
+
+                                                <th style="text-align: center;">H. Tiragem:</th>
+                                                <th style="text-align: center;">H. CON:</th>
+                                                <th style="text-align: center;">H. CO AMB:</th>
+                                                <th style="text-align: center;">Tempo:</th>
+                                                <th style="text-align: center;">Analisador:</th>
+                                                <th style="text-align: center;">Núm. Série:</th>
+                                                <th style="text-align: center;">Excluir:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="t_aparelho_4" >  
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                            </div>
                                <center><span name="public" value="1" class="btn btn_darkblue  icon-plus t_salvar_banheiro_servico" style="margin-left: 5px;" id="t_salvar_banheiro_servico" callback="ClientesOT" callback_action="addCliente">Adicionar</span>
                                 <div class="clear"></div></center>
                             </div>
@@ -364,20 +478,24 @@
                                         <span class="legend">Pot nominal:</span>
                                         <input type="text" name="t_a_ServicoPot" id="t_a_ServicoPot" placeholder="Pot nominal:"/>
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Tiragem:</span>
                                         <input type="radio" name="t_a_ServicoTiragem" value="Natural" style="width:5%"  />Natural
+                                        &ensp;
                                         <input type="radio" name="t_a_ServicoTiragem" value="Forçada" style="width:5%"  />Forçada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Combustão:</span>
                                         <input type="radio" name="t_a_ServicoCombustao" value="Aberta" style="width:5%"  />Aberta
+                                        &ensp;
                                         <input type="radio" name="t_a_ServicoCombustao" value="Fechada" style="width:5%" />Fechada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Funcionamento:</span>
                                         <input type="radio" name="t_a_ServicoFuncionamento" value="Bom" style="width:5%"  />Bom
+                                        &ensp;
                                         <input type="radio" name="t_a_ServicoFuncionamento" value="Ruim" style="width:5%" />Ruim
+                                        &ensp;
                                         <input type="radio" name="t_a_ServicoFuncionamento" value="Fora de uso" style="width:5%" />Fora de uso
                                     </label>
                                        <header>
@@ -409,9 +527,38 @@
                                             <span class="legend">Número de série:</span>
                                             <input type="text" name="t_a_Servico_h_NumSerie" id="t_a_Servico_h_NumSerie"  placeholder="número de série:"/>
                                         </label>
-                                    </div>
-                                    
+                                    </div> 
                                 </article>
+                                 <div class="t_table_aparelho5">
+                                    <br>
+                                    <div class="tabela-responsivel" style="height: auto;">
+                                     <table style="font-size: 90%;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">Tipo:</th>
+                                                <th style="text-align: center;">Marca:</th>
+                                                <th style="text-align: center;">Modelo:</th>
+                                                <th style="text-align: center;">POT Nominal:</th>
+                                                <th style="text-align: center;">Tiragem:</th>
+                                                <th style="text-align: center;">Combustão:</th>
+                                                <th style="text-align: center;">Funcionamento:</th>
+
+                                                <th style="text-align: center;">H. Tiragem:</th>
+                                                <th style="text-align: center;">H. CON:</th>
+                                                <th style="text-align: center;">H. CO AMB:</th>
+                                                <th style="text-align: center;">Tempo:</th>
+                                                <th style="text-align: center;">Analisador:</th>
+                                                <th style="text-align: center;">Núm. Série:</th>
+                                                <th style="text-align: center;">Excluir:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="t_aparelho_5" >  
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                            </div>
                                <center><span name="public" value="1" class="btn btn_darkblue  icon-plus t_salvar_area_servico" style="margin-left: 5px;" id="t_salvar_area_servico" callback="ClientesOT" callback_action="addCliente">Adicionar</span>
                                 <div class="clear"></div></center>
                             </div>
@@ -440,20 +587,24 @@
                                         <span class="legend">Pot nominal:</span>
                                         <input type="text" name="t_OutroPot" id="t_OutroPot" placeholder="Pot nominal:"/>
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Tiragem:</span>
                                         <input type="radio" name="t_OutroTiragem" value="Natural" style="width:5%"  />Natural
+                                        &ensp;
                                         <input type="radio" name="t_OutroTiragem" value="Forçada" style="width:5%"  />Forçada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Combustão:</span>
                                         <input type="radio" name="t_OutroCombustao" value="Aberta" style="width:5%"  />Aberta
+                                        &ensp;
                                         <input type="radio" name="t_OutroCombustao" value="Fechada" style="width:5%" />Fechada
                                     </label>
-                                    <label class="label box box100">
+                                    <label class="label box box33">
                                         <span class="legend">Funcionamento:</span>
                                         <input type="radio" name="t_OutroFuncionamento" value="Bom" style="width:5%"  />Bom
+                                        &ensp;
                                         <input type="radio" name="t_OutroFuncionamento" value="Ruim" style="width:5%" />Ruim
+                                        &ensp;
                                         <input type="radio" name="t_OutroFuncionamento" value="Fora de uso" style="width:5%" />Fora de uso
                                     </label>
                                        <header>
@@ -485,9 +636,38 @@
                                             <span class="legend">Número de série:</span>
                                             <input type="text" name="t_Outro_h_NumSerie" id="t_Outro_h_NumSerie"  placeholder="número de série:"/>
                                         </label>
-                                    </div>
-                                    
+                                    </div>   
                                 </article>
+                                 <div class="t_table_aparelho6">
+                                    <br>
+                                    <div class="tabela-responsivel" style="height: auto;">
+                                     <table style="font-size: 90%;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">Tipo:</th>
+                                                <th style="text-align: center;">Marca:</th>
+                                                <th style="text-align: center;">Modelo:</th>
+                                                <th style="text-align: center;">POT Nominal:</th>
+                                                <th style="text-align: center;">Tiragem:</th>
+                                                <th style="text-align: center;">Combustão:</th>
+                                                <th style="text-align: center;">Funcionamento:</th>
+
+                                                <th style="text-align: center;">H. Tiragem:</th>
+                                                <th style="text-align: center;">H. CON:</th>
+                                                <th style="text-align: center;">H. CO AMB:</th>
+                                                <th style="text-align: center;">Tempo:</th>
+                                                <th style="text-align: center;">Analisador:</th>
+                                                <th style="text-align: center;">Núm. Série:</th>
+                                                <th style="text-align: center;">Excluir:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="t_aparelho_6" >  
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                            </div>
                                <center><span name="public" value="1" class="btn btn_darkblue  icon-plus t_salvar_outro" style="margin-left: 5px;" id="t_salvar_outro" >Adicionar</span>
                                 <div class="clear"></div></center>
                             </div>

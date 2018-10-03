@@ -46,7 +46,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'dados_formulario':
-            /*foreach ($PostData as $key => $value) {
+            foreach ($PostData as $key => $value) {
                 if($PostData[$key] == ''){
                     unset($PostData[$key]);
                 }
@@ -54,7 +54,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $aparelhos = [];
 
             //SALVANDO O ATENDIMENTO
-            /*$atendimento = array(
+          /*  $atendimento = array(
                 'idOS' => $PostData['IdOS'],
                 'idTecnico' => $PostData['IdTecnico'],
                 'Status' => 1,
@@ -70,7 +70,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $Create->ExeCreate("[60_Atendimentos]",$atendimento);
             /////////////////////////////////////////////////////////
 
-            for ($i=1; $i <= 3; $i++) {
+            for ($i=1; $i <= 10; $i++) {
                 if (isset($PostData['t_cozinhaTipo'.$i])) {
                     array_push($aparelhos,array(
                         'IdOs' => $PostData['IdOS'],
@@ -82,6 +82,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     ));
                 }
 
+
                 if (isset($PostData['t_b_SocialTipo'.$i])) {
                     array_push($aparelhos,array(
                         'IdOs' => $PostData['IdOS'],
@@ -89,6 +90,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         'Marca' => $PostData['t_b_SocialMarca'.$i],
                         'Modelo' => $PostData['t_b_SocialModelo'.$i],
                         'PotNominal' => $PostData['t_b_SocialPot'.$i],
+                        'Tiragem' => $PostData['t_b_SocialTiragem'.$i],
+                        'Combustao' => $PostData['t_b_SocialCombustao'.$i],
                         'Funcionamento' => $PostData['t_b_SocialFuncionamento'.$i],
                         'TiragemHigienteCombustao' => $PostData['t_b_SocialTiragem'.$i],
                         'Con' => $PostData['t_b_Social_h_Con'.$i],
@@ -106,6 +109,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         'Marca' => $PostData['t_b_SuiteMarca'.$i],
                         'Modelo' => $PostData['t_b_SuiteModelo'.$i],
                         'PotNominal' => $PostData['t_b_SuitePot'.$i],
+                        'Tiragem' => $PostData['t_b_SuiteTiragem'.$i],
+                        'Combustao' => $PostData['t_b_SuiteCombustao'.$i],
                         'Funcionamento' => $PostData['t_b_SuiteFuncionamento'.$i],
                         'TiragemHigienteCombustao' => $PostData['t_b_SuiteTiragem'.$i],
                         'Con' => $PostData['t_b_Suite_h_Con'.$i],
@@ -123,6 +128,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         'Marca' => $PostData['t_b_ServicoMarca'.$i],
                         'Modelo' => $PostData['t_b_ServicoModelo'.$i],
                         'PotNominal' => $PostData['t_b_ServicoPot'.$i],
+                        'Tiragem' => $PostData['t_b_ServicoTiragem'.$i],
+                        'Combustao' => $PostData['t_b_ServicoCombustao'.$i],
                         'Funcionamento' => $PostData['t_b_ServicoFuncionamento'.$i],
                         'TiragemHigienteCombustao' => $PostData['t_b_ServicoTiragem'.$i],
                         'Con' => $PostData['t_b_Servico_h_Con'.$i],
@@ -140,6 +147,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         'Marca' => $PostData['t_a_ServicoMarca'.$i],
                         'Modelo' => $PostData['t_a_ServicoModelo'.$i],
                         'PotNominal' => $PostData['t_a_ServicoPot'.$i],
+                        'Tiragem' => $PostData['t_a_ServicoTiragem'.$i],
+                        'Combustao' => $PostData['t_a_ServicoCombustao'.$i],
                         'Funcionamento' => $PostData['t_a_ServicoFuncionamento'.$i],
                         'TiragemHigienteCombustao' => $PostData['t_a_ServicoTiragem'.$i],
                         'Con' => $PostData['t_a_Servico_h_Con'.$i],
@@ -157,6 +166,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         'Marca' => $PostData['t_OutroMarca'.$i],
                         'Modelo' => $PostData['t_OutroModelo'.$i],
                         'PotNominal' => $PostData['t_OutroPot'.$i],
+                        'Tiragem' => $PostData['t_OutroTiragem'.$i],
+                        'Combustao' => $PostData['t_OutroCombustao'.$i],
                         'Funcionamento' => $PostData['t_OutroFuncionamento'.$i],
                         'TiragemHigienteCombustao' => $PostData['t_Outro_h_Tiragem'.$i],
                         'Con' => $PostData['t_Outro_h_Con'.$i],
@@ -174,7 +185,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
 // DEFEITOS
                 // DISTRIBUIÇÃO INTERNA
-          /*  for ($i=1; $i <= 23; $i++) {
+            for ($i=1; $i <= 23; $i++) {
                 if (isset($PostData['d_distr_interna_'.$i])) {
                     array_push($aparelhos,array(
 
@@ -196,7 +207,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     'ItemInspecao' => $PostData['d_ap-gas_'.$i],
                     'Aparelho1' => $PostData['d_ap-gas_'.$i.'-1'],
                     'Aparelho2' => $PostData['d_ap-gas_'.$i.'-2'],
-                    'Aparelho3' => $PostData['d_ap-gas_'.$i.'-3']          
+                    'Aparelho3' => $PostData['d_ap-gas_'.$i.'-3']
+                       
+                    unset('Aparelho3' => $PostData['d_ap-gas_4-3'])       
                 ));
                     }  // isset
                 }
@@ -281,10 +294,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   foreach ($aparelhos as $key => $value) {
                 $Create->ExeCreate("[60_Defeitos]",$value);
             }
-*/
 
+            $jSON['trigger'] = AjaxErro('Todos os dados enviados com sucessos!', E_USER_ERROR);
+            var_dump($aparelhos);
                     // FOTOS DEFEITOS
-
+/*
                       if (empty($Upload)):
                         $Upload = new Upload('../../../uploads/');
                       endif;
@@ -448,7 +462,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                   endif;
                               endforeach;
                           endif;
-                        endif;
+                        endif;*/
 
         break;    
     endswitch;
