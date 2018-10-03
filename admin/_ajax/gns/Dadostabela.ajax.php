@@ -46,7 +46,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'dados_formulario':
-            /*foreach ($PostData as $key => $value) {
+            foreach ($PostData as $key => $value) {
                 if($PostData[$key] == ''){
                     unset($PostData[$key]);
                 }
@@ -54,7 +54,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $aparelhos = [];
 
             //SALVANDO O ATENDIMENTO
-            $atendimento = array(
+            /*$atendimento = array(
                 'idOS' => $PostData['IdOS'],
                 'idTecnico' => $PostData['IdTecnico'],
                 'Status' => 1,
@@ -170,19 +170,17 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             foreach ($aparelhos as $key => $value) {
                 $Create->ExeCreate("[60_TesteAparelho]",$value);
-            }
+            }*/
 
-// DEFEITOS
+                // DEFEITOS
                 // DISTRIBUIÇÃO INTERNA
-          /*  for ($i=1; $i <= 23; $i++) {
-                if (isset($PostData['d_distr_interna_'.$i])) {
+            for ($i=1; $i <= 23; $i++) {
+                if (isset($PostData['d-dist-interna-'.$i.'-item'])) {
                     array_push($aparelhos,array(
 
                         'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d-dist-interna-'.$i],
-                        'InstalacaoInterna' => $PostData['d_distr_interna_'.$i]
-
-
+                        'ItemInspecao' => $PostData['d-dist-interna-'.$i.'-item'],
+                        'InstalacaoInterna' => $PostData['d-dist-interna-'.$i]
                     ));
                 }
             }
@@ -190,25 +188,25 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 // APARELHO A GÁS
             for ($i=1; $i <= 29; $i++) {
 
-               if (isset($PostData['d_ap-gas_'.$i])) {
-                array_push($aparelhos,array(                                                                     
-                    'IdOs' => $PostData['IdOS'],
-                    'ItemInspecao' => $PostData['d_ap-gas_'.$i],
-                    'Aparelho1' => $PostData['d_ap-gas_'.$i.'-1'],
-                    'Aparelho2' => $PostData['d_ap-gas_'.$i.'-2'],
-                    'Aparelho3' => $PostData['d_ap-gas_'.$i.'-3']          
-                ));
-                    }  // isset
-                }
+               if (isset($PostData['d_ap-gas_'.$i.'-item'])) {
+                  array_push($aparelhos,array(                                       
+                      'IdOs' => $PostData['IdOS'],
+                      'ItemInspecao' => $PostData['d_ap-gas_'.$i.'-item'],
+                      'Aparelho1' => isset($PostData['d_ap-gas_'.$i.'-1']) ? $PostData['d_ap-gas_'.$i.'-3'] : NULL,
+                      'Aparelho2' => isset($PostData['d_ap-gas_'.$i.'-2']) ? $PostData['d_ap-gas_'.$i.'-3'] : NULL,
+                      'Aparelho3' => isset($PostData['d_ap-gas_'.$i.'-3']) ? $PostData['d_ap-gas_'.$i.'-3'] : NULL
+                  ));
+                  }  // isset
+              }
 
                 // LIGAÇÕES DOS APARELHOS A GÁS
-                for ($i=1; $i <= 29; $i++) {
+                for ($i=1; $i <= 9; $i++) {
 
-                 if (isset($PostData['d_liga-ap_'.$i])) {
-                    array_push($aparelhos,array(                                                                     
+                 if (isset($PostData['d_liga-ap_'.$i.'-item'])) {
+                    array_push($aparelhos,array(                                       
                         'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_liga-ap_'.$i],
-                        'Aparelho1' => $PostData['d_liga-ap_'.$i.'_1'],
+                        'ItemInspecao' => $PostData['d_liga-ap_'.$i.'-item'],
+                        'Aparelho1' => isset($PostData['d_liga-ap_'.$i.'_1']) ? $PostData['d_liga-ap_'.$i.'_1'] : NULL,
                         'Aparelho2' => $PostData['d_liga-ap_'.$i.'_2'],
                         'Aparelho3' => $PostData['d_liga-ap_'.$i.'_3']          
                     ));
@@ -217,75 +215,69 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
 
                 // INDIVIDUAL DE EXAUSTÃO NATURAL E FORÇADA
-                for ($i=1; $i <= 29; $i++) {
+                for ($i=1; $i <= 14; $i++) {
         
-                 if (isset($PostData['d_ind-exaust_'.$i])) {
-                    array_push($aparelhos,array(                                                                     
+                 if (isset($PostData['d_ind-exaust_'.$i.'-item'])) {
+                    array_push($aparelhos,array(                                       
                         'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_ind-exaust_'.$i],
-                        'Aparelho1' => $PostData['d_ind-exaust_'.$i.'-1'],
-                        'Aparelho2' => $PostData['d_ind-exaust_'.$i.'-2'],
-                        'Aparelho3' => $PostData['d_ind-exaust_'.$i.'-3']          
+                        'ItemInspecao' => $PostData['d_ind-exaust_'.$i.'-item'],
+                        'Aparelho1' =>  isset($PostData['d_ind-exaust_'.$i.'-1']) ? $PostData['d_ind-exaust_'.$i.'-1'] : NULL,
+                        'Aparelho2' => isset($PostData['d_ind-exaust_'.$i.'-2']) ? $PostData['d_ind-exaust_'.$i.'-2'] : NULL,
+                        'Aparelho3' => isset($PostData['d_ind-exaust_'.$i.'-3']) ? $PostData['d_ind-exaust_'.$i.'-3'] : NULL          
                     ));
-                    }  // isset
-
+                  }  // isset
                 }
 
 
                 // COLETIVO DE EXAUSTÃO NATURAL E FORÇADA
-                for ($i=1; $i <= 29; $i++) {
+                for ($i=1; $i <= 7; $i++) {
         
-                 if (isset($PostData['d_cole-exaust_'.$i])) {
-                    array_push($aparelhos,array(                                                                     
+                 if (isset($PostData['d_cole-exaust_'.$i.'-item'])) {
+                    array_push($aparelhos,array(                                        
                         'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_cole-exaust_'.$i],
-                        'Aparelho1' => $PostData['d_cole-exaust_'.$i.'-1'],
+                        'ItemInspecao' => $PostData['d_cole-exaust_'.$i.'-item'],
                         'Aparelho2' => $PostData['d_cole-exaust_'.$i.'-2'],
                         'Aparelho3' => $PostData['d_cole-exaust_'.$i.'-3']          
                     ));
-                    }  // isset
-
+                  }  // isset
                 }
 
                 // CARACTERÍSTICAS HIGIÊNICAS DA COMBUSTÃO
-                for ($i=1; $i <= 29; $i++) {
-        
-                 if (isset($PostData['d_caract-higi_'.$i])) {
-                    array_push($aparelhos,array(                                                                     
+                for ($i=1; $i <= 3; $i++) {
+                 if (isset($PostData['d_caract-higi_'.$i.'-item'])) {
+                    array_push($aparelhos,array(                                      
                         'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_caract-higi_'.$i],
-                        'Aparelho1' => $PostData['d_caract-higi_'.$i.'-1'],
-                        'Aparelho2' => $PostData['d_caract-higi_'.$i.'-2'],
-                        'Aparelho3' => $PostData['d_caract-higi_'.$i.'-3']          
+                        'ItemInspecao' => $PostData['d_caract-higi_'.$i.'-item'],
+                        'Aparelho1' => isset($PostData['d_caract-higi_'.$i.'-1']) ? $PostData['d_caract-higi_'.$i.'-1'] : NULL,
+                        'Aparelho2' => isset($PostData['d_caract-higi_'.$i.'-2']) ? $PostData['d_caract-higi_'.$i.'-2'] : NULL,
+                        'Aparelho3' => isset($PostData['d_caract-higi_'.$i.'-3']) ? $PostData['d_caract-higi_'.$i.'-3'] : NULL          
                     ));
-                    }  // isset
-
+                  }  // isset
                 }
 
                 // RECOMENDAÇÕES
-                for ($i=1; $i <= 29; $i++) {
-
-                   if (isset($PostData['d_reco-'.$i])) {
+                for ($i=1; $i <= 6; $i++) {
+                   if (isset($PostData['d_reco-'.$i.'-item'])) {
                     array_push($aparelhos,array(                                                                     
                         'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_reco-'.$i],
+                        'ItemInspecao' => $PostData['d_reco-'.$i.'-item'],
                         'InstalacaoInterna' => $PostData['d_reco-'.$i.'_1'],
-                        'Aparelho1' => $PostData['d_reco-'.$i.'_2'],
                         'Aparelho2' => $PostData['d_reco-'.$i.'_3'],
                         'Aparelho3' => $PostData['d_reco-'.$i.'_4']          
                     ));
-                    }  // isset
-
+                  }  // isset
                 }
 
-                  foreach ($aparelhos as $key => $value) {
+              foreach ($aparelhos as $key => $value) {
                 $Create->ExeCreate("[60_Defeitos]",$value);
-            }
-*/
+              }
+
+              var_dump($aparelhos);
+
 
 //var_dump($PostData, $_FILES, $_POST);
             //ENVIO DE ARQUIVO
-                    /*  if (empty($Upload)):
+                      /*if (empty($Upload)):
                           $Upload = new Upload('../../uploads/');
                       endif;
 
@@ -329,7 +321,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                       $Update->ExeUpdate(DB_GALLERY, $PostData, "WHERE gallery_id = :id", "id={$GalleryId}");
                       $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>ATUALIZADO COM SUCESSO:</b> A Galeria {$title} foi atualizado com sucesso no sistema!");
-                      $jSON['view'] = BASE . "/imovel/{$title}";*/
+                      $jSON['view'] = BASE . "/imovel/{$title}";
 
 
                       if (empty($Upload)):
@@ -390,7 +382,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         endif;
                        
 
-                   /* if (isset($_FILES['fotos_arquivos']) && !empty($_FILES['fotos_arquivos']['name'])) {
+                    if (isset($_FILES['fotos_arquivos']) && !empty($_FILES['fotos_arquivos']['name'])) {
 
                         $file_name = $_FILES['fotos_arquivos']['name'];
                         $file_type = $_FILES['fotos_arquivos']['type'];
@@ -422,9 +414,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                         }*///end if isset file
 
-            for ($i=1; $i <= 6; $i++) { 
-                
-            }
+            $jSON['trigger']='Teste';
 
         break;
     endswitch;
