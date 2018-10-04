@@ -69,6 +69,7 @@ $('.o_forma_de_pagamento_select').change(function(){
             $("input[name='O_quant_parcelas']").prop('checked', false);
         }
     })
+}
 
 //ADICIONA NOVA LINHA NA TABELA COM NOME DA PEÇA QUANTIDADE VALOR UNITÁRIO E TOTAL
 function adicionaLinhaTabela_peca(){
@@ -1225,6 +1226,7 @@ $('#t_aparelho_5').on('click', '.t_excluir_aparelho5', function () {
      });
 
 
+
 $('#t_aparelho_6').on('click', '.t_excluir_aparelho6', function () {
   var count = $("#t_aparelho6").attr("contador");
   var quantidade = $("#t_aparelho6").attr("quantidade");
@@ -1302,16 +1304,16 @@ $('html').on('click', '#j_btn_salvar', function (e) {
           $('.workcontrol_upload_progrees').text('0%');
         });
       }
-            //PREVENT TO RESUBMIT IMAGES GALLERY
-            //form.find('input[name="defeitos_fotos_arquivos[]"]').replaceWith($('input[name="defeitos_fotos_arquivos[]"]').clone());
-            //form.find('input[name="medidor_fotos_arquivos[]"]').replaceWith($('input[name="medidor_fotos_arquivos[]"]').clone());
-            //form.find('input[name="servico_fotos_arquivos[]"]').replaceWith($('input[name="servico_fotos_arquivos[]"]').clone());
-          },
-          success: function (data) {
-            if (data.trigger) {
-              Trigger(data.trigger);
-            }
-            location.reload();
-          }  
-        });
+        //PREVENT TO RESUBMIT IMAGES GALLERY
+        //form.find('input[name="defeitos_fotos_arquivos[]"]').replaceWith($('input[name="defeitos_fotos_arquivos[]"]').clone());
+        //form.find('input[name="medidor_fotos_arquivos[]"]').replaceWith($('input[name="medidor_fotos_arquivos[]"]').clone());
+        //form.find('input[name="servico_fotos_arquivos[]"]').replaceWith($('input[name="servico_fotos_arquivos[]"]').clone());
+      },
+      success: function (data) {
+        if (data.trigger) {
+          Trigger(data.trigger);
+        }
+        //location.reload();
+      }  
+    });
 });
