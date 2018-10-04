@@ -10,29 +10,30 @@
 </div>
 
 <div id="servicos-defeitos"/>
-    <h4 class="icon-user-plus">Instalação com Defeito?</h4>
-    <label class="label box box100">
-        <span><input id="instalacao-ok" type="radio" name="status" value="Sim" style="width:5%">Sim</span>
-        <span><input id="instalacao-defeito" type="radio" name="status" value="Não" style="width:5%">Não</span>
-        <div id="dados-do-def">
-            <label id="foto-defeito" class="label box box50 invisivel">
-                <span class="legend">Foto Defeitos:</span>
-                <input type="file" name="fotos_arquivos[]" class="wc_loadimage" multiple/>
-            </label>
-            <div class="arquivos">
-            </div>
-            <label class="label box box100">
-                <a class="btn btn_darkblue" href="#dist-interna" rel="modal:open"><i class="icon-share"></i>distibuição interna</a>
-                <a class="btn btn_darkblue" href="#Ap-gas" rel="modal:open"><i class="icon-share"></i>Aparelhos a Gás</a>
-                <a class="btn btn_darkblue" href="#liga-ap" rel="modal:open"><i class="icon-share"></i>Ligações dos Aparelhos a Gás</a>
-                <a class="btn btn_darkblue" href="#ind-exaust" rel="modal:open"><i class="icon-share"></i>Individual de Exautão Natural e Forçada</a>
-                <a class="btn btn_darkblue" href="#cole-exaust" rel="modal:open"><i class="icon-share"></i>Coletivo de Exautão Natural e Forçada</a>
-                <a class="btn btn_darkblue" href="#caract-h" rel="modal:open"><i class="icon-share"></i>Características Higiênicas da Combustão</a>
-                <a class="btn btn_darkblue" href="#reco" rel="modal:open"><i class="icon-share"></i>Recomendações</a>                
-            </label>            
-        </div>
+                <h4 class="icon-user-plus">Instalação com Defeito?</h4>
+                <label class="label box box100">
+                    <span><input id="instalacao-ok" type="radio" name="status" value="Sim" style="width:5%">Sim</span>
+                    <span><input id="instalacao-defeito" type="radio" name="status" value="Não" style="width:5%">Não</span>
+                    <div id="dados-do-def">
+                        <label id="foto-defeito" class="label box box50" style="display:none">
+                            <span class="legend">Foto Defeitos:</span>
+                            <input type="file" name="defeitos_fotos_arquivos[]" class="wc_loadimage" multiple/>
+                        </label>
+                        <div class="defeitos_arquivos">
 
-    </label>
+                        </div>
+                        <label class="label box box100">
+                            <a class="btn btn_darkblue" href="#dist-interna" rel="modal:open"><i class="icon-share"></i>Distribuição interna</a>
+                            <a class="btn btn_darkblue" href="#Ap-gas" rel="modal:open"><i class="icon-share"></i>Aparelhos a Gás</a>
+                            <a class="btn btn_darkblue" href="#liga-ap" rel="modal:open"><i class="icon-share"></i>Ligações dos Aparelhos a Gás</a>
+                            <a class="btn btn_darkblue" href="#ind-exaust" rel="modal:open"><i class="icon-share"></i>Individual de Exautão Natural e Forçada</a>
+                            <a class="btn btn_darkblue" href="#cole-exaust" rel="modal:open"><i class="icon-share"></i>Coletivo de Exautão Natural e Forçada</a>
+                            <a class="btn btn_darkblue" href="#caract-h" rel="modal:open"><i class="icon-share"></i>Características Higiênicas da Combustão</a>
+                            <a class="btn btn_darkblue" href="#reco" rel="modal:open"><i class="icon-share"></i>Recomendações</a>
+                        </label>
+                    </div>
+                </label>
+            
 </div>
 
 <div class="box50">
