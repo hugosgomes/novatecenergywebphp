@@ -1,5 +1,6 @@
 
-
+var totalLinhasP = 1;
+var totalLinhasS = 1;
 //VARIÁVEL PARA DETERMINAR TEMPO DE EVENTOS JQUERY 
 var tempoEvento = 500; 
 
@@ -30,7 +31,7 @@ function exibeCheckbox(){
     })
 }
 
-//EXIBE E OCULTA IMPUTE FOTOS DEFEITOS
+//EXIBE E OCULTA IMPUT FOTOS DEFEITOS
 $("#instalacao-ok").change(function() {
     if(this.checked){
         $('#foto-defeito').fadeIn(tempoEvento);
@@ -43,25 +44,25 @@ $("#instalacao-defeito").change(function() {
     }
 });
 
-//EXIBE E OCULTA IMPUTES ORÇAMENTO
-function exibirEocultarFormaPg(){
-        $('.o_aprovado_reprovado').change(function(){
+//EXIBE E OCULTA RADIOS QUANT. DE PARCELAS
+$('.o_forma_de_pagamento_select').change(function(){
 
-            var o_status = $(this).val();
+        var o_forma_de_pagamento = $(this).val();
 
-        if(o_status == 'o_aprovado'){
-            $('#o_forma-pgt').fadeIn(tempoEvento);
+        if(o_forma_de_pagamento == 0){
+            $('#o_quant_parcelas').fadeIn(tempoEvento);
         }
-        if(o_status == 'o_reprovado'){
-            $('#o_forma-pgt').fadeOut(tempoEvento);
+        if(o_forma_de_pagamento != 0){
+            $('#o_quant_parcelas').fadeOut(tempoEvento);
+            $("input[name='O_quant_parcelas']").prop('checked', false);
         }
     })
 
-}
-
-
 //ADICIONA NOVA LINHA NA TABELA COM NOME DA PEÇA QUANTIDADE VALOR UNITÁRIO E TOTAL
 function adicionaLinhaTabela_peca(){
+    var iPeca = 0;
+    var iQtd = 0;
+    
     $('.j_add_pecas').click(function(){
 
         //SELECIONA VALORES 
@@ -69,38 +70,57 @@ function adicionaLinhaTabela_peca(){
         var qTd = $('#o_qtd-pecas').val();
         var valorUnit = $('#o_peca option:selected').val();
         var idTr = $('#o_peca option:selected').attr('id');
-        var idPeca = $('#o_peca option:selected').attr('id');
+        var selectValorOption = $('#o_peca option:selected').val();
+        var selectAtributoOption = $('#o_peca option:selected').prop('disabled');
 
+        //IMPEDE O USUÁRIO DE ADICIONAR LINHAS NA TABELA ANTES DE SELECIONAR PEÇA 
+        if(selectValorOption == 't' || selectAtributoOption == true){
+            $('#o_peca').focus();
+        }
 
-        //ADICIONA MASCARA VALOR UNITARIO
+        //IMPEDE O USUÁRIO DE ADICIONAR VÁRIAS VEZES A MESMA PEÇA
+        if(selectValorOption != 't' && selectAtributoOption == false){
+
+        //DESABILITAR O OPTION QUE JÁ TEVE SEU VALOR ADICIONADO NA TABELA
+        $('#o_peca #'+idTr).attr('disabled','disabled');
+
+        var geraInputHidden = '<input id="p'+idTr+'" type="hidden" value="'+idTr+'" name="o_id_peca'+(iPeca++)+'">';
+
+        //ADICIONA MASCARA VALOR UNITARIO DA  PEÇA
         var valorUnitMask = numeroParaMoeda(valorUnit, 2, ',', '.');
 
         var valorTotalLinha = qTd * valorUnit;
         var valorTotalLinhaMask = numeroParaMoeda(valorTotalLinha, 2, ',', '.');
 
         //ADICIONA LINHA NA TABELA
-        var adicionaLinha = '<tr id="pecas'+idTr+'">'+
-                                '<td><input type="text" id="'+idPeca+'" name="'+desc+'" value="'+desc+'" style="width:100% !important;" disabled>'+
+        var adicionaLinha = '<tr id="'+idTr+'" class="adicionaLinhaPecas">'+
+                                '<td><input type="text" id="'+idTr+'" name="o_descricao_peca" value="'+desc+'" style="width:100% !important;" readonly>'+
                                    //desc+ 
                                 '</td>'+
-                                '<td><input type="text" id="'+idPeca+'" name="Qtd" value="'+qTd+'" disabled>'+
+                                '<td><input type="number" id="'+idTr+'" name="o_quant_peca'+(iQtd++)+'" value="'+qTd+'" readonly>'+
                                    //qTd +
                                 '</td >'+
-                                '<td id="j_valor"><input id="'+idPeca+'" type="text" name="valor" value="'+valorUnitMask+'"  disabled>'+
+                                '<td id="j_valor"><input id="'+idTr+'" type="text" name="" value="'+valorUnitMask+'"  readonly>'+
                                    //valorUnitMask+ 
                                 '</td>'+
-                                '<td id="j_valor" class="valorUnit"><input id="'+idPeca+'" type="text" name="valorTotal" value="'+valorTotalLinha+'"  disabled>'+
+                                '<td id="j_valor" class="valorUnit"><input id="'+idTr+'" type="text" name="o_valor_final_peca" value="'+valorTotalLinha+'"  readonly>'+
                                    //valorTotalLinha+
 
                                 '</td>'+
-                                '<td style="text-align: center;"><span class="j_add_pecas icon-cross btn btn_red"></span>'+
+                                '<td style="text-align: center;"><span id="o_remove_linha_P" class="j_add_pecas icon-cross btn btn_red"></span>'+
                                 '</td>'+
                             '</tr>';
 
             $('#o_tabela-pecasEservicos').prepend(adicionaLinha);
+            $('.o_p_hidden').append(geraInputHidden);
+            $('.o_p_total_linhas input').val(totalLinhasP++);
+            $('#o_qtd-pecas').val(1);
 
-            //console.log(valorTotalLinhaMask);
+           //CALCULA E EXIBE O VALOR DO ORÇAMENTO 
            calculaTotalTable();
+        }
+
+        
     })
 }
 
@@ -111,30 +131,28 @@ function tipoDeCliente(){
        if(valor == 'o_tipoClienteCp'){
 
             //EXIBE SELECT PARA CLIENTE COM PLANO
-            $('#o_cliente_com_plano').fadeIn(tempoEvento - 200);
-            $('#o_cliente_sem_plano').fadeOut(tempoEvento - 200);
-
-            //SELECIONA VALORES EM PESQUISAR SERVIÇOS PARA CLIENTES COM PLANO
+            $('#o_cliente_com_plano').show();
+            $('#o_cliente_sem_plano').hide();
 
        }
        if(valor == 'o_tipoClienteSp'){
 
             //EXIBE SELECT PARA CLIENTE SEM PLANO
-            $('#o_cliente_com_plano').fadeOut(tempoEvento - 200);
-            $('#o_cliente_sem_plano').fadeIn(tempoEvento - 200);
+            $('#o_cliente_com_plano').hide();
+            $('#o_cliente_sem_plano').show();
 
-            //SELECIONA VALORES EM PESQUISAR SERVIÇOS PARA CLIENTES COM PLANO
        }
     })
 }
 
-//ADICIONA LINHA NA TABELA ORÇAMENTO REFERENTE A SERVICO
+//ADICIONA LINHA NA TABELA ORÇAMENTO 
 function adicionaLinhaTabela_s(){
+    var iServico = 0;
+    var iQtd = 0;
 
-        //SELECIONA O VALOR DO REDIOS QUE O CHECKED = CHECKED
+      $('.j_add_servicos').click(function(){
+        //SELECIONA O VALOR DO RADIOS QUE O CHECKED FOR TRUE
         radiosChecked = $('.o_tipoCliente:checked').val();
-        console.log(radiosChecked);
-
 
         if(radiosChecked == 'o_tipoClienteCp'){
 
@@ -144,7 +162,11 @@ function adicionaLinhaTabela_s(){
             var valorUnit = $('#o_servicos_c_com_p option:selected').val();
             var idTr = $('#o_servicos_c_com_p option:selected').attr('id');
 
+            var idServico = '<input id="s'+idTr+'" type="hidden" value="'+idTr+'" name="o_id_servico'+(iServico++)+'">';
+            var selectValorOption = $('#o_servicos_c_com_p option:selected').val();
+            var selectAtributoOption = $('#o_servicos_c_com_p option:selected').prop('disabled');
        }
+
        if(radiosChecked == 'o_tipoClienteSp'){
 
             //EXIBE SELECT PARA CLIENTE SEM PLANO
@@ -154,9 +176,24 @@ function adicionaLinhaTabela_s(){
             var valorUnit = $('#o_servicos_s_com_p option:selected').val();
             var idTr = $('#o_servicos_s_com_p option:selected').attr('id');
 
+            var idServico = '<input id="s'+idTr+'" type="hidden" value="'+idTr+'" name="o_id_servico'+(iServico++)+'">';
+            var selectValorOption = $('#o_servicos_s_com_p option:selected').val();
+            var selectAtributoOption = $('#o_servicos_s_com_p option:selected').prop('disabled');
+
        }
 
-       var input_hidden = '<input id="'+idTr+'" name="'+desc+'" value="'+desc+'">';
+       //DESABILITA O OPTION QUE JÁ TEVE SEU VALOR ADICIONADO NA TABELA
+        $('#o_servicos_c_com_p #'+idTr).attr('disabled','disabled');
+        $('#o_servicos_s_com_p #'+idTr).attr('disabled','disabled');
+
+        //IMPEDE O USUÁRIO DE ADICIONAR LINHAS NA TABELA ANTES DE SELECIONAR SERVICOS
+        if(selectValorOption == 't' || selectAtributoOption == true){
+            $('#o_servicos_c_com_p').focus();
+            $('#o_servicos_s_com_p').focus();
+        }
+
+        //IMPEDE O USUÁRIO DE ADICIONAR VÁRIAS VEZES O MESMO SERVIÇO
+        if(selectValorOption != 't' && selectAtributoOption == false){
 
         //ADICIONA MASCARA VALOR UNITARIO
         var valorUnitMask = numeroParaMoeda(valorUnit, 2, ',', '.');
@@ -165,29 +202,33 @@ function adicionaLinhaTabela_s(){
         var valorTotalLinhaMask = numeroParaMoeda(valorTotalLinha, 2, ',', '.');
 
         //ADICIONA LINHA NA TABELA
-        var adicionaLinha = '<tr id="'+idTr+'">'+
-                                '<td style="text-align: center;"><input type="text" name="'+desc+'" value="'+desc+'" style="width:100% !important;" disabled>'+
+        var adicionaLinha = '<tr id="'+idTr+'" class="adicionaLinhaServicos">'+
+                                '<td style="text-align: center;"><input type="text" name="" value="'+desc+'" style="width:100% !important;" readonly>'+
                                    //desc+ 
                                 '</td>'+
-                                '<td style="text-align: center;"><input type="text" name="Qtd" value="'+qTd+'" style="width:100% !important;" disabled>'+
+                                '<td style="text-align: center;"><input type="text" name="o_quant_servico'+(iQtd++)+'" value="'+qTd+'" style="width:100% !important;" readonly>'+
                                    //qTd +
                                 '</td >'+
-                                '<td id="j_valor" style="text-align: center;"><input type="text" name="valorUnit" value="'+valorUnitMask+'" style="width:100% !important;" disabled>'+
+                                '<td id="j_valor" style="text-align: center;"><input type="text" name="" value="'+valorUnitMask+'" style="width:100% !important;" readonly>'+
                                    //valorUnitMask+ 
                                 '</td>'+
-                                '<td id="j_valor" class="valorUnit" style="text-align: center;"><input type="text" name="valorTotal" value="'+valorTotalLinha+'" style="width:100% !important;" disabled>'+
+                                '<td id="j_valor" class="valorUnit" style="text-align: center;"><input type="text" name="" value="'+valorTotalLinha+'" style="width:100% !important;" readonly>'+
                                    //valorTotalLinha+
 
                                 '</td>'+
                                 '</td>'+
-                                '<td style="text-align: center;"><span class="j_add_pecas icon-cross btn btn_red"></span>'+
+                                '<td style="text-align: center;"><span id="o_remove_linha_S" class="j_add_pecas icon-cross btn btn_red"></span>'+
                                 '</td>'+
                             '</tr>';
 
             $('#o_tabela-pecasEservicos').prepend(adicionaLinha);
-            
-           calculaTotalTable();
-    //})
+            $('.o_s_hidden').append(idServico);
+            $('.o_s_total_linhas input').val(totalLinhasS++);
+            $('#o_qtd_servicos').val(1);
+            calculaTotalTable();
+}
+      })
+        
 }
 
 //SOMA DO TOTAL DE TODAS AS LINHAS DA TABELA
@@ -195,26 +236,65 @@ function calculaTotalTable(){
     valorTotal = 0;
     $('.valorUnit input').each(function(){
         valorTotal += parseFloat($(this).val());
-        console.log(valorTotal);
+
         valorTotalSMask = moedaParaNumero(valorTotal);
         valorTotalMask = numeroParaMoeda(valorTotalSMask, 2, ',', '.')
     });
+
     if(valorTotal == 0){
          $('.valor-total').text(0);
+         $('#valor-total').val(0);
     }else{
         $('.valor-total').text(valorTotalMask);
+        $('#valor-total').val(valorTotal);
     }
 }
 
 //REMOVE LINHA ESPECÍFICA DA TABELA AO CLICAR NO BUTTON REMOVER
-function removeLinhaTabela(){
-    $(document).on('click','#o_tabela-pecasEservicos .icon-cross',function(){
-        $(this).parent().parent().remove();
-        calculaTotalTable();
+function removeLinhaTabela(id){
+
+    $(document).on('click','#o_tabela-pecasEservicos #'+id,function(){
+
+      var idDoButton = $(this).attr('id');
+      
+
+      if(idDoButton == 'o_remove_linha_P'){
+
+        //DECRESCE A QUANTIDADE DE LINHAS NO INPUT HIDDEN
+        var valorInput = $('.o_p_total_linhas input').val();
+        $('.o_p_total_linhas input').val(valorInput -1);
+
+        //HABILITA O OPTION COM id == idLinha NO SELECT PESQUISAR PEÇAS
+        var idLinha = $(this).parent().parent().attr('id');
+        $('#o_peca #'+idLinha).attr('disabled',false);
+        $('.o_p_hidden #p'+idLinha).remove();
+         totalLinhasP--;
+      }
+
+      if(idDoButton == 'o_remove_linha_S'){
+        var valorInput = $('.o_s_total_linhas input').val();
+        $('.o_s_total_linhas input').val(valorInput -1);
+
+        //HABILITA O OPTION COM id == idLinha NO SELECT PESQUISAR SERVIÇO
+        var idLinha = $(this).parent().parent().attr('id');
+        $('#o_servicos_c_com_p #'+idLinha).attr('disabled',false);
+        
+        //HABILITA O OPTION COM id == idLinha NO SELECT PESQUISAR SERVIÇO
+        var idLinha = $(this).parent().parent().attr('id');
+        $('#o_servicos_s_com_p #'+idLinha).attr('disabled',false);
+        $('.o_s_hidden #s'+idLinha).remove();
+         totalLinhasS--;
+      }
+
+      $(this).parent().parent().remove();
+
+      calculaTotalTable();
+
+        
     })
 }
 
-//DETERMINA VALOR MÍNIMO
+//DETERMINA VALOR MÍNIMO QUE DEVE SER DIGITADO NO INPUT
 function valorMinimoInput(id,valorMin){
     var valorDigitado = $(id).val();
     if(valorDigitado < valorMin){
@@ -222,10 +302,8 @@ function valorMinimoInput(id,valorMin){
     }
 }
 
-//
 
 //SETAR VALOR MÍNIMO PARA INPUTS
-
 $('#o_parcelas-seleciona').blur(function(){
      valorMinimoInput('#o_parcelas-seleciona',13);
 })
@@ -239,16 +317,22 @@ $('#o_qtd_servicos').blur(function(){
 })
 
 
-//
+
 $('.o_parcelas').change(function(){
-    valor = $(this).val();
-  if(valor == 'o_parcelas_maior_12'){
+    valorParcelas = $(this).val();
+  if(valorParcelas > 12){
     $('#o_parcelas-seleciona').fadeIn(tempoEvento);
-    $('#o_parcelas-seleciona').val('');
+    $('#o_parcelas-seleciona').val('13');
   }
-  if(valor !== 'o_parcelas_maior_12'){
+
+  if(valorParcelas < 13){
     $('#o_parcelas-seleciona').fadeOut(tempoEvento);
   }
+})
+
+$('#o_parcelas-seleciona').blur(function(){
+  var valor = $(this).val();
+  $('#o_parcelas_maior_12').val(valor);
 })
   
 
@@ -276,77 +360,14 @@ function moedaParaNumero(valor)
 //DISPONIBILIZAR FUNÇÃO DEPOIS QUE O DOCUMENTO FOR CARREGADO
 $(document).ready(function() {
     adicionaLinhaTabela_peca();
-
-    $('.j_add_servicos').click(function(){
-        adicionaLinhaTabela_s();
-    })
-    
+    adicionaLinhaTabela_s();
     exibeCheckbox();
-    removeLinhaTabela();
+    removeLinhaTabela('o_remove_linha_P');
+    removeLinhaTabela('o_remove_linha_S');
     tipoDeCliente();
-    exibirEocultarFormaPg();
 });
 
 
-
-
-//consultaDescricao();
-
-//ADICIONA O.S PARA O TÉCNICO
-    /*$('html').on('click', '.j_add_pecas', function (e) {
-        var PecaId = $("#peca option:selected").val();
-        var PecaQtd = $(".j_qtd_pecas").val();
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');
-
-
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, PecaId: PecaId, PecaQtd: PecaQtd}, function (data) {
-
-            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if (data.trigger) {
-                Trigger(data.trigger);
-
-            }
-
-            //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
-            if (data.addtable) {
-               
-            }
-
-        
-        }, 'json');
-
-        e.preventDefault();
-        e.stopPropagation();
-    });*/
-
-
-    /*
-function consultaDescricao(){
-    $(document).on('click','.j_consulta-descricao',function(){
-
-        var Callback = $('#callback').attr('callback');
-        var Callback_action = $('#callback_action').attr('callback_action');
-       
-            $.get('_ajax/'+Callback+'.ajax.php', {callback: Callback, callback_action: Callback_action}, function(data){  
-
-           //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-       if(data.Trigger){
-        Trigger(data.trigger);
-        
-        }   
-
-        if(data.teste){
-            alert(data.teste);          
-        }     
-
-    }, 'json');
-    })
-  //O PARAMETRO INICIAL É PARA DETERMINAR SE A CHAMADA FOI FEITA NO CARREGAMENTO DA PÁGINA OU NÃO PARA PREENCHER OS SELECTS DA PÁGINA
-
-}
-*/
-//consultaDescricao();
 exibeCheckbox();
 
 //RECOMENDAÇÕES
