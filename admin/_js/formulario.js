@@ -1232,24 +1232,6 @@ $('html').on('click', '#j_btn_salvar', function (e) {
             if (data.trigger) {
                 Trigger(data.trigger);
             }
-              // DEFEITOS
-            if (data.defeitos) {     
-              
-              $(data.defeitos).appendTo('.defeitos_arquivos');
-                  
-            }
-              // MEDIDOR
-            if (data.medidor) {     
-               
-              $(data.medidor).appendTo('.dados_medidor');
-                  
-            }
-              // SERVIÇOS
-            if (data.servico) {     
-               
-               $(data.servico).appendTo('.dados_servico');
-
-             }
 
         }
 

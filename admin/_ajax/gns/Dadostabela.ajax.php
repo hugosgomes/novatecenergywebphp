@@ -209,7 +209,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     'Aparelho2' => $PostData['d_ap-gas_'.$i.'-2'],
                     'Aparelho3' => $PostData['d_ap-gas_'.$i.'-3']
                        
-                    unset('Aparelho3' => $PostData['d_ap-gas_4-3'])       
+                           
                 ));
                     }  // isset
                 }
@@ -295,10 +295,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $Create->ExeCreate("[60_Defeitos]",$value);
             }
 
-            $jSON['trigger'] = AjaxErro('Todos os dados enviados com sucessos!', E_USER_ERROR);
-            var_dump($aparelhos);
                     // FOTOS DEFEITOS
-/*
+
                       if (empty($Upload)):
                         $Upload = new Upload('../../../uploads/');
                       endif;
@@ -335,7 +333,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                                   endforeach;
                               endfor;
-                              //var_dump($gbCount);
+                            
                               $jSON['defeitos'] = null;
                               foreach ($d_gbFiles as $d_UploadFile):
                                   $d_gbLoop ++;
@@ -462,7 +460,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                   endif;
                               endforeach;
                           endif;
-                        endif;*/
+                        endif;
 
         break;    
     endswitch;
