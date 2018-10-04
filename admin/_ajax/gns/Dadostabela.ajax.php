@@ -51,7 +51,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     unset($PostData[$key]);
                 }
             }
-            $aparelhos = [];
+
+           // $aparelhos = [];
 
             //SALVANDO O ATENDIMENTO
           /*  $atendimento = array(
@@ -183,120 +184,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $Create->ExeCreate("[60_TesteAparelho]",$value);
             }*/
 
-// DEFEITOS
-                // DISTRIBUIÇÃO INTERNA
-            for ($i=1; $i <= 23; $i++) {
-                if (isset($PostData['d_distr_interna_'.$i])) {
-                    array_push($aparelhos,array(
 
-                        'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d-dist-interna-'.$i],
-                        'InstalacaoInterna' => $PostData['d_distr_interna_'.$i]
-
-
-                    ));
-                }
-            }
-
-                // APARELHO A GÁS
-            for ($i=1; $i <= 29; $i++) {
-
-               if (isset($PostData['d_ap-gas_'.$i])) {
-                array_push($aparelhos,array(                                                                     
-                    'IdOs' => $PostData['IdOS'],
-                    'ItemInspecao' => $PostData['d_ap-gas_'.$i],
-                    'Aparelho1' => $PostData['d_ap-gas_'.$i.'-1'],
-                    'Aparelho2' => $PostData['d_ap-gas_'.$i.'-2'],
-                    'Aparelho3' => $PostData['d_ap-gas_'.$i.'-3']
-                       
-                    unset('Aparelho3' => $PostData['d_ap-gas_4-3'])       
-                ));
-                    }  // isset
-                }
-
-                // LIGAÇÕES DOS APARELHOS A GÁS
-                for ($i=1; $i <= 29; $i++) {
-
-                 if (isset($PostData['d_liga-ap_'.$i])) {
-                    array_push($aparelhos,array(                                                                     
-                        'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_liga-ap_'.$i],
-                        'Aparelho1' => $PostData['d_liga-ap_'.$i.'_1'],
-                        'Aparelho2' => $PostData['d_liga-ap_'.$i.'_2'],
-                        'Aparelho3' => $PostData['d_liga-ap_'.$i.'_3']          
-                    ));
-                    }  // isset
-                }
-
-
-                // INDIVIDUAL DE EXAUSTÃO NATURAL E FORÇADA
-                for ($i=1; $i <= 29; $i++) {
-        
-                 if (isset($PostData['d_ind-exaust_'.$i])) {
-                    array_push($aparelhos,array(                                                                     
-                        'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_ind-exaust_'.$i],
-                        'Aparelho1' => $PostData['d_ind-exaust_'.$i.'-1'],
-                        'Aparelho2' => $PostData['d_ind-exaust_'.$i.'-2'],
-                        'Aparelho3' => $PostData['d_ind-exaust_'.$i.'-3']          
-                    ));
-                    }  // isset
-
-                }
-
-
-                // COLETIVO DE EXAUSTÃO NATURAL E FORÇADA
-                for ($i=1; $i <= 29; $i++) {
-        
-                 if (isset($PostData['d_cole-exaust_'.$i])) {
-                    array_push($aparelhos,array(                                                                     
-                        'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_cole-exaust_'.$i],
-                        'Aparelho1' => $PostData['d_cole-exaust_'.$i.'-1'],
-                        'Aparelho2' => $PostData['d_cole-exaust_'.$i.'-2'],
-                        'Aparelho3' => $PostData['d_cole-exaust_'.$i.'-3']          
-                    ));
-                    }  // isset
-
-                }
-
-                // CARACTERÍSTICAS HIGIÊNICAS DA COMBUSTÃO
-                for ($i=1; $i <= 29; $i++) {
-        
-                 if (isset($PostData['d_caract-higi_'.$i])) {
-                    array_push($aparelhos,array(                                                                     
-                        'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_caract-higi_'.$i],
-                        'Aparelho1' => $PostData['d_caract-higi_'.$i.'-1'],
-                        'Aparelho2' => $PostData['d_caract-higi_'.$i.'-2'],
-                        'Aparelho3' => $PostData['d_caract-higi_'.$i.'-3']          
-                    ));
-                    }  // isset
-
-                }
-
-                // RECOMENDAÇÕES
-                for ($i=1; $i <= 29; $i++) {
-
-                   if (isset($PostData['d_reco-'.$i])) {
-                    array_push($aparelhos,array(                                                                     
-                        'IdOs' => $PostData['IdOS'],
-                        'ItemInspecao' => $PostData['d_reco-'.$i],
-                        'InstalacaoInterna' => $PostData['d_reco-'.$i.'_1'],
-                        'Aparelho1' => $PostData['d_reco-'.$i.'_2'],
-                        'Aparelho2' => $PostData['d_reco-'.$i.'_3'],
-                        'Aparelho3' => $PostData['d_reco-'.$i.'_4']          
-                    ));
-                    }  // isset
-
-                }
-
-                  foreach ($aparelhos as $key => $value) {
-                $Create->ExeCreate("[60_Defeitos]",$value);
-            }
-
-            $jSON['trigger'] = AjaxErro('Todos os dados enviados com sucessos!', E_USER_ERROR);
-            var_dump($aparelhos);
                     // FOTOS DEFEITOS
 /*
                       if (empty($Upload)):
@@ -367,94 +255,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                       
 
-                     // unset($PostData['IdOS'], $PostData['medidor_fotos_arquivos']);
-
-
-                      if (!empty($m_Image)):
-                          $m_File = $m_Image;
-                          $m_gbFile = array();
-                          $m_gbCount = count($m_File['type']);
-                          $m_gbKeys = array_keys($m_File);
-                          $m_gbLoop = 0;
-               
-                            //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
-                     
-                           
-                        if ($m_gbCount > 10):
-                              $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
-                        else:
-
-                              for ($gb = 0; $gb < $m_gbCount; $gb++):
-                                  foreach ($m_gbKeys as $Keys):
-                                      $m_gbFiles[$gb][$Keys] = $m_File[$Keys][$gb];
-
-                                  endforeach;
-                              endfor;
-                              //var_dump($gbCount);
-                              $jSON['medidor'] = null;
-                              foreach ($m_gbFiles as $m_UploadFile):
-                                  $m_gbLoop ++;
-                                  $Upload->Image($m_UploadFile, "{$m_title}". time(), IMAGE_W, 'images');
-                                  
-                                  if ($Upload->getResult()):
-
-                                      $m_gbCreate = array('OS' => $m_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 1);
-                                     //var_dump($UploadFile);
-
-                                      $Create->ExeCreate('[60_OS_Fotos]', $m_gbCreate);
-                                    
-                                      $jSON['medidor'] .= "<img rel='Gallery' id='{$m_GalleryId}' alt='Imagem em {$m_title}' title='Imagem em {$m_title}' src='../uploads/{$Upload->getResult()}' style='width: 10%;'/>";
-                                     
-                                  endif;
-                              endforeach;
-                          endif;
-                        endif;
-
-                          // FOTOS SERVIÇO
-
-                      $s_title = "Servicos";
-                      $s_arquivos = array($_FILES['servico_fotos_arquivos']['size']);
-                      $s_GalleryId = $PostData['IdOS'];
-                      $s_Image = (!empty($_FILES['servico_fotos_arquivos']) ? $_FILES['servico_fotos_arquivos'] : null);
-                      $s_Size = (!empty($_FILES['servico_fotos_arquivos']['size']) ? array_sum($s_arquivos) : null);
-                      $s_GalleryName = Check::Name($s_title);
-
-                      
-
-                     // unset($PostData['IdOS'], $PostData['servico_fotos_arquivos']);
-
-
-                      if (!empty($s_Image)):
-                          $s_File = $s_Image;
-                          $s_gbFile = array();
-                          $s_gbCount = count($s_File['type']);
-                          $s_gbKeys = array_keys($s_File);
-                          $s_gbLoop = 0;
-               
-                            //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
-                     
-                           
-                        if ($s_gbCount > 10):
-                              $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
-                        else:
-
-                              for ($gb = 0; $gb < $s_gbCount; $gb++):
-                                  foreach ($s_gbKeys as $Keys):
-                                      $s_gbFiles[$gb][$Keys] = $s_File[$Keys][$gb];
-
-                                  endforeach;
-                              endfor;
-                              //var_dump($gbCount);
-                              $jSON['servico'] = null;
-                              foreach ($s_gbFiles as $s_UploadFile):
-                                  $s_gbLoop ++;
-                                  $Upload->Image($s_UploadFile, "{$s_title}". time(), IMAGE_W, 'images');
-                                  
-                                  if ($Upload->getResult()):
-
-                                      $s_gbCreate = array('OS' => $s_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 2);
-                                     //var_dump($UploadFile);
-
                                       $Create->ExeCreate('[60_OS_Fotos]', $s_gbCreate);
                                     
                                       $jSON['servico'] .= "<img rel='Gallery' id='{$s_GalleryId}' alt='Imagem em {$s_title}' title='Imagem em {$s_title}' src='../uploads/{$Upload->getResult()}' style='width: 10%;'/>";
@@ -463,6 +263,44 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                               endforeach;
                           endif;
                         endif;*/
+                        
+  $totalLinhasPecas = $PostData['o_p_total_linhas'];
+
+            for ($i=0; $i < $totalLinhasPecas ; $i++) { 
+                $orcamento_pecas = array(
+                    'Num_OS' => $PostData['IdOS'],
+                    'ID_Pecas' => $PostData['o_id_peca'.$i],
+                    'Qtd' => $PostData['o_quant_peca'.$i]
+                );
+
+                $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
+                
+            }
+
+            $totalLinhasServicos = $PostData['o_s_total_linhas'];
+
+          for ($i= 0; $i < $totalLinhasServicos; $i++) { 
+                 $orcamento_servico = array(
+                    'Num_OS' => $PostData['IdOS'],
+                    'ID_servico' => $PostData['o_id_servico'.$i],
+                    'Qtd' => $PostData['o_quant_servico'.$i]
+                );
+
+                $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
+            }
+
+               $orcamento = array(
+                'IdOS' => $PostData['IdOS'],
+                'TecnicoEnt' => $PostData['IdTecnico'],
+                //'DataExe' => $PostData[''],
+                'TecExe' => $PostData['IdOS'],
+                'Status' => $PostData['o_orcamento_status'],
+                'Valor' => $PostData['o_valor_total_orcamento'],
+                'FormaPagamento' => $PostData['o_forma_de_pagamento'],
+                'NumParcelas' => $PostData['O_quant_parcelas']
+            );
+                  $Create->ExeCreate("[60_Orcamentos]",$orcamento);
+
 
         break;    
     endswitch;
