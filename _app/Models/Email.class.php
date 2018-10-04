@@ -35,14 +35,14 @@ class Email {
 
     function __construct() {
         $this->Mail = new PHPMailer;
-        $this->Mail->Host = MAIL_HOST;
-        $this->Mail->Port = MAIL_PORT;
-        $this->Mail->Username = MAIL_SMTP;
-        $this->Mail->Password = MAIL_PASS;
+        $this->Mail->Host = "email-ssl.com.br";
+        $this->Mail->Port = 587;
+        $this->Mail->Username = "rdias@novatecenergy.com.br";
+        $this->Mail->Password = "Novatec.10";
         $this->Mail->SMTPAuth = true;
         
         if(!empty(MAIL_MODE)):
-            $this->Mail->SMTPSecure = MAIL_MODE;
+            $this->Mail->SMTPSecure = tls;
         endif;
     }
 
@@ -149,8 +149,8 @@ class Email {
 
 
         //REMETENTE E RETORNO
-        $this->Mail->From = MAIL_USER;
-        $this->Mail->FromName = MAIL_SENDER;
+        $this->Mail->From = "rdias@novatecenergy.com.br";
+        $this->Mail->FromName = "rdias@novatecenergy.com.br";
         $this->Mail->AddReplyTo($this->RemetenteEmail, $this->RemetenteNome);
 
         //ASSUNTO, MENSAGEM E DESTINO
