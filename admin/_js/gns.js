@@ -57,22 +57,11 @@
                 $('#dataTable2 #semOS').fadeOut('fast');
                 $('#dataTable #semOS').fadeOut('fast');
                 $(data.addtable).appendTo('.dataTable');
-               // location.reload();
-                $('.info-window').fadeOut(400);
+            
+               $('.info-window').fadeOut(400);
 
-            /*if(data.idOS){
-                //var id = int(data.idOS);
-                data.idOS;
-
-            }*/
-                
-
-               /*if(data.mapa){
-                  setTimeout(function () {
-                      $(".mapa").load(".teste");
-                  }, 300)
-              }*/
             }
+
 
             //DINAMIC CONTENT
             if (data.divcontent) {
@@ -83,7 +72,7 @@
         e.preventDefault();
         e.stopPropagation();
     });
-
+     
     //DELETA O.S DO TÉCNICO
     $('html').on('click', '.j_del_tecnico', function (e) {
         var Prevent = $(this);

@@ -335,6 +335,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     );
 
                     $Create->ExeCreate("[60_Orcamentos]",$orcamento);
+
+                    
             // FOTOS DEFEITOS
 
                       if (empty($Upload)):

@@ -162,7 +162,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b> ".count($Read->getResult())."</span>";
           ?>           
         </header>
-        <div class="box_content">
+        <div class="box_content teste">
           <div id="map" class="no-print" style="height: 59.3%;"></div>
         </div>
       </article>
@@ -221,10 +221,11 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 </script>
 
 <!--inicia o Google Maps-->
+
 <script>
   function initMap() {
     var myLatLng = {lat: -22.9068467, lng: -43.1728965};
-    var map = new google.maps.Map(document.getElementById('map'), {
+     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 8,
       center: myLatLng
     });
@@ -235,27 +236,28 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 
     <?php
     foreach ($Read->getResult() as $OS):
-      extract($OS);      
-      echo "marker".$Id." = new google.maps.Marker({
-        position: myLatLng,
-        map: map,";        
-        echo"icon: image1,";     
-        echo "animation: google.maps.Animation.DROP,
-        position: {lat:".$Latitude.", lng: ".$Longitude."},     
-        title: ''});";
-?>
-        var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS; ?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p><p>Serviço: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='<?php echo $Id;?>' onclick='infowindow<?php echo $Id;?>.fadeOut(100);'>Add</span></div></div>";
+      extract($OS);  
+           ?>
+           marker<?php echo $Id;?> = new google.maps.Marker({
+            position: myLatLng,
+            map: map,        
+            icon: image1,     
+            animation: google.maps.Animation.DROP,
+            position: {lat:<?php echo $Latitude;?>, lng: <?php echo $Longitude; ?> },     
+           }); 
+       
+             var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS; ?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p><p>Serviço: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='<?php echo $Id;?>'>Add</span></div></div>";
 
-<?php
-        echo "infowindow".$Id." = new google.maps.InfoWindow({
-          content: contentString,
-          maxWidth: 400
-        });";
 
-        echo "marker".$Id.".addListener('click', function () {
-          infowindow".$Id.".open(map, marker".$Id.");
-        });";     
-
+          infowindow<?php echo $Id; ?> = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 400
+          });
+          marker<?php echo $Id;?>.addListener('click', function(){
+            infowindow<?php echo $Id;?>.open(map, marker<?php echo $Id;?>)
+    });
+    
+ <?php
       endforeach;
       ?>            
     };
