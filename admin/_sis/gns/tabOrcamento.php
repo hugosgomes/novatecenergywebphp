@@ -1,12 +1,12 @@
-     <div id="orcamento"/>
+    <div id="orcamento"/>
         <h4 class="icon-user-plus">Orçamento</h4>
         <label class="label box box100">
              <div class="box box100">
                  <div class="box box33">
                      <label class="label">
                         <span class="legend">Pesquisar Peças</span>
-                         <select rel="0" id="o_peca" name="o_peca">
-                                    
+                         <select rel="0" id="o_peca" name="">
+                                <option disabled="disabled" selected value="t">SELECIONAR PEÇA</option>         
                         <?php
                         $Read->FullRead("SELECT [Id] AS id, [Peca] AS peca, [ValorFinal] AS valor FROM [60_Pecas]", " ");
                         if ($Read->getResult()):
@@ -21,7 +21,7 @@
                  <div class="box box14">
                      <label class="label">
                         <span class="legend">Qtd.</span>
-                        <input id="o_qtd-pecas" type="number" style="font-size: 1.0em;"  class="j_qtd_pecas" min="1" value="1"  />
+                        <input id="o_qtd-pecas" name="" type="number" style="font-size: 1.0em;"  class="j_qtd_pecas" min="1" value="1"  />
                     </label>    
                  </div>
                  <div class="box box14">
@@ -35,13 +35,13 @@
                 <div class="box box100">
                 <div class="">
                     <span class="legend">Cliente tem plano ?</span>
-                    <span><input class="o_tipoCliente" id="orc-aprovado" type="radio" name="status" value="o_tipoClienteCp" style="width:5%" checked>Sim</span>
-                    <span><input class="o_tipoCliente" id="orc-reprovado" type="radio" name="status" value="o_tipoClienteSp" style="width:5%">Não</span>
+                    <span><input class="o_tipoCliente" id="orc-aprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteCp" style="width:5%" checked>Sim</span>
+                    <span><input class="o_tipoCliente" id="orc-reprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteSp" style="width:5%">Não</span>
                 </div>
                 <div class="box box33" id="o_cliente_sem_plano" style="display:none">
                      <label class="label">
                         <span class="legend">Pesquisar Serviços / sem plano</span>
-                         <select id="o_servicos_s_com_p" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" >   
+                         <select id="o_servicos_s_com_p" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" >   <option disabled="disabled" selected value="t">SELECIONAR SERVIÇO</option>
                         <?php
                         $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
                         if ($Read->getResult()):
@@ -56,7 +56,8 @@
                  <div class="box box33" id="o_cliente_com_plano">
                      <label class="label">
                         <span class="legend">Pesquisar Serviços / com plano</span>
-                         <select id="o_servicos_c_com_p" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" >   
+                         <select id="o_servicos_c_com_p" name="" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" > 
+                            <option disabled="disabled" selected value="t">SELECIONAR SERVIÇO</option>  
                         <?php
                         $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
                         if ($Read->getResult()):
@@ -71,7 +72,7 @@
                  <div class="box box14">
                      <label class="label">
                         <span class="legend">Qtd.</span>
-                        <input min="1" id="o_qtd_servicos" type="number" style="font-size: 1.0em;" class="j_consulta" callback="Dadostabela" callback_action="consulta" value="1"  />
+                        <input min="1" id="o_qtd_servicos" name="" type="number" style="font-size: 1.0em;" class="j_consulta" callback="Dadostabela" callback_action="consulta" value="1"  />
                     </label>    
                  </div> 
                  <div class="box box14">
@@ -98,28 +99,52 @@
                     </tbody>
                 </table>
                 <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">valor total: R$ <span class="valor-total"><!-- valor total table --></span></p>
+                <input id="valor-total" type="hidden" name="o_valor_total_orcamento"/>
 
-                <span class="o_p_hidden"></span><br>
-                <span class="o_s_hidden"></span>
+                <span class="o_p_hidden"></span>
+                <span class="o_s_hidden"></span><br>
+                <span class="o_p_total_linhas"><!--total de linhas p--><input type="hidden" value="0" name="o_p_total_linhas"></span>
+                <span class="o_s_total_linhas"><!--total de linhas s--><input type="hidden" value="0" name="o_s_total_linhas"></span>
+
 
             <br/>
 
-            <div class="">
-                <span class="legend">Orçamento Aprovado ?:</span>
-                <span><input id="o_aprovado" class="o_aprovado_reprovado" type="radio" name="status" value="o_aprovado" style="width:5%">Sim</span>
-                <span><input id="o_reprovado" class="o_aprovado_reprovado" type="radio" name="status" value="o_reprovado" style="width:5%">Não</span>
-            </div>
+                <div class="box box50">
+                    <label class="label">
+                      <span class="legend" >Status do Orçamento:</span>
+                      <select id="" class="o_aprovado_reprovado" name="o_orcamento_status" style="font-family: Arial;font-size: 11px;">
+                        <?php 
+                        foreach (getStatusOrcamentoGNS($Transaction = null) as $key => $value) {
+                          echo "<option value='{$key}'>$value</option>";
+                        }
+                        ?>
+                      </select>
+                    </label>
+                </div>
 
-            <div id="o_forma-pgt" style="display:none">
-                <span class="legend">Forma de Pagamento:</span>
-                <span><input class="o_parcelas" id="o_parcelas-1" type="radio" name="o_parcelas" value="o_parcelas-1" style="width:5%" checked>á vista</span>
-                <span><input class="o_parcelas" id="o_parcelas-3" type="radio" name="o_parcelas" value="o_parcelas-3" style="width:5%">3 parcelas</span>
-                <span><input class="o_parcelas" id="o_parcelas-6" type="radio" name="o_parcelas" value="o_parcelas-6" style="width:5%">6 parcelas</span>
-                <span><input class="o_parcelas" id="o_parcelas-12" type="radio" name="o_parcelas" value="o_parcelas-12" style="width:5%">12 parcelas</span>
+                <div class="box box50" id="o_forma_de_pagamento" style="">
+                    <label class="label">
+                      <span class="legend" >Forma de Pagamento</span>
+                      <select id="o_forma_de_pagamento_select" name="o_forma_de_pagamento" class="o_forma_de_pagamento_select"  style="font-family: Arial;font-size: 11px;">
+                        <option disabled selected="selected">SELECIONAR FORMA DE PAGAMENTO</option>
+                        <?php 
+                        foreach (getFormaPagamento($Transaction = null) as $key => $value) {
+                          echo "<option value='{$key}'>$value</option>";
+                        }
+                        ?>
+                      </select>
+                    </label>
+                </div>
+
+            <div id="o_quant_parcelas" style="display:none">
+                <span class="legend">Número de Parcelas</span>
+                <span><input class="o_parcelas" id="o_parcelas-3" type="radio" name="O_quant_parcelas" value="3" style="width:5%">3 parcelas</span>
+                <span><input class="o_parcelas" id="o_parcelas-6" type="radio" name="O_quant_parcelas" value="6" style="width:5%">6 parcelas</span>
+                <span><input class="o_parcelas" id="o_parcelas-12" type="radio" name="O_quant_parcelas" value="12" style="width:5%">12 parcelas</span>
                 <label>
-                    <span><input class="o_parcelas" id="o_parcelas_maior_12" type="radio" name="o_parcelas" value="o_parcelas_maior_12" style="width:5%">Mais parcelas (autorização do supervisor)</span>
+                    <span><input class="o_parcelas" id="o_parcelas_maior_12" type="radio" name="O_quant_parcelas" value="13" style="width:5%">Mais parcelas (autorização do supervisor)</span>
 
-                    <input id="o_parcelas-seleciona" type="number" name="o_parcelas-seleciona"  min="13"  style="display:none;width:5%;height:20px">
+                    <input id="o_parcelas-seleciona" type="number" name=""  min="13"  style="display:none;width:5%;height:20px">
                 </label>
             </div><br/>
 

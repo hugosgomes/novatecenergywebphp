@@ -359,9 +359,10 @@ function getStatusOs($Transaction = null){
 
 function getStatusOrcamentoGNS($Transaction = null){
     $RealtyTransaction = [
-        0 => 'APROVADO',
-        1 => 'EXECUTADO',
-        2 => 'RECUSADO'
+        0 => 'EM ANÁLISE',
+        1 => 'APROVADO',
+        2 => 'EXECUTADO',
+        3 => 'RECUSADO'
     ];
     
     if ($Transaction!=null):

@@ -82,6 +82,16 @@ tr:nth-child(even) {
     th{
         width: auto;
     }
+
+    #o_tabela-pecasEservicos input{
+      border:none;
+      width:40px !important;
+      text-align:center;
+    }
+
+    #o_tabela-pecasEservicos input:first-child{
+      width:200px !important;
+    }
 </style>
 <header class="dashboard_header">
     <div class="dashboard_header_title">

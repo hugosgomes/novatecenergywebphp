@@ -238,6 +238,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     ));
                   }  // isset
                 }
+            }
+
+            foreach ($aparelhos as $key => $value) {
+                $Create->ExeCreate("[60_TesteAparelho]",$value);
+            }*/
+
+                // DISTRIBUIÇÃO INTERNA
+            for ($i=1; $i <= 23; $i++) {
+                if (isset($PostData['d_distr_interna_'.$i])) {
+                    array_push($aparelhos,array(
 
 
                 // COLETIVO DE EXAUSTÃO NATURAL E FORÇADA
@@ -301,12 +311,50 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $d_GalleryName = Check::Name($d_title);
 
 
-                if (!empty($d_Image)):
-                  $d_File = $d_Image;
-                  $d_gbFile = array();
-                  $d_gbCount = count($d_File['type']);
-                  $d_gbKeys = array_keys($d_File);
-                  $d_gbLoop = 0;
+             // ORCAMENTOS
+                $totalLinhasPecas = $PostData['o_p_total_linhas'];
+
+                    for ($i=0; $i < $totalLinhasPecas ; $i++) { 
+                        $orcamento_pecas = array(
+                            'Num_OS' => $PostData['IdOS'],
+                            'ID_Pecas' => $PostData['o_id_peca'.$i],
+                            'Qtd' => $PostData['o_quant_peca'.$i]
+                        );
+
+                        $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
+                        
+                        var_dump($orcamento_pecas);
+                    }
+
+                    $totalLinhasServicos = $PostData['o_s_total_linhas'];
+
+                    for ($i= 0; $i < $totalLinhasServicos; $i++) { 
+                        $orcamento_servico = array(
+                            'Num_OS' => $PostData['IdOS'],
+                            'ID_servico' => $PostData['o_id_servico'.$i],
+                            'Qtd' => $PostData['o_quant_servico'.$i]
+                        );
+
+                        $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
+                    }
+
+                   $orcamento = array(
+                    'IdOS' => $PostData['IdOS'],
+                    'TecnicoEnt' => $PostData['IdTecnico'],
+                    //'DataExe' => $PostData[''],
+                    'TecExe' => $PostData['IdOS'],
+                    'Status' => $PostData['o_orcamento_status'],
+                    'Valor' => $PostData['o_valor_total_orcamento'],
+                    'FormaPagamento' => $PostData['o_forma_de_pagamento'],
+                    'NumParcelas' => $PostData['O_quant_parcelas']
+                    );
+
+                    $Create->ExeCreate("[60_Orcamentos]",$orcamento);
+            // FOTOS DEFEITOS
+
+                      if (empty($Upload)):
+                        $Upload = new Upload('../../../uploads/');
+                      endif;
 
 
                   if ($d_gbCount > 10):
@@ -325,9 +373,35 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       $d_gbLoop ++;
                       $Upload->Image($d_UploadFile, "{$d_title}". time(), IMAGE_W, 'images');
 
-                      if ($Upload->getResult()):
+                      if (!empty($d_Image)):
+                          $d_File = $d_Image;
+                          $d_gbFile = array();
+                          $d_gbCount = count($d_File['type']);
+                          $d_gbKeys = array_keys($d_File);
+                          $d_gbLoop = 0;
+               
+                            //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
+                     
+                           
+                        if ($d_gbCount > 10):
+                              $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
+                        else:
 
-                        $d_gbCreate = array('OS' => $d_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 3);
+                              for ($gb = 0; $gb < $d_gbCount; $gb++):
+                                  foreach ($d_gbKeys as $Keys):
+                                      $d_gbFiles[$gb][$Keys] = $d_File[$Keys][$gb];
+
+                                  endforeach;
+                              endfor;
+                            
+                              $jSON['defeitos'] = null;
+                              foreach ($d_gbFiles as $d_UploadFile):
+                                  $d_gbLoop ++;
+                                  $Upload->Image($d_UploadFile, "{$d_title}". time(), IMAGE_W, 'images');
+                                  
+                                  if ($Upload->getResult()):
+
+                                      $d_gbCreate = array('OS' => $d_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 3);
                                      //var_dump($UploadFile);
 
                         $Create->ExeCreate('[60_OS_Fotos]', $d_gbCreate);
@@ -434,16 +508,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       if ($Upload->getResult()):
 
                         $s_gbCreate = array('OS' => $s_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 2);
-                                     //var_dump($UploadFile);
 
-                        $Create->ExeCreate('[60_OS_Fotos]', $s_gbCreate);
-
-                        $jSON['servico'] .= "<img rel='Gallery' id='{$s_GalleryId}' alt='Imagem em {$s_title}' title='Imagem em {$s_title}' src='../uploads/{$Upload->getResult()}' style='width: 10%;'/>";
-
-                      endif;
-                    endforeach;
-                  endif;
-                endif;
+                                      $Create->ExeCreate('[60_OS_Fotos]', $s_gbCreate);
+                                    
+                                      $jSON['servico'] .= "<img rel='Gallery' id='{$s_GalleryId}' alt='Imagem em {$s_title}' title='Imagem em {$s_title}' src='../uploads/{$Upload->getResult()}' style='width: 10%;'/>";
+                                     
+                                  endif;
+                              endforeach;
+                          endif;
+                        endif;
 
                 break;    
               endswitch;
@@ -457,5 +530,4 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               endif;
             else:
     //ACESSO DIRETO
-              die('<br><br><br><center><h1>Acesso Restrito!</h1></center>');
             endif;

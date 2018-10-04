@@ -64,9 +64,20 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
                 <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>             
                 <?php
                 $Setor = 2;
-                $Read->FullRead("SELECT [Funcionários].ID AS id,[NOME COMPLETO] AS nome FROM Funcionários
-                        WHERE [Funcionários].GNSMOBILE = 1 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
-                        ORDER BY [NOME COMPLETO]"," ");
+                $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS nome, SUB.PRODUTO,
+                  CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.ID ELSE TERC.ID END AS id, SUB.IDPROD,
+                  CASE WHEN FUNC.ID IS NOT NULL THEN 'FUNCIONÁRIO' ELSE 'TERCEIRIZADO' END AS TIPOFUNC FROM [40_Interna_ID]
+                  LEFT JOIN Funcionários FUNC ON [40_Interna_ID].USUARIO_PORTADOR = FUNC.ID
+                  LEFT JOIN FuncionariosTerceirizados TERC ON [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO = TERC.ID
+                  INNER JOIN [00_NivelAcesso] ON FUNC.ID = [00_NivelAcesso].IDFUNCIONARIO OR TERC.ID = [00_NivelAcesso].IDTERCEIRIZADO
+                  INNER JOIN(
+                  SELECT max([40_Interna].INTERNA) ULTMOV, [40_Produtos].PRODUTO, [40_Produtos].Id IDPROD FROM [40_Produtos]
+                  INNER JOIN [40_Interna] ON [40_Produtos].Id = [40_Interna].PRODUTO
+                  WHERE [40_Produtos].PRODUTO LIKE 'MANÔMETRO%'
+                  GROUP BY [40_Produtos].PRODUTO, [40_Produtos].Id) SUB
+                  ON [40_Interna_ID].ID = SUB.ULTMOV
+                  WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1
+                  ORDER BY NOME"," ");
                 if ($Read->getResult()):
                   foreach ($Read->getResult() as $FUNC):
                     echo "<option value='{$FUNC['id']}'>{$FUNC['nome']}</option>";
@@ -151,7 +162,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b> ".count($Read->getResult())."</span>";
           ?>           
         </header>
-        <div class="box_content mapa">
+        <div class="box_content">
           <div id="map" class="no-print" style="height: 59.3%;"></div>
         </div>
       </article>
@@ -189,11 +200,11 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         var Id = '<?php echo "{$Id}";?>';
         $.post('_ajax/gns/'+ Callback +'.ajax.php', {callback: Callback, callback_action: Callback_action, Id: Id, Latitude: lat, Longitude: lng}, function (data) {
 
-                                //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-                                if (data.trigger) {
-                                  Trigger(data.trigger);                
-                                }
-                              }, 'json');
+           //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+             if (data.trigger) {
+                   Trigger(data.trigger);                
+                 }
+            }, 'json');
       });        
 
     <?php endforeach ?>
