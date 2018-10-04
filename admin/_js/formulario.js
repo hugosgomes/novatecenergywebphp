@@ -52,8 +52,9 @@ $('.o_forma_de_pagamento_select').change(function(){
         if(o_forma_de_pagamento == 0){
             $('#o_quant_parcelas').fadeIn(tempoEvento);
         }
-        if(o_forma_de_pagamento == 1 || o_forma_de_pagamento == 2){
+        if(o_forma_de_pagamento != 0){
             $('#o_quant_parcelas').fadeOut(tempoEvento);
+            $("input[name='O_quant_parcelas']").prop('checked', false);
         }
     })
 
@@ -83,7 +84,7 @@ function adicionaLinhaTabela_peca(){
         //DESABILITAR O OPTION QUE JÁ TEVE SEU VALOR ADICIONADO NA TABELA
         $('#o_peca #'+idTr).attr('disabled','disabled');
 
-        var geraInputHidden = '<input id="p'+idTr+'" type="number" value="'+idTr+'" name="o_id_peca'+(iPeca++)+'">';
+        var geraInputHidden = '<input id="p'+idTr+'" type="hidden" value="'+idTr+'" name="o_id_peca'+(iPeca++)+'">';
 
         //ADICIONA MASCARA VALOR UNITARIO DA  PEÇA
         var valorUnitMask = numeroParaMoeda(valorUnit, 2, ',', '.');
@@ -133,8 +134,6 @@ function tipoDeCliente(){
             $('#o_cliente_com_plano').show();
             $('#o_cliente_sem_plano').hide();
 
-            //SELECIONA VALORES EM PESQUISAR SERVIÇOS PARA CLIENTES COM PLANO
-
        }
        if(valor == 'o_tipoClienteSp'){
 
@@ -142,18 +141,17 @@ function tipoDeCliente(){
             $('#o_cliente_com_plano').hide();
             $('#o_cliente_sem_plano').show();
 
-            //SELECIONA VALORES EM PESQUISAR SERVIÇOS PARA CLIENTES COM PLANO
        }
     })
 }
 
-//ADICIONA LINHA NA TABELA ORÇAMENTO REFERENTE A SERVICO
+//ADICIONA LINHA NA TABELA ORÇAMENTO 
 function adicionaLinhaTabela_s(){
-    var iPeca = 0;
+    var iServico = 0;
     var iQtd = 0;
 
       $('.j_add_servicos').click(function(){
-        //SELECIONA O VALOR DO REDIOS QUE O CHECKED = CHECKED
+        //SELECIONA O VALOR DO RADIOS QUE O CHECKED FOR TRUE
         radiosChecked = $('.o_tipoCliente:checked').val();
 
         if(radiosChecked == 'o_tipoClienteCp'){
@@ -164,7 +162,7 @@ function adicionaLinhaTabela_s(){
             var valorUnit = $('#o_servicos_c_com_p option:selected').val();
             var idTr = $('#o_servicos_c_com_p option:selected').attr('id');
 
-            var idServico = '<input id="s'+idTr+'" type="hidden" value="'+idTr+'" name="o_id_servico'+(iPeca++)+'">';
+            var idServico = '<input id="s'+idTr+'" type="hidden" value="'+idTr+'" name="o_id_servico'+(iServico++)+'">';
             var selectValorOption = $('#o_servicos_c_com_p option:selected').val();
             var selectAtributoOption = $('#o_servicos_c_com_p option:selected').prop('disabled');
        }
@@ -178,13 +176,13 @@ function adicionaLinhaTabela_s(){
             var valorUnit = $('#o_servicos_s_com_p option:selected').val();
             var idTr = $('#o_servicos_s_com_p option:selected').attr('id');
 
-            var idServico = '<input id="s'+idTr+'" type="hidden" value="'+idTr+'" name="o_id_servico'+(iPeca++)+'">';
+            var idServico = '<input id="s'+idTr+'" type="hidden" value="'+idTr+'" name="o_id_servico'+(iServico++)+'">';
             var selectValorOption = $('#o_servicos_s_com_p option:selected').val();
             var selectAtributoOption = $('#o_servicos_s_com_p option:selected').prop('disabled');
 
        }
 
-       //DESABILITAR O OPTION QUE JÁ TEVE SEU VALOR ADICIONADO NA TABELA
+       //DESABILITA O OPTION QUE JÁ TEVE SEU VALOR ADICIONADO NA TABELA
         $('#o_servicos_c_com_p #'+idTr).attr('disabled','disabled');
         $('#o_servicos_s_com_p #'+idTr).attr('disabled','disabled');
 
@@ -192,8 +190,6 @@ function adicionaLinhaTabela_s(){
         if(selectValorOption == 't' || selectAtributoOption == true){
             $('#o_servicos_c_com_p').focus();
             $('#o_servicos_s_com_p').focus();
-            console.log(selectValorOption);
-            console.log(selectAtributoOption);
         }
 
         //IMPEDE O USUÁRIO DE ADICIONAR VÁRIAS VEZES O MESMO SERVIÇO
@@ -233,7 +229,6 @@ function adicionaLinhaTabela_s(){
 }
       })
         
-    //})
 }
 
 //SOMA DO TOTAL DE TODAS AS LINHAS DA TABELA
@@ -245,6 +240,7 @@ function calculaTotalTable(){
         valorTotalSMask = moedaParaNumero(valorTotal);
         valorTotalMask = numeroParaMoeda(valorTotalSMask, 2, ',', '.')
     });
+
     if(valorTotal == 0){
          $('.valor-total').text(0);
          $('#valor-total').val(0);
@@ -328,6 +324,7 @@ $('.o_parcelas').change(function(){
     $('#o_parcelas-seleciona').fadeIn(tempoEvento);
     $('#o_parcelas-seleciona').val('13');
   }
+
   if(valorParcelas < 13){
     $('#o_parcelas-seleciona').fadeOut(tempoEvento);
   }
@@ -371,65 +368,6 @@ $(document).ready(function() {
 });
 
 
-
-
-//consultaDescricao();
-
-//ADICIONA O.S PARA O TÉCNICO
-    /*$('html').on('click', '.j_add_pecas', function (e) {
-        var PecaId = $("#peca option:selected").val();
-        var PecaQtd = $(".j_qtd_pecas").val();
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');
-
-
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, PecaId: PecaId, PecaQtd: PecaQtd}, function (data) {
-
-            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if (data.trigger) {
-                Trigger(data.trigger);
-
-            }
-
-            //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
-            if (data.addtable) {
-               
-            }
-
-        
-        }, 'json');
-
-        e.preventDefault();
-        e.stopPropagation();
-    });*/
-
-
-    /*
-function consultaDescricao(){
-    $(document).on('click','.j_consulta-descricao',function(){
-
-        var Callback = $('#callback').attr('callback');
-        var Callback_action = $('#callback_action').attr('callback_action');
-       
-            $.get('_ajax/'+Callback+'.ajax.php', {callback: Callback, callback_action: Callback_action}, function(data){  
-
-           //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-       if(data.Trigger){
-        Trigger(data.trigger);
-        
-        }   
-
-        if(data.teste){
-            alert(data.teste);          
-        }     
-
-    }, 'json');
-    })
-  //O PARAMETRO INICIAL É PARA DETERMINAR SE A CHAMADA FOI FEITA NO CARREGAMENTO DA PÁGINA OU NÃO PARA PREENCHER OS SELECTS DA PÁGINA
-
-}
-*/
-//consultaDescricao();
 exibeCheckbox();
 
 //RECOMENDAÇÕES

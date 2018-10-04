@@ -263,43 +263,45 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                               endforeach;
                           endif;
                         endif;*/
-                        
-  $totalLinhasPecas = $PostData['o_p_total_linhas'];
 
-            for ($i=0; $i < $totalLinhasPecas ; $i++) { 
-                $orcamento_pecas = array(
-                    'Num_OS' => $PostData['IdOS'],
-                    'ID_Pecas' => $PostData['o_id_peca'.$i],
-                    'Qtd' => $PostData['o_quant_peca'.$i]
-                );
+    $totalLinhasPecas = $PostData['o_p_total_linhas'];
 
-                $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
-                
-            }
-
-            $totalLinhasServicos = $PostData['o_s_total_linhas'];
-
-          for ($i= 0; $i < $totalLinhasServicos; $i++) { 
-                 $orcamento_servico = array(
-                    'Num_OS' => $PostData['IdOS'],
-                    'ID_servico' => $PostData['o_id_servico'.$i],
-                    'Qtd' => $PostData['o_quant_servico'.$i]
-                );
-
-                $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
-            }
-
-               $orcamento = array(
-                'IdOS' => $PostData['IdOS'],
-                'TecnicoEnt' => $PostData['IdTecnico'],
-                //'DataExe' => $PostData[''],
-                'TecExe' => $PostData['IdOS'],
-                'Status' => $PostData['o_orcamento_status'],
-                'Valor' => $PostData['o_valor_total_orcamento'],
-                'FormaPagamento' => $PostData['o_forma_de_pagamento'],
-                'NumParcelas' => $PostData['O_quant_parcelas']
+        for ($i=0; $i < $totalLinhasPecas ; $i++) { 
+            $orcamento_pecas = array(
+                'Num_OS' => $PostData['IdOS'],
+                'ID_Pecas' => $PostData['o_id_peca'.$i],
+                'Qtd' => $PostData['o_quant_peca'.$i]
             );
-                  $Create->ExeCreate("[60_Orcamentos]",$orcamento);
+
+            $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
+            
+            var_dump($orcamento_pecas);
+        }
+
+        $totalLinhasServicos = $PostData['o_s_total_linhas'];
+
+        for ($i= 0; $i < $totalLinhasServicos; $i++) { 
+            $orcamento_servico = array(
+                'Num_OS' => $PostData['IdOS'],
+                'ID_servico' => $PostData['o_id_servico'.$i],
+                'Qtd' => $PostData['o_quant_servico'.$i]
+            );
+
+            $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
+        }
+
+       $orcamento = array(
+        'IdOS' => $PostData['IdOS'],
+        'TecnicoEnt' => $PostData['IdTecnico'],
+        //'DataExe' => $PostData[''],
+        'TecExe' => $PostData['IdOS'],
+        'Status' => $PostData['o_orcamento_status'],
+        'Valor' => $PostData['o_valor_total_orcamento'],
+        'FormaPagamento' => $PostData['o_forma_de_pagamento'],
+        'NumParcelas' => $PostData['O_quant_parcelas']
+        );
+
+        $Create->ExeCreate("[60_Orcamentos]",$orcamento);
 
 
         break;    
