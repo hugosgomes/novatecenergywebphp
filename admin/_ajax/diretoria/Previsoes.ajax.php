@@ -38,6 +38,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         	$ano = $PostData['ano'] == 't' ? "YEAR(EMISSAO) >= 1900" : "YEAR(EMISSAO) = {$PostData['ano']}";
         	$jSON['dataTable_sem_certificar'] = "";
         	$jSON['j_faturamento'] = "";
+            $jSON['j_previsao'] = "";
 
             //TOTAL SEM CERTIFICAR DE REDE
             $Read->FullRead("exec [dbo].[50_SomaPrecertificar]","");
@@ -150,16 +151,31 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
 
 
-            $jSON['j_previsao'] = "<tr>
-					<td>Faturamento Previsto:</td>
-					<td><center>R$ 10.000.000,00</center></td>
-					<td><center>R$ 10.000.000,00</center></td>
-				</tr>
-				<tr>
-					<td>Faturamento Real:</td>
-					<td><center>R$ 10.000.000,00</center></td>
-					<td><center>R$ 10.000.000,00</center></td>
-				</tr>";
+            //TOTAL EM ABERTO DE TODOS OS MESES DE REDE
+            $Read->FullRead("SELECT ISNULL(SUM(ATUAL),0)+ISNULL(SUM(ATUALANTECIPO),0) AS TOTAL from [50_PrecertId] WHERE NF IS NULL","");
+            if ($Read->getResult()):
+                $valor = $Read->getResult()[0]['TOTAL'];
+                $valor = number_format($valor,2,',','.');
+                $jSON['j_previsao'] .= "<tr>
+                <td><center>R$ $valor</center></td>";
+            else:
+                $jSON['j_previsao'] .= "
+                <tr>
+                <td><center>R$ 0,00</center></td>";
+            endif;
+
+
+            //TOTAL EM ABERTO DE TODOS OS MESES DE ADESÃO
+            $Read->FullRead("SELECT ISNULL(SUM(TOTAL),0) AS TOTAL from [10_PrecertId] WHERE NF IS NULL","");
+            if ($Read->getResult()):
+                $valor = $Read->getResult()[0]['TOTAL'];
+                $valor = number_format($valor,2,',','.');
+                $jSON['j_previsao'] .= "
+                <td><center>R$ $valor</center></td>";
+            else:
+                $jSON['j_previsao'] .= "
+                <td><center>R$ 0,00</center></td></tr>";
+            endif;
 
          break;
     endswitch;

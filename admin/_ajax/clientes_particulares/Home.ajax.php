@@ -82,9 +82,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         endif;
 
         $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 1 AND [80_ClientesParticulares].TIPO = 2" . $criterioEndereco . $criterioCliente .
-                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+                        " ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
-            $jSON['addcoluna2'] = null;//É necessário desclarar como numo por causa da fraca tipação
+            $jSON['addcoluna2'] = null;
+            //É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
                 $cor = getCor($enderecos['ID']);
                 $jSON['trigger'] = true;
@@ -405,6 +406,7 @@ function preencherHistorico($PostData){
                     INNER JOIN Funcionários ON [80_Chamados].USUARIO_SISTEMA = Funcionários.ID
                     WHERE [80_Orcamentos].ID = " . $idCliente . " ORDER BY [80_Chamados].DATA_SISTEMA DESC","");
 
+
     $btEditar = $Read->getResult() ? "<span rel='{$Read->getResult()[0]['ID']}' callback='Home' callback_action='editar' class='icon-pencil btn btn_blue' id='j_edit_chamado'>Editar Chamado</span>" : "";
 
     if ($Read->getResult()):
@@ -460,9 +462,9 @@ function getCor($id){
     }
 }
 function before ($tag, $inthat)
-    {
-        echo substr($inthat, 0, strpos($inthat, $tag));
-    };
+{
+    echo substr($inthat, 0, strpos($inthat, $tag));
+};
 
 
 ?>

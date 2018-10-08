@@ -76,26 +76,7 @@ endif;
 				</tr>
 			</thead>
 			<tbody  id = "j_faturamento">
-				<!--<tr>
-					<td>Sem Certificar:</td>
-					<td><center>R$ 10.000.000,00</center></td>
-					<td><center>R$ 10.000.000,00</center></td>
-				</tr>
-				<tr>
-					<td>Certificado:</td>
-					<td><center>R$ 10.000.000,00</center></td>
-					<td><center>R$ 10.000.000,00</center></td>
-				</tr>
-				<tr>
-					<td>Faturado:</td>
-					<td><center>R$ 10.000.000,00</center></td>
-					<td><center>R$ 10.000.000,00</center></td>
-				</tr>
-				<tr>
-					<td>Recebido:</td>
-					<td><center>R$ 10.000.000,00</center></td>
-					<td><center>R$ 10.000.000,00</center></td>
-				</tr>-->
+				
 			</tbody>
 		</table>
 		<center>
@@ -108,9 +89,8 @@ endif;
 	<div class="box_content" style="border-top: 5px solid #1a4a7b; border-bottom: 5px solid #1a4a7b;">
 		<table class="cell-border compact stripe table"  style="height: 135;">
 			<thead>
-				<tr><th colspan="4"><center><h2>Previsão</h2></center></th></tr>
+				<tr><th colspan="4"><center><h2>Em Aberto (Todos os Meses)</h2></center></th></tr>
 				<tr>
-					<th><center></center></th>
 					<th><center>Rede</center></th>
 					<th><center>Adesão</center></th>
 				</tr>

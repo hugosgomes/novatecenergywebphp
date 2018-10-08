@@ -15,4 +15,7 @@
  	//OBTEM A COLEÇÃO DA TAG PESQUISADA
 	obj = $('#d_liga-ap-tbody span');
 
+	//DESMARCAR RADIO BUTTON VIA JQUERY
+	$("input[name='t_1status']").prop('checked', false);
+
  </script>

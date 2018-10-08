@@ -22,7 +22,6 @@
         ON [40_Interna_ID].ID = SUB.ULTMOV
         WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1 AND CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.ID ELSE TERC.ID END = {$IdTecnico}
         ORDER BY NOME";
-        var_dump($query);
         $Read->FullRead($query," ");
         if ($Read->getResult()):
             foreach ($Read->getResult() as $manometro):

@@ -411,8 +411,7 @@ function preencherHistorico($PostData){
     $btEditar = $Read->getResult() ? "<span rel='{$Read->getResult()[0]['ID']}' callback='Home' callback_action='editar' class='icon-pencil btn btn_blue' id='j_edit_chamado'>Editar Chamado</span>" : "";
 
     if ($Read->getResult()):
-        $obs = null;
-        $jSON['addHistorico'] = null;//É necessário desclarar como numo por causa da fraca tipação
+        $obs = null;    
         foreach ($Read->getResult() as $addHistorico):
             $obs = substr($addHistorico['OBS'],0,76);
             $valor = number_format($addHistorico['VALOR'],2,',','.');

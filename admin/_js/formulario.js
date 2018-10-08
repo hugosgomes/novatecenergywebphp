@@ -13,9 +13,9 @@ function exibeCheckbox(){
   });
   $("#ok").change(function() {
     if(this.checked) {
-      $('.t_vazamento-L').fadeOut(tempoEvento);
-      $('#status-ocorrencia').fadeOut(tempoEvento);
-
+      $('.t_vazamento-L').hide();
+      $('#status-ocorrencia').hide();
+      $("input[name='t_2status']").prop('checked', false);
     }
   });
   $('#maior-5L').change(function(){
@@ -44,32 +44,19 @@ $("#instalacao-defeito").change(function() {
   }
 });
 
-function exibirEocultarFormaPg(){
-  $('.o_aprovado_reprovado').change(function(){
-
-    var o_status = $(this).val();
-
-    if(o_status == 'o_aprovado'){
-      $('#o_forma-pgt').fadeIn(tempoEvento);
-    }
-    if(o_status == 'o_reprovado'){
-      $('#o_forma-pgt').fadeOut(tempoEvento);
-    }
-  })
-//EXIBE E OCULTA RADIOS QUANT. DE PARCELAS
 $('.o_forma_de_pagamento_select').change(function(){
 
-        var o_forma_de_pagamento = $(this).val();
+  var o_forma_de_pagamento = $(this).val();
 
-        if(o_forma_de_pagamento == 0){
-            $('#o_quant_parcelas').fadeIn(tempoEvento);
-        }
-        if(o_forma_de_pagamento != 0){
-            $('#o_quant_parcelas').fadeOut(tempoEvento);
-            $("input[name='O_quant_parcelas']").prop('checked', false);
-        }
-    })
-}
+  if(o_forma_de_pagamento == 0){
+    $('#o_quant_parcelas').fadeIn(tempoEvento);
+  }
+  if(o_forma_de_pagamento != 0){
+    $('#o_quant_parcelas').fadeOut(tempoEvento);
+    $("input[name='O_quant_parcelas']").prop('checked', false);
+  }
+});
+
 
 //ADICIONA NOVA LINHA NA TABELA COM NOME DA PEÇA QUANTIDADE VALOR UNITÁRIO E TOTAL
 function adicionaLinhaTabela_peca(){
@@ -1268,15 +1255,21 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   if (parseInt($fileUpload.get(0).files.length) > 3){   
     alert("Limite de 3 fotos para Dados do Medidor");   
     e.stop();
-  }
-
-  var $fileUpload = $("input[name='servico_fotos_arquivos[]']");
-  if (parseInt($fileUpload.get(0).files.length) > 10){   
-    alert("Limite de 10 fotos para Situação do Serviço");   
+  }else if (parseInt($fileUpload.get(0).files.length) == 0){   
+    alert("Obrigatório o envio de pelo menos 1 fotos para Dados do Medidor");   
     e.stop();
   }
 
-  var $fileUpload = $("input[name='defeitos_fotos_arquivos[]']");
+  $fileUpload = $("input[name='servico_fotos_arquivos[]']");
+  if (parseInt($fileUpload.get(0).files.length) > 10){   
+    alert("Limite de 10 fotos para Situação do Serviço");   
+    e.stop();
+  }else if (parseInt($fileUpload.get(0).files.length) == 0){   
+    alert("Obrigatório o envio de pelo menos 1 fotos para Situação do Serviço");   
+    e.stop();
+  }
+
+  $fileUpload = $("input[name='defeitos_fotos_arquivos[]']");
   if (parseInt($fileUpload.get(0).files.length) > 10){   
     alert("Limite de 10 fotos para Instalação com Defeito");   
     e.stop();
