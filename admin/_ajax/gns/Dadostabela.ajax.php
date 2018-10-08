@@ -312,16 +312,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 $orcamento = array(
                   'IdOS' => $PostData['IdOS'],
-                  'TecnicoEnt' => $PostData['IdTecnico'],
-                    //'DataExe' => $PostData[''],
+                  'TecnicoEnt' => $PostData['IdTecnico'],                  
                   'TecExe' => $PostData['IdOS'],
                   'Status' => $PostData['o_orcamento_status'],
                   'Valor' => $PostData['o_valor_total_orcamento'],
                   'FormaPagamento' => $PostData['o_forma_de_pagamento'],
                   'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : NULL
                 );
-
-                $Create->ExeCreate("[60_Orcamentos]",$orcamento);
 
 
                // FOTOS DEFEITOS

@@ -32,9 +32,20 @@ endif;
           <option value="t">&raquo;&raquo;TODOS OS TÉCNICOS</option>
           <?php
                 $Setor = 2;
-                $Read->FullRead("SELECT [Funcionários].ID AS id,[NOME COMPLETO] AS nome FROM Funcionários
-                        WHERE [Funcionários].GNSMOBILE = 1 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
-                        ORDER BY [NOME COMPLETO]"," ");
+                $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS nome, SUB.PRODUTO,
+                  CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.ID ELSE TERC.ID END AS id, SUB.IDPROD,
+                  CASE WHEN FUNC.ID IS NOT NULL THEN 'FUNCIONÁRIO' ELSE 'TERCEIRIZADO' END AS TIPOFUNC FROM [40_Interna_ID]
+                  LEFT JOIN Funcionários FUNC ON [40_Interna_ID].USUARIO_PORTADOR = FUNC.ID
+                  LEFT JOIN FuncionariosTerceirizados TERC ON [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO = TERC.ID
+                  INNER JOIN [00_NivelAcesso] ON FUNC.ID = [00_NivelAcesso].IDFUNCIONARIO OR TERC.ID = [00_NivelAcesso].IDTERCEIRIZADO
+                  INNER JOIN(
+                  SELECT max([40_Interna].INTERNA) ULTMOV, [40_Produtos].PRODUTO, [40_Produtos].Id IDPROD FROM [40_Produtos]
+                  INNER JOIN [40_Interna] ON [40_Produtos].Id = [40_Interna].PRODUTO
+                  WHERE [40_Produtos].PRODUTO LIKE 'MANÔMETRO%'
+                  GROUP BY [40_Produtos].PRODUTO, [40_Produtos].Id) SUB
+                  ON [40_Interna_ID].ID = SUB.ULTMOV
+                  WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1
+                  ORDER BY NOME"," ");
                 if ($Read->getResult()):
                   foreach ($Read->getResult() as $FUNC):
                     echo "<option value='{$FUNC['id']}'>{$FUNC['nome']}</option>";
@@ -148,8 +159,11 @@ endif;
     var number = 5;
 
     <?php
+
     foreach ($Read->getResult() as $OS):
-      extract($OS);                                
+      extract($OS);     
+     // $Cliente = str_replace("'", " ", $NomeCliente); // RETIRANDO APÓSTROFO
+                         
       echo "var marker".$Id." = new google.maps.Marker({
         position: myLatLng,
         map: map,"; 
@@ -160,13 +174,14 @@ endif;
         else:
          // echo"icon: image3,"; 
         endif;
-
+ 
         echo "animation: google.maps.Animation.DROP,
         position: {lat:".$Latitude.", lng: ".$Longitude."},     
         title: ''});";
+?>
+        var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS;?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p></p><p>Nome Os: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p></div></div>";
 
-        echo "var contentString = '<div class=\"info-window\"><h3 class=\"m_bottom\">".$OSServico."</h3><div class=\"info-content\"><p>OS: <b>".$NumOS."</b></p><p>Cliente: <b>".$NomeCliente."</b></p></p><p>Nome Os: <b>".$NomeOs."</b></p><p>Data: <b>". date('d/m/Y', strtotime($DataAgendamento)) ."</b></p><!--<span rel=\"single_message\" callback=\"Agendamentos\" callback_action=\"addTecnico\" class=\"j_add_tecnico icon-plus btn btn_green\" id=\"{$Id}\"></span>--></div></div>';";
-
+<?php
         echo "var infowindow".$Id." = new google.maps.InfoWindow({
           content: contentString,
           maxWidth: 400
