@@ -1,5 +1,5 @@
     <div id="orcamento"/>
-        <h4 class="icon-user-plus">Orçamento</h4>
+        <h4>Orçamento</h4>
         <label class="label box box100">
              <div class="box box100">
                  <div class="box box33">
@@ -54,43 +54,43 @@
                     </label>    
                  </div>
                  <div class="box box33" id="o_cliente_com_plano">
-                     <label class="label">
-                        <span class="legend">Pesquisar Serviços / com plano</span>
-                         <select id="o_servicos_c_com_p" name="" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" > 
-                            <option disabled="disabled" selected value="t">SELECIONAR SERVIÇO</option>  
-                        <?php
-                        $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
-                        if ($Read->getResult()):
-                          foreach ($Read->getResult() as $SERVICOS):
-                            echo "<option id='{$SERVICOS['id']}' value='{$SERVICOS['valorclientepag']}'>{$SERVICOS['descricao']}</option>";
+                   <label class="label">
+                    <span class="legend">Pesquisar Serviços / com plano</span>
+                    <select id="o_servicos_c_com_p" name="" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" > 
+                      <option disabled="disabled" selected value="t">SELECIONAR SERVIÇO</option>  
+                      <?php
+                      $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
+                      if ($Read->getResult()):
+                        foreach ($Read->getResult() as $SERVICOS):
+                          echo "<option id='{$SERVICOS['id']}' value='{$SERVICOS['valorclientepag']}'>{$SERVICOS['descricao']}</option>";
                         endforeach;
-                    endif;
-                    ?>
-                </select>
-                    </label>    
-                 </div> 
+                      endif;
+                      ?>
+                    </select>
+                  </label>    
+                </div> 
                  <div class="box box14">
                      <label class="label">
                         <span class="legend">Qtd.</span>
-                        <input min="1" id="o_qtd_servicos" name="" type="number" style="font-size: 1.0em;" class="j_consulta" callback="Dadostabela" callback_action="consulta" value="1"  />
+                        <input min="1" id="o_qtd_servicos" name="" type="number" style="font-size: 1.0em;" class="j_consulta" callback="Dadostabela" callback_action="consulta" value="1" />
                     </label>    
                  </div> 
-                 <div class="box box14">
-
-                     <span class="legend"></span>
+                 <div class="box box24">
+                    <span class="legend"></span>
                     <button class="j_add_servicos btn btn_darkblue" style="height: 35px;margin-top: 14px;"><span class="icon-plus"></span>Add Serviços</button>
                  </div>    
                  </div>
                  <table id="o_tabela-pecasEservicos">
                     <thead>
                         <tr>
-                            <th colspan="5" style="text-align: center">Tabela Orçamento</th>
+                            <th colspan="6" style="text-align: center">Tabela Orçamento</th>
                         </tr>
                         <tr>
                             <th style="text-align: center;">Descrição</th>
                             <th style="text-align: center;">Qtd</th>
                             <th style="text-align: center;">R$ unit</th>
                             <th style="text-align: center;">R$ total</th>
+                            <th style="text-align: center;">Aprovado</th>
                             <th style="text-align: center;">Remover</th>
                         </tr>
                     </thead>
@@ -100,9 +100,10 @@
                 </table>
                 <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">valor total: R$ <span class="valor-total"><!-- valor total table --></span></p>
                 <input id="valor-total" type="hidden" name="o_valor_total_orcamento"/>
+                <input id="valor-total-reprovado" type="hidden" name="o_valor_total_orcamento_r"/>
 
-                <span class="o_p_hidden"></span>
-                <span class="o_s_hidden"></span><br>
+                <span class="o_p_hidden"><!--valor total peças--></span>
+                <span class="o_s_hidden"><!--valor total serviços--></span><br>
                 <span class="o_p_total_linhas"><!--total de linhas p--><input type="hidden" value="0" name="o_p_total_linhas"></span>
                 <span class="o_s_total_linhas"><!--total de linhas s--><input type="hidden" value="0" name="o_s_total_linhas"></span>
 
@@ -148,18 +149,19 @@
                 </label>
             </div><br/>
 
-            <div class="box box33" id="o_cliente_com_plano" style="">
-               <label class="label">
-                <span class="legend">Tipo de Contato</span>
-                <select id="o_contato" rel="0" class="">   
-                    <option id="" value="">contato1</option>
-                    <option id="" value="">contato2</option>
-                    <option id="" value="">contato3</option>
-                </select><br><br>
-                <textarea class="" id="" placeholder="Observações"></textarea>
-                <br><br>
-                <span id="j_btn_salvar" name="" class="btn btn_darkblue fl_left icon-share" style="height:35px">Finalizar</span>
-        </label>    
-    </div> 
+            <div class="box box100" id="o_cliente_com_plano" style="">
+                <label class="label">
+                    <div class="box box50">
+                      <span class="legend">Nome para Contato</span>
+                      <input type="text" name="" placeholder="Nome do contato">
+                    </div>
+                    <div class="box box50">
+                      <span class="legend">Telefone para Contato</span>
+                      <input type="text" name="" placeholder="Telefone">
+                    </div>
+                  <br><br>
+                  <span id="j_btn_salvar" name="" class="btn btn_darkblue fl_left icon-share" style="height:35px">Finalizar</span>
+                </label>    
+            </div> 
     
            </div>

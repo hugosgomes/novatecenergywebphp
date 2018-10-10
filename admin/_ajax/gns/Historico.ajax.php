@@ -92,6 +92,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 	$valor = number_format($Oss['Valorcobrar'],2,',','.');
                 	$status = getStatusOs($Oss['Status']);
                     $tecnico = $Oss['Tecnico'] ? $Oss['Tecnico'] : 'Não Associado';
+                    $tecnicoId = $Oss['TecnicoId'];
+                    $IdOS = $Oss['IdOS'];
+                    $finalizaOs = $Oss['TecnicoId'] > 0 ? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}''>Finalizar OS</a></span>" : '';
                     $atualizadopor = $Oss['Atualizadopor'] ? $Oss['Atualizadopor'] : 'Não Associado';
                 	$jSON['historicoOs'] .= "<hr><hr>
 									          <div class='box box100' style='padding-bottom: 0px;'>
@@ -109,6 +112,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									          </div>
 									          <div class='box box100' style='padding-top: 0px;'>
 									            <li style='padding-bottom: 5px;font-size: 12px;'>OBS.: {$Oss['ObsCEG']}</li>
+                                                <li>{$finalizaOs}
+                                                </li>
 									          </div>";
                 endforeach;                   
             else:

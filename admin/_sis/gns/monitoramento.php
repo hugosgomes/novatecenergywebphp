@@ -22,7 +22,7 @@ endif;
 <div class="dashboard_content custom_app">
   <article class="box box33" style="width: 33%;">
     <header>
-      <h3>Monitoramento</h3>
+      <h3>Monitoramento de OS</h3>
     </header> 
     <div class="box_content" style="height:77.2%;">
       <label class="label">
@@ -70,9 +70,6 @@ endif;
       ?>
       <article class="box box50 datalist">
         <table id="dataList" class="cell-border compact stripe table" style="width: 100%;font-size: 15px;">
-          <tr>
-            <td>Não Associado(s):</td>
-          </tr>
           <tr>
             <td>Associado(s):</td>
           </tr>
@@ -129,7 +126,7 @@ endif;
 <article class="box box50" style="width:67%;">
   <header>
     <?php
-    echo "<div class='box box25'><span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span></div>
+    echo "<div class='box box25'><span class='flt_right m_left qtdOs'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span></div>
     <div class='box box50'>
     <table>
     <tr>
@@ -200,3 +197,26 @@ endif;
   <!--Chamada da API do Google Maps-->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
   <script src="_js/gns.js"></script>
+  <script>
+
+      var tempoInicial = 0;
+      //SE TEMPO INICIAL FOR IGUAL 60 REALIZA REFRESH NA PÁGINA
+      setInterval(function(){
+        tempoInicial++;
+        if(tempoInicial === 60){
+           document.location.reload(true);
+        }
+        console.log(tempoInicial);
+      },1000);
+
+      //SE OCORRER UM DOS EVENTOS ABAIXO TEMPO INICIAL RECEBE (0)
+      $(document).on({
+          click: function(){
+            tempoInicial = 0;
+          },
+          mousemove: function(){
+            tempoInicial = 0;
+          }
+        });
+
+  </script>

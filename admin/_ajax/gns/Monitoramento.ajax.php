@@ -30,7 +30,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):        
         case 'consulta':
-        $naoassociados = 0;
+        //$naoassociados = 0;
         $associados = 0;
         $atendidos = 0;
         $cancelados = 0;
@@ -188,10 +188,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     
                     $jSON['trigger'] = true;
                     $jSON['addlist'] = "<table id='dataList' class='cell-border compact stripe table' style='width: 80%;font-size: 15px;'>
-                    <tr>
-                    <td>Não Associado(s):</td>
-                    <td>{$naoassociados}</td>
-                    </tr>
                     <tr>
                     <td>Associado(s):</td>
                     <td>{$associados}</td>
