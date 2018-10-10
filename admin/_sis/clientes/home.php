@@ -263,6 +263,6 @@ endif;
 </script>
 
 <link rel="stylesheet" href="/resources/demos/style.css">
-<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="_js/clientes_particulares.js"></script>
 <script src="_js/modal.js"></script>
