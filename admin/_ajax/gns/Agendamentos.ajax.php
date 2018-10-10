@@ -112,34 +112,42 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               //VERIFICA DE O FOI SELECIONADO TODOS OS TÉCNICOS              
               if($PostData['semana'] == 1):
                 if($PostData['Tecnico'] == 't'):
-                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                          [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico, [Funcionários].[ID] AS IdTecnico FROM [60_Clientes]
-                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
-                                          WHERE [60_OS].Tecnico <> 0",NULL);
+                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                      [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
+                      inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                      inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                      INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
+                      LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
+                      LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
+                                          WHERE [60_OS].Tecnico <> 0 AND DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())",NULL);
                 else:
-                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                          [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico, [Funcionários].[ID] AS IdTecnico FROM [60_Clientes]
-                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
-                                          WHERE [60_OS].Tecnico = :tecnico","tecnico={$PostData['Tecnico']}");
+                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                      [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
+                      inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                      inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                      INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
+                      LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
+                      LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
+                                          WHERE [60_OS].Tecnico = :tecnico  AND DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())","tecnico={$PostData['Tecnico']}");
                 endif;
               else:
                 if($PostData['Tecnico'] == 't'):
-                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                            [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico, [Funcionários].[ID] AS IdTecnico FROM [60_Clientes]
-                                                inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                                inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                                INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
+                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                    [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
+                    inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                    inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                    INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
+                    LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
+                    LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
                                             WHERE [60_OS].[DataAgendamento] = :dia","dia={$PostData['dia']}");
                 else:
-                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                            [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] Tecnico, [Funcionários].[ID] AS IdTecnico FROM [60_Clientes]
-                                                inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                                inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                                INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
+                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                    [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
+                    inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                    inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                    INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
+                    LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
+                    LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
                                             WHERE [60_OS].Tecnico = :tecnico AND [60_OS].[DataAgendamento] = :dia","tecnico={$PostData['Tecnico']}&dia={$PostData['dia']}");
                 endif;
               endif;
@@ -152,14 +160,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       $jSON['addtable'] .= "
                       <tr class='j_tecnico'>
                       <td>{$NomeCliente}</td>
-                      <td><a href='dashboard.php?wc=gns/formulario&IdOS={$Id}&IdTecnico={$IdTecnico}'>{$NumOS}</a></td>
+                      <td><a href='dashboard.php?wc=gns/formulario&IdOS={$IDOS}&IdTecnico={$IdTecnico}'>{$NumOS}</a></td>
                       <td>{$NomeOS}</td>
                       <td>{$Endereco} {$Bairro} {$Municipio}</td>
                       <td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td>
                       <td>". strstr($Tecnico, ' ', true)."</td>
                       <td style='text-align: center;'>{$TURNO}</td>
-                      <td class='no-print'><span style='padding-right: 5px;margin-left: 20%;margin-right: 30%;margin-top: 10%;' rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cross btn btn_red' id='{$Id}'></span></td></tr>";
-                      $jSON['idOS'] = $Id;
+                      <td class='no-print'><span style='padding-right: 5px;margin-left: 20%;margin-right: 30%;margin-top: 10%;' rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cross btn btn_red' id='{$IDOS}'></span></td></tr>";
+                      $jSON['idOS'] = $IDOS;
                   endforeach;                   
               else:
                   $jSON['trigger'] = true;

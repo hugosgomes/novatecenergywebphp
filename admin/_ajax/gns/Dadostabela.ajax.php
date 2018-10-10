@@ -321,8 +321,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 );
 
 
-               // FOTOS DEFEITOS
-                
+               // FOTOS DEFEITOS                
                 if (empty($Upload)):
                   $Upload = new Upload('../../../uploads/');
                 endif;
