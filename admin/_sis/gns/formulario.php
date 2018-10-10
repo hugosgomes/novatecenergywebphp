@@ -46,18 +46,19 @@ table {
     width: 100%;
 }
 
-table input{
-    width:auto !important;
-}
+
 
 td, th {
     border: 1px solid #dddddd;
-    text-align: left;
     padding: 8px;
 }
 
+tr:hover {
+  background-color: #ddd;
+}
+
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color:  #f2f2f2;;
 }
 
 .panel_header.default{
@@ -85,13 +86,10 @@ tr:nth-child(even) {
 
     #o_tabela-pecasEservicos input{
       border:none;
-      width:40px !important;
-      text-align:center;
+      text-align:left;
+      background:transparent;
     }
 
-    #o_tabela-pecasEservicos input:first-child{
-      width:200px !important;
-    }
 </style>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
@@ -128,15 +126,25 @@ tr:nth-child(even) {
                </div>
                <div class="panel">
                 <?php include_once('tabEstanqueidade.php');?>
+                <?php include_once('tabDefeitos.php'); ?>
                </div>
            </article>
-           <article class="wc_tab_target" id="defeitos" style="display: none;">
+           <!--<article class="wc_tab_target" id="defeitos" style="display: none;">
                <div class="panel_header default" style="border-bottom: 2px solid #EEE !important;">
                    <center><h1 class="tab_title" >Defeitos</h1></center>
                    <br>
                </div>
                <div class="panel">
-                  <?php include_once('tabDefeitos.php'); ?>
+                  <?php //include_once('tabDefeitos.php'); ?>
+              </div>
+          </article>-->
+          <article class="wc_tab_target" id="observacoes" style="display: none;">
+               <div class="panel_header default" style="border-bottom: 2px solid #EEE !important;">
+                   <center><h1 class="tab_title" >Observações</h1></center>
+                   <br>
+               </div>
+               <div class="panel">
+                  <?php include_once('tabObservacoes.php'); ?>
               </div>
           </article>
           <article class="wc_tab_target" id="orcamento" style="display: none;">
@@ -144,15 +152,17 @@ tr:nth-child(even) {
                <center><h1 class="tab_title" >Orçamentos</h1></center>
                <br>
            </div>
-           <div class="panel">
-           <?php require_once('tabOrcamento.php');?>
+            <div class="panel">
+              <?php require_once('tabOrcamento.php');?>
+            </div>
        </article>
    </div><!-- box70 -->
    <div class="box box30" style="width:30%;padding-top:0px;">
        <div class="panel">
            <div class="box_conf_menu" style="font-size: 15px;">
-               <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Teste de Estanqueidade</a>
-               <a class='conf_menu wc_tab' href='#defeitos'>Defeitos</a>
+               <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Informações Gerais do Cliente</a>
+               <!--<a class='conf_menu wc_tab' href='#defeitos'>Defeitos</a>-->
+               <a class='conf_menu wc_tab' href='#observacoes'>Observações</a>
                <a class='conf_menu wc_tab' href='#orcamento'>Orçamentos</a>
            </div>
        </div>

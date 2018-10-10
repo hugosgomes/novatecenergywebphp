@@ -85,7 +85,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         //CARREGA O HISTÓRICO DE OS's NA LATERAL DIREITA DA PÁGINA
 	    case 'CarregarHistorico':
 	    $jSON['historicoOs'] = null;
-	    $Read->FullRead("SELECT NomeOs, NumOS, [60_OS].Status, Valorcobrar, Users.[NOME COMPLETO] AS Atualizadopor, Tecnicos.[NOME COMPLETO] AS Tecnico, CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG FROM [60_OS] INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id
+	    $Read->FullRead("SELECT [60_OS].Id AS IdOS,tecnico AS TecnicoId,NomeOs, NumOS, [60_OS].Status, Valorcobrar, Users.[NOME COMPLETO] AS Atualizadopor, Tecnicos.[NOME COMPLETO] AS Tecnico, CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG FROM [60_OS] INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id
                     LEFT JOIN Funcionários Tecnicos ON [60_OS].Tecnico = Tecnicos.ID LEFT JOIN Funcionários Users ON [60_OS].Atualizadopor = Users.ID
 					WHERE [60_Clientes].Id = " . $PostData['idCliente'] . " ORDER BY Atualizadoem DESC","");
             if ($Read->getResult()):
@@ -93,6 +93,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 	$valor = number_format($Oss['Valorcobrar'],2,',','.');
                 	$status = getStatusOs($Oss['Status']);
                     $tecnico = $Oss['Tecnico'] ? $Oss['Tecnico'] : 'Não Associado';
+                    $tecnicoId = $Oss['TecnicoId'];
+                    $IdOS = $Oss['IdOS'];
+                    $finalizaOs = $Oss['TecnicoId'] > 0 ? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}''>Finalizar OS</a></span>" : '';
                     $atualizadopor = $Oss['Atualizadopor'] ? $Oss['Atualizadopor'] : 'Não Associado';
                 	$jSON['historicoOs'] .= "<hr><hr>
 									          <div class='box box100' style='padding-bottom: 0px;'>
@@ -110,6 +113,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									          </div>
 									          <div class='box box100' style='padding-top: 0px;'>
 									            <li style='padding-bottom: 5px;font-size: 12px;'>OBS.: {$Oss['ObsCEG']}</li>
+                                                <li>{$finalizaOs}
+                                                </li>
 									          </div>";
                 endforeach;                   
             else:

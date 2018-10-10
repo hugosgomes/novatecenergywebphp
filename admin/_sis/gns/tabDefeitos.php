@@ -10,7 +10,7 @@
 </div>
 
 <div id="servicos-defeitos"/>
-                <h4 class="icon-user-plus">Instalação com Defeito?</h4>
+                <h4>Instalação com Defeito?</h4>
                 <label class="label box box100">
                     <span><input id="instalacao-ok" type="radio" name="status" value="Sim" style="width:5%">Sim</span>
                     <span><input id="instalacao-defeito" type="radio" name="status" value="Não" style="width:5%">Não</span>
