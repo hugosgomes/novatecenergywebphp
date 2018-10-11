@@ -1,6 +1,6 @@
 
 //CONSULTA NO BANCO QUANDO MUDA O TÉCNICO NO SELECT
- $('#Tecnico').change(function(){
+$('#Tecnico').change(function(){
     var Tecnico = $(this).val();
     var Callback = $(this).attr('callback');
     var Callback_action = $(this).attr('callback_action');
@@ -8,7 +8,6 @@
     var S = $(this).attr('semana');
 
     $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
-
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
             Trigger(data.trigger);
@@ -30,6 +29,7 @@
 
     //ADICIONA O.S PARA O TÉCNICO
     $('html').on('click', '.j_add_tecnico', function (e) {
+        var Incrementador = $(this).attr('num');
         var Prevent = $(this);
         var OSId = $(this).attr('id');
         var RelTo = $(this).attr('rel');
@@ -37,28 +37,31 @@
         var Callback_action = $(this).attr('callback_action');
         var Tecnico = $("#Tecnico option:selected").val();
 
+
+
+
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.triggerErro) {
               Trigger(data.triggerErro);
-             }
+          }
 
-             if(data.trigger){
-                $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
-                    $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action:eq(0)').fadeIn('fast');
-                });
-            } else {
-                $('.' + RelTo + '[id="' + DelId + '"]').fadeOut('fast');
-            }
+          if(data.trigger){
+            $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
+                $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action:eq(0)').fadeIn('fast');
+            });
+        } else {
+            $('.' + RelTo + '[id="' + DelId + '"]').fadeOut('fast');
+        }
 
             //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
             if (data.addtable) {
                 $('#dataTable2 #semOS').fadeOut('fast');
                 $('#dataTable #semOS').fadeOut('fast');
                 $(data.addtable).appendTo('.dataTable');
-            
-               $('.info-window').fadeOut(400);
+
+                markers[OSId].setMap(null);
 
             }
 
@@ -72,9 +75,10 @@
         e.preventDefault();
         e.stopPropagation();
     });
-     
+
     //DELETA O.S DO TÉCNICO
     $('html').on('click', '.j_del_tecnico', function (e) {
+        var Incrementador = $(this).attr('num');
         var Prevent = $(this);
         var OSId = $(this).attr('id');
         var RelTo = $(this).attr('rel');
@@ -86,23 +90,45 @@
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
-              //  Trigger(data.trigger).fadeOut('fast');
+              $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
 
-                $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action_confirm:eq(0)').fadeOut('fast', function () {
+                $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action:eq(0)').fadeIn('fast');
+            });
+          } else {
 
-                    $('.' + RelTo + '[id="' + Prevent.attr('id') + '"] .j_delete_action:eq(0)').fadeIn('fast');
-                });
-            } else {
-
-                $('.' + RelTo + '[id="' + DelId + '"]').fadeOut('fast');
-            }
+            $('.' + RelTo + '[id="' + DelId + '"]').fadeOut('fast');
+        }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
-                 $('#Tecnico').change();
-            
-            //  $('#dataTable2 .j_tecnico').fadeOut(400);
-               //$('#dataTable .j_tecnico').fadeOut(400);
-            }
+               $('#Tecnico').change();
+          
+             var image1 = './_img/marcador.png';
+
+             var infowindow = new google.maps.InfoWindow();
+             if(data.latitude){
+                var latitude = data.latitude;
+                if(data.longitude){
+                 var longitude = data.longitude;
+                 marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(latitude, longitude),
+                    icon: image1,
+                    map: map
+                });
+             }
+         }
+         markers[OSId] = marker;
+         google.maps.event.addListener(marker, 'click', (function(marker) {
+            return function() {
+                if(data.infowindow){
+                  infowindow.setContent(data.infowindow);
+              }
+              infowindow.open(map, marker);
+          }
+      })(marker));
+
+
+           
+           }
 
             //DINAMIC CONTENT
             if (data.divcontent) {
@@ -133,10 +159,10 @@
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
                // $('#'+ data.deltable).fadeOut(400);
-                $('#dataTable2 #'+ data.deltable).fadeOut(400);
-                 $('#dataTable #'+ data.deltable).fadeOut(400);
-            }
-        }, 'json');
+               $('#dataTable2 #'+ data.deltable).fadeOut(400);
+               $('#dataTable #'+ data.deltable).fadeOut(400);
+           }
+       }, 'json');
 
         e.preventDefault();
         e.stopPropagation();
@@ -300,14 +326,14 @@
 
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
-                         Trigger(data.Trigger);
+                   Trigger(data.Trigger);
                }
 
-                if (data.exclui_linha) {
-                    $('.j_table_S_END[id="' + data.exclui_linha + '"]').remove();   
-                } 
+               if (data.exclui_linha) {
+                $('.j_table_S_END[id="' + data.exclui_linha + '"]').remove();   
+            } 
 
-            }, 'json');
+        }, 'json');
 
 
   });
@@ -332,7 +358,7 @@
 
     }, 'json');
 
-  }
+}
 
 
   //INCIALIZAÇÃO DA PÁGINA DE ORÇAMENTOS
@@ -351,11 +377,11 @@
 
     carregaTabelaOrcamento();
 
-  }
+}
 
-  $('#j_ano, #j_mes, #j_statusOrcamento').change(carregaTabelaOrcamento);
+$('#j_ano, #j_mes, #j_statusOrcamento').change(carregaTabelaOrcamento);
 
-  function carregaTabelaOrcamento(){
+function carregaTabelaOrcamento(){
     var Callback = $('#dataTable').attr('callback');
     var Callback_action = $('#dataTable').attr('callback_action');
     var Ano = $('#j_ano').val();
@@ -390,7 +416,7 @@
         $('#j_aprovado, #j_recusado, #j_executado').attr('disabled', true);
 
     }, 'json');
-  }
+}
 
 
 $('html').on('click', '#j_btn_editar', function (e) {

@@ -51,8 +51,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             INNER JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].idOS" . $where,"");
                 if ($Read->getResult()):
                     foreach ($Read->getResult() as $orcamentos):
+                        $orcamentos_NumCliente = str_replace(".0", "", $orcamentos['NumCliente']);
                         $jSON['addTabela'] .= "<tr class='pointer' idOrcamento = '{$orcamentos['id']}'  callback='Orcamentos' callback_action='detalhes'>
-                                                    <td>{$orcamentos['NumCliente']}</td>
+                                                    <td>{$orcamentos_NumCliente}</td>
                                                     <td>{$orcamentos['NumOS']}</td>
                                                     <td>{$orcamentos['ENDERECO']}</td>
                                                     <td>{$orcamentos['NomeOs']}</td>

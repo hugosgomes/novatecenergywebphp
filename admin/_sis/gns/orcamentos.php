@@ -78,24 +78,26 @@ endif;
 
 <article class="box box70">
   <div class="box_content">
+   <div class="tabela-responsivel">
     <table id="dataTable"class="cell-border compact stripe table" callback="Orcamentos" callback_action="consulta">
       <thead>
-          <tr>
-            <th>Nº Cliente</th>
-            <th>OS</th>
-            <th>Endereço</th>
-            <th>Tipo Serviço</th>
-          </tr>
+        <tr>
+          <th>Nº Cliente</th>
+          <th>OS</th>
+          <th>Endereço</th>
+          <th>Tipo Serviço</th>
+        </tr>
       </thead>
       <tbody>
         <tr><td colspan="4"><center>Nenhuma informação</center></td></tr>
       </tbody>
     </table>
   </div>
+  </div>
 </article> 
 
 <article class="box box30">
-  <div class="box_content">
+  <div class="box_content" style="height: 659px;">
     <center><h4>Informações Detalhadas</h4></center>
     <br>
     <ul class="j_detalhes">

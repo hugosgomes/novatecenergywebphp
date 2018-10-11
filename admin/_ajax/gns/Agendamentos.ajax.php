@@ -47,6 +47,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'addTecnico':
             $OSId = $PostData['os_id'];
             unset($PostData['os_id']);
+
             $PostData['Status'] = "1";
 
                 if(!$PostData['Tecnico']):
@@ -88,6 +89,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
 
 
+
                 if(!$PostData['Tecnico']):
                     $jSON['trigger'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING);
                 else:
@@ -98,6 +100,20 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           $jSON['trigger'] = AjaxErro("<b class='icon-checkmark no-print'>OS retirada do técnico!");
                           $jSON['success'] = true;                        
                           $jSON['deltable'] = $OSId;
+
+                          $Read->FullRead("SELECT  NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
+                            [60_OS].Tecnico, [60_OS].turno as TURNO,
+                            [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
+                            inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                            inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                            WHERE [60_OS].Id = :id","id={$OSId}");
+                          foreach ($Read->getResult() as $marker): 
+                            extract($marker);
+                          $data = date("d/m/Y", strtotime($DataAgendamento));
+                            $jSON['infowindow'] = "<div class='info-window'><h3 class='m_bottom'>{$OSServico}</h3><div class='info-content'><p>OS: <b>{$NumOS}</b></p><p>Cliente: <b>{$NomeCliente}</b></p><p>Serviço: <b>{$NomeOs}</b></p><p>Data: <b>{$data}</b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='{$Id}'>Add</span></div></div>";
+                            $jSON['latitude'] = $Latitude;
+                            $jSON['longitude'] = $Longitude;
+                          endforeach;
                         else:
                           $jSON['trigger'] = AjaxErro("Erro ao tentar retirar a OS do Técnico!");
                         endif;

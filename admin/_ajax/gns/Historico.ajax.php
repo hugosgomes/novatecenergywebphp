@@ -48,9 +48,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $historico):
+                     $historico_NumCliente = str_replace(".0", "", $historico['NumCliente']);
                 	$jSON['historico'] .= "<tr role='row' class='odd pointer j_table' value='{$historico['Id']}' callback='Historico' callback_action='CarregarHistorico'>
                                                  <td style='text-align: center;'>{$historico['DataAgendamento']}</td>
-                                                 <td style='text-align: center;'>{$historico['NumCliente']}</td>
+                                                 <td style='text-align: center;'>{$historico_NumCliente}</td>
                                                  <td>{$historico['NomeCliente']}</td>
                                                  <td style='text-align: center;'>{$historico['Telefone1']}</td>
                                                  <td>{$historico['Endereco']}</td>

@@ -159,10 +159,10 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
               AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :day","day={$Day}");
           endif;
 
-          echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b> ".count($Read->getResult())."</span>";
+          echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b>&ensp;".count($Read->getResult())."</span>";
           ?>           
         </header>
-        <div class="box_content teste">
+        <div class="box_content" id="mapa">
           <div id="map" class="no-print" style="height: 59.3%;"></div>
         </div>
       </article>
@@ -221,51 +221,50 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 </script>
 
 <!--inicia o Google Maps-->
-
+<?php  $qtd_OS = count($Read->getResult()); ?>
 <script>
+  var marker, i;
+  var map;
+  var markers = [];
   function initMap() {
-    var myLatLng = {lat: -22.9068467, lng: -43.1728965};
-     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 8,
-      center: myLatLng
+   var locations = [];
+   
+   <?php  for ($i = 0; $i < $qtd_OS; $i++) { ?>
+
+    locations[<?php echo $i; ?>] = ['<div class="info-window"><div class="info-content"><p>OS: <b><?php echo $Read->getResult()[$i]["NumOS"]; ?></b></p><p>Cliente: <b><?php echo $Read->getResult()[$i]["NomeCliente"]; ?></b></p><p>Serviço: <b><?php echo $Read->getResult()[$i]["NomeOs"]; ?></b></p><p>Data: <b><?php echo date("d/m/Y", strtotime($Read->getResult()[$i]["DataAgendamento"])); ?></b></p><span rel="single_message" callback="Agendamentos" callback_action="addTecnico" class="j_add_tecnico icon-plus btn btn_darkblue" id="<?php echo $Read->getResult()[$i]["Id"];?>" num="<?php echo $i;?>" total="<?php echo $qtd_OS; ?>">Add</span></div></div>', <?php echo $Read->getResult()[$i]['Latitude']; ?>, <?php echo $Read->getResult()[$i]['Longitude']; ?>, <?php echo $Read->getResult()[$i]["Id"];?>]
+
+  <?php }?>
+
+  var image1 = './_img/marcador.png';
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 10,
+    center: new google.maps.LatLng(-22.9068467, -43.1728965),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  var infowindow = new google.maps.InfoWindow();
+
+  for (i = 0; i < locations.length; i++) {  
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+      icon: image1,
+      map: map
     });
-    var image1 = './_img/marcador.png';
-    var image2 = './_img/marcador2.png';
-    var image3 = './_img/marcador3.png';
-    var number = 5;
+    markers[locations[i][3]] = marker;
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+      return function() {
+        infowindow.setContent(locations[i][0]);
+        infowindow.open(map, marker);
+      }
+    })(marker, i));
+  }
+};
 
-    <?php
-    foreach ($Read->getResult() as $OS):
-      extract($OS);  
-           ?>
-           marker<?php echo $Id;?> = new google.maps.Marker({
-            position: myLatLng,
-            map: map,        
-            icon: image1,     
-            animation: google.maps.Animation.DROP,
-            position: {lat:<?php echo $Latitude;?>, lng: <?php echo $Longitude; ?> },     
-           }); 
-       
-             var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS; ?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p><p>Serviço: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='<?php echo $Id;?>'>Add</span></div></div>";
+</script>
 
-
-          infowindow<?php echo $Id; ?> = new google.maps.InfoWindow({
-            content: contentString,
-            maxWidth: 400
-          });
-          marker<?php echo $Id;?>.addListener('click', function(){
-            infowindow<?php echo $Id;?>.open(map, marker<?php echo $Id;?>)
-    });
-    
- <?php
-      endforeach;
-      ?>            
-    };
-
-  </script>
-
-  <!--Chamada da API do Google Maps-->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="_js/gns.js"></script>
+<!--Chamada da API do Google Maps-->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="_js/gns.js"></script>
 
