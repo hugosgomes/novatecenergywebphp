@@ -62,6 +62,7 @@ $('.o_forma_de_pagamento_select').change(function(){
 function adicionaLinhaTabela_peca(){
     var iPeca = 0;
     var iQtd = 0;
+    var iApr = 0;
     
     $('.j_add_pecas').click(function(){
 
@@ -69,7 +70,7 @@ function adicionaLinhaTabela_peca(){
         var desc = $('#o_peca option:selected').text();
         var qTd = $('#o_qtd-pecas').val();
         var valorUnit = $('#o_peca option:selected').val();
-        var idTr = $('#o_peca option:selected').attr('id');
+        var idTr = $('#o_peca option:selected').prop('id');
         var selectValorOption = $('#o_peca option:selected').val();
         var selectAtributoOption = $('#o_peca option:selected').prop('disabled');
 
@@ -94,20 +95,21 @@ function adicionaLinhaTabela_peca(){
 
         //ADICIONA LINHA NA TABELA
         var adicionaLinha = '<tr id="'+idTr+'" class="adicionaLinhaPecas">'+
-                                '<td><input type="text" id="'+idTr+'" name="o_descricao_peca" value="'+desc+'" style="width:100% !important;" readonly>'+
+                                '<td style="width:60%"><input type="text" id="'+idTr+'" name="o_descricao_peca" value="'+desc+'" readonly>'+
                                    //desc+ 
                                 '</td>'+
-                                '<td><input type="number" id="'+idTr+'" name="o_quant_peca'+(iQtd++)+'" value="'+qTd+'" readonly>'+
+                                '<td style="width:10%"><input type="number" id="'+idTr+'" name="o_quant_peca'+(iQtd++)+'" value="'+qTd+'" readonly>'+
                                    //qTd +
                                 '</td >'+
-                                '<td id="j_valor"><input id="'+idTr+'" type="text" name="" value="'+valorUnitMask+'"  readonly>'+
+                                '<td id="j_valor" style="width:10%"><input id="'+idTr+'" type="text" name="" value="'+valorUnitMask+'"  readonly>'+
                                    //valorUnitMask+ 
                                 '</td>'+
-                                '<td id="j_valor" class="valorUnit"><input id="'+idTr+'" type="text" name="o_valor_final_peca" value="'+valorTotalLinha+'"  readonly>'+
+                                '<td id="j_valor" class="valorUnit" style="width:10%"><input id="'+idTr+'" type="text" name="o_valor_final_peca" value="'+valorTotalLinha+'"  readonly>'+
                                    //valorTotalLinha+
-
+                                '<td style="width:10%;text-align:center;"><input class="o_ckeck_status_o" type="checkbox" name="o_aprovado_p'+(iApr++)+'" value="aprovado" style="width:40%" checked>'+
                                 '</td>'+
-                                '<td style="text-align: center;"><span id="o_remove_linha_P" class="j_add_pecas icon-cross btn btn_red"></span>'+
+                                '</td>'+
+                                '<td style="text-align: center;width:10%"><span id="o_remove_linha_P" class="j_add_pecas icon-cross btn btn_red" style="margin:0;"></span>'+
                                 '</td>'+
                             '</tr>';
 
@@ -124,32 +126,11 @@ function adicionaLinhaTabela_peca(){
     })
 }
 
-//EXIBE SELECT DE ACORDO COM O TIPO DE CLIENTE(COM PLANO/SEM PLANO)
-function tipoDeCliente(){
-  $('.o_tipoCliente').change(function(){
-   valor =  $(this).val();
-   if(valor == 'o_tipoClienteCp'){
-
-            //EXIBE SELECT PARA CLIENTE COM PLANO
-            $('#o_cliente_com_plano').show();
-            $('#o_cliente_sem_plano').hide();
-
-          }
-          if(valor == 'o_tipoClienteSp'){
-
-            //EXIBE SELECT PARA CLIENTE SEM PLANO
-            $('#o_cliente_com_plano').hide();
-            $('#o_cliente_sem_plano').show();
-
-
-       }
-    })
-}
-
 //ADICIONA LINHA NA TABELA ORÇAMENTO 
 function adicionaLinhaTabela_s(){
     var iServico = 0;
     var iQtd = 0;
+    var iApr = 0;
 
       $('.j_add_servicos').click(function(){
         //SELECIONA O VALOR DO RADIOS QUE O CHECKED FOR TRUE
@@ -205,21 +186,23 @@ function adicionaLinhaTabela_s(){
 
         //ADICIONA LINHA NA TABELA
         var adicionaLinha = '<tr id="'+idTr+'" class="adicionaLinhaServicos">'+
-                                '<td style="text-align: center;"><input type="text" name="" value="'+desc+'" style="width:100% !important;" readonly>'+
+                                '<td style="width:60%"><input type="text" name="" value="'+desc+'" readonly>'+
                                    //desc+ 
                                 '</td>'+
-                                '<td style="text-align: center;"><input type="text" name="o_quant_servico'+(iQtd++)+'" value="'+qTd+'" style="width:100% !important;" readonly>'+
+                                '<td style="width:10%"><input type="text" name="o_quant_servico'+(iQtd++)+'" value="'+qTd+'" readonly>'+
                                    //qTd +
                                 '</td >'+
-                                '<td id="j_valor" style="text-align: center;"><input type="text" name="" value="'+valorUnitMask+'" style="width:100% !important;" readonly>'+
+                                '<td id="j_valor" style="width:10%"><input type="text" name="" value="'+valorUnitMask+'" readonly>'+
                                    //valorUnitMask+ 
                                 '</td>'+
-                                '<td id="j_valor" class="valorUnit" style="text-align: center;"><input type="text" name="" value="'+valorTotalLinha+'" style="width:100% !important;" readonly>'+
+                                '<td id="j_valor" class="valorUnit" style="width:10%"><input type="text" name="" value="'+valorTotalLinha+'" readonly>'+
                                    //valorTotalLinha+
 
                                 '</td>'+
+                                '<td style="width:10%;text-align:center;"><input class="o_ckeck_status_o" type="checkbox" name="o_aprovado_s'+(iApr++)+'" value="aprovado" style="width:40%" checked>'+
                                 '</td>'+
-                                '<td style="text-align: center;"><span id="o_remove_linha_S" class="j_add_pecas icon-cross btn btn_red"></span>'+
+                                '</td>'+
+                                '<td style="text-align:center;width:10%"><span id="o_remove_linha_S" class="j_add_pecas icon-cross btn btn_red"></span>'+
                                 '</td>'+
                             '</tr>';
 
@@ -231,6 +214,27 @@ function adicionaLinhaTabela_s(){
 }
       })
         
+}
+
+//EXIBE SELECT DE ACORDO COM O TIPO DE CLIENTE(COM PLANO/SEM PLANO)
+function tipoDeCliente(){
+    $('.o_tipoCliente').change(function(){
+       valor =  $(this).val();
+       if(valor == 'o_tipoClienteCp'){
+
+            //EXIBE SELECT PARA CLIENTE COM PLANO
+            $('#o_cliente_com_plano').show();
+            $('#o_cliente_sem_plano').hide();
+
+       }
+       if(valor == 'o_tipoClienteSp'){
+
+            //EXIBE SELECT PARA CLIENTE SEM PLANO
+            $('#o_cliente_com_plano').hide();
+            $('#o_cliente_sem_plano').show();
+
+       }
+    })
 }
 
 //SOMA DO TOTAL DE TODAS AS LINHAS DA TABELA
@@ -246,10 +250,31 @@ function calculaTotalTable(){
     if(valorTotal == 0){
          $('.valor-total').text(0);
          $('#valor-total').val(0);
+         $('#valor-total-reprovado').val(0);
     }else{
         $('.valor-total').text(valorTotalMask);
         $('#valor-total').val(valorTotal);
+        $('#valor-total-reprovado').val(valorTotal.toFixed(2));
     }
+}
+
+function verificaOrcamento(){
+    $(document).on('change','.o_ckeck_status_o',function(){
+
+        var valorTotalRep = Number($('#valor-total-reprovado').val());
+        var statusCheck =  $(this).prop('checked');
+        var valCheck = Number($(this).parent().parent().find('.valorUnit input').val());
+
+        //REMOVE VALOR SE CONDIÇÃO FOR TRUE OU ADICIONA SE CONDIÇÃO FOR FALSE
+        if(statusCheck == true){
+            valorTotalRemove = valorTotalRep + valCheck;
+            $('#valor-total-reprovado').val(valorTotalRemove.toFixed(2));
+        }else{
+            valorTotalAdd = valorTotalRep - valCheck;
+            $('#valor-total-reprovado').val(valorTotalAdd.toFixed(2));
+        }
+    })
+
 }
 
 //REMOVE LINHA ESPECÍFICA DA TABELA AO CLICAR NO BUTTON REMOVER
@@ -296,6 +321,7 @@ function removeLinhaTabela(id){
     })
 }
 
+
 //DETERMINA VALOR MÍNIMO QUE DEVE SER DIGITADO NO INPUT
 function valorMinimoInput(id,valorMin){
   var valorDigitado = $(id).val();
@@ -337,6 +363,11 @@ $('#o_parcelas-seleciona').blur(function(){
   $('#o_parcelas_maior_12').val(valor);
 })
 
+//ALERTA AO USUÁRIO A SALVAR DADOS ANTES DE SAIR DA PÁGINA
+window.addEventListener("beforeunload",function(event){
+    event.returnValue = "";
+})
+
 
 /*
 * n = numero a converter
@@ -366,6 +397,7 @@ $(document).ready(function() {
     removeLinhaTabela('o_remove_linha_P');
     removeLinhaTabela('o_remove_linha_S');
     tipoDeCliente();
+    verificaOrcamento();
 });
 
 

@@ -25,12 +25,14 @@ endif;
 
     <article class="box box100">
       <div class="box_content s_filtros">
-        <select id="j_selectClientes" style="width: 360px;">
-          <option value="t">TODOS OS CLIENTES</option>
-        </select>
-        <!--
-        <input type="text" class="jwc_datepicker" placeholder="Data Agendamento" style="width: 120px;">
-      -->
+        <input type="text" id="j_selectClientes" placeholder="NOME DO CLIENTE" style="width: 300px;">
+        <input type="text" id="j_selectData" placeholder="DATA AGENDAMENTO" class="jwc_datepicker" style="width: 150px;">
+        <input type="text" id="j_selectNum" placeholder="Nº CLIENTE" style="width: 150;">
+        <input type="text" id="j_selectEndereco" placeholder="ENDEREÇO" style="width: 300px;">
+        <input type="text" id="j_selectBairro" placeholder="BAIRRO" style="width: 300px;">        
+        <input type="text" id="j_selectMunicipio" placeholder="MUNÍCÍPIO" style="width: 300px;">
+        <input type="text" id="j_selectCep" placeholder="CEP" style="width: 150px; margin-top: 5px;">
+        <input type="text" id="j_selectCpf" placeholder="CPF/CNPJ" style="width: 150px; margin-top: 5px;">
       </div>
     </article>
 
@@ -97,11 +99,7 @@ endif;
           hover: true,
           searching: true,
           info: false
-
-
         });
-
-
 </script>
 
 <style type="text/css">

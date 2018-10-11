@@ -103,11 +103,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'detalhes':
             $jSON['addDetalhes'] = null;
 
-            //SOMATÓRIO DE VALOR EXECUTADO
-            $Read->FullRead("SELECT CONVERT(NVARCHAR,[60_Orcamentos].DataEnt,103) AS DataEnt, TecnicoEnt.[NOME COMPLETO] AS TecnicoEnt,
-                CONVERT(NVARCHAR,[60_Orcamentos].DataExe,103) AS DataExe, TecExe.[NOME COMPLETO] AS TecExe, [60_Orcamentos].Status, [60_Orcamentos].Valor
-                FROM [60_Orcamentos] INNER JOIN Funcionários TecnicoEnt ON [60_Orcamentos].TecnicoEnt = TecnicoEnt.ID
-                INNER JOIN Funcionários TecExe ON [60_Orcamentos].TecExe = TecExe.ID WHERE [60_Orcamentos].ID = " . $PostData['idOrcamento'],"");
+            //INFORMAÇÕES DETALHADAS
+            $Read->FullRead("SELECT CONVERT(NVARCHAR,[60_Orcamentos].DataEnt,103) AS DataEnt, IIF(Func1.ID is not null, Func1.[NOME COMPLETO], Func2.NOME) AS TecnicoEnt, 
+            IIF(Funcionários.ID is not null, Funcionários.[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS TecnicoExe,
+            CONVERT(NVARCHAR,[60_Orcamentos].DataExe,103) AS DataExe, [60_Orcamentos].Status, [60_Orcamentos].Valor FROM [60_Orcamentos]
+            LEFT JOIN [00_NivelAcesso] ON [60_Orcamentos].TecExe = [00_NivelAcesso].ID
+            INNER JOIN [00_NivelAcesso]  NivelAcesso ON [60_Orcamentos].TecnicoEnt = NivelAcesso.ID
+            LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
+            LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID
+            LEFT JOIN  Funcionários  Func1 ON NivelAcesso.IDFUNCIONARIO = Func1.ID
+            LEFT JOIN  FuncionariosTerceirizados Func2 ON NivelAcesso.IDTERCEIRIZADO = Func2.ID WHERE [60_Orcamentos].ID = " . $PostData['idOrcamento'],"");
             if ($Read->getResult()):
                     foreach ($Read->getResult() as $detalhes):
                         $valor = number_format($detalhes['Valor'],2,',','.');
@@ -117,7 +122,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                               <li><span>Data Entrada: </span>{$detalhes['DataEnt']}</li>
                               <li><span>Técnico Entrada: </span>{$detalhes['TecnicoEnt']}</li>
                               <li><span>Data Execução: </span>{$detalhes['DataExe']}</li>
-                              <li><span>Técnico Execução: </span>{$detalhes['TecExe']}</li>
+                              <li><span>Técnico Execução: </span>{$detalhes['TecnicoExe']}</li>
                               <li><span>Status: </span>$status</li>
                               <li><span>Valor: </span>(R$)$valor</li>";
                     endforeach;
@@ -132,10 +137,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['addId'] = $PostData['idOrcamento'];
 
             //DADOS PARA PREENCHER OS SELECTS DO MODAL
-            $Read->FullRead("SELECT ID, [NOME COMPLETO] FROM Funcionários WHERE GNSMOBILE = 1 AND  [DATA DE DEMISSÃO] IS NULL ORDER BY [NOME COMPLETO]","");
+            $Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
+            FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
+            LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
+            WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL ORDER BY NOME","");
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $tecnicos):
-                    $jSON['addTecnicos'] .= "<option value = '{$tecnicos['ID']}'>{$tecnicos['NOME COMPLETO']}</option>";
+                    $jSON['addTecnicos'] .= "<option value = '{$tecnicos['ID']}'>{$tecnicos['NOME']}</option>";
                 endforeach;
             else:
                 $jSON['addTecnicos'] = "<option value = 't'>SELECIONE UM TÉCNICO</option>";

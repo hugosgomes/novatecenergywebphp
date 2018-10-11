@@ -261,7 +261,7 @@ endif;
 </div>
 
 <link rel="stylesheet" href="/resources/demos/style.css">
-<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 
 <script src="_js/clientes_particulares2.js"></script>

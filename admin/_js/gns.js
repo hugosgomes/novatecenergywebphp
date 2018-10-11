@@ -23,7 +23,13 @@ $('#Tecnico').change(function(){
         if (data.addlist) {
             $("#dataList").remove();            
             $(data.addlist).appendTo('.dataList');
-        }            
+        }
+
+        if (data.addOrcamentolist) {
+            $("#orcamento-list").remove();            
+            $(data.addOrcamentolist).appendTo('.orcamento-list');
+        }
+                  
     }, 'json');
 });
 
@@ -231,9 +237,16 @@ $('#Tecnico').change(function(){
     function carregaDados(){
         var Callback = $('#dataTable').attr('callback');
         var Callback_action = $('#dataTable').attr('callback_action');
-        var idCliente = $('#j_selectClientes').val();
+        var nomeCliente = $('#j_selectClientes').val();
+        var dataCliente = $('#j_selectData').val();
+        var numCliente = $('#j_selectNum').val();
+        var enderecoCliente = $('#j_selectEndereco').val();
+        var bairroCliente = $('#j_selectBairro').val();
+        var municipioCliente = $('#j_selectMunicipio').val();
+        var cepCliente = $('#j_selectCep').val();
+        var cpfCliente = $('#j_selectCpf').val();
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idCliente: idCliente}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, nomeCliente, dataCliente, numCliente, enderecoCliente, bairroCliente, municipioCliente, cepCliente, cpfCliente}, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -241,13 +254,10 @@ $('#Tecnico').change(function(){
             }
 
             if (data.historico) {
-                //alert('deu bom ');
                 $(".j_table").remove();
                 $(data.historico).appendTo('.dataTable');             
-            }
-
-            if (data.selectClientes) {
-                $(data.selectClientes).appendTo('#j_selectClientes');             
+            }else{
+                $(".j_table").remove();
             }
 
         }, 'json');
@@ -286,7 +296,12 @@ $('#Tecnico').change(function(){
     });
 
 
-    $('#j_selectClientes').change(carregaDados);
+    $('#j_selectClientes, #j_selectNum, #j_selectData, #j_selectEndereco, #j_selectBairro, #j_selectMunicipio, #j_selectCep, #j_selectCpf').change(carregaDados);
+    $("#j_selectData").datepicker({
+      onSelect: function(dateText) {
+        carregaDados();
+      }
+    });
 
 
     function os_SemEnd(){

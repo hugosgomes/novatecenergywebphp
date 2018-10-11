@@ -22,7 +22,7 @@ endif;
 <div class="dashboard_content custom_app">
   <article class="box box33" style="width: 33%;">
     <header>
-      <h3>Monitoramento</h3>
+      <h3>Monitoramento de OS</h3>
     </header> 
     <div class="box_content" style="height:77.2%;">
       <label class="label">
@@ -32,23 +32,13 @@ endif;
           <option value="t">&raquo;&raquo;TODOS OS TÉCNICOS</option>
           <?php
                 $Setor = 2;
-                $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS nome, SUB.PRODUTO,
-                  CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.ID ELSE TERC.ID END AS id, SUB.IDPROD,
-                  CASE WHEN FUNC.ID IS NOT NULL THEN 'FUNCIONÁRIO' ELSE 'TERCEIRIZADO' END AS TIPOFUNC FROM [40_Interna_ID]
-                  LEFT JOIN Funcionários FUNC ON [40_Interna_ID].USUARIO_PORTADOR = FUNC.ID
-                  LEFT JOIN FuncionariosTerceirizados TERC ON [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO = TERC.ID
-                  INNER JOIN [00_NivelAcesso] ON FUNC.ID = [00_NivelAcesso].IDFUNCIONARIO OR TERC.ID = [00_NivelAcesso].IDTERCEIRIZADO
-                  INNER JOIN(
-                  SELECT max([40_Interna].INTERNA) ULTMOV, [40_Produtos].PRODUTO, [40_Produtos].Id IDPROD FROM [40_Produtos]
-                  INNER JOIN [40_Interna] ON [40_Produtos].Id = [40_Interna].PRODUTO
-                  WHERE [40_Produtos].PRODUTO LIKE 'MANÔMETRO%'
-                  GROUP BY [40_Produtos].PRODUTO, [40_Produtos].Id) SUB
-                  ON [40_Interna_ID].ID = SUB.ULTMOV
-                  WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1
-                  ORDER BY NOME"," ");
+                $Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
+                FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
+                LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
+                WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL ORDER BY NOME"," ");
                 if ($Read->getResult()):
                   foreach ($Read->getResult() as $FUNC):
-                    echo "<option value='{$FUNC['id']}'>{$FUNC['nome']}</option>";
+                    echo "<option value='{$FUNC['id']}'>{$FUNC['NOME']}</option>";
                   endforeach;
                 endif;
                 ?>
@@ -70,9 +60,6 @@ endif;
       ?>
       <article class="box box50 datalist">
         <table id="dataList" class="cell-border compact stripe table" style="width: 100%;font-size: 15px;">
-          <tr>
-            <td>Não Associado(s):</td>
-          </tr>
           <tr>
             <td>Associado(s):</td>
           </tr>
@@ -129,7 +116,7 @@ endif;
 <article class="box box50" style="width:67%;">
   <header>
     <?php
-    echo "<div class='box box25'><span class='flt_right m_left'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span></div>
+    echo "<div class='box box25'><span class='flt_right m_left qtdOs'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span></div>
     <div class='box box50'>
     <table>
     <tr>
@@ -200,3 +187,26 @@ endif;
   <!--Chamada da API do Google Maps-->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
   <script src="_js/gns.js"></script>
+  <script>
+
+      var tempoInicial = 0;
+      //SE TEMPO INICIAL FOR IGUAL 60 REALIZA REFRESH NA PÁGINA
+      setInterval(function(){
+        tempoInicial++;
+        if(tempoInicial === 60){
+           document.location.reload(true);
+        }
+        console.log(tempoInicial);
+      },1000);
+
+      //SE OCORRER UM DOS EVENTOS ABAIXO TEMPO INICIAL RECEBE (0)
+      $(document).on({
+          click: function(){
+            tempoInicial = 0;
+          },
+          mousemove: function(){
+            tempoInicial = 0;
+          }
+        });
+
+  </script>

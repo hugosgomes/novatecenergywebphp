@@ -33,15 +33,22 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $jSON['historico'] = null;
         $jSON['selectClientes'] = null;
 
-        $where = $PostData['idCliente'] != 't' ? "WHERE [60_Clientes].Id = {$PostData['idCliente']}" : "";
+        $where = $PostData['nomeCliente'] != '' ? " AND [60_Clientes].NomeCliente LIKE '%{$PostData['nomeCliente']}%'" : "";
+        $where .= $PostData['dataCliente'] != '' ? " AND FORMAT( [60_OS].DataAgendamento, 'dd/MM/yyyy', 'pt-BR' ) = '{$PostData['dataCliente']}'" : "";
+        $where .= $PostData['numCliente'] != '' ? " AND [60_Clientes].NumCliente = {$PostData['numCliente']}" : "";
+        $where .= $PostData['enderecoCliente'] != '' ? " AND [60_OS].Endereco LIKE '%{$PostData['enderecoCliente']}%'" : "";
+        $where .= $PostData['bairroCliente'] != '' ? " AND [60_OS].Bairro LIKE '%{$PostData['bairroCliente']}%'" : "";
+        $where .= $PostData['municipioCliente'] != '' ? " AND [60_OS].Municipio LIKE '%{$PostData['municipioCliente']}%'" : "";
+        $where .= $PostData['cepCliente'] != '' ? " AND [60_OS].Cep = '{$PostData['cepCliente']}'" : "";
+        $where .= $PostData['cpfCliente'] != '' ? " AND [60_Clientes].CPFCNPJ = '{$PostData['cpfCliente']}'" : "";
+        $where = substr($where, 5);
+        $where = $where ? " WHERE " . $where : "";
 
         //Carrega e retorna os dados da tabela
         $Read->FullRead("SELECT [60_Clientes].Id, FORMAT( [60_OS].DataAgendamento, 'dd/MM/yyyy', 'pt-BR' ) AS DataAgendamento, [60_Clientes].NumCliente,[60_Clientes].NomeCliente, 
             [60_Clientes].Telefone1, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Cep, [60_OS].Municipio, [60_Clientes].Telefone2, 
             [60_Clientes].Telefone3, [60_Siebel].Zona,[60_Siebel].SubZona, [60_Clientes].CPFCNPJ, [60_Siebel].TelefoneZeus, 
-            [60_Clientes].EmailGns FROM [60_Clientes]
-
-            INNER JOIN [60_Siebel] ON [60_Clientes].NumCliente = [60_Siebel].NumeroCliente
+            [60_Clientes].EmailGns FROM [60_Clientes] INNER JOIN [60_Siebel] ON [60_Clientes].NumCliente = [60_Siebel].NumeroCliente
             INNER JOIN [60_OS] ON [60_Siebel].NumeroOS = [60_OS].NumOS
             INNER JOIN [60_OT] ON [60_Siebel].NumeroOT = [60_OT].NumOT {$where} ORDER BY NomeCliente"," ");
 
@@ -70,30 +77,25 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             else:
                 $jSON['historico'] = null;
             endif;
-
-        //CARREGA E RETORNA OS DADOS DO CLIENTE PARA INICIAR O SELECT
-        $Read->FullRead("SELECT Id, NomeCliente FROM [60_Clientes] ORDER BY NomeCliente","");
-            if ($Read->getResult()):
-                foreach ($Read->getResult() as $clientes):
-                	$jSON['selectClientes'] .= "<option value={$clientes['Id']}>{$clientes['NomeCliente']}</option>";
-                endforeach;                   
-            else:
-                $jSON['selectClientes'] = null;
-            endif;
-    	break;
-
+        break;
 
         //CARREGA O HISTÓRICO DE OS's NA LATERAL DIREITA DA PÁGINA
 	    case 'CarregarHistorico':
 	    $jSON['historicoOs'] = null;
-	    $Read->FullRead("SELECT NomeOs, NumOS, [60_OS].Status, Valorcobrar, Users.[NOME COMPLETO] AS Atualizadopor, Tecnicos.[NOME COMPLETO] AS Tecnico, CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG FROM [60_OS] INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id
-                    LEFT JOIN Funcionários Tecnicos ON [60_OS].Tecnico = Tecnicos.ID LEFT JOIN Funcionários Users ON [60_OS].Atualizadopor = Users.ID
+	    $Read->FullRead("SELECT NomeOs, NumOS, [60_OS].Status, Valorcobrar, 'VERIFICAR' AS Atualizadopor, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS Tecnico, 
+            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG FROM [60_OS] INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id 
+            INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id LEFT JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
+            LEFT JOIN  Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
+            LEFT JOIN  FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
 					WHERE [60_Clientes].Id = " . $PostData['idCliente'] . " ORDER BY Atualizadoem DESC","");
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $Oss):
                 	$valor = number_format($Oss['Valorcobrar'],2,',','.');
                 	$status = getStatusOs($Oss['Status']);
                     $tecnico = $Oss['Tecnico'] ? $Oss['Tecnico'] : 'Não Associado';
+                    $tecnicoId = $Oss['TecnicoId'];
+                    $IdOS = $Oss['IdOS'];
+                    $finalizaOs = $Oss['TecnicoId'] > 0 ? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}''>Finalizar OS</a></span>" : '';
                     $atualizadopor = $Oss['Atualizadopor'] ? $Oss['Atualizadopor'] : 'Não Associado';
                 	$jSON['historicoOs'] .= "<hr><hr>
 									          <div class='box box100' style='padding-bottom: 0px;'>
@@ -111,6 +113,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									          </div>
 									          <div class='box box100' style='padding-top: 0px;'>
 									            <li style='padding-bottom: 5px;font-size: 12px;'>OBS.: {$Oss['ObsCEG']}</li>
+                                                <li>{$finalizaOs}
+                                                </li>
 									          </div>";
                 endforeach;                   
             else:

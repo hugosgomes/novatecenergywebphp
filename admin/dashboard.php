@@ -206,7 +206,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/historico' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/historico">&raquo; Histórico de Clientes</a></li>  
-                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/orcamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/orcamentos">&raquo; Orçamentos</a></li>  
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/orcamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/orcamentos">&raquo; Orçamentos</a></li> 
                     </ul>
                 </li>
                 <?php
@@ -261,40 +261,13 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 ?>
                 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-stats-dots" title="Usuários" href="#">Diretoria</a>
                     <ul class="dashboard_nav_menu_sub">
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/dashboard' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/dashboard">&raquo; Dashboard</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/graficos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/graficos">&raquo; Gráficos</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/previsoes' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/previsoes">&raquo; Previsões</a></li>
                     </ul>
                 </li>
                 <?php
             endif;
-                    //MENU DE USUÁRIOS
-                    /*if ($_SESSION['userLogin'] && ($Permissao['GNS'] == 1)):
-                        ?>
-                        <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'users/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-users" title="Usuários" href="dashboard.php?wc=users/home">Usuários</a>
-                            <ul class="dashboard_nav_menu_sub">
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'users/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Ver Usuários" href="dashboard.php?wc=users/home">&raquo; Ver Usuários</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= strstr($getViewInput, 'users/home&opt=customers') ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Clientes" href="dashboard.php?wc=users/home&opt=customers">&raquo; Clientes</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= strstr($getViewInput, 'users/home&opt=team') ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Equipe" href="dashboard.php?wc=users/home&opt=team">&raquo; Equipe</a></li>
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'users/create' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Novo Usuário" href="dashboard.php?wc=users/create">&raquo; Novo Usuário</a></li>
-                            </ul>
-                        </li>
-                        <?php
-                    endif;*/
-
-                    //MENU DE RELATÓRIOS
-                    /*if ($_SESSION['userLogin'] >= LEVEL_WC_REPORTS):
-                        ?>
-                        <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'report') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-pie-chart" title="Relatório" href="dashboard.php?wc=reports/home">Relatórios</a>
-                            <ul class="dashboard_nav_menu_sub top">
-                                <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'reports/home' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Relatório de Acessos" href="dashboard.php?wc=reports/home">&raquo; Acessos</a></li>
-                                <?php if (APP_EAD): ?>
-                                    <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'teach/report_students' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Relatório de Alunos" href="dashboard.php?wc=teach/report_students">&raquo; Alunos</a></li>
-                                    <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'teach/report_support' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Relatório de Suporte" href="dashboard.php?wc=teach/report_support">&raquo; Suporte</a></li>
-                                    <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'teach/report_sales' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Relatório de Vendas" href="dashboard.php?wc=teach/report_sales">&raquo; Vendas</a></li>
-                                <?php endif; ?>
-                            </ul>
-                        </li>
-                        <?php
-                    endif;*/
                     ?>
                 </ul>
                 <div class="dashboard_nav_normalize"></div>        
