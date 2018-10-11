@@ -54,25 +54,21 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     $aparelhos = [];
 
             //SALVANDO O ATENDIMENTO
+    $atendimento = array(
 
+      'idOS' => $PostData['IdOS'],
+      'idTecnico' => $PostData['IdTecnico'],
+      'Status' => 1,
+      'NumManometro' => $PostData['t_num_manometro'],
+      'PressaoInicial' => $PostData['t_p_inicial'],
+      'PressaoFinal' => $PostData['t_p_Final'],
+      'TempoTeste' => $PostData['t_tempo_teste'],
+      'StatusTeste' => isset($PostData['t_1status']) ? $PostData['t_1status'] : NULL,
+      'NumOcorrencia' => isset($PostData['t_num_ocorrencia']) ? $PostData['t_num_ocorrencia'] : NULL,
+      'Defeito' => isset($PostData['t_2status']) ? $PostData['t_2status'] : NULL
+    );
 
-          /*  $atendimento = array(
-                'idOS' => $PostData['IdOS'],
-                'idTecnico' => $PostData['IdTecnico'],
-                'Status' => 1,
-                'NumManometro' => $PostData['t_num_manometro'],
-                'PressaoInicial' => $PostData['t_p_inicial'],
-                'PressaoFinal' => $PostData['t_p_Final'],
-                'TempoTeste' => $PostData['t_tempo_teste'],
-                'StatusTeste' => $PostData['t_1status'],
-                'NumOcorrencia' => $PostData['t_num_ocorrencia'],
-                'Defeito' => $PostData['t_2status'],
-                'Obs' => $PostData['Obs'],
-                'NomeContato' => $PostData['NomeContato'],
-                'TelefoneContato' => $PostData['TelContato']
-            );
-
-            $Create->ExeCreate("[60_Atendimentos]",$atendimento);
+    $Create->ExeCreate("[60_Atendimentos]",$atendimento);
             /////////////////////////////////////////////////////////
 
     for ($i=1; $i <= 10; $i++) {
@@ -451,29 +447,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endforeach;
                   endif;
                 endif;
-                break;    
-              endswitch;
 
-                      $m_title = "Medidor";
-                      $m_arquivos = array($_FILES['medidor_fotos_arquivos']['size']);
-                      $m_GalleryId = $PostData['IdOS'];
-                      $m_Image = (!empty($_FILES['medidor_fotos_arquivos']) ? $_FILES['medidor_fotos_arquivos'] : null);
-                      $m_Size = (!empty($_FILES['medidor_fotos_arquivos']['size']) ? array_sum($m_arquivos) : null);
-                      $m_GalleryName = Check::Name($m_title);
-
-                      
-
-                                      $Create->ExeCreate('[60_OS_Fotos]', $s_gbCreate);
-                                    
-                                      $jSON['servico'] .= "<img rel='Gallery' id='{$s_GalleryId}' alt='Imagem em {$s_title}' title='Imagem em {$s_title}' src='../uploads/{$Upload->getResult()}' style='width: 10%;'/>";
-                                     
-                                  endif;
-                              endforeach;
-                          endif;
-                        endif;*/
-
-
-        //SALVAR SOMENTE PEÇAS DE ORÇAMENTO APROVADO
+ //SALVAR SOMENTE PEÇAS DE ORÇAMENTO APROVADO
         $totalLinhasPecas = $PostData['o_p_total_linhas'];
         for ($i=0; $i < $totalLinhasPecas ; $i++) {
             $statusOrcamentoP = $PostData['o_aprovado_p'.$i]; 
@@ -485,15 +460,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if($statusOrcamentoP == "aprovado"){
                 $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
             }
-        }
-        //SALVAR TODAS AS PEÇAS
-        for ($i=0; $i < $totalLinhasPecas ; $i++) { 
-            $orcamento_pecas = array(
-                'Num_OS' => $PostData['IdOS'],
-                'ID_Pecas' => $PostData['o_id_peca'.$i],
-                'Qtd' => $PostData['o_quant_peca'.$i]
-            );
-                $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
         }
 
         //SALVAR SOMENTE SERVIÇOS APROVADOS
@@ -511,17 +477,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
         }
 
-        //SALVAR TODOS OS SERVIÇOS
-        for ($i= 0; $i < $totalLinhasServicos; $i++) { 
-            $orcamento_servico = array(
-                'Num_OS' => $PostData['IdOS'],
-                'ID_servico' => $PostData['o_id_servico'.$i],
-                'Qtd' => $PostData['o_quant_servico'.$i]
-            );
-
-            $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
-        }
-
 
         //SALVAR ORÇAMENTO APROVADO
         $orcamento = array(
@@ -537,7 +492,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         $Create->ExeCreate("[60_Orcamentos]",$orcamento);
 
-        //SALVAR ORÇAMENTO REPROVADO
+        //SALVAR ORÇAMENTO PEÇAS E SERVIÇOS REPROVADOS
         $orcamentor = array(
             'IdOS' => $PostData['IdOS'],
             'TecnicoEnt' => $PostData['IdTecnico'],
@@ -551,12 +506,33 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         if($PostData['o_valor_total_orcamento_r'] != $PostData['o_valor_total_orcamento']){
             $Create->ExeCreate("[60_Orcamentos]",$orcamentor);
+
+            //SALVAR TODAS AS PEÇAS DE ORÇAMENTO REPROVADO
+            for ($i=0; $i < $totalLinhasPecas ; $i++) { 
+                $orcamento_pecas = array(
+                    'Num_OS' => $PostData['IdOS'],
+                    'ID_Pecas' => $PostData['o_id_peca'.$i],
+                    'Qtd' => $PostData['o_quant_peca'.$i]
+                );
+                    $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
+            }
+
+            //SALVAR TODOS OS SERVIÇOS DE ORÇAMENTO REPROVADO
+            for ($i= 0; $i < $totalLinhasServicos; $i++) { 
+                $orcamento_servico = array(
+                    'Num_OS' => $PostData['IdOS'],
+                    'ID_servico' => $PostData['o_id_servico'.$i],
+                    'Qtd' => $PostData['o_quant_servico'.$i]
+                );
+
+                $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
+            }
         }
 
 
-
-        break;    
-    endswitch;
+                
+                break;    
+              endswitch;
 
     //RETORNA O CALLBACK
               if ($jSON):

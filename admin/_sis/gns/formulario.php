@@ -96,9 +96,9 @@ tr:nth-child(even) {
         <p class="dashboard_header_breadcrumbs">
             &raquo; <?= ADMIN_NAME; ?>
             <span class="crumb">/</span>
-            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=users/home">Usuários</a>
+            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=gns/historico">Histórico de Clientes</a>
             <span class="crumb">/</span>
-            Novo Usuário
+            Orçamento
         </p>
     </div>
 </header>
@@ -144,7 +144,7 @@ tr:nth-child(even) {
                    <br>
                </div>
                <div class="panel">
-                  <?php include_once('tabObservacoes.php'); ?>
+                  <?php require_once('tabObservacoes.php'); ?>
               </div>
           </article>
           <article class="wc_tab_target" id="orcamento" style="display: none;">

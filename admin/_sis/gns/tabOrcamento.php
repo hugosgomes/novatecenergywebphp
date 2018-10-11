@@ -153,11 +153,11 @@
                 <label class="label">
                     <div class="box box50">
                       <span class="legend">Nome para Contato</span>
-                      <input type="text" name="" placeholder="Nome do contato">
+                      <input type="text" name="NomeContato" placeholder="Nome do contato">
                     </div>
                     <div class="box box50">
                       <span class="legend">Telefone para Contato</span>
-                      <input type="text" name="" placeholder="Telefone">
+                      <input type="text" name="TelContato" placeholder="Telefone">
                     </div>
                   <br><br>
                   <span id="j_btn_salvar" name="" class="btn btn_darkblue fl_left icon-share" style="height:35px">Finalizar</span>

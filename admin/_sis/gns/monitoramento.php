@@ -196,7 +196,6 @@ endif;
         if(tempoInicial === 60){
            document.location.reload(true);
         }
-        console.log(tempoInicial);
       },1000);
 
       //SE OCORRER UM DOS EVENTOS ABAIXO TEMPO INICIAL RECEBE (0)
