@@ -38,7 +38,7 @@ endif;
                 WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL ORDER BY NOME"," ");
                 if ($Read->getResult()):
                   foreach ($Read->getResult() as $FUNC):
-                    echo "<option value='{$FUNC['id']}'>{$FUNC['NOME']}</option>";
+                    echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME']}</option>";
                   endforeach;
                 endif;
                 ?>

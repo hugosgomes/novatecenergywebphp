@@ -83,7 +83,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 	    case 'CarregarHistorico':
 	    $jSON['historicoOs'] = null;
 	    $Read->FullRead("SELECT NomeOs, NumOS, [60_OS].Status, Valorcobrar, 'VERIFICAR' AS Atualizadopor, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS Tecnico, 
-            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG FROM [60_OS] INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id 
+            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG, [00_NivelAcesso].ID AS TecnicoId, [60_OT].Id AS IdOS FROM [60_OS] INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id 
             INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id LEFT JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
             LEFT JOIN  Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
             LEFT JOIN  FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID

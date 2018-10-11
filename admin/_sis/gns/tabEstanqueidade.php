@@ -7,12 +7,22 @@
                             <select value="" type="text" name="t_num_manometro">
                                <!-- <option selected disabled value="">Selecione o Nº do Manometro:</option>-->
                                 <?php
-                                $Read->FullRead("SELECT Id AS id, CODIGO AS codigo, PRODUTO AS manometro
-                                 FROM [40_Produtos]
-                                 WHERE (PRODUTO LIKE N'%MANÔMETRO%') AND CODIGO IS NOT NULL"," ");
+                                $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME, SUB.PRODUTO,
+                                   [00_NivelAcesso].ID AS IDFUNC, SUB.IDPROD,
+                                   CASE WHEN FUNC.ID IS NOT NULL THEN 'FUNCIONÁRIO' ELSE 'TERCEIRIZADO' END AS TIPOFUNC FROM [40_Interna_ID]
+                                   LEFT JOIN Funcionários FUNC ON [40_Interna_ID].USUARIO_PORTADOR = FUNC.ID
+                                   LEFT JOIN FuncionariosTerceirizados TERC ON [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO = TERC.ID
+                                   INNER JOIN [00_NivelAcesso] ON FUNC.ID = [00_NivelAcesso].IDFUNCIONARIO OR TERC.ID = [00_NivelAcesso].IDTERCEIRIZADO
+                                   INNER JOIN(
+                                   SELECT max([40_Interna].INTERNA) ULTMOV, [40_Produtos].PRODUTO, [40_Produtos].Id IDPROD FROM [40_Produtos]
+                                   INNER JOIN [40_Interna] ON [40_Produtos].Id = [40_Interna].PRODUTO
+                                   WHERE [40_Produtos].PRODUTO LIKE 'MANÔMETRO%'
+                                   GROUP BY [40_Produtos].PRODUTO, [40_Produtos].Id) SUB
+                                   ON [40_Interna_ID].ID = SUB.ULTMOV
+                                   WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1 AND [00_NivelAcesso].ID = {$IdTecnico}","");
                                 if ($Read->getResult()):
                                     foreach ($Read->getResult() as $manometro):
-                                        echo "<option value='{$manometro['id']}' name='{$manometro['codigo']}'>{$manometro['codigo']} - {$manometro['manometro']}</option>";
+                                        echo "<option value='{$manometro['id']}' name='{$manometro['codigo']}'>{$manometro['PRODUTO']}</option>";
                                     endforeach;
                                 endif;
                                 ?>
