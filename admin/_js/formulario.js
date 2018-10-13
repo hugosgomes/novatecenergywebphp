@@ -365,7 +365,7 @@ function percorreLinhasS(){
   $('.o_id_servico').each(function(){
     $(this).attr('name','o_id_servico'+(iPec++));
   })
-  $('o_aprovado_s .o_ckeck_status_o').each(function(){
+  $('.o_aprovado_s .o_ckeck_status_o').each(function(){
     $(this).attr('name','o_aprovado_s'+(iApr++));
   })
 }
@@ -1327,7 +1327,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   var callback = form.find('input[name="callback"]').val();
   var callback_action = form.find('input[name="callback_action"]').val();
 
-  /*if ($("select[name='t_num_manometro']").val() == 't' || $("input[name='t_p_inicial']").val() == '' || $("input[name='t_p_Final']").val() == '' || $("input[name='t_tempo_teste']").val() == '') {
+  if ($("select[name='t_num_manometro']").val() == 't' || $("input[name='t_p_inicial']").val() == '' || $("input[name='t_p_Final']").val() == '' || $("input[name='t_tempo_teste']").val() == '') {
     alert("Preencha todos os campos no teste de estanqueidade");   
     e.stop();
   }
@@ -1354,7 +1354,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   if (parseInt($fileUpload.get(0).files.length) > 10){   
     alert("Limite de 10 fotos para Instalação com Defeito");   
     e.stop();
-  }*/
+  }
 
   if (typeof tinyMCE !== 'undefined') {
     tinyMCE.triggerSave();

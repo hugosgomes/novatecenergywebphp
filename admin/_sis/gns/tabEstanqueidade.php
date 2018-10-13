@@ -7,7 +7,6 @@
                             <select value="" type="text" name="t_num_manometro">
                                <!-- <option selected disabled value="">Selecione o Nº do Manometro:</option>-->
                                 <?php
-<<<<<<< Updated upstream
                                 $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME, SUB.PRODUTO,
                                    [00_NivelAcesso].ID AS IDFUNC, SUB.IDPROD,
                                    CASE WHEN FUNC.ID IS NOT NULL THEN 'FUNCIONÁRIO' ELSE 'TERCEIRIZADO' END AS TIPOFUNC FROM [40_Interna_ID]
@@ -24,14 +23,6 @@
                                 if ($Read->getResult()):
                                     foreach ($Read->getResult() as $manometro):
                                         echo "<option value='{$manometro['id']}' name='{$manometro['codigo']}'>{$manometro['PRODUTO']}</option>";
-=======
-                                $Read->FullRead("SELECT Id AS id, CODIGO AS codigo, PRODUTO AS manometro
-                                 FROM [40_Produtos]
-                                 WHERE (PRODUTO LIKE N'%MANÔMETRO%') AND CODIGO IS NOT NULL"," ");
-                                if ($Read->getResult()):
-                                    foreach ($Read->getResult() as $manometro):
-                                        echo "<option value='{$manometro['id']}' name='{$manometro['codigo']}'>{$manometro['codigo']} - {$manometro['manometro']}</option>";
->>>>>>> Stashed changes
                                     endforeach;
                                 endif;
                                 ?>
