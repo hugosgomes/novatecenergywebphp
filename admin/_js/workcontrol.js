@@ -1428,6 +1428,9 @@ if (document.documentElement.requestFullScreen) {
 
 
 function dataAtualFormatada(data){
+    if (!data) {
+        return;
+    }
     data = new Date(data);
     var dia = data.getDate();
     if (dia.toString().length == 1)

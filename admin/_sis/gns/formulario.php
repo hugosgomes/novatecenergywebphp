@@ -129,15 +129,6 @@ tr:nth-child(even) {
                 <?php include_once('tabDefeitos.php'); ?>
                </div>
            </article>
-           <!--<article class="wc_tab_target" id="defeitos" style="display: none;">
-               <div class="panel_header default" style="border-bottom: 2px solid #EEE !important;">
-                   <center><h1 class="tab_title" >Defeitos</h1></center>
-                   <br>
-               </div>
-               <div class="panel">
-                  <?php //include_once('tabDefeitos.php'); ?>
-              </div>
-          </article>-->
           <article class="wc_tab_target" id="observacoes" style="display: none;">
                <div class="panel_header default" style="border-bottom: 2px solid #EEE !important;">
                    <center><h1 class="tab_title" >Observações</h1></center>
@@ -166,7 +157,7 @@ tr:nth-child(even) {
                <a class='conf_menu wc_tab' href='#orcamento'>Orçamentos</a>
            </div>
        </div>
-   </div> <!-- box30 -->
+   </div>
 
 </form>
    </div>

@@ -68,7 +68,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                               inner join [60_OS] on [60_OT].Id = [60_OS].OT
                                               INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
                                               WHERE [60_OS].Id = :id","id={$OSId}");
-                                $jSON['addtable'] = "<tr class='j_tecnico' id='{$Read->getResult()[0]['Id']}'><td>{$Read->getResult()[0]['NomeCliente']}</td><td><a href='dashboard.php?wc=gns/formulario&IdOS={$Read->getResult()[0]['Id']}&IdTecnico={$Read->getResult()[0]['IdTecnico']}'>{$Read->getResult()[0]['NumOS']}</a></td><td>{$Read->getResult()[0]['NomeOS']}</td><td>{$Read->getResult()[0]['Endereco']} {$Read->getResult()[0]['Bairro']} {$Read->getResult()[0]['Municipio']}</td><td>". date('d/m/Y', strtotime($Read->getResult()[0]['DataAgendamento'])) ."</td><td>". strstr($Read->getResult()[0]['Tecnico'], ' ', true)."</td><td>{$Read->getResult()[0]['TURNO']}</td><td class='no-print'><span rel='agendamentos' callback='Agendamentos' callback_action='delete' style='padding-right: 5px;margin-left: 20%;margin-right: 30%;margin-top: 10%;' class='j_del_tecnico icon-cross btn btn_red' id='{$Read->getResult()[0]['Id']}'></span></td></td></tr>";
+                                $jSON['addtable'] = "<tr class='j_tecnico' id='{$Read->getResult()[0]['Id']}'><td>{$Read->getResult()[0]['NomeCliente']}</td><td>{$Read->getResult()[0]['NumOS']}</td><td>{$Read->getResult()[0]['NomeOS']}</td><td>{$Read->getResult()[0]['Endereco']} {$Read->getResult()[0]['Bairro']} {$Read->getResult()[0]['Municipio']}</td><td>". date('d/m/Y', strtotime($Read->getResult()[0]['DataAgendamento'])) ."</td><td>". strstr($Read->getResult()[0]['Tecnico'], ' ', true)."</td><td>{$Read->getResult()[0]['TURNO']}</td><td class='no-print'><span rel='agendamentos' callback='Agendamentos' callback_action='delete' style='padding-right: 5px;margin-left: 20%;margin-right: 30%;margin-top: 10%;' class='j_del_tecnico icon-cross btn btn_red' id='{$Read->getResult()[0]['Id']}'></span></td></td></tr>";
                                  $jSON['idOS'] = $Read->getResult()[0]['Id'];
                             else:
                                  $jSON['trigger'] = AjaxErro("Erro ao adicionar OS ao Técnico! Por favor tente novamente.");           
@@ -176,7 +176,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       $jSON['addtable'] .= "
                       <tr class='j_tecnico'>
                       <td>{$NomeCliente}</td>
-                      <td><a href='dashboard.php?wc=gns/formulario&IdOS={$IDOS}&IdTecnico={$IdTecnico}'>{$NumOS}</a></td>
+                      <td>{$NumOS}</td>
                       <td>{$NomeOS}</td>
                       <td>{$Endereco} {$Bairro} {$Municipio}</td>
                       <td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td>

@@ -1,5 +1,9 @@
 <?php
 
+//BUSCAR UM ITEM ESPECIFICO DENTRO DO ARRAY RETORNANDO VERDADEIRO OU FALSO
+in_array(itemProcurado, array)
+
+
 
  ?>
 
