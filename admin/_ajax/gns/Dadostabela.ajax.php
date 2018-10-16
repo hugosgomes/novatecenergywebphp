@@ -72,14 +72,23 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             /////////////////////////////////////////////////////////
 
     for ($i=1; $i <= 10; $i++) {
-      if (isset($PostData['t_cozinhaTipo'.$i])) {
+      if (isset($PostData['t_CozinhaTipo'.$i])) {
         array_push($aparelhos,array(
           'IdOs' => $PostData['IdOS'],
-          'Tipo' => $PostData['t_cozinhaTipo'.$i],
-          'Marca' => $PostData['t_cozinhaMarca'.$i],
-          'Modelo' => $PostData['t_cozinhaModelo'.$i],
-          'PotNominal' => $PostData['t_cozinhaPot'.$i],
-          'Funcionamento' => $PostData['t_cozinhaFuncionamento'.$i]
+          'Tipo' => $PostData['t_CozinhaTipo'.$i],
+          'Marca' => $PostData['t_CozinhaMarca'.$i],
+          'Modelo' => $PostData['t_CozinhaModelo'.$i],
+          'PotNominal' => $PostData['t_CozinhaPot'.$i],
+          'Tiragem' => $PostData['t_CozinhaTiragem'.$i],
+          'Combustao' => $PostData['t_CozinhaCombustao'.$i],
+          'Funcionamento' => $PostData['t_CozinhaFuncionamento'.$i],
+          'TiragemHigienteCombustao' => $PostData['t_Cozinha_h_Tiragem'.$i],
+          'Con' => $PostData['t_Cozinha_h_Con'.$i],
+          'CoAmb' => $PostData['t_Cozinha_h_CoAmb'.$i],
+          'Tempo' => $PostData['t_Cozinha_h_Tempo'.$i],
+          'Analisador' => $PostData['t_Cozinha_h_Analisador'.$i],
+          'NumeroDeSerie' => $PostData['t_Cozinha_h_NumSerie'.$i]
+
         ));
       }
 
@@ -357,7 +366,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                         if ($Upload->getResult()):
                           $d_gbCreate = array('OS' => $d_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 3);
-                                     //var_dump($UploadFile);
+                             
                           $Create->ExeCreate('[60_OS_Fotos]', $d_gbCreate);
 
                         endif;
@@ -381,9 +390,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $m_gbKeys = array_keys($m_File);
                   $m_gbLoop = 0;
 
-                            //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
-
-
+             
                   if ($m_gbCount > 10):
                     $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
                   else:
@@ -392,14 +399,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $m_gbFiles[$gb][$Keys] = $m_File[$Keys][$gb];
                       endforeach;
                     endfor;
-                              //var_dump($gbCount);
+                              
                     foreach ($m_gbFiles as $m_UploadFile):
                       $m_gbLoop ++;
                       $Upload->Image($m_UploadFile, "{$m_title}". time(), IMAGE_W, 'images');
 
                       if ($Upload->getResult()):
                         $m_gbCreate = array('OS' => $m_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 1);
-                                     //var_dump($UploadFile);
+                                    
                         $Create->ExeCreate('[60_OS_Fotos]', $m_gbCreate);
 
                       endif;
@@ -414,7 +421,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $s_Size = (!empty($_FILES['servico_fotos_arquivos']['size']) ? array_sum($s_arquivos) : null);
                 $s_GalleryName = Check::Name($s_title);
 
-                     // unset($PostData['IdOS'], $PostData['servico_fotos_arquivos']);
+                    
                 if (!empty($s_Image)):
                   $s_File = $s_Image;
                   $s_gbFile = array();
@@ -422,9 +429,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $s_gbKeys = array_keys($s_File);
                   $s_gbLoop = 0;
 
-                            //var_dump($Image, $gbFile, $arquivoTipo, $gbCount, $gbKeys,  $gbLoop);
-
-
+        
                   if ($s_gbCount > 10):
                     $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
                   else:
@@ -433,14 +438,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $s_gbFiles[$gb][$Keys] = $s_File[$Keys][$gb];
                       endforeach;
                     endfor;
-                              //var_dump($gbCount);
+                         
                     foreach ($s_gbFiles as $s_UploadFile):
                       $s_gbLoop ++;
                       $Upload->Image($s_UploadFile, "{$s_title}". time(), IMAGE_W, 'images');
 
                       if ($Upload->getResult()):
                         $s_gbCreate = array('OS' => $s_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 2);
-                                     //var_dump($UploadFile);
+                                  
                         $Create->ExeCreate('[60_OS_Fotos]', $s_gbCreate);
 
                       endif;
