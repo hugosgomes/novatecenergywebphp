@@ -265,6 +265,7 @@ $('#Tecnico').change(function(){
     }
 
 
+    //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $('html').on('click', '.pointer', function (e) {
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
@@ -447,6 +448,8 @@ $('html').on('click', '#j_btn_editar', function (e) {
         }
 
         if(data.addTecnicos){
+            $("#j_tecnicoEntrada *").remove();
+            $("#j_tecnicoExecucao *").remove();
             $(data.addTecnicos).appendTo("#j_tecnicoEntrada");
             $(data.addTecnicos).appendTo("#j_tecnicoExecucao");
         }   
@@ -464,7 +467,6 @@ $('html').on('click', '#j_btn_editar', function (e) {
             $('#j_status').val(data[0]['Status']);
             $('#j_valor').val(numeroParaMoeda(data[0]['Valor'],2,',','.'));
         }
-
     }, 'json');
 
 });
@@ -511,7 +513,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
             if (data.ID) {
                 $('.pointer[idorcamento="'+data.ID+'"]').click(); 
                 $('#j_btn_cancelar').click();
-                $('#j_form input').val("");
+                $('#j_form input[type!="hidden"]').val("");
                 $('#j_form select').val("t");
             }
         }

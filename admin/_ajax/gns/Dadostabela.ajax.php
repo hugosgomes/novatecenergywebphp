@@ -16,7 +16,7 @@ usleep(50000);
 $jSON = null;
 $CallBack = 'Dadostabela';
 $PostData = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-
+$Data = new DateTime();
 //VALIDA AÇÃO
 if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallBack):
     //PREPARA OS DADOS
@@ -65,7 +65,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       'TempoTeste' => $PostData['t_tempo_teste'],
       'StatusTeste' => isset($PostData['t_1status']) ? $PostData['t_1status'] : NULL,
       'NumOcorrencia' => isset($PostData['t_num_ocorrencia']) ? $PostData['t_num_ocorrencia'] : NULL,
-      'Defeito' => isset($PostData['t_2status']) ? $PostData['t_2status'] : NULL
+      'Defeito' => isset($PostData['t_2status']) ? $PostData['t_2status'] : NULL,
+      'NomeContato' => $PostData['NomeContato'],
+      'TelefoneContato' => $PostData['TelContato'],
+      'Obs' => $PostData['Obs']
     );
 
     $Create->ExeCreate("[60_Atendimentos]",$atendimento);
@@ -293,43 +296,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 }
 
 
-
-             // ORCAMENTOS
-                $totalLinhasPecas = $PostData['o_p_total_linhas'];
-
-                for ($i=0; $i < $totalLinhasPecas ; $i++) { 
-                  $orcamento_pecas = array(
-                    'Num_OS' => $PostData['IdOS'],
-                    'ID_Pecas' => $PostData['o_id_peca'.$i],
-                    'Qtd' => $PostData['o_quant_peca'.$i]
-                  );
-
-                  $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
-                }
-
-                $totalLinhasServicos = $PostData['o_s_total_linhas'];
-
-                for ($i= 0; $i < $totalLinhasServicos; $i++) { 
-                  $orcamento_servico = array(
-                    'Num_OS' => $PostData['IdOS'],
-                    'ID_servico' => $PostData['o_id_servico'.$i],
-                    'Qtd' => $PostData['o_quant_servico'.$i]
-                  );
-
-                  $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
-                }
-
-                $orcamento = array(
-                  'IdOS' => $PostData['IdOS'],
-                  'TecnicoEnt' => $PostData['IdTecnico'],                  
-                  'TecExe' => $PostData['IdOS'],
-                  'Status' => $PostData['o_orcamento_status'],
-                  'Valor' => $PostData['o_valor_total_orcamento'],
-                  'FormaPagamento' => $PostData['o_forma_de_pagamento'],
-                  'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : NULL
-                );
-
-
                // FOTOS DEFEITOS                
                 if (empty($Upload)):
                   $Upload = new Upload('../../../uploads/');
@@ -484,15 +450,20 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
 
         //SALVAR ORÇAMENTO APROVADO
+        $statusorcamento = $PostData['o_orcamento_status'];
+        if($statusorcamento == 1){
+              $PostData['TecExe'] = $PostData['IdTecnico'];
+            }
         $orcamento = array(
             'IdOS' => $PostData['IdOS'],
             'TecnicoEnt' => $PostData['IdTecnico'],
-            //'DataExe' => $PostData[''],
-            'TecExe' => $PostData['IdTecnico'],
             'Status' => $PostData['o_orcamento_status'],
             'Valor' => $PostData['o_valor_total_orcamento'],
             'FormaPagamento' => $PostData['o_forma_de_pagamento'],
-            'NumParcelas' => $PostData['O_quant_parcelas']
+            'NumParcelas' => $PostData['O_quant_parcelas'],
+            'TecExe'  => $PostData['TecExe'],
+            'DataExe' => $statusorcamento == 1? $Data->format('Ymd H:i:s'): NULL
+  
         );
 
         $Create->ExeCreate("[60_Orcamentos]",$orcamento);
@@ -501,12 +472,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $orcamentor = array(
             'IdOS' => $PostData['IdOS'],
             'TecnicoEnt' => $PostData['IdTecnico'],
-            //'DataExe' => $PostData[''],
-            'TecExe' => $PostData['IdTecnico'],
             'Status' => $PostData['o_orcamento_status'] = 2,
             'Valor' => $PostData['o_valor_total_orcamento_r'],
             'FormaPagamento' => $PostData['o_forma_de_pagamento'],
-            'NumParcelas' => $PostData['O_quant_parcelas']
+            'NumParcelas' => $PostData['O_quant_parcelas'],
+            'TecExe' => $PostData['TecExe'] = $PostData['IdTecnico'],
+            'DataExe' => $statusorcamento == 1? $Data->format('Ymd H:i:s'): NULL
         );
 
         if($PostData['o_valor_total_orcamento_r'] != $PostData['o_valor_total_orcamento']){

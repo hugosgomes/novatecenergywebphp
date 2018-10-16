@@ -157,7 +157,7 @@
                     </div>
                     <div class="box box50">
                       <span class="legend">Telefone para Contato</span>
-                      <input type="text" name="TelContato" placeholder="Telefone">
+                      <input class="formPhone" type="text" name="TelContato" placeholder="Telefone">
                     </div>
                   <br><br>
                   <span id="j_btn_salvar" name="" class="btn btn_darkblue fl_left icon-share" style="height:35px">Finalizar</span>
