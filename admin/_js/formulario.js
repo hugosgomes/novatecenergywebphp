@@ -554,18 +554,7 @@ function createHiddenSpan(obj){
 }
 
 
-/*function funcaoParaExecutar(count) {
-  if(count = 1){
-    $('tbody, .t_aparelho_1 tr #1').fadeOut()
-  } else if(count = 2){
-    $('tbody, .t_aparelho_1 tr #2').fadeOut()
-  } else {
-    $('tbody, .t_aparelho_1 tr #3').fadeOut()
-  }
-
-}*/
 // TESTE DE ESTANQUEIDADE - MODAL COZINHA
-
 $('html').on('click', '.t_salvar_cozinha', function (e) {
 
     // APARELHO 1
