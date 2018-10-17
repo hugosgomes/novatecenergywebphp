@@ -196,40 +196,40 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       $Create->ExeCreate("[60_TesteAparelho]",$value);
     }
 
-                // DEFEITOS
-                // DISTRIBUIÇÃO INTERNA
-    for ($i=1; $i <= 23; $i++) {
-      if (isset($PostData['d-dist-interna-'.$i.'-item'])) {
-        array_push($aparelhos,array(
+                  // DEFEITOS
+                  // DISTRIBUIÇÃO INTERNA
+                  for ($i=1; $i <= 23; $i++) {
+                    if (isset($PostData['d-dist-interna-'.$i])) {
+                      array_push($aparelhos,array(
 
-          'IdOs' => $PostData['IdOS'],
-          'ItemInspecao' => $PostData['d-dist-interna-'.$i.'-item'],
-          'InstalacaoInterna' => $PostData['d-dist-interna-'.$i]
-        ));
-      }
-    }
+                        'IdOs' => $PostData['IdOS'],
+                        'ItemInspecao' => $i,
+                        'InstalacaoInterna' => $PostData['d-dist-interna-'.$i]
+                      ));
+                    }
+                  }
 
-                // APARELHO A GÁS
-    for ($i=1; $i <= 29; $i++) {
-     if (isset($PostData['d_ap-gas_'.$i.'-item'])) {
-      array_push($aparelhos,array(                                       
-        'IdOs' => $PostData['IdOS'],
-        'ItemInspecao' => $PostData['d_ap-gas_'.$i.'-item'],
-        'Aparelho1' => isset($PostData['d_ap-gas_'.$i.'-1']) ? $PostData['d_ap-gas_'.$i.'-3'] : NULL,
-        'Aparelho2' => isset($PostData['d_ap-gas_'.$i.'-2']) ? $PostData['d_ap-gas_'.$i.'-3'] : NULL,
-        'Aparelho3' => isset($PostData['d_ap-gas_'.$i.'-3']) ? $PostData['d_ap-gas_'.$i.'-3'] : NULL
-      ));
-                  }  // isset
+                  // APARELHO A GÁS
+                  for ($i=1; $i <= 29; $i++) {
+                   if (isset($PostData['d_ap-gas_'.$i.'-1'])) {
+                    array_push($aparelhos,array(                                       
+                      'IdOs' => $PostData['IdOS'],
+                      'ItemInspecao' => $i + 23,
+                      'Aparelho1' => $PostData['d_ap-gas_'.$i.'-1'],
+                      'Aparelho2' => $PostData['d_ap-gas_'.$i.'-2'],
+                      'Aparelho3' => $PostData['d_ap-gas_'.$i.'-3']
+                    ));
+                  }
                 }
 
                 // LIGAÇÕES DOS APARELHOS A GÁS
                 for ($i=1; $i <= 9; $i++) {
 
-                 if (isset($PostData['d_liga-ap_'.$i.'-item'])) {
+                 if (isset($PostData['d_liga-ap_'.$i.'_1'])) {
                   array_push($aparelhos,array(                                       
                     'IdOs' => $PostData['IdOS'],
-                    'ItemInspecao' => $PostData['d_liga-ap_'.$i.'-item'],
-                    'Aparelho1' => isset($PostData['d_liga-ap_'.$i.'_1']) ? $PostData['d_liga-ap_'.$i.'_1'] : NULL,
+                    'ItemInspecao' => $i + 52,
+                    'Aparelho1' => $PostData['d_liga-ap_'.$i.'_1'],
                     'Aparelho2' => $PostData['d_liga-ap_'.$i.'_2'],
                     'Aparelho3' => $PostData['d_liga-ap_'.$i.'_3']          
                   ));
@@ -240,13 +240,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 // INDIVIDUAL DE EXAUSTÃO NATURAL E FORÇADA
                   for ($i=1; $i <= 14; $i++) {
 
-                   if (isset($PostData['d_ind-exaust_'.$i.'-item'])) {
+                   if (isset($PostData['d_ind-exaust_'.$i.'-1'])) {
                     array_push($aparelhos,array(                                       
                       'IdOs' => $PostData['IdOS'],
-                      'ItemInspecao' => $PostData['d_ind-exaust_'.$i.'-item'],
-                      'Aparelho1' =>  isset($PostData['d_ind-exaust_'.$i.'-1']) ? $PostData['d_ind-exaust_'.$i.'-1'] : NULL,
-                      'Aparelho2' => isset($PostData['d_ind-exaust_'.$i.'-2']) ? $PostData['d_ind-exaust_'.$i.'-2'] : NULL,
-                      'Aparelho3' => isset($PostData['d_ind-exaust_'.$i.'-3']) ? $PostData['d_ind-exaust_'.$i.'-3'] : NULL          
+                      'ItemInspecao' => $i + 61,
+                      'Aparelho1' =>  $PostData['d_ind-exaust_'.$i.'-1'],
+                      'Aparelho2' => $PostData['d_ind-exaust_'.$i.'-2'],
+                      'Aparelho3' => $PostData['d_ind-exaust_'.$i.'-3']          
                     ));
                   }  // isset
                 }
@@ -255,10 +255,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 // COLETIVO DE EXAUSTÃO NATURAL E FORÇADA
                 for ($i=1; $i <= 7; $i++) {
 
-                 if (isset($PostData['d_cole-exaust_'.$i.'-item'])) {
+                 if (isset($PostData['d_cole-exaust_'.$i.'-1'])) {
                   array_push($aparelhos,array(                                        
                     'IdOs' => $PostData['IdOS'],
-                    'ItemInspecao' => $PostData['d_cole-exaust_'.$i.'-item'],
+                    'ItemInspecao' => $i + 75,
+                    'Aparelho1' => $PostData['d_cole-exaust_'.$i.'-1'],
                     'Aparelho2' => $PostData['d_cole-exaust_'.$i.'-2'],
                     'Aparelho3' => $PostData['d_cole-exaust_'.$i.'-3']          
                   ));
@@ -267,30 +268,32 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 // CARACTERÍSTICAS HIGIÊNICAS DA COMBUSTÃO
                 for ($i=1; $i <= 3; $i++) {
-                 if (isset($PostData['d_caract-higi_'.$i.'-item'])) {
+                 if (isset($PostData['d_caract-higi_'.$i.'-1'])) {
                   array_push($aparelhos,array(                                      
                     'IdOs' => $PostData['IdOS'],
-                    'ItemInspecao' => $PostData['d_caract-higi_'.$i.'-item'],
-                    'Aparelho1' => isset($PostData['d_caract-higi_'.$i.'-1']) ? $PostData['d_caract-higi_'.$i.'-1'] : NULL,
-                    'Aparelho2' => isset($PostData['d_caract-higi_'.$i.'-2']) ? $PostData['d_caract-higi_'.$i.'-2'] : NULL,
-                    'Aparelho3' => isset($PostData['d_caract-higi_'.$i.'-3']) ? $PostData['d_caract-higi_'.$i.'-3'] : NULL          
+                    'ItemInspecao' => $i + 82,
+                    'Aparelho1' => $PostData['d_caract-higi_'.$i.'-1'],
+                    'Aparelho2' => $PostData['d_caract-higi_'.$i.'-2'],
+                    'Aparelho3' => $PostData['d_caract-higi_'.$i.'-3']          
                   ));
                   }  // isset
                 }
 
                 // RECOMENDAÇÕES
                 for ($i=1; $i <= 6; $i++) {
-                 if (isset($PostData['d_reco-'.$i.'-item'])) {
+                 if (isset($PostData['d_reco-'.$i.'_1'])) {
                   array_push($aparelhos,array(                                                                     
                     'IdOs' => $PostData['IdOS'],
-                    'ItemInspecao' => $PostData['d_reco-'.$i.'-item'],
+                    'ItemInspecao' => $i + 85,
                     'InstalacaoInterna' => $PostData['d_reco-'.$i.'_1'],
+                    'Aparelho1' => $PostData['d_reco-'.$i.'_2'],
                     'Aparelho2' => $PostData['d_reco-'.$i.'_3'],
                     'Aparelho3' => $PostData['d_reco-'.$i.'_4']          
                   ));
                   }  // isset
                 }
 
+                //var_dump($aparelhos);
                 foreach ($aparelhos as $key => $value) {
                   $Create->ExeCreate("[60_Defeitos]",$value);
                 }
@@ -424,7 +427,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         for ($i=0; $i < $totalLinhasPecas ; $i++) {
             $statusOrcamentoP = $PostData['o_aprovado_p'.$i]; 
             $orcamento_pecas = array(
-                'Num_OS' => $PostData['IdOS'],
+                'IDOrcamento' => $PostData['IdOS'],
                 'ID_Pecas' => $PostData['o_id_peca'.$i],
                 'Qtd' => $PostData['o_quant_peca'.$i]
             );
@@ -438,7 +441,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         for ($i= 0; $i < $totalLinhasServicos; $i++) {
             $statusOrcamentoS = $PostData['o_aprovado_s'.$i]; 
             $orcamento_servico = array(
-                'Num_OS' => $PostData['IdOS'],
+                'IDOrcamento' => $PostData['IdOS'],
                 'ID_servico' => $PostData['o_id_servico'.$i],
                 'Qtd' => $PostData['o_quant_servico'.$i]
             );
@@ -486,7 +489,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //SALVAR TODAS AS PEÇAS DE ORÇAMENTO REPROVADO
             for ($i=0; $i < $totalLinhasPecas ; $i++) { 
                 $orcamento_pecas = array(
-                    'Num_OS' => $PostData['IdOS'],
+                    'IDOrcamento' => $PostData['IdOS'],
                     'ID_Pecas' => $PostData['o_id_peca'.$i],
                     'Qtd' => $PostData['o_quant_peca'.$i]
                 );
@@ -496,7 +499,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //SALVAR TODOS OS SERVIÇOS DE ORÇAMENTO REPROVADO
             for ($i= 0; $i < $totalLinhasServicos; $i++) { 
                 $orcamento_servico = array(
-                    'Num_OS' => $PostData['IdOS'],
+                    'IDOrcamento' => $PostData['IdOS'],
                     'ID_servico' => $PostData['o_id_servico'.$i],
                     'Qtd' => $PostData['o_quant_servico'.$i]
                 );

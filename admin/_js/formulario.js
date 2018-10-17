@@ -455,21 +455,17 @@ exibeCheckbox();
 //DISTRIBUIÇÃO INTERNA
 $('#btn_distribuicao_interna').click(function(){
   $("input[name*='dist-interna'").remove();
-  var obj = $('#dist-interna select');    
+  var obj = $('#dist-interna select');
   createHidden(obj);
-  obj = $('#d-dist-interna-tbody span');
-  createHiddenSpan(obj);
   if (!$(".linha-distribuicao-interna").length) {
     $("#lista-defeitos").append("<tr class='linha-distribuicao-interna'><td>Distribuição Interna</td><td style='text-align: center;'><span namehidden='dist-interna' class='btn-remove-linha icon-cross btn btn_red'></span></td></tr>");
-  }    
+  }
 });
 
 $('#btn_aparelho_gas').click(function(){
   $("input[name*='ap-gas'").remove();
   var obj = $('#Ap-gas select');
   createHidden(obj);
-  obj = $('#d_ap-gas-tbody span');
-  createHiddenSpan(obj);
   if (!$(".linha-ap-gas").length) {
     $("#lista-defeitos").append("<tr class='linha-ap-gas'><td>Aparelhos a Gás</td><td style='text-align: center;'><span namehidden='ap-gas' class='btn-remove-linha icon-cross btn btn_red'></span></td></tr>");
   }
@@ -479,8 +475,6 @@ $('#btn_liga-ap').click(function(){
   $("input[name*='liga-ap'").remove();
   var obj = $('#liga-ap select');
   createHidden(obj);
-  obj = $('#d_liga-ap-tbody span');
-  createHiddenSpan(obj);
   if (!$(".linha-liga-ap").length) {
     $("#lista-defeitos").append("<tr class='linha-liga-ap'><td>Ligações dos Aparelhos a Gás </td><td style='text-align: center;'><span namehidden='liga-ap' class='btn-remove-linha icon-cross btn btn_red'></span></td></tr>");
   }
@@ -490,8 +484,6 @@ $('#btn_ind-exaust').click(function(){
   $("input[name*='ind-exaust'").remove();
   var obj = $('#ind-exaust select');
   createHidden(obj);
-  obj = $('#d_ind-exaust_tbody span');
-  createHiddenSpan(obj);
   if (!$(".linha-ind-exaust").length) {
     $("#lista-defeitos").append("<tr class='linha-ind-exaust'><td>Individual de Exautão Natural e Forçada</td><td style='text-align: center;'><span namehidden='ind-exaust' class='btn-remove-linha icon-cross btn btn_red'></span></td></tr>");
   }
@@ -501,8 +493,6 @@ $('#btn_cole-exaust').click(function(){
   $("input[name*='cole-exaust'").remove();
   var obj = $('#cole-exaust select');
   createHidden(obj);
-  obj = $('#d_cole-exaust_tbody span');
-  createHiddenSpan(obj);
   if (!$(".linha-cole-exaust").length) {
     $("#lista-defeitos").append("<tr class='linha-cole-exaust'><td>Coletivo de Exautão Natural e Forçada</td><td style='text-align: center;'><span namehidden='cole-exaust' class='btn-remove-linha icon-cross btn btn_red'></span></td></tr>");
   }
@@ -512,8 +502,6 @@ $('#btn_caract-hig').click(function(){
   $("input[name*='caract-h'").remove();
   var obj = $('#caract-h select');
   createHidden(obj);
-  obj = $('#d_caract-higi_tbody span');
-  createHiddenSpan(obj);
   if (!$(".linha-caract-h").length) {
     $("#lista-defeitos").append("<tr class='linha-caract-h'><td>Características Higiênicas da Combustão </td><td style='text-align: center;'><span namehidden='caract-h' class='btn-remove-linha icon-cross btn btn_red'></span></td></tr>");
   }
@@ -523,8 +511,6 @@ $('#btn_reco').click(function(){
   $("input[name*='reco'").remove();
   var obj = $('#reco select');
   createHidden(obj);
-  obj = $('#d_reco-tbody span');
-  createHiddenSpan(obj);
   if (!$(".linha-reco").length) {
     $("#lista-defeitos").append("<tr class='linha-reco'><td>Recomendações</td><td style='text-align: center;'><span namehidden='reco' class='btn-remove-linha icon-cross btn btn_red'></span></td></tr>");
   }
@@ -545,25 +531,6 @@ function createHidden(obj){
   });    
 }
 
-function createHiddenSpan(obj){
-  $.each( obj, function( key, value ) {
-    var valor = $(value).text();
-    var id = $(value).attr('id');
-    $("<input type='hidden' value='"+valor+"' name='"+id+"'/>").appendTo('.d_hiddens');
-  });
-}
-
-
-/*function funcaoParaExecutar(count) {
-  if(count = 1){
-    $('tbody, .t_aparelho_1 tr #1').fadeOut()
-  } else if(count = 2){
-    $('tbody, .t_aparelho_1 tr #2').fadeOut()
-  } else {
-    $('tbody, .t_aparelho_1 tr #3').fadeOut()
-  }
-
-}*/
 
 //PERMITE APENAS QUE OS INPUTS TEXT SEJAM NÚMEROS
 function SomenteNumero(e){
@@ -573,7 +540,6 @@ function SomenteNumero(e){
       if (tecla==8 || tecla==0) return true;
   else  return false; 
     }
-
    }
 
 //O INPUT FOTOS DEFEITOS NÃO FOR EXIBIDO CLICANDO EM NÃO, O VALOR SERÁ LIMPO
