@@ -43,7 +43,7 @@ $app->get('/pecas/', function (Request $request, Response $response, array $args
 //GET QUE BUSCA AS PEÇAS CADASTRADAS NO SISTEMA
 $app->get('/servicos/', function (Request $request, Response $response, array $args) {    
     $Read = new Read;
-    $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]", " ");
+    $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos] WHERE [ValorClienteAssist] <> 0.00 AND [ValorClientePAG] <> 0.00", " ");
     if($Read->getResult()):
         return $response->withJson($Read->getResult());
     else:
@@ -90,7 +90,7 @@ $app->get('/atendimentos/{tecnico}', function (Request $request, Response $respo
     $Read = new Read;
     $Read->FullRead("SELECT [60_OS].Id AS idOS, [60_OS].NumOS AS numeroOS, [60_OS].NomeOS AS nomeOS, [60_OS].Status AS statusOS, [60_OS].ObsCEG AS obsCEG,  [60_OS].ObsEmpreiteira AS obsEmpreiteira, CONVERT (date, [60_OS].DataAgendamento) AS DataAgendamento, [60_OS].PeriodoAgendamento AS periodo, [60_OS].Prioridade AS prioridadeOS, [60_OS].Tecnico AS tecnico, [60_OS].Turno AS turno, [60_OS].Endereco AS endereco, [60_OS].Bairro AS bairro, [60_OS].Municipio AS municipio, [60_OS].Cep AS cep, [60_OS].Latitude AS latitude, [60_OS].Longitude AS longitude,
         [60_Clientes].id AS idCliente, [60_Clientes].NumCliente AS numCliente, [60_Clientes].NomeCliente AS nomeCliente, [60_Clientes].Telefone1 AS telefone1, [60_Clientes].Telefone2 AS telefone2, [60_Clientes].Telefone3 AS telefone3,
-               [60_OT].Id AS idOT, [60_OT].NumOT AS numOT, [60_OT].ObsOT AS obsOT
+               [60_OT].Id AS idOT, [60_OT].NumOT AS numOT, [60_OT].ObsOT AS obsOT, [60_OT].TipoOT AS TipoOT
                FROM [60_Clientes] 
                INNER JOIN [60_OT] on [60_Clientes].Id = [60_OT].Cliente
                INNER JOIN [60_OS] on [60_OT].Id = [60_OS].OT
