@@ -267,6 +267,9 @@ $('#Tecnico').change(function(){
 
     //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $('html').on('click', '.pointer', function (e) {
+
+      document.getElementById("tabelaPecasServicos").style.display = "block";
+      document.getElementById("detalhes").style.display = "block";
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         var idCliente = $(this).attr('value');
@@ -291,6 +294,22 @@ $('#Tecnico').change(function(){
                 $(data.addDetalhes).appendTo('.j_detalhes');             
             }
 
+            if(data.Servico){
+                if(data.Peca){
+                  var teste = parseInt(data.Peca) + parseInt(data.Servico); 
+                  $('.itens').remove();
+                  $("<span class='itens'><b>Valor:</b>(R$) " + teste + "</span>").appendTo('#itens');
+               }
+            }
+
+            if(data.addServicos){
+                if(data.addPecas){
+                    $("#j_AddPecasServicos *").remove();
+                    $(data.addPecas).appendTo('#j_AddPecasServicos');   
+                    $(data.addServicos).appendTo('#j_AddPecasServicos');     
+                }     
+            }
+            
 
         }, 'json');
 
