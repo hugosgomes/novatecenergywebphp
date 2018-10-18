@@ -1,6 +1,13 @@
+    
+<?php
+  $Read->FullRead("SELECT [ID] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
+  $NOME = $Read->getResult()[0];
+?>
+    <input type="hidden" name="USUARIOSISTEMA" value="<?php echo $NOME['ID'] ?>">
     <div id="orcamento"/>
         <h4>Orçamento</h4>
         <label class="label box box100">
+          
              <div class="box box100">
                  <div class="box box33">
                      <label class="label">
@@ -46,7 +53,9 @@
                         $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
                         if ($Read->getResult()):
                           foreach ($Read->getResult() as $SERVICOS):
-                            echo "<option id='{$SERVICOS['id']}' value='{$SERVICOS['valorcliente']}'>{$SERVICOS['descricao']}</option>";
+                            if($SERVICOS['valorcliente'] > 0):
+                              echo "<option id='{$SERVICOS['id']}' value='{$SERVICOS['valorcliente']}'>{$SERVICOS['descricao']}</option>";
+                            endif;
                         endforeach;
                     endif;
                     ?>
@@ -62,7 +71,9 @@
                       $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
                       if ($Read->getResult()):
                         foreach ($Read->getResult() as $SERVICOS):
-                          echo "<option id='{$SERVICOS['id']}' value='{$SERVICOS['valorclientepag']}'>{$SERVICOS['descricao']}</option>";
+                          if($SERVICOS['valorcliente'] > 0):
+                            echo "<option id='{$SERVICOS['id']}' value='{$SERVICOS['valorclientepag']}'>{$SERVICOS['descricao']}</option>";
+                          endif;
                         endforeach;
                       endif;
                       ?>
@@ -98,9 +109,10 @@
                     <tbody>
                     </tbody>
                 </table>
-                <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">valor total: R$ <span class="valor-total"><!-- valor total table --></span></p>
+                <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Aprovado: R$ <span class="valor-total"><!-- valor total table --></span></p>
+                <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Reprovado: R$ <span class="valor-total-r"><!-- valor total table --></span></p>
                 <input id="valor-total" type="hidden" name="o_valor_total_orcamento"/>
-                <input id="valor-total-reprovado" type="hidden" name="o_valor_total_orcamento_r"/>
+                <input id="valor-total-reprovado" type="hidden" name="o_valor_total_orcamento_r" value="0"/>
 
                 <span class="o_p_hidden"><!--valor total peças--></span>
                 <span class="o_s_hidden"><!--valor total serviços--></span><br>
@@ -127,7 +139,7 @@
                     <label class="label">
                       <span class="legend" >Forma de Pagamento</span>
                       <select id="o_forma_de_pagamento_select" name="o_forma_de_pagamento" class="o_forma_de_pagamento_select"  style="font-family: Arial;font-size: 11px;">
-                        <option disabled selected="selected">SELECIONAR FORMA DE PAGAMENTO</option>
+                        <option disabled selected="selected" value="t">SELECIONAR FORMA DE PAGAMENTO</option>
                         <?php 
                         foreach (getFormaPagamento($Transaction = null) as $key => $value) {
                           echo "<option value='{$key}'>$value</option>";
@@ -139,6 +151,7 @@
 
             <div id="o_quant_parcelas" style="display:none">
                 <span class="legend">Número de Parcelas</span>
+                <span><input class="o_parcelas" id="o_parcelas-1" type="radio" name="O_quant_parcelas" value="1" style="width:5%" che>A vista</span>
                 <span><input class="o_parcelas" id="o_parcelas-3" type="radio" name="O_quant_parcelas" value="3" style="width:5%">3 parcelas</span>
                 <span><input class="o_parcelas" id="o_parcelas-6" type="radio" name="O_quant_parcelas" value="6" style="width:5%">6 parcelas</span>
                 <span><input class="o_parcelas" id="o_parcelas-12" type="radio" name="O_quant_parcelas" value="12" style="width:5%">12 parcelas</span>
