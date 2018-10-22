@@ -11,7 +11,7 @@ else:
     define('SIS_DB_HOST', 'NVTSERVERSQL'); //Link do banco de dados no servidor
     define('SIS_DB_USER', 'NVT'); //Usuário do banco de dados no servidor
     define('SIS_DB_PASS', '1'); //Senha  do banco de dados no servidor
-    define('SIS_DB_DBSA', 'BDNVT'); //Nome  do banco de dados no servidor
+    define('SIS_DB_DBSA', 'TESTEHU'); //Nome  do banco de dados no servidor
 endif;
 /*
  * CACHE E CONFIG
