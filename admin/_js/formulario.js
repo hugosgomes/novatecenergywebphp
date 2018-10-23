@@ -57,6 +57,27 @@ $('.o_forma_de_pagamento_select').change(function(){
   }
 });
 
+$('.o_aprovado_reprovado').change(function(){
+  var StatusOrcamento = $(this).val();
+
+  if(StatusOrcamento == 1){
+    $('.data-agendamento').fadeIn();
+  }else{
+    $('.data-agendamento').fadeOut();
+    $('.o_data').val('');
+  }
+})
+
+$(document).on('mouseenter','#j_btn_salvar',function() {
+    var statusO = $('.o_aprovado_reprovado option:selected').val();
+    var o_os_status = $('.o_os_status option:selected').val();
+    var o_forma_de_pagamento_select = $('#o_forma_de_pagamento_select option:selected').val();
+    var valorTotalOrcamento = $("#valor-total").val();
+    if(statusO == 't' || o_os_status == 't' || o_forma_de_pagamento_select == 't'){
+      alert('Há opções sem selecionar!');
+    }
+
+});
 
 //ADICIONA NOVA LINHA NA TABELA COM NOME DA PEÇA QUANTIDADE VALOR UNITÁRIO E TOTAL
 function adicionaLinhaTabela_peca(){
@@ -602,7 +623,7 @@ function createHiddenSpan(obj){
 }
 
 
-/*function funcaoParaExecutar(count) {
+function funcaoParaExecutar(count) {
   if(count = 1){
     $('tbody, .t_aparelho_1 tr #1').fadeOut()
   } else if(count = 2){
@@ -611,7 +632,7 @@ function createHiddenSpan(obj){
     $('tbody, .t_aparelho_1 tr #3').fadeOut()
   }
 
-}*/
+}
 // TESTE DE ESTANQUEIDADE - MODAL COZINHA
 
 $('html').on('click', '.t_salvar_cozinha', function (e) {
@@ -1375,7 +1396,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   var callback = form.find('input[name="callback"]').val();
   var callback_action = form.find('input[name="callback_action"]').val();
 
-  if ($("select[name='t_num_manometro']").val() == 't' || $("input[name='t_p_inicial']").val() == '' || $("input[name='t_p_Final']").val() == '' || $("input[name='t_tempo_teste']").val() == '') {
+  /*if ($("select[name='t_num_manometro']").val() == 't' || $("input[name='t_p_inicial']").val() == '' || $("input[name='t_p_Final']").val() == '' || $("input[name='t_tempo_teste']").val() == '') {
     alert("Preencha todos os campos no teste de estanqueidade");   
     e.stop();
   }
@@ -1402,7 +1423,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   if (parseInt($fileUpload.get(0).files.length) > 10){   
     alert("Limite de 10 fotos para Instalação com Defeito");   
     e.stop();
-  }
+  }*/
 
   if (typeof tinyMCE !== 'undefined') {
     tinyMCE.triggerSave();

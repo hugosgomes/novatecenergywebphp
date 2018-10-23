@@ -1,9 +1,10 @@
     
 <?php
-  $Read->FullRead("SELECT [ID] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
+  $Read->FullRead("SELECT [ID],[EMPRESA],[DATA DE ADMISSÃO] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
   $NOME = $Read->getResult()[0];
 ?>
     <input type="hidden" name="USUARIOSISTEMA" value="<?php echo $NOME['ID'] ?>">
+    <input type="hidden" name="EMPRESA" value="<?php echo $NOME['EMPRESA'] ?>">
     <div id="orcamento"/>
         <h4>Orçamento</h4>
         <label class="label box box100">
@@ -109,8 +110,16 @@
                     <tbody>
                     </tbody>
                 </table>
-                <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Aprovado: R$ <span class="valor-total"><!-- valor total table --></span></p>
-                <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Reprovado: R$ <span class="valor-total-r"><!-- valor total table --></span></p>
+                  <div class="box box50">
+                    <label class="label">
+                      <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Aprovado: R$ <span class="valor-total"><!-- valor total table --></span></p>
+                    </label>
+                  </div>
+                  <div class="box box50">
+                    <label class="label">
+                      <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Reprovado: R$ <span class="valor-total-r"><!-- valor total table --></span></p>
+                    </label>
+                  </div>
                 <input id="valor-total" type="hidden" name="o_valor_total_orcamento"/>
                 <input id="valor-total-reprovado" type="hidden" name="o_valor_total_orcamento_r" value="0"/>
 
@@ -122,10 +131,11 @@
 
             <br/>
 
-                <div class="box box50">
+                <div class="box box33 status-orcamento">
                     <label class="label">
                       <span class="legend" >Status do Orçamento:</span>
                       <select id="" class="o_aprovado_reprovado" name="o_orcamento_status" style="font-family: Arial;font-size: 11px;">
+                         <option  selected="selected" value="t">SELECIONAR O STATUS DO ORÇAMENTO</option>
                         <?php 
                         foreach (getStatusOrcamentoGNS($Transaction = null) as $key => $value) {
                           echo "<option value='{$key}'>$value</option>";
@@ -134,8 +144,21 @@
                       </select>
                     </label>
                 </div>
+                <div class="box box33 status-os">
+                    <label class="label">
+                      <span class="legend" >Status da OS:</span>
+                      <select id="" class="o_os_status" name="o_os_status" style="font-family: Arial;font-size: 11px;">
+                          <option disabled selected="selected" value="t">SELECIONAR O STATUS DA OS</option>
+                        <?php 
+                        foreach (getNovoStatusOs($Transaction = null) as $key => $value) {
+                          echo "<option value='{$key}'>$value</option>";
+                        }
+                        ?>
+                      </select>
+                    </label>
+                </div>
 
-                <div class="box box50" id="o_forma_de_pagamento" style="">
+                <div class="box box33 forma-pagamento" id="o_forma_de_pagamento">
                     <label class="label">
                       <span class="legend" >Forma de Pagamento</span>
                       <select id="o_forma_de_pagamento_select" name="o_forma_de_pagamento" class="o_forma_de_pagamento_select"  style="font-family: Arial;font-size: 11px;">
@@ -146,6 +169,12 @@
                         }
                         ?>
                       </select>
+                    </label>
+                </div>
+                <div class="box box15 data-agendamento" style="display:none">
+                    <label class="label">
+                      <span class="legend">Data do Agendamento:</span>
+                      <input type="text" name="o_data_agendamento" class="jwc_datepicker o_data"/>
                     </label>
                 </div>
 

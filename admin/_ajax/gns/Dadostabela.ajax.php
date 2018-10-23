@@ -53,7 +53,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     }
     $aparelhos = [];
 
-            //SALVANDO O ATENDIMENTO
+    //SALVANDO O ATENDIMENTO
     $atendimento = array(
 
       'idOS' => $PostData['IdOS'],
@@ -66,12 +66,19 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       'StatusTeste' => isset($PostData['t_1status']) ? $PostData['t_1status'] : NULL,
       'NumOcorrencia' => isset($PostData['t_num_ocorrencia']) ? $PostData['t_num_ocorrencia'] : NULL,
       'Defeito' => isset($PostData['t_2status']) ? $PostData['t_2status'] : NULL,
-      'NomeContato' => $PostData['NomeContato'],
-      'TelefoneContato' => $PostData['TelContato'],
-      'Obs' => $PostData['Obs']
+      'DataAtendimento' => $Data->format('Ymd H:i:s'),
+      'NomeContato' => isset($PostData['NomeContato'])?$PostData['NomeContato'] : NULL,
+      'TelefoneContato' => isset($PostData['TelContato']) ? $PostData['TelContato'] : NULL,
+      'Obs' => isset($PostData['Obs']) ? $PostData['Obs'] : NULL 
     );
 
-    $Create->ExeCreate("[60_Atendimentos]",$atendimento);
+    $idOsExist = $PostData['IdOS'];
+    $Read->FullRead("SELECT [IdOS] FROM [BDNVT].[dbo].[60_Atendimentos] WHERE [IdOS] = {$idOsExist};");
+    if($Read->getResult() == NULL){
+      $Create->ExeCreate("[60_Atendimentos]",$atendimento);
+    }else{
+      $Update->ExeUpdate("[60_Atendimentos]",$atendimento, "WHERE IdOS = :idos", "idos={$PostData['IdOS']}");
+    }
             /////////////////////////////////////////////////////////
 
     for ($i=1; $i <= 10; $i++) {
@@ -422,18 +429,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   endif;
                 endif;
 
-
         //VERIFICA O STATUS DO ORÇAMENTO
         $statusorcamento = $PostData['o_orcamento_status'];
+        $statusOs = $PostData['o_os_status'];
 
-        if($statusorcamento == 1){
+        if($statusorcamento == 2){
           $PostData['TecExe'] = $PostData['IdTecnico'];
         }else{
           $PostData['TecExe'] = NULL;
         }
 
         //ALTERA O STATUS DA OS NA TABELA 60_OS
-        $statusOS = ['Status' => $statusorcamento];
+        $statusOS = ['Status' => $statusOs];
         $Update->ExeUpdate("[60_OS]",$statusOS, "WHERE OT = :ot", "ot={$PostData['IdOS']}");
 
         //SALVAR ORÇAMENTO APROVADO
@@ -443,32 +450,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             'Status' => $PostData['o_orcamento_status'],
             'Valor' => $PostData['o_valor_total_orcamento'],
             'FormaPagamento' => $PostData['o_forma_de_pagamento'],
-            'NumParcelas' => $PostData['O_quant_parcelas'],
+            'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : NULL,
             'TecExe'  => $PostData['TecExe'],
-            'DataExe' => $statusorcamento == 1? $Data->format('Ymd H:i:s'): NULL
+            'DataExe' => $statusorcamento == 2? $Data->format('Ymd H:i:s'): NULL
   
         );
         
         $Create->ExeCreate("[60_Orcamentos]",$orcamento);
-
-        //SE STATUS DO ORÇAMENTO FOR APROVADO GERA UMA LINHA NA TABELA 60_ClientesSemOT
-        if($statusorcamento == 0){
-          $clientesSemOT = array(
-            'IDCLIENTE' => $PostData[],
-            'IDOT' => $PostData['IdOS'],
-            'DATAAGENDAMENTO' => $PostData['o_data_agendamento'],
-            'USUARIOSISTEMA' => $PostData[$_SESSION['userLogin']['ID']}],
-            'DATASISTEMA' => $PostData[],
-            'USUARIOVINCULO' => $PostData[],
-            'DATAVINCULO' => $PostData[],
-            'IDORCAMENTO' => $PostData[$idOrcamento]
-          );
-          $Create->Execreate("[60_ClientesSemOT]",$clientesSemOT);
-        }
-
         //SALVA O ID DO ÚLTIMO ORÇAMENTO CRIADO
         $idOrcamento = $Create->getResult();
-
         if($idOrcamento > 0){
           //SALVAR SOMENTE PEÇAS DE ORÇAMENTO APROVADO
           $totalLinhasPecas = $PostData['o_p_total_linhas'];
@@ -500,7 +490,19 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
               }
           }
+          //SE STATUS DO ORÇAMENTO FOR APROVADO GERA UMA LINHA NA TABELA 60_ClientesSemOT
+          if($statusorcamento == 1){
+            $clientesSemOT = array(
+              'IDCLIENTE' => $PostData['IdDoCliente'],
+              'IDOT' => $PostData['IdOS'] = NULL,
+              'DATAAGENDAMENTO' => $PostData['o_data_agendamento'],
+              'USUARIOSISTEMA' => $PostData['USUARIOSISTEMA'],
+              'IDORCAMENTO' => $idOrcamento
+            );
+            $Create->Execreate("[60_ClientesSemOT]",$clientesSemOT);
+          }
         }
+
 
         //SALVAR ORÇAMENTO,PEÇAS E SERVIÇOS REPROVADOS
         
@@ -513,7 +515,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             'NumParcelas' => $PostData['O_quant_parcelas'],
         );
 
-        if($PostData['o_valor_total_orcamento_r'] != $PostData['o_valor_total_orcamento']){
+        if($PostData['o_valor_total_orcamento_r'] > 0){
             $Create->ExeCreate("[60_Orcamentos]",$orcamentor);
 
 

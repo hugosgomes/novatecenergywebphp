@@ -16,6 +16,7 @@ endif;
 
 $IdOS = filter_input(INPUT_GET, 'IdOS', FILTER_VALIDATE_INT);
 $IdTecnico = filter_input(INPUT_GET, 'IdTecnico', FILTER_VALIDATE_INT);
+$IdDoCliente = filter_input(INPUT_GET, 'IdDoCliente', FILTER_VALIDATE_INT);
 
 
 
@@ -115,6 +116,7 @@ tr:nth-child(even) {
         <?php 
           echo "<input type='hidden' name='IdOS' value='{$IdOS}'>";
           echo "<input type='hidden' name='IdTecnico' value='{$IdTecnico}'>";
+          echo "<input type='hidden' name='IdDoCliente' value='{$IdDoCliente}' >";
         ?>
         <input type="hidden" name="callback" value="Dadostabela"/>
                             <input type="hidden" name="callback_action" value="dados_formulario"/>
