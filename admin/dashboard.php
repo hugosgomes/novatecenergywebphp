@@ -240,6 +240,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-database" title="Usuários" href="#">TI</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/controleUsuarios' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=ti/controleUsuarios">&raquo; Controle de Usuários</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/convertercsv' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Procedimentos Automatizados" href="dashboard.php?wc=ti/convertercsv">&raquo; Procedimentos Automatizados</a></li>
                     </ul>
                 </li>
                 <?php
@@ -259,7 +260,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
             //MÓDULO DE DIRETORIA
             if ($_SESSION['userLogin'] && ($Permissao['DIRETORIA'] == 1)):
                 ?>
-                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-stats-dots" title="Usuários" href="#">Diretoria</a>
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'diretoria/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-stats-dots" title="Usuários" href="#">Diretoria</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/dashboard' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/dashboard">&raquo; Dashboard</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/graficos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/graficos">&raquo; Gráficos</a></li>

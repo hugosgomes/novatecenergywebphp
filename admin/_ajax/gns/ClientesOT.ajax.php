@@ -100,6 +100,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $CLI):                    
                     extract($CLI);
+                    var_dump($IDCLIENTE);
                     $dataAgendamento = date('d/m/Y', strtotime($DATAAGENDAMENTO));
                     $Read->FullRead("SELECT NomeCliente FROM [60_Clientes] WHERE [Id] = :id","id={$IDCLIENTE}");
                     $jSON['addTabela'] .= "
@@ -111,7 +112,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endforeach;
             else:
                 $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");
-                 $jSON['addTabela'] = 
+                $jSON['addTabela'] = null;
             endif;
         break;
 
