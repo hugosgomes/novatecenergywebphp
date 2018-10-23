@@ -42,6 +42,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     $Delete = new Delete;
   endif;
 
+  $StartDate = (!empty($_SESSION['wc_report_date'][0]) ? $_SESSION['wc_report_date'][0] : date("Y-01-01"));//recebe data inicial
+  $EndDate = (!empty($_SESSION['wc_report_date'][1]) ? $_SESSION['wc_report_date'][1] : date("Y-12-31"));//recebe data final
+
+//DEFAULT REPORT
+  $DateStart = new DateTime($StartDate);
+  $DateEnd = new DateTime(date("Y-m-d", strtotime($EndDate . "+1day")));
+  $DateInt = new DateInterval("P31D");
+  $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
     //SELECIONA AÇÃO
   switch ($Case):
     case 'relatorio_padrao':
@@ -51,4 +59,3 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       }
     }
 
-    

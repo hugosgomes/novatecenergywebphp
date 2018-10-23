@@ -13,7 +13,7 @@ endif;
 usleep(50000);
 
 //DEFINE O CALLBACK E RECUPERA O POST
-$jSON = null;
+$jSON = NULL;
 $CallBack = 'Dadostabela';
 $PostData = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 $Data = new DateTime();
@@ -52,6 +52,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       }
     }
     $aparelhos = [];
+    $aparelhos2 = [];
 
     //SALVANDO O ATENDIMENTO
     $atendimento = array(
@@ -83,123 +84,124 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     for ($i=1; $i <= 10; $i++) {
       if (isset($PostData['t_CozinhaTipo'.$i])) {
-        array_push($aparelhos,array(
+
+        array_push($aparelhos2,array(
           'IdOs' => $PostData['IdOS'],
           'Tipo' => $PostData['t_CozinhaTipo'.$i],
           'Marca' => $PostData['t_CozinhaMarca'.$i],
           'Modelo' => $PostData['t_CozinhaModelo'.$i],
           'PotNominal' => $PostData['t_CozinhaPot'.$i],
-          'Tiragem' => $PostData['t_CozinhaTiragem'.$i],
-          'Combustao' => $PostData['t_CozinhaCombustao'.$i],
-          'Funcionamento' => $PostData['t_CozinhaFuncionamento'.$i],
-          'TiragemHigienteCombustao' => $PostData['t_Cozinha_h_Tiragem'.$i],
-          'Con' => $PostData['t_Cozinha_h_Con'.$i],
-          'CoAmb' => $PostData['t_Cozinha_h_CoAmb'.$i],
-          'Tempo' => $PostData['t_Cozinha_h_Tempo'.$i],
-          'Analisador' => $PostData['t_Cozinha_h_Analisador'.$i],
-          'NumeroDeSerie' => $PostData['t_Cozinha_h_NumSerie'.$i]
+          'Tiragem' => isset($PostData['t_CozinhaTiragem'.$i]) ? $PostData['t_CozinhaTiragem'.$i] : NULL,
+          'Combustao' => isset($PostData['t_CozinhaCombustao'.$i]) ? $PostData['t_CozinhaCombustao'.$i] : NULL,
+          'Funcionamento' => isset($PostData['t_CozinhaFuncionamento'.$i]) ? $PostData['t_CozinhaFuncionamento'.$i] : NULL,
+          'TiragemHigienteCombustao' => isset($PostData['t_Cozinha_h_Tiragem'.$i]) ? $PostData['t_Cozinha_h_Tiragem'.$i] : NULL,
+          'Con' => isset($PostData['t_Cozinha_h_Con'.$i]) ? $PostData['t_Cozinha_h_Con'.$i] : NULL,
+          'CoAmb' => isset($PostData['t_Cozinha_h_CoAmb'.$i]) ? $PostData['t_Cozinha_h_CoAmb'.$i] : NULL,
+          'Tempo' => isset($PostData['t_Cozinha_h_Tempo'.$i]) ? $PostData['t_Cozinha_h_Tempo'.$i] : NULL,
+          'Analisador' => isset($PostData['t_Cozinha_h_Analisador'.$i]) ? $PostData['t_Cozinha_h_Analisador'.$i] : NULL,
+          'NumeroDeSerie' => isset($PostData['t_Cozinha_h_NumSerie'.$i]) ? $PostData['t_Cozinha_h_NumSerie'.$i] : NULL
 
         ));
       }
 
 
       if (isset($PostData['t_b_SocialTipo'.$i])) {
-        array_push($aparelhos,array(
+        array_push($aparelhos2,array(
           'IdOs' => $PostData['IdOS'],
           'Tipo' => $PostData['t_b_SocialTipo'.$i],
           'Marca' => $PostData['t_b_SocialMarca'.$i],
           'Modelo' => $PostData['t_b_SocialModelo'.$i],
           'PotNominal' => $PostData['t_b_SocialPot'.$i],
-          'Tiragem' => $PostData['t_b_SocialTiragem'.$i],
-          'Combustao' => $PostData['t_b_SocialCombustao'.$i],
-          'Funcionamento' => $PostData['t_b_SocialFuncionamento'.$i],
-          'TiragemHigienteCombustao' => $PostData['t_b_SocialTiragem'.$i],
-          'Con' => $PostData['t_b_Social_h_Con'.$i],
-          'CoAmb' => $PostData['t_b_Social_h_CoAmb'.$i],
-          'Tempo' => $PostData['t_b_Social_h_Tempo'.$i],
-          'Analisador' => $PostData['t_b_Social_h_Analisador'.$i],
-          'NumeroDeSerie' => $PostData['t_b_Social_h_NumSerie'.$i]
+          'Tiragem' => isset($PostData['t_b_SocialTiragem'.$i]) ? $PostData['t_b_SocialTiragem'.$i] : NULL,
+          'Combustao' => isset($PostData['t_b_SocialCombustao'.$i]) ? $PostData['t_b_SocialCombustao'.$i] : NULL,
+          'Funcionamento' => isset($PostData['t_b_SocialFuncionamento'.$i]) ? $PostData['t_b_SocialFuncionamento'.$i] : NULL,
+          'TiragemHigienteCombustao' => isset($PostData['t_b_Social_h_Tiragem'.$i]) ? $PostData['t_b_Social_h_Tiragem'.$i] : NULL,
+          'Con' => isset($PostData['t_b_Social_h_Con'.$i]) ? $PostData['t_b_Social_h_Con'.$i] : NULL,
+          'CoAmb' => isset($PostData['t_b_Social_h_CoAmb'.$i]) ? $PostData['t_b_Social_h_CoAmb'.$i] : NULL,
+          'Tempo' => isset($PostData['t_b_Social_h_Tempo'.$i]) ? $PostData['t_b_Social_h_Tempo'.$i] : NULL,
+          'Analisador' => isset($PostData['t_b_Social_h_Analisador'.$i]) ? $PostData['t_b_Social_h_Analisador'.$i] : NULL,
+          'NumeroDeSerie' => isset($PostData['t_b_Social_h_NumSerie'.$i]) ? $PostData['t_b_Social_h_NumSerie'.$i] : NULL
         ));
       }    
 
       if (isset($PostData['t_b_SuiteTipo'.$i])) {
-        array_push($aparelhos,array(
+        array_push($aparelhos2,array(
           'IdOs' => $PostData['IdOS'],
           'Tipo' => $PostData['t_b_SuiteTipo'.$i],
           'Marca' => $PostData['t_b_SuiteMarca'.$i],
           'Modelo' => $PostData['t_b_SuiteModelo'.$i],
           'PotNominal' => $PostData['t_b_SuitePot'.$i],
-          'Tiragem' => $PostData['t_b_SuiteTiragem'.$i],
-          'Combustao' => $PostData['t_b_SuiteCombustao'.$i],
-          'Funcionamento' => $PostData['t_b_SuiteFuncionamento'.$i],
-          'TiragemHigienteCombustao' => $PostData['t_b_SuiteTiragem'.$i],
-          'Con' => $PostData['t_b_Suite_h_Con'.$i],
-          'CoAmb' => $PostData['t_b_Suite_h_CoAmb'.$i],
-          'Tempo' => $PostData['t_b_Suite_h_Tempo'.$i],
-          'Analisador' => $PostData['t_b_Suite_h_Analisador'.$i],
-          'NumeroDeSerie' => $PostData['t_b_Suite_h_NumSerie'.$i]
+          'Tiragem' => isset($PostData['t_b_SuiteTiragem'.$i]) ? $PostData['t_b_SuiteTiragem'.$i] : NULL,
+          'Combustao' => isset($PostData['t_b_SuiteCombustao'.$i]) ? $PostData['t_b_SuiteCombustao'.$i] : NULL,
+          'Funcionamento' => isset($PostData['t_b_SuiteFuncionamento'.$i]) ? $PostData['t_b_SuiteFuncionamento'.$i] : NULL,
+          'TiragemHigienteCombustao' => isset($PostData['t_b_Suite_h_Tiragem'.$i]) ? $PostData['t_b_Suite_h_Tiragem'.$i] : NULL,
+          'Con' => isset($PostData['t_b_Suite_h_Con'.$i]) ? $PostData['t_b_Suite_h_Con'.$i] : NULL,
+          'CoAmb' => isset($PostData['t_b_Suite_h_CoAmb'.$i]) ? $PostData['t_b_Suite_h_CoAmb'.$i] : NULL,
+          'Tempo' => isset($PostData['t_b_Suite_h_Tempo'.$i]) ? $PostData['t_b_Suite_h_Tempo'.$i] : NULL,
+          'Analisador' => isset($PostData['t_b_Suite_h_Analisador'.$i]) ? $PostData['t_b_Suite_h_Analisador'.$i] : NULL,
+          'NumeroDeSerie' => isset($PostData['t_b_Suite_h_NumSerie'.$i]) ? $PostData['t_b_Suite_h_NumSerie'.$i] : NULL
         ));
       }
 
       if (isset($PostData['t_b_ServicoTipo'.$i])) {
-        array_push($aparelhos,array(
+        array_push($aparelhos2,array(
           'IdOs' => $PostData['IdOS'],
           'Tipo' => $PostData['t_b_ServicoTipo'.$i],
           'Marca' => $PostData['t_b_ServicoMarca'.$i],
           'Modelo' => $PostData['t_b_ServicoModelo'.$i],
           'PotNominal' => $PostData['t_b_ServicoPot'.$i],
-          'Tiragem' => $PostData['t_b_ServicoTiragem'.$i],
-          'Combustao' => $PostData['t_b_ServicoCombustao'.$i],
-          'Funcionamento' => $PostData['t_b_ServicoFuncionamento'.$i],
-          'TiragemHigienteCombustao' => $PostData['t_b_ServicoTiragem'.$i],
-          'Con' => $PostData['t_b_Servico_h_Con'.$i],
-          'CoAmb' => $PostData['t_b_Servico_h_CoAmb'.$i],
-          'Tempo' => $PostData['t_b_Servico_h_Tempo'.$i],
-          'Analisador' => $PostData['t_b_Servico_h_Analisador'.$i],
-          'NumeroDeSerie' => $PostData['t_b_Servico_h_NumSerie'.$i]
+          'Tiragem' => isset($PostData['t_b_ServicoTiragem'.$i]) ? $PostData['t_b_ServicoTiragem'.$i] : NULL,
+          'Combustao' => isset($PostData['t_b_ServicoCombustao'.$i]) ? $PostData['t_b_ServicoCombustao'.$i] : NULL,
+          'Funcionamento' => isset($PostData['t_b_ServicoFuncionamento'.$i]) ? $PostData['t_b_ServicoFuncionamento'.$i] : NULL,
+          'TiragemHigienteCombustao' => isset($PostData['t_b_Servico_h_Tiragem'.$i]) ? $PostData['t_b_Servico_h_Tiragem'.$i] : NULL,
+          'Con' => isset($PostData['t_b_Servico_h_Con'.$i]) ? $PostData['t_b_Servico_h_Con'.$i] : NULL,
+          'CoAmb' => isset($PostData['t_b_Servico_h_CoAmb'.$i]) ? $PostData['t_b_Servico_h_CoAmb'.$i] : NULL,
+          'Tempo' => isset($PostData['t_b_Servico_h_Tempo'.$i]) ? $PostData['t_b_Servico_h_Tempo'.$i] : NULL,
+          'Analisador' => isset($PostData['t_b_Servico_h_Analisador'.$i]) ? $PostData['t_b_Servico_h_Analisador'.$i] : NULL,
+          'NumeroDeSerie' => isset($PostData['t_b_Servico_h_NumSerie'.$i]) ? $PostData['t_b_Servico_h_NumSerie'.$i] : NULL
         ));          
       }
 
       if (isset($PostData['t_a_ServicoTipo'.$i])) {
-        array_push($aparelhos,array(
+        array_push($aparelhos2,array(
           'IdOs' => $PostData['IdOS'],
           'Tipo' => $PostData['t_a_ServicoTipo'.$i],
           'Marca' => $PostData['t_a_ServicoMarca'.$i],
           'Modelo' => $PostData['t_a_ServicoModelo'.$i],
           'PotNominal' => $PostData['t_a_ServicoPot'.$i],
-          'Tiragem' => $PostData['t_a_ServicoTiragem'.$i],
-          'Combustao' => $PostData['t_a_ServicoCombustao'.$i],
-          'Funcionamento' => $PostData['t_a_ServicoFuncionamento'.$i],
-          'TiragemHigienteCombustao' => $PostData['t_a_ServicoTiragem'.$i],
-          'Con' => $PostData['t_a_Servico_h_Con'.$i],
-          'CoAmb' => $PostData['t_a_Servico_h_CoAmb'.$i],
-          'Tempo' => $PostData['t_a_Servico_h_Tempo'.$i],
-          'Analisador' => $PostData['t_a_Servico_h_Analisador'.$i],
-          'NumeroDeSerie' => $PostData['t_a_Servico_h_NumSerie'.$i]
+          'Tiragem' => isset($PostData['t_a_ServicoTiragem'.$i]) ? $PostData['t_a_ServicoTiragem'.$i] : NULL,
+          'Combustao' => isset($PostData['t_a_ServicoCombustao'.$i]) ? $PostData['t_a_ServicoCombustao'.$i] : NULL,
+          'Funcionamento' => isset($PostData['t_a_ServicoFuncionamento'.$i]) ? $PostData['t_a_ServicoFuncionamento'.$i] : NULL,
+          'TiragemHigienteCombustao' => isset($PostData['t_a_Servico_h_Tiragem'.$i]) ? $PostData['t_a_Servico_h_Tiragem'.$i] : NULL,
+          'Con' => isset($PostData['t_a_Servico_h_Con'.$i]) ? $PostData['t_a_Servico_h_Con'.$i] : NULL,
+          'CoAmb' => isset($PostData['t_a_Servico_h_CoAmb'.$i]) ? $PostData['t_a_Servico_h_CoAmb'.$i] : NULL,
+          'Tempo' => isset($PostData['t_a_Servico_h_Tempo'.$i]) ? $PostData['t_a_Servico_h_Tempo'.$i] : NULL,
+          'Analisador' => isset($PostData['t_a_Servico_h_Analisador'.$i]) ? $PostData['t_a_Servico_h_Analisador'.$i] : NULL,
+          'NumeroDeSerie' => isset($PostData['t_a_Servico_h_NumSerie'.$i]) ? $PostData['t_a_Servico_h_NumSerie'.$i] : NULL
         ));
       }
 
       if (isset($PostData['t_OutroTipo'.$i])) {
-        array_push($aparelhos,array(
+        array_push($aparelhos2,array(
           'IdOs' => $PostData['IdOS'],
           'Tipo' => $PostData['t_OutroTipo'.$i],
           'Marca' => $PostData['t_OutroMarca'.$i],
           'Modelo' => $PostData['t_OutroModelo'.$i],
           'PotNominal' => $PostData['t_OutroPot'.$i],
-          'Tiragem' => $PostData['t_OutroTiragem'.$i],
-          'Combustao' => $PostData['t_OutroCombustao'.$i],
-          'Funcionamento' => $PostData['t_OutroFuncionamento'.$i],
-          'TiragemHigienteCombustao' => $PostData['t_Outro_h_Tiragem'.$i],
-          'Con' => $PostData['t_Outro_h_Con'.$i],
-          'CoAmb' => $PostData['t_Outro_h_CoAmb'.$i],
-          'Tempo' => $PostData['t_Outro_h_Tempo'.$i],
-          'Analisador' => $PostData['t_Outro_h_Analisador'.$i],
-          'NumeroDeSerie' => $PostData['t_Outro_h_NumSerie'.$i]
+          'Tiragem' => isset($PostData['t_OutroTiragem'.$i]) ? $PostData['t_OutroTiragem'.$i] : NULL,
+          'Combustao' => isset($PostData['t_OutroCombustao'.$i]) ? $PostData['t_OutroCombustao'.$i] : NULL,
+          'Funcionamento' => isset($PostData['t_OutroFuncionamento'.$i]) ? $PostData['t_OutroFuncionamento'.$i] : NULL,
+          'TiragemHigienteCombustao' => isset($PostData['t_Outro_h_Tiragem'.$i]) ? $PostData['t_Outro_h_Tiragem'.$i] : NULL,
+          'Con' => isset($PostData['t_Outro_h_Con'.$i]) ? $PostData['t_Outro_h_Con'.$i] : NULL,
+          'CoAmb' => isset($PostData['t_Outro_h_CoAmb'.$i]) ? $PostData['t_Outro_h_CoAmb'.$i] : NULL,
+          'Tempo' => isset($PostData['t_Outro_h_Tempo'.$i]) ? $PostData['t_Outro_h_Tempo'.$i] : NULL,
+          'Analisador' => isset($PostData['t_Outro_h_Analisador'.$i]) ? $PostData['t_Outro_h_Analisador'.$i] : NULL,
+          'NumeroDeSerie' => isset($PostData['t_Outro_h_NumSerie'.$i]) ? $PostData['t_Outro_h_NumSerie'.$i] : NULL
         ));
       }
     }
 
-    foreach ($aparelhos as $key => $value) {
+    foreach ($aparelhos2 as $key => $value) {
       $Create->ExeCreate("[60_TesteAparelho]",$value);
     }
 
@@ -315,8 +317,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $d_title = "Defeitos";
                   $d_arquivos = array($_FILES['defeitos_fotos_arquivos']['size']);
                   $d_GalleryId = $PostData['IdOS'];
-                  $d_Image = (!empty($_FILES['defeitos_fotos_arquivos']) ? $_FILES['defeitos_fotos_arquivos'] : null);
-                  $d_Size = (!empty($_FILES['defeitos_fotos_arquivos']['size']) ? array_sum($d_arquivos) : null);
+                  $d_Image = (!empty($_FILES['defeitos_fotos_arquivos']) ? $_FILES['defeitos_fotos_arquivos'] : NULL);
+                  $d_Size = (!empty($_FILES['defeitos_fotos_arquivos']['size']) ? array_sum($d_arquivos) : NULL);
                   $d_GalleryName = Check::Name($d_title);
 
                   if (!empty($d_Image)):
@@ -335,7 +337,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         endforeach;
                       endfor;
 
-                      $jSON['defeitos'] = null;
+                     // $jSON['defeitos'] = NULL;
                       foreach ($d_gbFiles as $d_UploadFile):
                         $d_gbLoop ++;
                         $Upload->Image($d_UploadFile, "{$d_title}". time(), IMAGE_W, 'images');
@@ -355,8 +357,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $m_title = "Medidor";
                 $m_arquivos = array($_FILES['medidor_fotos_arquivos']['size']);
                 $m_GalleryId = $PostData['IdOS'];
-                $m_Image = (!empty($_FILES['medidor_fotos_arquivos']) ? $_FILES['medidor_fotos_arquivos'] : null);
-                $m_Size = (!empty($_FILES['medidor_fotos_arquivos']['size']) ? array_sum($m_arquivos) : null);
+                $m_Image = (!empty($_FILES['medidor_fotos_arquivos']) ? $_FILES['medidor_fotos_arquivos'] : NULL);
+                $m_Size = (!empty($_FILES['medidor_fotos_arquivos']['size']) ? array_sum($m_arquivos) : NULL);
                 $m_GalleryName = Check::Name($m_title);
 
                 if (!empty($m_Image)):
@@ -393,8 +395,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $s_title = "Servicos";
                 $s_arquivos = array($_FILES['servico_fotos_arquivos']['size']);
                 $s_GalleryId = $PostData['IdOS'];
-                $s_Image = (!empty($_FILES['servico_fotos_arquivos']) ? $_FILES['servico_fotos_arquivos'] : null);
-                $s_Size = (!empty($_FILES['servico_fotos_arquivos']['size']) ? array_sum($s_arquivos) : null);
+                $s_Image = (!empty($_FILES['servico_fotos_arquivos']) ? $_FILES['servico_fotos_arquivos'] : NULL);
+                $s_Size = (!empty($_FILES['servico_fotos_arquivos']['size']) ? array_sum($s_arquivos) : NULL);
                 $s_GalleryName = Check::Name($s_title);
 
                     
@@ -450,20 +452,21 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             'Status' => $PostData['o_orcamento_status'],
             'Valor' => $PostData['o_valor_total_orcamento'],
             'FormaPagamento' => $PostData['o_forma_de_pagamento'],
-            'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : NULL,
+            'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : 1,
             'TecExe'  => $PostData['TecExe'],
-            'DataExe' => $statusorcamento == 2? $Data->format('Ymd H:i:s'): NULL
+            'DataExe' => $statusorcamento == 2? $Data->format('Ymd H:i:s') : NULL
   
         );
         
+        //CRIA ORÇAMENTO E SALVA O ID DO ULTIMO ORÇAMENTO CRIADO
         $Create->ExeCreate("[60_Orcamentos]",$orcamento);
-        //SALVA O ID DO ÚLTIMO ORÇAMENTO CRIADO
         $idOrcamento = $Create->getResult();
+
+        //SALVAR SOMENTE PEÇAS DE ORÇAMENTO APROVADO
         if($idOrcamento > 0){
-          //SALVAR SOMENTE PEÇAS DE ORÇAMENTO APROVADO
           $totalLinhasPecas = $PostData['o_p_total_linhas'];
           for ($i=0; $i < $totalLinhasPecas ; $i++) {
-              $statusOrcamentoP = $PostData['o_aprovado_p'.$i]; 
+              $statusOrcamentoP = isset($PostData['o_aprovado_p'.$i]) ? $PostData['o_aprovado_p'.$i] : NULL; 
               $orcamento_pecas = array(
                   'IDOrcamento' => $idOrcamento,
                   'ID_Pecas' => $PostData['o_id_peca'.$i],
@@ -478,7 +481,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
           //SALVAR SOMENTE SERVIÇOS APROVADOS
           $totalLinhasServicos = $PostData['o_s_total_linhas'];
           for ($i= 0; $i < $totalLinhasServicos; $i++) {
-              $statusOrcamentoS = $PostData['o_aprovado_s'.$i]; 
+              $statusOrcamentoS = isset($PostData['o_aprovado_s'.$i]) ? $PostData['o_aprovado_s'.$i] : NULL; 
               $orcamento_servico = array(
                   'IDOrcamento' => $idOrcamento,
                   'ID_servico' => $PostData['o_id_servico'.$i],
@@ -490,11 +493,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
               }
           }
+
           //SE STATUS DO ORÇAMENTO FOR APROVADO GERA UMA LINHA NA TABELA 60_ClientesSemOT
           if($statusorcamento == 1){
+            $idOt = NULL;
             $clientesSemOT = array(
               'IDCLIENTE' => $PostData['IdDoCliente'],
-              'IDOT' => $PostData['IdOS'] = NULL,
+              'IDOT' =>  $idOt,
               'DATAAGENDAMENTO' => $PostData['o_data_agendamento'],
               'USUARIOSISTEMA' => $PostData['USUARIOSISTEMA'],
               'IDORCAMENTO' => $idOrcamento
@@ -505,53 +510,52 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
 
         //SALVAR ORÇAMENTO,PEÇAS E SERVIÇOS REPROVADOS
-        
         $orcamentor = array(
             'IdOS' => $PostData['IdOS'],
             'TecnicoEnt' => $PostData['IdTecnico'],
             'Status' => $PostData['o_orcamento_status'] = 2,
             'Valor' => $PostData['o_valor_total_orcamento_r'],
             'FormaPagamento' => $PostData['o_forma_de_pagamento'],
-            'NumParcelas' => $PostData['O_quant_parcelas'],
+            'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : 1,
         );
 
         if($PostData['o_valor_total_orcamento_r'] > 0){
-            $Create->ExeCreate("[60_Orcamentos]",$orcamentor);
+              $Create->ExeCreate("[60_Orcamentos]",$orcamentor);
 
 
-            //SALVA O ID DO ÚLTIMO ORÇAMENTO CRIADO
-            $idOrcamentor = $Create->getResult();
-            if($idOrcamentor > $idOrcamento){
+              //SALVA O ID DO ÚLTIMO ORÇAMENTO CRIADO
+              $idOrcamentor = $Create->getResult();
+              if($idOrcamentor > $idOrcamento){
 
-            //SALVAR SOMENTE AS PEÇAS DE ORÇAMENTO REPROVADO
-              for ($i=0; $i < $totalLinhasPecas ; $i++) {
-                $statusOrcamentoP = $PostData['o_aprovado_p'.$i]; 
-                  $orcamento_pecas = array(
-                      'IDOrcamento' => $idOrcamentor,
-                      'ID_Pecas' => $PostData['o_id_peca'.$i],
-                      'Qtd' => $PostData['o_quant_peca'.$i],
-                      'Valor' => $PostData['o_v_unitp'.$i]
-                  );
-                  if($statusOrcamentoP != "aprovado"){
-                      $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
-                  }
-              }
+              //SALVAR SOMENTE AS PEÇAS DE ORÇAMENTO REPROVADO
+                for ($i=0; $i < $totalLinhasPecas ; $i++) {
+                  $statusOrcamentoP = isset($PostData['o_aprovado_p'.$i]) ? $PostData['o_aprovado_p'.$i] : NULL; 
+                    $orcamento_pecas = array(
+                        'IDOrcamento' => $idOrcamentor,
+                        'ID_Pecas' => $PostData['o_id_peca'.$i],
+                        'Qtd' => $PostData['o_quant_peca'.$i],
+                        'Valor' => $PostData['o_v_unitp'.$i]
+                    );
+                    if($statusOrcamentoP != "aprovado"){
+                        $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
+                    }
+                }
 
-              //SALVAR TODOS OS SERVIÇOS DE ORÇAMENTO REPROVADO
-              for ($i= 0; $i < $totalLinhasServicos; $i++) { 
-                  $statusOrcamentoS = $PostData['o_aprovado_s'.$i];
-                  $orcamento_servico = array(
-                      'IDOrcamento' => $idOrcamentor,
-                      'ID_servico' => $PostData['o_id_servico'.$i],
-                      'Qtd' => $PostData['o_quant_servico'.$i],
-                      'Valor' => $PostData['o_v_units'.$i]
-                  );
-                  if($statusOrcamentoS != "aprovado"){
-                    $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
-                  }
-              }
-          }
-      }
+                //SALVAR TODOS OS SERVIÇOS DE ORÇAMENTO REPROVADO
+                for ($i= 0; $i < $totalLinhasServicos; $i++) { 
+                    $statusOrcamentoS = isset($PostData['o_aprovado_s'.$i]) ? $PostData['o_aprovado_s'.$i] : NULL;
+                    $orcamento_servico = array(
+                        'IDOrcamento' => $idOrcamentor,
+                        'ID_servico' => $PostData['o_id_servico'.$i],
+                        'Qtd' => $PostData['o_quant_servico'.$i],
+                        'Valor' => $PostData['o_v_units'.$i]
+                    );
+                    if($statusOrcamentoS != "aprovado"){
+                      $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
+                    }
+                }
+            }
+        }
 
 
 
@@ -563,7 +567,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               if ($jSON):
                 echo json_encode($jSON);
               else:
-                $jSON['trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Desculpe. Mas uma ação do sistema não respondeu corretamente. Ao persistir, contate o desenvolvedor!', E_USER_ERROR);
+                $jSON['trigger'] = AjaxErro(' Oçamento Criado com sucesso!');
                 echo json_encode($jSON);
               endif;
             else:

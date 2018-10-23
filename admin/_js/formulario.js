@@ -283,16 +283,6 @@ function calculaTotalTable(){
     }else{
         $('.valor-total').text(valorTotal.toFixed(2)/*valorTotalMask*/);
         $('#valor-total').val(valorTotal);
-
-       /*$('.o_ckeck_status_o').each(function(){
-          camposCheck = $(this).prop('checked');
-          if(camposCheck == true){
-            $('#valor-total-reprovado').val(valorTotal.toFixed(2));
-          }else{
-            valorTotalR += parseFloat($(this).parent().parent().find('.valorUnit input').val());
-            $('#valor-total-reprovado').val(valorTotal.toFixed(2) - valorTotalR.toFixed(2));
-          }
-        })*/
     }
 }
 
@@ -483,6 +473,10 @@ $('#o_parcelas-seleciona').blur(function(){
 
 //ALERTA AO USUÁRIO A SALVAR DADOS ANTES DE SAIR DA PÁGINA
 window.addEventListener("beforeunload",function(event){
+    event.returnValue = "";
+})
+
+window.removeEventListener("beforeunload",function(event){
     event.returnValue = "";
 })
 
@@ -1761,7 +1755,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   var callback = form.find('input[name="callback"]').val();
   var callback_action = form.find('input[name="callback_action"]').val();
 
-  /*if ($("select[name='t_num_manometro']").val() == 't' || $("input[name='t_p_inicial']").val() == '' || $("input[name='t_p_Final']").val() == '' || $("input[name='t_tempo_teste']").val() == '') {
+  if ($("select[name='t_num_manometro']").val() == 't' || $("input[name='t_p_inicial']").val() == '' || $("input[name='t_p_Final']").val() == '' || $("input[name='t_tempo_teste']").val() == '') {
     alert("Preencha todos os campos no teste de estanqueidade");   
     e.stop();
   }
@@ -1788,7 +1782,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   if (parseInt($fileUpload.get(0).files.length) > 10){   
     alert("Limite de 10 fotos para Instalação com Defeito");   
     e.stop();
-  }*/
+  }
 
   if (typeof tinyMCE !== 'undefined') {
     tinyMCE.triggerSave();
@@ -1813,15 +1807,18 @@ $('html').on('click', '#j_btn_salvar', function (e) {
         });
       }
         //PREVENT TO RESUBMIT IMAGES GALLERY
-        //form.find('input[name="defeitos_fotos_arquivos[]"]').replaceWith($('input[name="defeitos_fotos_arquivos[]"]').clone());
-        //form.find('input[name="medidor_fotos_arquivos[]"]').replaceWith($('input[name="medidor_fotos_arquivos[]"]').clone());
-        //form.find('input[name="servico_fotos_arquivos[]"]').replaceWith($('input[name="servico_fotos_arquivos[]"]').clone());
+        form.find('input[name="defeitos_fotos_arquivos[]"]').replaceWith($('input[name="defeitos_fotos_arquivos[]"]').clone());
+        form.find('input[name="medidor_fotos_arquivos[]"]').replaceWith($('input[name="medidor_fotos_arquivos[]"]').clone());
+        form.find('input[name="servico_fotos_arquivos[]"]').replaceWith($('input[name="servico_fotos_arquivos[]"]').clone());
       },
       success: function (data) {
         if (data.trigger) {
           Trigger(data.trigger);
+
+          setTimeout(function() {
+              window.location.href = "http://192.168.0.101:83/novatec/admin/dashboard.php?wc=gns/historico";
+          }, 5000);
         }
-        //location.reload();
       }  
     });
 });

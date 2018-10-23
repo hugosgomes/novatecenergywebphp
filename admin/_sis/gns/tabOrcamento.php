@@ -174,7 +174,7 @@
                 <div class="box box15 data-agendamento" style="display:none">
                     <label class="label">
                       <span class="legend">Data do Agendamento:</span>
-                      <input type="text" name="o_data_agendamento" class="jwc_datepicker o_data"/>
+                      <input type="text" name="o_data_agendamento" class="jwc_datepicker o_data" placeholder="Data do agendamento"/>
                     </label>
                 </div>
 
