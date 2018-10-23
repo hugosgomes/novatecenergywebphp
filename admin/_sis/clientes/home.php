@@ -180,7 +180,7 @@ endif;
         </label>
         <label class="label" style="width: 18.6666%;">
           <span class="legend">DATA AGENDAMENTO:</span>
-          <input type="text" placeholder="" class="jwc_datepicker wc_value j_data" name="DATAAGENDAMENTO" readonly = "readonly" style="font-family: Arial;font-size: 11px;" required/>
+          <input type="text" placeholder="" class="jwc_datepicker wc_value j_data" name="DATAAGENDAMENTO" style="font-family: Arial;font-size: 11px;"/>
         </label>
 
         <label class="label">
@@ -261,8 +261,4 @@ endif;
 
 
 </script>
-
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="_js/clientes_particulares.js"></script>
-<script src="_js/modal.js"></script>
