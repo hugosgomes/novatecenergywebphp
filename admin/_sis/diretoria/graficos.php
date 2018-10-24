@@ -200,7 +200,7 @@ unset($_SESSION['wc_report_date']);
         });
 
         //CHART CHANGE
-        $('.jwc_chart_change').click(function () {
+        /*$('.jwc_chart_change').click(function () {
             $('.jwc_chart_change').removeClass('btn_green');
             $(this).addClass('btn_green');
         });
@@ -227,6 +227,6 @@ unset($_SESSION['wc_report_date']);
                     type: 'line'
                 }
             });
-        });
+        });*/
     });
 </script>

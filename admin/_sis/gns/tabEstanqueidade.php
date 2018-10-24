@@ -22,7 +22,7 @@
                                    WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1 AND [00_NivelAcesso].ID = {$IdTecnico}","");
                                 if ($Read->getResult()):
                                     foreach ($Read->getResult() as $manometro):
-                                        echo "<option value='{$manometro['IDFUNC']}' name='{$manometro['IDPROD']}'>{$manometro['PRODUTO']}</option>";
+                                        echo "<option value='{$manometro['IDPROD']}' name='{$manometro['IDFUNC']}'>{$manometro['PRODUTO']}</option>";
                                     endforeach;
                                 endif;
                                 ?>

@@ -57,6 +57,27 @@ $('.o_forma_de_pagamento_select').change(function(){
   }
 });
 
+$('.o_aprovado_reprovado').change(function(){
+  var StatusOrcamento = $(this).val();
+
+  if(StatusOrcamento == 1){
+    $('.data-agendamento').fadeIn();
+  }else{
+    $('.data-agendamento').fadeOut();
+    $('.o_data').val('');
+  }
+})
+
+$(document).on('mouseenter','#j_btn_salvar',function() {
+    var statusO = $('.o_aprovado_reprovado option:selected').val();
+    var o_os_status = $('.o_os_status option:selected').val();
+    var o_forma_de_pagamento_select = $('#o_forma_de_pagamento_select option:selected').val();
+    var valorTotalOrcamento = $("#valor-total").val();
+    if(statusO == 't' || o_os_status == 't' || o_forma_de_pagamento_select == 't'){
+      alert('Há opções sem selecionar!');
+    }
+
+});
 
 //ADICIONA NOVA LINHA NA TABELA COM NOME DA PEÇA QUANTIDADE VALOR UNITÁRIO E TOTAL
 function adicionaLinhaTabela_peca(){
@@ -262,16 +283,6 @@ function calculaTotalTable(){
     }else{
         $('.valor-total').text(valorTotal.toFixed(2)/*valorTotalMask*/);
         $('#valor-total').val(valorTotal);
-
-       /*$('.o_ckeck_status_o').each(function(){
-          camposCheck = $(this).prop('checked');
-          if(camposCheck == true){
-            $('#valor-total-reprovado').val(valorTotal.toFixed(2));
-          }else{
-            valorTotalR += parseFloat($(this).parent().parent().find('.valorUnit input').val());
-            $('#valor-total-reprovado').val(valorTotal.toFixed(2) - valorTotalR.toFixed(2));
-          }
-        })*/
     }
 }
 
@@ -465,6 +476,10 @@ window.addEventListener("beforeunload",function(event){
     event.returnValue = "";
 })
 
+window.removeEventListener("beforeunload",function(event){
+    event.returnValue = "";
+})
+
 
 /*
 * n = numero a converter
@@ -602,16 +617,8 @@ function createHiddenSpan(obj){
 }
 
 
-/*function funcaoParaExecutar(count) {
-  if(count = 1){
-    $('tbody, .t_aparelho_1 tr #1').fadeOut()
-  } else if(count = 2){
-    $('tbody, .t_aparelho_1 tr #2').fadeOut()
-  } else {
-    $('tbody, .t_aparelho_1 tr #3').fadeOut()
-  }
 
-}*///PERMITE APENAS QUE OS INPUTS TEXT SEJAM NÚMEROS
+///PERMITE APENAS QUE OS INPUTS TEXT SEJAM NÚMEROS
 function SomenteNumero(e){
     var tecla=(window.event)?event.keyCode:e.which;   
     if((tecla>47 && tecla<58)) return true;
@@ -627,6 +634,7 @@ $("#instalacao-defeito").change(function() {
  $("input[name='defeitos_fotos_arquivos[]']").val("");
 });
    
+
 // TESTE DE ESTANQUEIDADE - MODAL COZINHA
 $("#t_cozinhaTipo").change(function() {
   var cozinhaTipo = $("#t_cozinhaTipo").val();
@@ -1799,15 +1807,18 @@ $('html').on('click', '#j_btn_salvar', function (e) {
         });
       }
         //PREVENT TO RESUBMIT IMAGES GALLERY
-        //form.find('input[name="defeitos_fotos_arquivos[]"]').replaceWith($('input[name="defeitos_fotos_arquivos[]"]').clone());
-        //form.find('input[name="medidor_fotos_arquivos[]"]').replaceWith($('input[name="medidor_fotos_arquivos[]"]').clone());
-        //form.find('input[name="servico_fotos_arquivos[]"]').replaceWith($('input[name="servico_fotos_arquivos[]"]').clone());
+        form.find('input[name="defeitos_fotos_arquivos[]"]').replaceWith($('input[name="defeitos_fotos_arquivos[]"]').clone());
+        form.find('input[name="medidor_fotos_arquivos[]"]').replaceWith($('input[name="medidor_fotos_arquivos[]"]').clone());
+        form.find('input[name="servico_fotos_arquivos[]"]').replaceWith($('input[name="servico_fotos_arquivos[]"]').clone());
       },
       success: function (data) {
         if (data.trigger) {
           Trigger(data.trigger);
+
+          setTimeout(function() {
+              window.location.href = "http://192.168.0.101:83/novatec/admin/dashboard.php?wc=gns/historico";
+          }, 5000);
         }
-        //location.reload();
       }  
     });
 });
