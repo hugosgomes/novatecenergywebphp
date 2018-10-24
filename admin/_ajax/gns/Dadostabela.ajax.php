@@ -424,7 +424,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
 
         //VERIFICA O STATUS DO ORÇAMENTO
-        $statusorcamento = $PostData['o_orcamento_status'];
+/*        $statusorcamento = $PostData['o_orcamento_status'];
 
         if($statusorcamento == 1){
           $PostData['TecExe'] = $PostData['IdTecnico'];
@@ -549,7 +549,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   }
               }
           }
-      }
+      }*/
 
 
 

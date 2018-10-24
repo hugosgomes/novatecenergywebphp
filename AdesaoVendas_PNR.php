@@ -14,6 +14,9 @@
 CANAL SLACK : alinhamento_diretoria
 https://hooks.slack.com/services/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
 
+CANAL SLACK: teste_schedule
+https://hooks.slack.com/services/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
+
     -->
     <!-- CODIGO ADD LINHAS -->
     <?php  $Read->FullRead("SELECT ROW_NUMBER() over(order by DATAHORA desc) as Id, CONVERT(varchar, DATAHORA, 103) AS DataVenda, 
@@ -52,20 +55,22 @@ https://hooks.slack.com/services/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
         <script type="text/javascript">
 
     // TOTAL DE VENDAS COM PROPOSTAS NÃO RECEBIDAS
-    var url = "https://hooks.slack.com/services/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";
+    var url = "https://hooks.slack.com/services/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";
     var totalLinhas = <?php echo  $totalLinhas; ?>;
     var totalProp = <?php echo  $t;?>;
     var titulo = "*Vendas com propostas não recebidas* ("+totalProp+")";
     var payload =    
     {
-        "text": "*Vendas com propostas não recebidas* ("+totalProp+")",
-        "attachments": [ {
-            "pretext": "<!channel>",
+         "attachments": [
+        {
+            "fallback": "Required plain-text summary of the attachment.",
             "color": "#36a64f",
-            "title_link": "https://api.slack.com/",
+            "pretext": "<!channel>",
+            "title": "Vendas com propostas não recebidas ("+totalProp+")",
             "text": "<?php  foreach ($Read->getResult() as $colunas) {  extract($colunas);  echo $Delegacao . ' | ' . $Produto . ' | ' . $Dias .' dia | ' . $Total .' prop \n';  } ?>",
-        }]
-    };
+        }
+    ]
+};
     $.post(url, JSON.stringify(payload), function(data){
         $('#result').text(data);
     });
@@ -108,23 +113,27 @@ foreach ($Read->getResult() as $hojeTotal) {
 <script type="text/javascript">
 
 // VENDAS HOJE COM PROPOSTAS NÃO RECEBIDAS
-  var url = "https://hooks.slack.com/services/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";
+  var url = "https://hooks.slack.com/services/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";
       var hojeTotalProp = <?php echo  $totHoje;?>;
       var payload =    
       {
-        "text": "*Vendas hoje - Detalhado* ("+hojeTotalProp+")",
-        "attachments": [ {
-            "pretext": "<!channel>",
-            "color": "#36a64f",
-            "title_link": "https://api.slack.com/",
-            "text": "<?php  foreach ($Read->getResult() as $propostasHoje) {  extract($propostasHoje);  echo $Delegacao . ' | ' . $Produto . ' | ' . $Tipo .' | ' . $Vendas .' Vendas \n';  } ?>",
-        }]
-    };
+       "attachments": [
+       {
+        "fallback": "Required plain-text summary of the attachment.",
+        "color": "#36a64f",
+        "pretext": "<!channel>",
+        "title": "Vendas hoje - Detalhado ("+hojeTotalProp+")",
+        "text": "<?php  foreach ($Read->getResult() as $propostasHoje) {  extract($propostasHoje);  echo $Delegacao . ' | ' . $Produto . ' | ' . $Tipo .' | ' . $Vendas .' Vendas \n';  } ?>",
+    }
+    ]
+
+};
    $.post(url, JSON.stringify(payload), function(data){
     $('#result').text(data);
 });
 
 </script>
+
 <script src="admin/_js/workcontrol.js"></script>
 
 
