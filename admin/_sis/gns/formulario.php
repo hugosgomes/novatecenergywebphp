@@ -120,7 +120,7 @@ tr:nth-child(even) {
         ?>
         <input type="hidden" name="callback" value="Dadostabela"/>
                             <input type="hidden" name="callback_action" value="dados_formulario"/>
-           <div class="box box70">
+           <div class="box box80" style="width: 80%;">
              <article class="wc_tab_target wc_active" id="testeEstanqueidade">
                <div class="panel_header default" style="border-bottom: 2px solid #EEE !important;">
                    <center><h1 class="tab_title" >Teste de Estanqueidade</h1></center>
@@ -150,7 +150,7 @@ tr:nth-child(even) {
             </div>
        </article>
    </div><!-- box70 -->
-   <div class="box box30" style="width:30%;padding-top:0px;">
+   <div class="box box20" style="width:20%;padding-top:0px;">
        <div class="panel">
            <div class="box_conf_menu" style="font-size: 15px;">
                <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Informações Gerais do Cliente</a>
