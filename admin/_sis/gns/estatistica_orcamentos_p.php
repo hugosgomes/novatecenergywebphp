@@ -275,4 +275,10 @@ unset($_SESSION['wc_report_date']);
   $(document).ready(iniciaPagina('#j_ano_t','j_mes_t'));
   $(document).ready(iniciaPagina('#j_ano_o','j_mes_o'));
   $(document).ready(iniciaPagina('#j_ano_c','j_mes_c'));
+
+  //REQUISIÇÃO AJAX DEFAULT
+  $(document).ready(function(){
+    campoAno = $('#j_mes_t option:selected').val();
+    console.log(campoAno);
+  })
 </script>

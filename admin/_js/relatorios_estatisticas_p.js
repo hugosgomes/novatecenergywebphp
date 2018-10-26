@@ -12,7 +12,7 @@ $(function() {
                 spacingRight: 20
             },
             title: {
-                text: '<stron>Estatística Técnicos</strong>'
+                text: 'Estatística Técnicos'
             },
             subtitle: {
                 text: null
@@ -26,14 +26,15 @@ $(function() {
             tooltip: {
                 useHTML: true,
                 shadow: false,
-                headerFormat: '<p class="al_center">{point.key}</p><p class="al_center" style="font-size: 2em">{point.y}</p>',
-                pointFormat: '<p class="al_center">{series.name}</p><p class="al_center"></p>',
-                backgroundColor: '#000',
+                headerFormat: '<p class="al_center" style="color:white">{point.key}</p><p class="al_center" style="font-size: 2em; color:white;">{point.y}</p>',
+                pointFormat: '<p class="al_center" style="color:white">{series.name}</p><p class="al_center"></p>',
+                backgroundColor: 'rgba(87, 125, 216, 0.60)',
                 borderWidth: 0,
                 padding: 20,
                 style: {
-                    padding: 20,
-                    color: '#fff'
+                     color:'#fff',
+                    fontWeight:'bold',
+                    color:'#fff',
                 }
             },
             xAxis: {
@@ -100,14 +101,15 @@ $(function() {
             tooltip: {
                 useHTML: true,
                 shadow: false,
-                headerFormat: '<p class="al_center">{point.key}</p><p class="al_center" style="font-size: 2em">{point.y}</p>',
-                pointFormat: '<p class="al_center">{series.name}</p><p class="al_center"></p>',
-                backgroundColor: '#000',
+                headerFormat: '<p class="al_center" style="color:white">{point.key}</p><p class="al_center" style="font-size: 2em; color:white;">{point.y}</p>',
+                pointFormat: '<p class="al_center" style="color:white">{series.name}</p><p class="al_center"></p>',
+                backgroundColor: 'rgba(87, 125, 216, 0.60)',
                 borderWidth: 0,
                 padding: 20,
                 style: {
-                    padding: 20,
-                    color: '#fff'
+                     color:'#fff',
+                    fontWeight:'bold',
+                    color:'#fff',
                 }
             },
             "series": [
@@ -178,14 +180,15 @@ $(function() {
             tooltip: {
                 useHTML: true,
                 shadow: false,
-                headerFormat: '<p class="al_center">{point.key}</p><p class="al_center" style="font-size: 2em">{point.y}</p>',
-                pointFormat: '<p class="al_center">{series.name}</p><p class="al_center"></p>',
-                backgroundColor: '#000',
+                headerFormat: '<p class="al_center" style="color:white">{point.key}</p><p class="al_center" style="font-size: 2em; color:white;">{point.y}</p>',
+                pointFormat: '<p class="al_center" style="color:white">{series.name}</p><p class="al_center"></p>',
+                backgroundColor: 'rgba(87, 125, 216, 0.60)',
                 borderWidth: 0,
                 padding: 20,
                 style: {
-                    padding: 20,
-                    color: '#fff'
+                     color:'#fff',
+                    fontWeight:'bold',
+                    color:'#fff',
                 }
             },
             "series": [
