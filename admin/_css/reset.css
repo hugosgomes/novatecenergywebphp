@@ -408,7 +408,7 @@ form .section{
 .btn_link{color: #eee; text-shadow: 1px 1px 0 #333; text-decoration: none;}
 .btn_link:hover{color: #fff;}
 
-.btn_green{background-color: #00B494; text-shadow: 1px 1px #008068;}
+.btn_green{background-color: #249c5a; text-shadow: 1px 1px #008068;}
 .btn_green:hover{background-color: #008068;}
 .btn_green_noaction:hover{background: #00B494 !important; cursor: default !important;}
 

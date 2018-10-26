@@ -22,6 +22,9 @@ $IdDoCliente = filter_input(INPUT_GET, 'IdDoCliente', FILTER_VALIDATE_INT);
 
 ?>
 <style>
+.btn{
+  padding:9px 12px;
+}
 .dashboard_sidebar{
     height: 69px;
 }

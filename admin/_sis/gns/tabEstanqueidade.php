@@ -73,17 +73,17 @@
                         <center><label class="label box box100">
                             <span class="legend" style="font-size: 15px;"><b>Aparelhos no Local:</b></span>
                             <br>
-                            <a class="btn btn_darkblue t_aparelho1" href="#aparelho-1" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho1">Cozinha</span></a>
-                            <a class="btn btn_darkblue t_aparelho2" href="#aparelho-2" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho2"> Banheiro Social</span></a>
-                            <a class="btn btn_darkblue t_aparelho3" href="#aparelho-3" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho3"> Banheiro Suíte</span></a>
-                            <a class="btn btn_darkblue t_aparelho4" href="#aparelho-4" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho4"> Banheiro Serviço</span></a>
-                            <a class="btn btn_darkblue t_aparelho5" href="#aparelho-5" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho5"> Área Serviço </span></a>
-                            <a class="btn btn_darkblue t_aparelho6" href="#aparelho-6" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho6"> Outros </span></a>
+                            <a class="btn btn_green t_aparelho1" href="#aparelho-1" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho1">Cozinha</span></a>
+                            <a class="btn btn_green t_aparelho2" href="#aparelho-2" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho2"> Banheiro Social</span></a>
+                            <a class="btn btn_green t_aparelho3" href="#aparelho-3" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho3"> Banheiro Suíte</span></a>
+                            <a class="btn btn_green t_aparelho4" href="#aparelho-4" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho4"> Banheiro Serviço</span></a>
+                            <a class="btn btn_green t_aparelho5" href="#aparelho-5" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho5"> Área Serviço </span></a>
+                            <a class="btn btn_green t_aparelho6" href="#aparelho-6" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho6"> Outros </span></a>
                         </label></center>
                         <div id="aparelho-1" class="modal" style="height: auto;">
                              <article class="box box100">
                                 <header>
-                                  <h3 style="text-align: center;">Aparelho 1 Local:</h3>
+                                  <h3 style="text-align: center;">Cozinha</h3>
                                 </header>
                               <div class="box_content">
                                 <article class='box box100'>
@@ -166,7 +166,7 @@
                         <div id="aparelho-2" class="modal" style="height: auto;">
                            <article class="box box100">
                             <header>
-                              <h3 style="text-align: center;">Aparelho 2 Local:</h3>
+                              <h3 style="text-align: center;">Banheiro Social</h3>
                           </header>
                           <div class="box_content">
                             <article class='box box100'>
@@ -249,7 +249,7 @@
             <div id="aparelho-3" class="modal" style="height: auto;">
                <article class="box box100">
                 <header>
-                    <h3 style="text-align: center;">Aparelho 3 Local:</h3>
+                    <h3 style="text-align: center;">Banheiro Suite</h3>
                 </header>
                 <div class="box_content">
                     <article class='box box100'>
@@ -332,7 +332,7 @@
             <div id="aparelho-4" class="modal" style="height: auto;">
                <article class="box box100">
                 <header>
-                    <h3 style="text-align: center;">Aparelho 4 Local:</h3>
+                    <h3 style="text-align: center;">Banheiro Serviço</h3>
                 </header>
                 <div class="box_content">
                     <article class='box box100'>
@@ -415,7 +415,7 @@
 <div id="aparelho-5" class="modal" style="height: auto;">
     <article class="box box100">
         <header>
-            <h3 style="text-align: center;">Aparelho 5 Local:</h3>
+            <h3 style="text-align: center;">Área Serviço</h3>
         </header>
         <div class="box_content">
             <article class='box box100'>
@@ -498,7 +498,7 @@
 <div id="aparelho-6" class="modal" style="height: auto;">
   <article class="box box100">
     <header>
-        <h3 style="text-align: center;">Outros:</h3>
+        <h3 style="text-align: center;">Outros Locais</h3>
     </header>
     <div class="box_content">
         <article class='box box100'>

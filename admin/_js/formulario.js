@@ -471,16 +471,6 @@ $('#o_parcelas-seleciona').blur(function(){
   $('#o_parcelas_maior_12').val(valor);
 })
 
-//ALERTA AO USUÁRIO A SALVAR DADOS ANTES DE SAIR DA PÁGINA
-window.addEventListener("beforeunload",function(event){
-    event.returnValue = "";
-})
-
-window.removeEventListener("beforeunload",function(event){
-    event.returnValue = "";
-})
-
-
 /*
 * n = numero a converter
 * c = numero de casas decimais
@@ -1963,9 +1953,10 @@ $('html').on('click', '#j_btn_salvar', function (e) {
         if (data.trigger) {
           Trigger(data.trigger);
 
+          $('#j_btn_salvar').val('true');
           setTimeout(function() {
-              window.location.href = "http://192.168.0.101:83/novatec/admin/dashboard.php?wc=gns/historico";
-          }, 5000);
+              window.location.href = "dashboard.php?wc=gns/historico";
+          }, 500);
         }
       }  
     });
