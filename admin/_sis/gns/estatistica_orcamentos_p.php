@@ -40,11 +40,11 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
 
           <!-- Gráfico de técnicos -->
             <div class="wc_ead_chart_control">
-                <select id="j_ano_t" style="width: 200px;">
+                <select id="j_ano_t" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
                   <option value="t">TODOS OS ANOS</option>
                 </select>
-                <select id="j_mes_t" style="width: 200px;">     
+                <select id="j_mes_t" style="width: 140px;">     
                   <option value="t" id="meses">TODOS OS MESES</option>
                   <option value="01" id="meses">JANEIRO</option>
                   <option value="02" id="meses">FEVEREIRO</option>
@@ -91,11 +91,11 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
             <!-- Gráfico de orçamentos -->
             <div class="box box50">
               <div class="wc_ead_chart_control">
-                <select id="j_ano_o" style="width: 200px;">
+                <select id="j_ano_o" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
                   <option value="t">TODOS OS ANOS</option>
                 </select>
-                <select id="j_mes_o" style="width: 200px;">     
+                <select id="j_mes_o" style="width: 140px;">     
                   <option value="t" id="meses">TODOS OS MESES</option>
                   <option value="01" id="meses">JANEIRO</option>
                   <option value="02" id="meses">FEVEREIRO</option>
@@ -127,7 +127,7 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
                   </div>
                   <div class="box box50 wc_ead_reports_total">
                       <div class="box_content">
-                          <p class=" icon-checkmark2">30</p>
+                          <p class=" icon-checkmark">30</p>
                           <span>Executados</span>
                       </div>
                   </div>
@@ -143,11 +143,11 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
             <!-- Gráfico de clientes -->
             <div class="box box50">
               <div class="wc_ead_chart_control">
-                <select id="j_ano_c" style="width: 200px;">
+                <select id="j_ano_c" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
                   <option value="t">TODOS OS ANOS</option>
                 </select>
-                <select id="j_mes_c" style="width: 200px;">     
+                <select id="j_mes_c" style="width: 140px;">     
                   <option value="t" id="meses">TODOS OS MESES</option>
                   <option value="01" id="meses">JANEIRO</option>
                   <option value="02" id="meses">FEVEREIRO</option>
@@ -202,7 +202,47 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
                       </div>
                   </div>
               </div>
+            </div>
 
+            <!-- Gráfico de serviços -->
+            <div class="box box100">
+              <div class="wc_ead_chart_control">
+                <select id="j_ano_s" style="width: 110px;">
+                  <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
+                  <option value="t">TODOS OS ANOS</option>
+                </select>
+                <select id="j_mes_s" style="width: 140px;">     
+                  <option value="t" id="meses">TODOS OS MESES</option>
+                  <option value="01" id="meses">JANEIRO</option>
+                  <option value="02" id="meses">FEVEREIRO</option>
+                  <option value="03" id="meses">MARÇO</option>
+                  <option value="04" id="meses">ABRIL</option>
+                  <option value="05" id="meses">MAIO</option>
+                  <option value="06" id="meses">JUNHO</option>
+                  <option value="07" id="meses">JULHO</option>
+                  <option value="08" id="meses">AGOSTO</option>
+                  <option value="09" id="meses">SETEMBRO</option>
+                  <option value="10" id="meses">OUTUBRO</option>
+                  <option value="11" id="meses">NOVEMBRO</option>
+                  <option value="12" id="meses">DEZEMBRO</option>
+                </select>
+            </div>
+              <div id="jwc_chart_container_servicos"></div>
+              <div class="wc_ead_reports_boxes">
+                  <div class="box box50 wc_ead_reports_total">
+                      <div class="box_content">
+                          <p class="icon-checkmark">303</p>
+                          <span>Serviços Realizados</span>
+                      </div>
+                  </div>
+                  <div class="box box50 wc_ead_reports_total">
+                      <div class="box_content">
+                          <p class="icon-credit-card">255</p>
+                          <span>Serviços Faturados</span>
+                      </div>
+                  </div>
+              </div>
+            </div>
             <footer class="wc_ead_reports">
             </footer>
         </div>
@@ -275,4 +315,11 @@ unset($_SESSION['wc_report_date']);
   $(document).ready(iniciaPagina('#j_ano_t','j_mes_t'));
   $(document).ready(iniciaPagina('#j_ano_o','j_mes_o'));
   $(document).ready(iniciaPagina('#j_ano_c','j_mes_c'));
+  $(document).ready(iniciaPagina('#j_ano_s','j_mes_s'));
+
+  //REQUISIÇÃO AJAX DEFAULT
+  $(document).ready(function(){
+    campoAno = $('#j_mes_t option:selected').val();
+    console.log(campoAno);
+  })
 </script>
