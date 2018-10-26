@@ -471,61 +471,65 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         );
         
         //CRIA ORÇAMENTO E SALVA O ID DO ULTIMO ORÇAMENTO CRIADO
-        $Create->ExeCreate("[60_Orcamentos]",$orcamento);
-        $idOrcamento = $Create->getResult();
+        if($PostData['o_valor_total_orcamento'] > 0){
+          $Create->ExeCreate("[60_Orcamentos]",$orcamento);
+        
+          $idOrcamento = $Create->getResult();
 
-        //SALVAR SOMENTE PEÇAS DE ORÇAMENTO APROVADO
-        if($idOrcamento > 0){
-          $totalLinhasPecas = $PostData['o_p_total_linhas'];
-          for ($i=0; $i < $totalLinhasPecas ; $i++) {
-              $statusOrcamentoP = isset($PostData['o_aprovado_p'.$i]) ? $PostData['o_aprovado_p'.$i] : NULL; 
-              $orcamento_pecas = array(
-                  'IDOrcamento' => $idOrcamento,
-                  'ID_Pecas' => $PostData['o_id_peca'.$i],
-                  'Qtd' => $PostData['o_quant_peca'.$i],
-                  'Valor' => $PostData['o_v_unitp'.$i]
+          //SALVAR SOMENTE PEÇAS DE ORÇAMENTO APROVADO
+          if($idOrcamento > 0){
+            $totalLinhasPecas = $PostData['o_p_total_linhas'];
+            for ($i=0; $i < $totalLinhasPecas ; $i++) {
+                $statusOrcamentoP = isset($PostData['o_aprovado_p'.$i]) ? $PostData['o_aprovado_p'.$i] : NULL; 
+                $orcamento_pecas = array(
+                    'IDOrcamento' => $idOrcamento,
+                    'ID_Pecas' => $PostData['o_id_peca'.$i],
+                    'Qtd' => $PostData['o_quant_peca'.$i],
+                    'Valor' => $PostData['o_v_unitp'.$i]
+                );
+                if($statusOrcamentoP == "aprovado"){
+                    $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
+                }
+            }
+
+            //SALVAR SOMENTE SERVIÇOS APROVADOS
+            $totalLinhasServicos = $PostData['o_s_total_linhas'];
+            for ($i= 0; $i < $totalLinhasServicos; $i++) {
+                $statusOrcamentoS = isset($PostData['o_aprovado_s'.$i]) ? $PostData['o_aprovado_s'.$i] : NULL; 
+                $orcamento_servico = array(
+                    'IDOrcamento' => $idOrcamento,
+                    'ID_servico' => $PostData['o_id_servico'.$i],
+                    'Qtd' => $PostData['o_quant_servico'.$i],
+                    'Valor' => $PostData['o_v_units'.$i]
+                );
+
+                if($statusOrcamentoS == "aprovado"){
+                    $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
+                }
+            }
+
+            //SE STATUS DO ORÇAMENTO FOR APROVADO GERA UMA LINHA NA TABELA 60_ClientesSemOT
+            if($statusorcamento == 1){
+              $idOt = NULL;
+              $clientesSemOT = array(
+                'IDCLIENTE' => $PostData['IdDoCliente'],
+                'IDOT' =>  $idOt,
+                'DATAAGENDAMENTO' => $PostData['o_data_agendamento'],
+                'USUARIOSISTEMA' => $PostData['USUARIOSISTEMA'],
+                'IDORCAMENTO' => $idOrcamento
               );
-              if($statusOrcamentoP == "aprovado"){
-                  $Create->ExeCreate("[60_OS_PecasAPP]",$orcamento_pecas);
-              }
-          }
-
-          //SALVAR SOMENTE SERVIÇOS APROVADOS
-          $totalLinhasServicos = $PostData['o_s_total_linhas'];
-          for ($i= 0; $i < $totalLinhasServicos; $i++) {
-              $statusOrcamentoS = isset($PostData['o_aprovado_s'.$i]) ? $PostData['o_aprovado_s'.$i] : NULL; 
-              $orcamento_servico = array(
-                  'IDOrcamento' => $idOrcamento,
-                  'ID_servico' => $PostData['o_id_servico'.$i],
-                  'Qtd' => $PostData['o_quant_servico'.$i],
-                  'Valor' => $PostData['o_v_units'.$i]
-              );
-
-              if($statusOrcamentoS == "aprovado"){
-                  $Create->ExeCreate("[60_OS_ServicosAPP]",$orcamento_servico);
-              }
-          }
-
-          //SE STATUS DO ORÇAMENTO FOR APROVADO GERA UMA LINHA NA TABELA 60_ClientesSemOT
-          if($statusorcamento == 1){
-            $idOt = NULL;
-            $clientesSemOT = array(
-              'IDCLIENTE' => $PostData['IdDoCliente'],
-              'IDOT' =>  $idOt,
-              'DATAAGENDAMENTO' => $PostData['o_data_agendamento'],
-              'USUARIOSISTEMA' => $PostData['USUARIOSISTEMA'],
-              'IDORCAMENTO' => $idOrcamento
-            );
-            $Create->Execreate("[60_ClientesSemOT]",$clientesSemOT);
+              $Create->Execreate("[60_ClientesSemOT]",$clientesSemOT);
+            }
           }
         }
 
-
+//
         //SALVAR ORÇAMENTO,PEÇAS E SERVIÇOS REPROVADOS
+        $statusOrReprovado = 3;
         $orcamentor = array(
             'IdOS' => $PostData['IdOS'],
             'TecnicoEnt' => $PostData['IdTecnico'],
-            'Status' => $PostData['o_orcamento_status'] = 2,
+            'Status' => $statusOrReprovado,
             'Valor' => $PostData['o_valor_total_orcamento_r'],
             'FormaPagamento' => $PostData['o_forma_de_pagamento'],
             'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : 1,
@@ -537,8 +541,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
               //SALVA O ID DO ÚLTIMO ORÇAMENTO CRIADO
               $idOrcamentor = $Create->getResult();
-              if($idOrcamentor > $idOrcamento){
-
+              if($idOrcamentor){
+              $totalLinhasPecas = $PostData['o_p_total_linhas'];
               //SALVAR SOMENTE AS PEÇAS DE ORÇAMENTO REPROVADO
                 for ($i=0; $i < $totalLinhasPecas ; $i++) {
                   $statusOrcamentoP = isset($PostData['o_aprovado_p'.$i]) ? $PostData['o_aprovado_p'.$i] : NULL; 
@@ -554,6 +558,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 }
 
                 //SALVAR TODOS OS SERVIÇOS DE ORÇAMENTO REPROVADO
+                $totalLinhasServicos = $PostData['o_s_total_linhas'];
                 for ($i= 0; $i < $totalLinhasServicos; $i++) { 
                     $statusOrcamentoS = isset($PostData['o_aprovado_s'.$i]) ? $PostData['o_aprovado_s'.$i] : NULL;
                     $orcamento_servico = array(
