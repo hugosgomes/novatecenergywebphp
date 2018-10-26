@@ -45,6 +45,9 @@ https://hooks.slack.com/services/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
         ", " ");?>
                 
         <?php 
+       $horaAtual = date('H:i'); // Hora e Minuto Atual
+       $horario1 = '13:00'; // Horário padrão
+           
         $t = 0;
         foreach ($Read->getResult() as $teste) {
             extract($teste); 
@@ -71,9 +74,12 @@ https://hooks.slack.com/services/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
         }
     ]
 };
+<?php if($horaAtual != $horario1 ){?>
     $.post(url, JSON.stringify(payload), function(data){
         $('#result').text(data);
+
     });
+<?php }?>
 
 </script>
 
