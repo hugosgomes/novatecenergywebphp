@@ -1893,6 +1893,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   var callback = form.find('input[name="callback"]').val();
   var callback_action = form.find('input[name="callback_action"]').val();
 
+
  if ($("select[name='t_num_manometro']").val() == 't' || $("input[name='t_p_inicial']").val() == '' || $("input[name='t_p_Final']").val() == '' || $("input[name='t_tempo_teste']").val() == '') {
     alert("Preencha todos os campos no teste de estanqueidade");   
     e.stop();

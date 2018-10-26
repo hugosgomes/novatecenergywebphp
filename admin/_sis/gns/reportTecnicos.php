@@ -11,25 +11,14 @@ endif;
 $Search = filter_input_array(INPUT_POST);
 
 //GET DATES
-$StartDate = (!empty($_SESSION['wc_report_date'][0]) ? $_SESSION['wc_report_date'][0] : date("Y-01-01"));//recebe data inicial
-$EndDate = (!empty($_SESSION['wc_report_date'][1]) ? $_SESSION['wc_report_date'][1] : date("Y-12-31"));//recebe data final
+$StartDate = (!empty($_SESSION['wc_report_date'][0]) ? $_SESSION['wc_report_date'][0] : date("Y-01-01"));//RECEBE DATA INICIAL
+$EndDate = (!empty($_SESSION['wc_report_date'][1]) ? $_SESSION['wc_report_date'][1] : date("Y-12-31"));//RECEBE DATA FINAL
 
 //DEFAULT REPORT
 $DateStart = new DateTime($StartDate);
 $DateEnd = new DateTime(date("Y-m-d", strtotime($EndDate . "+1day")));
-$DateInt = new DateInterval("P31D");
+$DateInt = new DateInterval("P22D");
 $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
-
-//TOTAL DE ATENDIMENTOS
- /*$Read->FullRead("SELECT count(Id) AS TOTAL from [BDNVT].[dbo].[60_Atendimentos] WHERE CONVERT(DATE, [DataAtendimento]) BETWEEN '2018-10-16' AND '2018-10-18'");
- if($Read->getResult()){
-    foreach ($Read->getResult() as $atendimentos) {
-        extract($atendimentos);
-        $totalAtendimento = $TOTAL;
-    }
- }else{
-    $totalAtendimento = 0;
- }*/
 
 ?>
 
@@ -43,33 +32,31 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
             Statisticas Técnicos
         </p>
     </div>
-
-    <!--<div class="dashboard_header_search">
-        <a title="Recarregar Relatórios" href="dashboard.php?wc=reports/home" class="btn btn_blue icon-spinner11 icon-notext"></a>
-    </div>-->
 </header>
 
 <div class="dashboard_content">
     <article class="box box100">
         <div class="panel">
             <div class="wc_ead_chart_control">
-                <div class="wc_ead_chart_range">
-                    <form name="class_add" action="" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="callback" value="Reports"/>
-                        <input type="hidden" name="callback_action" value="get_report"/>
-                        <input type="hidden" name="report_back" value="reports/home"/>
-
-                        <label class="wc_ead_chart_range_picker">
-                            <span>DE:</span><input readonly="readonly" value="<?= date("d/m/Y", strtotime($StartDate)); ?>" name="start_date" type="text" data-language="pt-BR" class="jwc_datepicker_start"/>
-                        </label><label class="wc_ead_chart_range_picker">
-                            <span>ATÉ:</span><input readonly="readonly" value="<?= date("d/m/Y", strtotime($EndDate)); ?>" name="end_date" type="text" data-language="pt-BR" class="jwc_datepicker_end"/>
-                        </label><button class="btn icon-spinner11 icon-notext"></button><img class="form_load" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
-                    </form>
-                </div><!--<div class="wc_ead_chart_change">
-                    <span class="icon icon-stats-bars icon-notext jwc_chart_change jwc_area_chart btn btn_blue btn_green"></span>
-                    <span class="icon icon-stats-bars2 icon-notext jwc_chart_change jwc_column_chart btn btn_blue"></span>
-                    <span class="icon icon-stats-dots icon-notext jwc_chart_change jwc_line_chart btn btn_blue"></span>
-                </div>-->
+                <select id="j_ano" style="width: 200px;">
+                  <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
+                  <option value="t">TODOS OS ANOS</option>
+                </select>
+                <select id="j_mes" style="width: 200px;">     
+                  <option value="t" id="meses">TODOS OS MESES</option>
+                  <option value="01" id="meses">JANEIRO</option>
+                  <option value="02" id="meses">FEVEREIRO</option>
+                  <option value="03" id="meses">MARÇO</option>
+                  <option value="04" id="meses">ABRIL</option>
+                  <option value="05" id="meses">MAIO</option>
+                  <option value="06" id="meses">JUNHO</option>
+                  <option value="07" id="meses">JULHO</option>
+                  <option value="08" id="meses">AGOSTO</option>
+                  <option value="09" id="meses">SETEMBRO</option>
+                  <option value="10" id="meses">OUTUBRO</option>
+                  <option value="11" id="meses">NOVEMBRO</option>
+                  <option value="12" id="meses">DEZEMBRO</option>
+                </select>
             </div>
             <div id="jwc_chart_container"></div>
             
@@ -104,22 +91,42 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
 </div>
 
 <?php
+//TRÁS TODOS OS TÉCNICOS 
+$TecnicoNome = array();
+$TecnicoID = array();
+$TecnicoTotal = array();
+$Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
+                FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
+                LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
+                WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL ORDER BY NOME"," ");
+                if ($Read->getResult()):
+                  foreach ($Read->getResult() as $FUNC):
+                   $TecnicoNome [] = $FUNC['NOME'];
+                   $TecnicoID [] =  $FUNC['ID'];
+                   $TecnicoQTD = count($TecnicoNome);
+                  endforeach;
+                endif;
+
+//TRANSFORMA O ARRAY DE TÉCNICOS EM STRING
+$NomeTecnico = implode("','",$TecnicoNome);
+
 $getDayChart = array();
 $getSupportChart = array();
 $getResponseChart = array();
-$i = 1;
+$Id = 0;
 $f = 1;
 foreach ($DateInterval as $setDayChart):
-    $datainicio = date('Y-00-01');
-    $dataInicioMais1 = date('Y-m-d',strtotime($datainicio.'+'.$i++.' month'));
-    $dataFim = date('Y-00-31');
-    $dataFimMais1 = date('Y-m-d',strtotime($dataFim.'+'.$f++.' month'));
+    $MesAtualI = date('Y-m-01');
+   // $dataInicioMais1 = date('Y-m-d',strtotime($datainicio.'+'.$i++.' month'));
+    $MesAtualF = date('Y-m-31');
+   // $dataFimMais1 = date('Y-m-d',strtotime($dataFim.'+'.$f++.' month'));
+    
     //GET DAYS
     $getDayChart[] = "'" . $setDayChart->format('m/Y') . "'";
 
     //GET DAY FOR READ
     $ReadDay = $setDayChart->format('Y-m');
-    $Read->FullRead("SELECT count(Id) AS TOTAL from [BDNVT].[dbo].[60_Atendimentos] WHERE CONVERT(DATE, [DataAtendimento]) BETWEEN '{$dataInicioMais1}' AND '{$dataFimMais1}'");
+    $Read->FullRead("SELECT count(Id) AS TOTAL from [BDNVT].[dbo].[60_Atendimentos] WHERE CONVERT(DATE, [DataAtendimento]) BETWEEN '{$MesAtualI}' AND '{$MesAtualF}' AND [idTecnico] = {$TecnicoID[$Id++]}");
      if($Read->getResult()){
         foreach ($Read->getResult() as $atendimentos) {
             extract($atendimentos);
@@ -129,45 +136,27 @@ foreach ($DateInterval as $setDayChart):
         $totalAtendimento = 0;
      }
     //GET STATS
-    $getAccessUsers[] = (200 ? 30 : 0);//o aprovados
-    $getAccessVires[] = ($totalAtendimento ? $totalAtendimento : 0);//atendimentos
-    $getAccessPages[] = (200 ? 60 : 0);//o reprovados
+    $getAccessUsers[] = (200 ? 30 : 0);//TOTAL DE ORÇAMENTOS APROVADOS
+    $getAtendimentos[] = ($totalAtendimento ? $totalAtendimento : 0);//TOTAL DE ATENDIMENTOS 
+    $getAccessPages[] = (200 ? 60 : 0);//TOTAL DE ORÇAMENTOS REPROVADOS
 endforeach;
 
 $DaysChart = implode(", ", $getDayChart);
 $AccessUsers = implode(", ", $getAccessUsers);
-$AccessVires = implode(", ", $getAccessVires);
+$AtendTec = implode(", ", $getAtendimentos);
 $AccessPages = implode(", ", $getAccessPages);
 
 unset($_SESSION['wc_report_date']);
+
 ?>
 
 <script>
-    $(function () {
-        //DATEPICKER CONFIG
-        var wc_datepicker_start = $('.jwc_datepicker_start').datepicker({autoClose: true, maxDate: new Date()}).data('datepicker');
-        var wc_datepicker_end = $('.jwc_datepicker_end').datepicker({autoClose: true, maxDate: new Date()}).data('datepicker');
-
-        $('.jwc_datepicker_start').click(function () {
-            var DateString = $('.jwc_datepicker_end').val().match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-            wc_datepicker_start.update('maxDate', new Date(DateString[3], DateString[2] - 1, DateString[1]));
-            if (!$(this).val()) {
-                $(this).val("<?= date("d/m/Y", strtotime($StartDate)); ?>");
-            }
-        });
-
-        $('.jwc_datepicker_end').click(function () {
-            var DateString = $('.jwc_datepicker_start').val().match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-            wc_datepicker_end.update('minDate', new Date(DateString[3], DateString[2] - 1, DateString[1]));
-            if (!$(this).val()) {
-                $(this).val("<?= date("d/m/Y", strtotime($EndDate)); ?>");
-            }
-        });
+    $(function() {
 
         //CHART CONFIG
         var wc_chart = Highcharts.chart('jwc_chart_container', {
             chart: {
-                type: 'column',
+                type:'column',//DETERMINA O FORMATO DO GRÁFICO
                 spacingBottom: 0,
                 spacingTop: 5,
                 spacingLeft: 0,
@@ -182,7 +171,7 @@ unset($_SESSION['wc_report_date']);
             yAxis: {
                 allowDecimals: false,
                 title: {
-                    text: 'Registros'
+                    text: 'Estatísticas Técnicos'
                 }
             },
             tooltip: {
@@ -199,59 +188,31 @@ unset($_SESSION['wc_report_date']);
                 }
             },
             xAxis: {
-                categories: [<?= $DaysChart; ?>],
+                categories: ['<?=$NomeTecnico;?>'],//NOME DO TÉCNICO ABAIXO DO GRÁFICO  
                 minTickInterval: 1 //SPAÇO ENTRE AS DATAS EXIBIDAS ABAIXO DO GRÁFICO
             },
             series: [
                 {
                     name: 'Atendimentos',
-                    data: [<?= $AccessVires; ?>],//EXIBE QTD DE ATENDIMENTOS REALIZADOS PELO TÉCNICO
+                    data: [<?=$AtendTec?>],//EXIBE QTD DE ATENDIMENTOS REALIZADOS PELO TÉCNICO
                     color: '#FF9326',
                     lineColor: '#B25900'
                 },
                 {
                     name: 'Aprovados',
-                    data: [<?= $AccessUsers; ?>],//EXIBE QTD DE ORÇAMNTOS APROVADOS
+                    data: [10,40],//EXIBE QTD DE ORÇAMNTOS APROVADOS
                     color: '#0E96E5',
                     lineColor: '#006699'
                 },
                 {
                     name: 'Reprovados',
-                    data: [<?= $AccessPages; ?>],//EXIBE QTD DE ORÇAMENTOS REPROVADOS
+                    data: [10,40],//EXIBE QTD DE ORÇAMENTOS REPROVADOS
                     color: '#00B494',
                     lineColor: '#008068'
                 }
             ]
         });
-
-        //CHART CHANGE
-       /* $('.jwc_chart_change').click(function () {
-            $('.jwc_chart_change').removeClass('btn_green');
-            $(this).addClass('btn_green');
-        });*/
-
-        /*$('.jwc_area_chart').click(function () {
-            wc_chart.update({
-                chart: {
-                    type: 'area'
-                }
-            });
-        });
-
-     $('.jwc_column_chart').click(function () {
-            wc_chart.update({
-                chart: {
-                    type: 'column'
-                }
-            });
-        });
-
-        /*$('.jwc_line_chart').click(function () {
-            wc_chart.update({
-                chart: {
-                    type: 'line'
-                }
-            });
-        });*/
     });
 </script>
+<script src="_js/report_gns.js"></script>
+<script>$(document).ready(iniciaPagina);</script>
