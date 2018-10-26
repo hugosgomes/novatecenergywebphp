@@ -12,7 +12,11 @@ $(function() {
                 spacingRight: 20
             },
             title: {
-                text: 'Estatística Técnicos'
+                text: 'Estatística Técnicos',
+                 style: {
+            //color: '#FF00FF',
+            fontWeight: 'bold'
+        }
             },
             subtitle: {
                 text: null
@@ -77,7 +81,11 @@ $(function() {
                 spacingRight: 20
             },
             title: {
-                text: 'Estatística Orçamentos'
+                text: 'Estatística Orçamentos',
+                 style: {
+            //color: '#FF00FF',
+            fontWeight: 'bold'
+          }
             },
             subtitle: {
                 text: false
@@ -156,7 +164,11 @@ $(function() {
                 spacingRight: 20
             },
             title: {
-                text: 'Estatística Clientes'
+                text: 'Estatística Clientes',
+                   style: {
+            //color: '#FF00FF',
+            fontWeight: 'bold'
+        }
             },
             subtitle: {
                 text: false
@@ -242,7 +254,11 @@ $(function() {
                 spacingRight: 20
             },
             title: {
-                text: 'Estatística Serviços'
+                text: 'Estatística Serviços',
+                   style: {
+            //color: '#FF00FF',
+            fontWeight: 'bold'
+        }
             },
             subtitle: {
                 text: ''

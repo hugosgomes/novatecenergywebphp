@@ -39,12 +39,14 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
         <div class="panel">
 
           <!-- Gráfico de técnicos -->
-            <div class="wc_ead_chart_control">
+            <div class="wc_ead_chart_control" id="relatorio_tecnicos">
+                <input type="hidden" name="callback" value="ReportTecnicos">
+                <input type="hidden" name="callback_action" value="relatorio_padrao_tecnicos">
                 <select id="j_ano_t" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
                   <option value="t">TODOS OS ANOS</option>
                 </select>
-                <select id="j_mes_t" style="width: 140px;">     
+                <select id="j_mes_t" style="width: 140px;" name="mes_t">     
                   <option value="t" id="meses">TODOS OS MESES</option>
                   <option value="01" id="meses">JANEIRO</option>
                   <option value="02" id="meses">FEVEREIRO</option>
@@ -251,7 +253,7 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
 
 <?php
 //TRÁS TODOS OS TÉCNICOS 
-$TecnicoNome = array();
+/*$TecnicoNome = array();
 $TecnicoID = array();
 $TecnicoTotal = array();
 $Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
@@ -305,7 +307,7 @@ $AccessUsers = implode(", ", $getAccessUsers);
 $AtendTec = implode(", ", $getAtendimentos);
 $AccessPages = implode(", ", $getAccessPages);
 
-unset($_SESSION['wc_report_date']);
+unset($_SESSION['wc_report_date']);*/
 
 ?>
 
@@ -317,9 +319,17 @@ unset($_SESSION['wc_report_date']);
   $(document).ready(iniciaPagina('#j_ano_c','j_mes_c'));
   $(document).ready(iniciaPagina('#j_ano_s','j_mes_s'));
 
-  //REQUISIÇÃO AJAX DEFAULT
+  //REQUISIÇÃO AJAX DEFAULT PARA TÉCNICOS
   $(document).ready(function(){
-    campoAno = $('#j_mes_t option:selected').val();
-    console.log(campoAno);
+    //campoMes = $('#j_mes_t option:selected').val();
+    callback = $('#relatorio_tecnicos').find('input[name="callback"]').val();
+    callback_action = $('#relatorio_tecnicos').find('input[name="callback_action"]').val();
+
+    $.ajax({
+      url: '_ajax/gns/' + callback + '.ajax.php',
+      type : 'post',
+      data:{callback:callback,callback_action:callback_action,/*mes_t:campoMes*/}
+    })
+
   })
 </script>
