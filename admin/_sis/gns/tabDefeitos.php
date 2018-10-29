@@ -14,7 +14,7 @@
 <label class="label box box100">
     <span><input id="instalacao-ok" type="radio" name="status" value="Sim" style="width:5%">Sim</span>
     <span><input id="instalacao-defeito" type="radio" name="status" value="Não" style="width:5%">Não</span>
-    <div id="dados-do-def">
+    <div id="dados-do-def"  style="display:none">
         <label id="foto-defeito" class="label box box50" style="display:none">
             <span class="legend">Foto Defeitos:</span>
             <input type="file" name="defeitos_fotos_arquivos[]" class="wc_loadimage" multiple/>
@@ -37,7 +37,7 @@
 </div>
 
 <div class="box50">
-    <table>
+    <table id="d_DefeitosSalvos" style="display:none">
         <thead>
             <tr>
                 <th colspan="2" style="text-align: center;">Formulários Salvos</th>
