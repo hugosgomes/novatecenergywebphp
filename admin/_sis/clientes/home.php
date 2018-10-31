@@ -8,12 +8,25 @@ if (empty($Read)):
   $Read = new Read;
 endif;
 ?>
+
 <style type="text/css">
-  .panel_header{
-     padding: 0px;
-  padding-top: 12px;
+.panel_header{
+ padding: 0px;
+ padding-top: 12px;
 }
+
+.ui-tooltip {
+  position: absolute;
+  padding: 8px;
+  z-index: 9999;
+  max-width: 10%;
+  box-shadow: 1px 1px 1px 1px grey;
+  font-family: Arial;
+  font-size: 11px;"
+}
+
 </style>
+
 <link rel="stylesheet" href="_css/clientes_particulares.css"/>
 <header class="dashboard_header">
   <div class="dashboard_header_title">
@@ -167,7 +180,7 @@ endif;
  </div><!-- BOX 100 -->
  <div class="box box100">
    <div class="formulario">
-    <form method="post" action="" id="j_form">
+    <form  class="j_form" name="user_manager" action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="callback" value="Home"/>
       <input type="hidden" name="callback_action" value="salvachamado"/>
       <div class="label_33">
@@ -215,7 +228,7 @@ endif;
 
         <label class="label">
           <span class="legend">OBSERVAÇÃO:</span>
-          <input class="input j_obs wc_value" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder="" required/>
+          <input class="input j_obs wc_value" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder=""/>
         </label>
 
         <label class="label">
@@ -256,9 +269,4 @@ endif;
 <!-- mascara para cobrir o site -->  
 <div id="mascara"></div>
 </div>
-<script type="text/javascript">
-
-
-
-</script>
 <script src="_js/clientes_particulares.js"></script>

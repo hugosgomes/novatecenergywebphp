@@ -26,15 +26,16 @@ endif;
 	</div>
 </div>
 <script type="text/javascript">
+<<<<<<< HEAD
+    
+function Importar(obj){
+	var text = $(obj).text();
+    $.post('_sis/ti/proceduresrobo.php', {text}, function (data) {
 
-	function Importar(obj){
-		var text = $(obj).text();
-		$.post('_sis/ti/proceduresrobo.php', {text}, function (data) {
-
-        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-        if(data.Trigger){
-        	Trigger(data.trigger);
-        }
+    //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+    if(data.Trigger){
+    	Trigger(data.trigger);
+    }
 
     }, 'json');
 	}
