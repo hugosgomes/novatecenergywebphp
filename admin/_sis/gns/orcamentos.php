@@ -104,7 +104,7 @@ endif;
   <div class="box_content" style="height: 659px;">
     <center><h4>Informações Detalhadas</h4></center>
     <br>
-    <ul class="j_detalhes" id="detalhes" style="display: none;">
+    <ul class="j_detalhes" id="detalhes">
       <li><center><a id="j_btn_editar" class="btn btn_darkblue icon-share" >Editar</a></center></li>
       <br>
       <li><span>Data Entrada: </span></li>
@@ -117,7 +117,7 @@ endif;
 
     </ul>
       <div class="box box100">
-        <table id="tabelaPecasServicos" class="table" style="text-align: center;display: none;">
+        <table id="tabelaPecasServicos" class="table" style="text-align: center;">
           <thead>
            <tr>
             <td colspan="4" style="height: 40px;"><b>Tabela de Peças e Serviços</b></td>

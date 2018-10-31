@@ -265,9 +265,10 @@ $('#Tecnico').change(function(){
 
     //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $('html').on('click', '.pointer', function (e) {
-
+        
       //document.getElementById("tabelaPecasServicos").style.display = "block";
       //document.getElementById("detalhes").style.display = "block";
+
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         var idCliente = $(this).attr('value');

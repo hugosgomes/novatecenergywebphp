@@ -1,15 +1,24 @@
     
 <?php
-  $Read->FullRead("SELECT [ID] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
+  $Read->FullRead("SELECT [ID],[EMPRESA],[DATA DE ADMISSÃO] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
   $NOME = $Read->getResult()[0];
 ?>
     <input type="hidden" name="USUARIOSISTEMA" value="<?php echo $NOME['ID'] ?>">
+    <input type="hidden" name="EMPRESA" value="<?php echo $NOME['EMPRESA'] ?>">
     <div id="orcamento"/>
-        <h4>Orçamento</h4>
         <label class="label box box100">
-          
-             <div class="box box100">
-                 <div class="box box33">
+          <div class="box box50">
+            <h3>Orçamento</h3>
+          </div>
+          <div class="box box50">
+            <div class="">
+              <span class="legend">Cliente tem plano ?</span>
+              <span><input class="o_tipoCliente" id="orc-aprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteCp" style="width:5%" checked>Sim</span>
+              <span><input class="o_tipoCliente" id="orc-reprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteSp" style="width:5%">Não</span>
+            </div>
+          </div>
+             <div class="box box50">
+                 <div class="box box50" style="">
                      <label class="label">
                         <span class="legend">Pesquisar Peças</span>
                          <select rel="0" id="o_peca" name="">
@@ -31,21 +40,15 @@
                         <input id="o_qtd-pecas" name="" type="number" style="font-size: 1.0em;"  class="j_qtd_pecas" min="1" value="1"  />
                     </label>    
                  </div>
-                 <div class="box box14">
+                 <div class="box box15">
                      <span class="legend"></span>
                      <label>
-                        <span class="j_add_pecas icon-plus btn btn_darkblue" style="height: 35px;margin-top: 14px; callback="Dadostabela" callback_action="consulta">Add Peças</span>
+                        <span class="j_add_pecas icon-plus btn btn_green" style="height: 35px;margin-top: 14px; callback="Dadostabela" callback_action="consulta">Add Peças</span>
                      </label>
                  </div>    
                  </div>
-
-                <div class="box box100">
-                <div class="">
-                    <span class="legend">Cliente tem plano ?</span>
-                    <span><input class="o_tipoCliente" id="orc-aprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteCp" style="width:5%" checked>Sim</span>
-                    <span><input class="o_tipoCliente" id="orc-reprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteSp" style="width:5%">Não</span>
-                </div>
-                <div class="box box33" id="o_cliente_sem_plano" style="display:none">
+                <div class="box box50" style="padding-top: 12px;">
+                <div class="box box50" id="o_cliente_sem_plano" style="display:none">
                      <label class="label">
                         <span class="legend">Pesquisar Serviços / sem plano</span>
                          <select id="o_servicos_s_com_p" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" >   <option disabled="disabled" selected value="t">SELECIONAR SERVIÇO</option>
@@ -62,7 +65,7 @@
                 </select>
                     </label>    
                  </div>
-                 <div class="box box33" id="o_cliente_com_plano">
+                 <div class="box box50" id="o_cliente_com_plano">
                    <label class="label">
                     <span class="legend">Pesquisar Serviços / com plano</span>
                     <select id="o_servicos_c_com_p" name="" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" > 
@@ -86,12 +89,12 @@
                         <input min="1" id="o_qtd_servicos" name="" type="number" style="font-size: 1.0em;" class="j_consulta" callback="Dadostabela" callback_action="consulta" value="1" />
                     </label>    
                  </div> 
-                 <div class="box box24">
+                 <div class="box box15">
                     <span class="legend"></span>
-                    <button class="j_add_servicos btn btn_darkblue" style="height: 35px;margin-top: 14px;"><span class="icon-plus"></span>Add Serviços</button>
+                    <button class="j_add_servicos btn btn_green" style="height: 35px;margin-top: 14px;"><span class="icon-plus"></span>Add Serviços</button>
                  </div>    
                  </div>
-                 <table id="o_tabela-pecasEservicos">
+                 <table id="o_tabela-pecasEservicos" style="font-size: 15px;">
                     <thead>
                         <tr>
                             <th colspan="6" style="text-align: center">Tabela Orçamento</th>
@@ -109,8 +112,16 @@
                     <tbody>
                     </tbody>
                 </table>
-                <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Aprovado: R$ <span class="valor-total"><!-- valor total table --></span></p>
-                <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Reprovado: R$ <span class="valor-total-r"><!-- valor total table --></span></p>
+                  <div class="box box50">
+                    <center><label class="label">
+                      <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Aprovado: R$ <span class="valor-total"><!-- valor total table --></span></p>
+                    </label></center>
+                  </div>
+                  <div class="box box50">
+                    <center><label class="label">
+                      <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic;color: red;">Total Reprovado: R$ <span class="valor-total-r"><!-- valor total table --></span></p>
+                    </label></center>
+                  </div>
                 <input id="valor-total" type="hidden" name="o_valor_total_orcamento"/>
                 <input id="valor-total-reprovado" type="hidden" name="o_valor_total_orcamento_r" value="0"/>
 
@@ -122,10 +133,11 @@
 
             <br/>
 
-                <div class="box box50">
+                <div class="box box33 status-orcamento">
                     <label class="label">
                       <span class="legend" >Status do Orçamento:</span>
                       <select id="" class="o_aprovado_reprovado" name="o_orcamento_status" style="font-family: Arial;font-size: 11px;">
+                         <option  selected="selected" value="t">SELECIONAR O STATUS DO ORÇAMENTO</option>
                         <?php 
                         foreach (getStatusOrcamentoGNS($Transaction = null) as $key => $value) {
                           echo "<option value='{$key}'>$value</option>";
@@ -134,8 +146,21 @@
                       </select>
                     </label>
                 </div>
+                <div class="box box33 status-os">
+                    <label class="label">
+                      <span class="legend" >Status da OS:</span>
+                      <select id="" class="o_os_status" name="o_os_status" style="font-family: Arial;font-size: 11px;">
+                          <option disabled selected="selected" value="t">SELECIONAR O STATUS DA OS</option>
+                        <?php 
+                        foreach (getNovoStatusOs($Transaction = null) as $key => $value) {
+                          echo "<option value='{$key}'>$value</option>";
+                        }
+                        ?>
+                      </select>
+                    </label>
+                </div>
 
-                <div class="box box50" id="o_forma_de_pagamento" style="">
+                <div class="box box33 forma-pagamento" id="o_forma_de_pagamento">
                     <label class="label">
                       <span class="legend" >Forma de Pagamento</span>
                       <select id="o_forma_de_pagamento_select" name="o_forma_de_pagamento" class="o_forma_de_pagamento_select"  style="font-family: Arial;font-size: 11px;">
@@ -146,6 +171,12 @@
                         }
                         ?>
                       </select>
+                    </label>
+                </div>
+                <div class="box box15 data-agendamento" style="display:none">
+                    <label class="label">
+                      <span class="legend">Data do Agendamento:</span>
+                      <input type="text" name="o_data_agendamento" class="jwc_datepicker o_data" placeholder="Data do agendamento"/>
                     </label>
                 </div>
 

@@ -85,7 +85,7 @@ endif;
 
 
 </head>
-<body class="dashboard_main">
+<body class="dashboard_main" id="body">
     <!-- PRINTER GNS/AGENDAMENTOS -->
 
     <div class="table-printer">
