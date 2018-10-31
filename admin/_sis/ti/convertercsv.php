@@ -12,7 +12,7 @@ endif;
     
 function Importar(obj){
 	var text = $(obj).text();
-    $.post('_sis/ti/relatorioestadoportas.php', {text}, function (data) {
+    $.post('_sis/ti/proceduresrobo.php', {text}, function (data) {
 
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){

@@ -44,8 +44,6 @@ $('#Tecnico').change(function(){
         var Tecnico = $("#Tecnico option:selected").val();
 
 
-
-
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
@@ -268,8 +266,8 @@ $('#Tecnico').change(function(){
     //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $('html').on('click', '.pointer', function (e) {
 
-      document.getElementById("tabelaPecasServicos").style.display = "block";
-      document.getElementById("detalhes").style.display = "block";
+      //document.getElementById("tabelaPecasServicos").style.display = "block";
+      //document.getElementById("detalhes").style.display = "block";
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         var idCliente = $(this).attr('value');
@@ -502,7 +500,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
         tinyMCE.triggerSave();
     }
 
-    form.ajaxSubmit({            
+    form.ajaxSubmit({
         url: '_ajax/gns/' + callback + '.ajax.php',
         dataType: 'json',
         beforeSubmit: function () {

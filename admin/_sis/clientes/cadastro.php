@@ -23,6 +23,10 @@ textarea, input, select{
 .blocker{
     z-index: 98;
 }
+
+.ui-menu .ui-menu-item a{
+    font-size: 12px;
+}
 </style>
 
 <header class="dashboard_header">
@@ -42,7 +46,7 @@ textarea, input, select{
             <article class="box box50">
                 <div class="label_50">
                     <label class="label">
-                       <!-- <input id="tags" type="text" idCliente="" value="" placeholder="PESQUISA POR CLIENTE" class="j_buscar_cliente" callback="Clientes" callback_action="busca_clientes" />-->
+                       <!--<input id="tags" type="text" idCliente="" value="" placeholder="PESQUISA POR CLIENTE" rel="0" class="j_buscar_cliente" callback="Clientes" callback_action="consulta" />-->
                       <select rel="0" class="j_consulta_cliente" callback="Clientes" callback_action="consulta" >
                         <option value="">PESQUISA POR CLIENTE</option>             
                         <?php
@@ -92,7 +96,9 @@ textarea, input, select{
       <div class="box_content">
         <form  class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
            <input type="hidden" name="callback" value="Clientes"/><!--- doumento ajax.php -->
-           <input type="hidden" name="callback_action" value="cadCliente"/><!--ação que será adicionada no ajax.php-->
+           <input type="hidden" name="callback_action" value="cadCliente"/><!--ação que será 
+           adicionada no ajax.php-->
+           <input type="hidden" name="id_cliente" value="0" class="wc_idCliente" />
            <div class="box box25"></div>
            <div class="box box33">
             <div class="container_small">
@@ -159,7 +165,7 @@ textarea, input, select{
                 </label>
                 <label class="label">
                     <span class="legend">Complemento:</span>
-                    <input class="wc_complemento wc_value" style="font-size: 1.0em;" type="text" name="COMPLEMENTO" placeholder="Complemento" required/>
+                    <input class="wc_complemento wc_value" style="font-size: 1.0em;" type="text" name="COMPLEMENTO" placeholder="Complemento"/>
                 </label>
                 <div class="clear"></div>
             </div>
@@ -287,9 +293,8 @@ textarea, input, select{
     </form>
     </div>
 </div>
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
- 
+
+<!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
 <script src="_js/cadastro_clientes_particulares.js"></script>
-<script src="_js/modal.js"></script>
