@@ -37,9 +37,14 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
 <div class="dashboard_content">
     <article class="box box100">
         <div class="panel">
-
+          <div class="listar-tecnicos">
+            <input type="hidden" name="Callback" value="ReportTecnicos">
+            <input type="hidden" name="Callback_action" value="listar-tecnicos">
+          </div>
           <!-- Gráfico de técnicos -->
             <div class="wc_ead_chart_control">
+                <input type="hidden" name="Callback" value="ReportTecnicos">
+                <input type="hidden" name="Callback_action" value="dadosData">
                 <select id="j_ano_t" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
                   <option value="t">TODOS OS ANOS</option>
@@ -316,10 +321,4 @@ unset($_SESSION['wc_report_date']);
   $(document).ready(iniciaPagina('#j_ano_o','j_mes_o'));
   $(document).ready(iniciaPagina('#j_ano_c','j_mes_c'));
   $(document).ready(iniciaPagina('#j_ano_s','j_mes_s'));
-
-  //REQUISIÇÃO AJAX DEFAULT
-  $(document).ready(function(){
-    campoAno = $('#j_mes_t option:selected').val();
-    console.log(campoAno);
-  })
 </script>

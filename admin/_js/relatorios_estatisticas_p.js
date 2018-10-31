@@ -285,3 +285,10 @@ $(function() {
                 },
             ]
         });
+
+//REQUISIÇÃO AJAX DEFAULT
+/*$(document).ready(function(){
+  campoAno = $('#j_mes_t option:selected').val();
+  Callback = $('#j_mes_t').find('input[name="Callback"]').val();
+  Callback_action = $('#j_mes_t').find('input[name="Callback_action"]').val();
+})*/

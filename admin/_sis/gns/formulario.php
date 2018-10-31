@@ -158,8 +158,8 @@ tr:nth-child(even) {
            <div class="box_conf_menu" style="font-size: 15px;">
                <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Informações Gerais do Cliente</a>
                <!--<a class='conf_menu wc_tab' href='#defeitos'>Defeitos</a>-->
-               <a class='conf_menu wc_tab' href='#observacoes'>Observações</a>
                <a class='conf_menu wc_tab' href='#orcamento'>Orçamentos</a>
+               <a class='conf_menu wc_tab' href='#observacoes'>Observações</a>
            </div>
        </div>
    </div>
