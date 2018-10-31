@@ -48,6 +48,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $PostData['TI'] = (!isset($PostData['TI']) ? $PostData['TI'] = "0" : $PostData['TI'] = 1);
         $PostData['GNS'] = (!isset($PostData['GNS']) ?  $PostData['GNS'] = "0" : $PostData['GNS'] = 1);
         $PostData['CLIENTES_PARTICULARES'] = (!isset($PostData['CLIENTES_PARTICULARES']) ? $PostData['CLIENTES_PARTICULARES'] = "0" : $PostData['CLIENTES_PARTICULARES'] = 1);
+        $PostData['FERRAMENTAS'] = (!isset($PostData['FERRAMENTAS']) ?  $PostData['FERRAMENTAS'] = "0" : $PostData['FERRAMENTAS'] = 1);
 
           $Read->FullRead("SELECT * FROM [00_NivelAcesso] WHERE IDFUNCIONARIO = :idfunc","idfunc={$PostData['ID']}");
        
@@ -74,7 +75,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     <input style='width: 5%;' id='modulos' type='checkbox' />Selecionar Todos<br><br>
                     <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1' ".($Read->getResult()[0]['GNS'] == 1 ? 'checked':'').">GNS <br>
                     <input style='width: 5%;' class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1' ".($Read->getResult()[0]['CLIENTES_PARTICULARES'] == 1 ? 'checked':'').">Clientes Particulares <br>
-                    <input style='width: 5%;' class='' name='TI' type='checkbox' value='1' ".($Read->getResult()[0]['TI'] == 1 ? 'checked':'')." >TI </br></div>";
+                    <input style='width: 5%;' class='' name='TI' type='checkbox' value='1' ".($Read->getResult()[0]['TI'] == 1 ? 'checked':'')." >TI </br>
+                    <input style='width: 5%;' class='' name='FERRAMENTAS' type='checkbox' value='1' ".($Read->getResult()[0]['FERRAMENTAS'] == 1 ? 'checked':'')." >FERRAMENTAS </br></div>";
                     
                     $Read->FullRead("SELECT * FROM [Funcionários] WHERE ID = :id","id={$PostData['ID']}");
                     if($Read->getResult()):
@@ -107,6 +109,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1'/>GNS <br>
                         <input style='width: 5%;' class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1' />Clientes Particulares<br> 
                         <input style='width: 5%;' class='' name='TI' type='checkbox' value='1' />TI </br>
+                        <input style='width: 5%;' class='' name='FERRAMENTAS' type='checkbox' value='1' />FERRAMENTAS </br>
                         </div>";   
 
                         $jSON['trigger'] = AjaxErro("Usuário sem permissões. Ao cadastrar, o mesmo passará a usar o sistema com as devidas permissões escolhidas."); 

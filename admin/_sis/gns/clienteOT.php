@@ -13,7 +13,7 @@ $ID = 0;
 
 <style type="text/css">
 .blocker{
-z-index: 98;
+    z-index: 98;
 }
 </style>
 
@@ -31,7 +31,7 @@ z-index: 98;
 </header>
 <div class="dashboard_content custom_app">
     <div id="cad_clientes_semOTOS" class="modal" style="height: auto;">
-   <article class="box box100">
+     <article class="box box100">
         <header>
           <h3 style="text-align: center;">Cadastro de Clientes sem OT/OS</h3>
       </header>
@@ -79,17 +79,20 @@ z-index: 98;
     <article class='box box100'>
         <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
         <article class="box box50">
-            <div class="">
+            <div class="tabela-responsivel" style="height: 62%;">
                <table id='j_cliente_semOT' class='table' style="width: 100%;">
-                    <!--LOCAL ONDE CARREGA OS DADOS DOS CLIENTES VINDOS DO AJAX-->
-                </table>
-            </div>
-        </article>
+                <!--LOCAL ONDE CARREGA OS DADOS DOS CLIENTES VINDOS DO AJAX-->
+            </table>
+        </div>
+    </article>
     <!--LOCAL ONDE É APRESENTADO AS SUGESTÕES DE OT PARA VINCULAR-->
     <article class="box box_50">
-        <table class="ot" style="font-size: 0.9em;">           
-        </table>
+        <div class="tabela-responsivel" style="height: 62%;">
+            <table class="ot" style="font-size: 0.9em;">           
+            </table>
+        </div>
     </article>
+</article>
 </div>
 </article>
 </div>

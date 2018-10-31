@@ -34,13 +34,18 @@ function exibeCheckbox(){
 //EXIBE E OCULTA IMPUT FOTOS DEFEITOS
 $("#instalacao-ok").change(function() {
   if(this.checked){
-    $('#foto-defeito').fadeIn(tempoEvento);
+    $('#foto-defeito').fadeIn(tempoEvento); //MOSTRA FOTO DE DEFEITOS
+    $('#dados-do-def').fadeIn(tempoEvento); //MOSTRA BOTÕES DE DEFEITOS
+    $('#d_DefeitosSalvos').fadeIn(tempoEvento); //MOSTRA TABELA DE DEFEITOS
   }
 });
 
 $("#instalacao-defeito").change(function() {
   if(this.checked){
-    $('#foto-defeito').fadeOut(tempoEvento);
+    $('#foto-defeito').fadeOut(tempoEvento); //ESCONDE FOTO DE DEFEITOS
+    $('#dados-do-def').fadeOut(tempoEvento);  //ESCONDE BOTÕES DE DEFEITOS
+    $('#d_DefeitosSalvos').fadeOut(tempoEvento); //ESCONDE TABELA DE DEFEITOS
+    removeDefeitos();
   }
 });
 
@@ -639,6 +644,29 @@ $(document).ready(function() {
 
 exibeCheckbox();
 
+function removeDefeitos(){
+
+  $("input[name*='dist-interna'").remove();
+
+  $("input[name*='ap-gas'").remove();
+
+  $("input[name*='liga-ap'").remove();
+
+  $("input[name*='ind-exaust'").remove();
+
+  $("input[name*='cole-exaust'").remove();
+
+  $("input[name*='caract-h'").remove();
+
+  $("input[name*='reco'").remove();
+
+  var namehidden = $('.btn-remove-linha').attr("namehidden");
+  $('.btn-remove-linha').closest("tr").remove();
+  $("input[name*='"+namehidden+"'").remove();
+
+
+}// fim removeDefeitos
+
 //DISTRIBUIÇÃO INTERNA
 $('#btn_distribuicao_interna').click(function(){
   $("input[name*='dist-interna'").remove();
@@ -739,9 +767,6 @@ function createHiddenSpan(obj){
     $("<input type='hidden' value='"+valor+"' name='"+id+"'/>").appendTo('.d_hiddens');
   });
 }
-
-
-
 
 ///PERMITE APENAS QUE OS INPUTS TEXT SEJAM NÚMEROS
 function SomenteNumero(e){

@@ -172,9 +172,15 @@ function abreModal(element){
 }
 
 
-$('html').on('click', '#wc_pdt_stoc', function () {
+$('#wc_pdt_stoc').on('click', function (e) {
+
+    if(verificaCampos($('#j_statusOrcamento').val()) == false){
+      return;
+    }
+
+    alert($('#j_select_tecnicos').val());
         
-    var form = $("#j_form");
+    var form = $(".j_form");
     var callback = form.find('input[name="callback"]').val();
     var callback_action = form.find('input[name="callback_action"]').val();
     var IDCHAMADO = form.find('input[name="IDCHAMADO"]').val();
@@ -227,7 +233,9 @@ $('html').on('click', '#wc_pdt_stoc', function () {
               $(data.addHistorico).appendTo('#j_historico');
             }else{
               $('#j_historico div').remove();
-            }             
+            }
+
+            $('#j_statusOrcamento').attr('disabled', false);
         }
     });
     return false;
@@ -247,15 +255,18 @@ $('html').on('click', '#j_edit_chamado', function (e) {
 
             //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
             if (data.editaChamado) {
-                $('.j_statusOrcamento').val(1);
+                $('.j_status').val(data.editaChamado['TIPO_SERVICO']);
+                $('.j_data').val(data.editaChamado['DATAAGENDADA']);
                 $('.j_tecnico').val(data.editaChamado['TECNICO']);
                 $('.j_valor').val(data.editaChamado['VALOR']);
                 $('.j_forma').val(data.editaChamado['FORMAPAGAMENTO']);
                 $('.j_qnt').val(data.editaChamado['NUM_PARCELAS']);
                 $('.j_obs').val(data.editaChamado['OBS']);
+                travaCampos(data.editaChamado['TIPO_SERVICO']);
+                $('#j_statusOrcamento').attr('disabled', true);
             }
             if(data.addIdChamado){
-               $(data.addIdChamado).prependTo('#j_form');
+               $(data.addIdChamado).prependTo('.j_form');
             }
         }, 'json');
 
@@ -308,7 +319,7 @@ function travaCampos(valor){
       break;
 
     case '1':
-    $('#j_select_tecnicos').attr('disabled', false);
+      $('#j_select_tecnicos').attr('disabled', false);
       $('.j_data').attr('disabled', false);
       $('.j_valor').attr('disabled', false);
       $('.j_forma').attr('disabled', false);
@@ -336,6 +347,45 @@ function travaCampos(valor){
       $('.j_qnt').attr('disabled', false);
       $('#j_select_tecnicos').val('');
       $('.j_data').val('');
+      break;
+  }
+}
+
+function verificaCampos(status){
+  switch(status){
+    case '1':
+    case '3':
+    case '4':
+    case '5':
+
+      if($('.j_data').val() == ''){
+        alert("O Campo Data é Obrigatório!");
+        return false;
+      }
+
+      if(!$('#j_select_tecnicos').val()){
+        alert("O Campo Técnico é Obrigatório!");
+        return false;
+      }
+      
+    break;
+
+    case '2':
+
+      if($('.j_valor').val() == ''){
+        alert("O Campo Valor é Obrigatório!");
+        return false;
+      }
+
+      if(!$('.j_forma').val()){
+        alert("O Campo Forma de Pagamento é Obrigatório!");
+        return false;
+      }
+
+      if($('.j_qnt').val() == '' && $('.j_forma').val() == 0){
+        alert("O Campo Quantidade de Parcelas é Obrigatório!");
+        return false;
+      }
       break;
   }
 }

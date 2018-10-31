@@ -2,7 +2,7 @@
                     <div id="tipo-servico">            
                      <div class="t_hiddens">
                      </div>
-                        <label class="label box box100">
+                        <label class="label box box25">
                             <span class="legend"><b>Nº do Manometro:</b></span>
                             <select value="" type="text" name="t_num_manometro">
                                <!-- <option selected disabled value="">Selecione o Nº do Manometro:</option>-->
@@ -28,41 +28,41 @@
                                 ?>
                             </select>
                         </label>
-                        <label class="label box box50">
+                        <label class="label box box25">
                             <span class="legend"><b>Pressão Inicial:</b></span>
                             <input type="text" name="t_p_inicial" id="t_p_inicial" class="t_p_inicial" placeholder="Inicial:" onkeypress='return SomenteNumero(event)'/>
                         </label>
-                        <label class="label box box50">
+                        <label class="label box box25">
                             <span class="legend"><b>Pressão Final:</b></span>
                             <input type="text" name="t_p_Final" id="t_p_Final" class="t_p_Final" placeholder="Final:" onkeypress='return SomenteNumero(event)'/>
                         </label>
-                        <label class="label box box100">
+                        <label class="label box box25">
                             <span class="legend"><b>Tempo do teste:</b></span>
                             <input type="text" name="t_tempo_teste" id="t_tempo_teste" class="t_tempo_teste"  placeholder="Tempo:"  onkeypress='return SomenteNumero(event)'/>
                         </label>
-                        <label class="label box box100">
+                        <label class="label box box25">
                             <span class="legend"><b>Status:</b></span>
 
-                            <span><input id="ok" type="radio" name="t_1status" value="ok" style="width:5%"  />Ok</span>
-                            <span><input id="vazamento" type="radio" name="t_1status" value="vazamento" style="width:5%">Vazamento</span>
+                            <span><input id="ok" type="radio" name="t_1status" value="ok" style="width:5%"  /> Ok</span>&ensp;&ensp;&ensp;
+                            <span><input id="vazamento" type="radio" name="t_1status" value="vazamento" style="width:5%"> Vazamento</span>
                             <br>
                             <br>
-                            <span class="t_vazamento-L" style="display:none;"><input style="width:5%;" id="menor-5L" type="radio" name="t_2status" value="Menor 5L">Menor 5L</span>
-                            <span class="t_vazamento-L" style="display:none;"><input style="width:5%;" id="maior-5L" type="radio" name="t_2status" value="Maior 5L">Maior 5L</span>
+                            <span class="t_vazamento-L" style="display:none;"><input style="width:5%;" id="menor-5L" type="radio" name="t_2status" value="Menor 5L"> Menor 5L</span>&ensp;&ensp;&ensp;
+                            <span class="t_vazamento-L" style="display:none;"><input style="width:5%;" id="maior-5L" type="radio" name="t_2status" value="Maior 5L"> Maior 5L</span>
                         
                         </label>
-                        <label id="status-ocorrencia" class="label box box100" style="display:none">
+                        <label id="status-ocorrencia" class="label box box25" style="display:none">
                             <span class="legend"><b>Nº Ocorrência:</b></span>
                             <input type="text" name="t_num_ocorrencia" id="t_num_ocorrencia" class="t_num_ocorrencia"  placeholder="ocorrência:" onkeypress='return SomenteNumero(event)' />
                         </label>
-                        <label class="label box box50">
+                        <label class="label box box25">
                             <span class="legend"><b>Dados do Medidor:</b></span>
                             <input type="file" name="medidor_fotos_arquivos[]" class="wc_loadimage" multiple/>
                             <div class="dados_medidor">
 
                             </div>
                         </label>
-                        <label class="label box box50">
+                        <label class="label box box25">
                             <span class="legend"><b>Foto Situação do Serviço:</b></span>
                             <input type="file" name="servico_fotos_arquivos[]" class="wc_loadimage" multiple/>
                             <div class="dados_servico">
