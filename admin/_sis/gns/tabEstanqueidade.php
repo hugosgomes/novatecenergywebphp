@@ -1,4 +1,33 @@
         <h4 class="icon-user-plus">Teste de Estanquidade</h4>
+        <div class="box box100">
+              <div class="box box100">
+                <div class="label box box15">
+                  <div class="legend"><b>Data da inspeção</b></div>
+                  <input class="jwc_datepicker o_data" type="text" name="t_inf_defeitos_data" placeholder="Data da inspeção">
+                </div>
+                <div class="label box box15">
+                  <div class="legend"><b>Hora da chegada</b></div>
+                  <input type="time" name="t_inf_defeitos_hora_e" placeholder="Hora de chegada">
+                </div>
+                <div class="label box box15">
+                  <div class="legend"><b>Hora da saída</b></div>
+                  <input type="time" name="t_inf_defeitos_hora_s" placeholder="Hora de saída">
+                </div>
+              </div>
+              <div class="label box box100">
+                <input type="radio" name="t_inf_defeitos" value="gas natural" style="width:3%">Gás Natural
+                <input type="radio" name="t_inf_defeitos" value="GLP" style="width:3%">GLP
+                <input type="radio" name="t_inf_defeitos" value="BP" style="width:3%">BP
+                <input type="radio" name="t_inf_defeitos" value="MPA" style="width:3%">MPA
+                <input type="radio" name="t_inf_defeitos" value="MPB" style="width:3%">MPB
+                <input type="radio" name="t_inf_defeitos" value="aparente" style="width:3%">Aparente
+                <input type="radio" name="t_inf_defeitos" value="embutida" style="width:3%">Embutidade
+                <input type="radio" name="t_inf_defeitos" value="cu" style="width:3%">Cu
+                <input type="radio" name="t_inf_defeitos" value="ferro galvonizado" style="width:3%">Ferro galvonizado
+                <input type="radio" name="t_inf_defeitos" value="outros" style="width:3%">Outros
+                <input type="text"  name="t_inf_defeitos" placeholder="Diametro" style="width:8%;height:25px">
+              </div>
+        </div>
                     <div id="tipo-servico">            
                      <div class="t_hiddens">
                      </div>

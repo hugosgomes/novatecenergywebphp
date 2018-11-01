@@ -98,9 +98,8 @@ tr:nth-child(even) {
 <header class="dashboard_header">
     <div class="dashboard_header_title">
         <p class="dashboard_header_breadcrumbs">
-            &raquo; <?= ADMIN_NAME; ?>
-            <span class="crumb">/</span>
-            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=gns/historico">Histórico de Clientes</a>
+            &raquo;
+            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
             Orçamento
         </p>

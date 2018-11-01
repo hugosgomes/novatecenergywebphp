@@ -42,15 +42,9 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
             <input type="hidden" name="Callback_action" value="listar-tecnicos">
           </div>
           <!-- Gráfico de técnicos -->
-<<<<<<< HEAD
-            <div class="wc_ead_chart_control">
-                <input type="hidden" name="Callback" value="ReportTecnicos">
-                <input type="hidden" name="Callback_action" value="dadosData">
-=======
             <div class="wc_ead_chart_control" id="relatorio_tecnicos">
                 <input type="hidden" name="callback" value="ReportTecnicos">
                 <input type="hidden" name="callback_action" value="relatorio_padrao_tecnicos">
->>>>>>> gns-estatisticas
                 <select id="j_ano_t" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
                   <option value="t">TODOS OS ANOS</option>
