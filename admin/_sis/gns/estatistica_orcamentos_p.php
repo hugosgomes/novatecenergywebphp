@@ -42,14 +42,20 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
             <input type="hidden" name="Callback_action" value="listar-tecnicos">
           </div>
           <!-- Gráfico de técnicos -->
+<<<<<<< HEAD
             <div class="wc_ead_chart_control">
                 <input type="hidden" name="Callback" value="ReportTecnicos">
                 <input type="hidden" name="Callback_action" value="dadosData">
+=======
+            <div class="wc_ead_chart_control" id="relatorio_tecnicos">
+                <input type="hidden" name="callback" value="ReportTecnicos">
+                <input type="hidden" name="callback_action" value="relatorio_padrao_tecnicos">
+>>>>>>> gns-estatisticas
                 <select id="j_ano_t" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
                   <option value="t">TODOS OS ANOS</option>
                 </select>
-                <select id="j_mes_t" style="width: 140px;">     
+                <select id="j_mes_t" style="width: 140px;" name="mes_t">     
                   <option value="t" id="meses">TODOS OS MESES</option>
                   <option value="01" id="meses">JANEIRO</option>
                   <option value="02" id="meses">FEVEREIRO</option>
@@ -248,6 +254,53 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
                   </div>
               </div>
             </div>
+
+            <!-- Gráfico de serviços -->
+            <div class="box box100">
+              <div class="wc_ead_chart_control">
+                <select id="j_ano_s" style="width: 110px;">
+                  <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
+                  <option value="t">TODOS OS ANOS</option>
+                </select>
+                <select id="j_mes_s" style="width: 140px;">     
+                  <option value="t" id="meses">TODOS OS MESES</option>
+                  <option value="01" id="meses">JANEIRO</option>
+                  <option value="02" id="meses">FEVEREIRO</option>
+                  <option value="03" id="meses">MARÇO</option>
+                  <option value="04" id="meses">ABRIL</option>
+                  <option value="05" id="meses">MAIO</option>
+                  <option value="06" id="meses">JUNHO</option>
+                  <option value="07" id="meses">JULHO</option>
+                  <option value="08" id="meses">AGOSTO</option>
+                  <option value="09" id="meses">SETEMBRO</option>
+                  <option value="10" id="meses">OUTUBRO</option>
+                  <option value="11" id="meses">NOVEMBRO</option>
+                  <option value="12" id="meses">DEZEMBRO</option>
+                </select>
+                <select id="j_semana_s" style="width: 150px;">
+                  <option value="t">TODAS AS SEMANAS</option>
+                  <option value="t">1º SEMANA</option>
+                  <option value="t">2º SEMANA</option>
+                  <option value="t">3º SEMANA</option>
+                  <option value="t">4º SEMANA</option>
+                </select>
+            </div>
+              <div id="jwc_chart_container_servicos_s"></div>
+              <div class="wc_ead_reports_boxes">
+                  <div class="box box50 wc_ead_reports_total">
+                      <div class="box_content">
+                          <p class="icon-checkmark">303</p>
+                          <span>Serviços Realizados</span>
+                      </div>
+                  </div>
+                  <div class="box box50 wc_ead_reports_total">
+                      <div class="box_content">
+                          <p class="icon-credit-card">255</p>
+                          <span>Serviços Faturados</span>
+                      </div>
+                  </div>
+              </div>
+            </div>
             <footer class="wc_ead_reports">
             </footer>
         </div>
@@ -256,7 +309,7 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
 
 <?php
 //TRÁS TODOS OS TÉCNICOS 
-$TecnicoNome = array();
+/*$TecnicoNome = array();
 $TecnicoID = array();
 $TecnicoTotal = array();
 $Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
@@ -310,7 +363,7 @@ $AccessUsers = implode(", ", $getAccessUsers);
 $AtendTec = implode(", ", $getAtendimentos);
 $AccessPages = implode(", ", $getAccessPages);
 
-unset($_SESSION['wc_report_date']);
+unset($_SESSION['wc_report_date']);*/
 
 ?>
 
@@ -321,4 +374,18 @@ unset($_SESSION['wc_report_date']);
   $(document).ready(iniciaPagina('#j_ano_o','j_mes_o'));
   $(document).ready(iniciaPagina('#j_ano_c','j_mes_c'));
   $(document).ready(iniciaPagina('#j_ano_s','j_mes_s'));
+
+  //REQUISIÇÃO AJAX DEFAULT PARA TÉCNICOS
+  $(document).ready(function(){
+    //campoMes = $('#j_mes_t option:selected').val();
+    callback = $('#relatorio_tecnicos').find('input[name="callback"]').val();
+    callback_action = $('#relatorio_tecnicos').find('input[name="callback_action"]').val();
+
+    $.ajax({
+      url: '_ajax/gns/' + callback + '.ajax.php',
+      type : 'post',
+      data:{callback:callback,callback_action:callback_action,/*mes_t:campoMes*/}
+    })
+
+  })
 </script>
