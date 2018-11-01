@@ -14,7 +14,6 @@ $(function() {
             title: {
                 text: 'Estatística Técnicos',
                  style: {
-            //color: '#FF00FF',
             fontWeight: 'bold'
         }
             },
@@ -49,19 +48,19 @@ $(function() {
                 {
                     name: 'Atendimentos',
                     data: [20,15,30,15,20,15],//EXIBE QTD DE ATENDIMENTOS REALIZADOS PELO TÉCNICO
-                    color: '#105187',
+                    color: '#415B76',
                     lineColor: '#B25900'
                 },
                 {
                     name: 'Orçamentos Aprovados',
                     data: [15,13,15,10,15,13],//EXIBE QTD DE ORÇAMNTOS APROVADOS
-                    color: '#0E96E5',
+                    color: '#579C87',
                     lineColor: '#006699'
                 },
                 {
                     name: 'Orçamentos Reprovados',
                     data: [5,2,5,15,5,2],//EXIBE QTD DE ORÇAMENTOS REPROVADOS
-                    color: 'red',
+                    color: '#F23C50',
                     lineColor: '#008068'
                 }
             ]
@@ -83,7 +82,6 @@ $(function() {
             title: {
                 text: 'Estatística Orçamentos',
                  style: {
-            //color: '#FF00FF',
             fontWeight: 'bold'
           }
             },
@@ -128,22 +126,22 @@ $(function() {
                     {
                       "name": "Aprovados",
                       "y": 40,
-                      color: '#0E96E5',
+                      color: '#579C87',
                     },
                     {
                       "name": "Recuperados",
                       "y": 10,
-                      color: '#259A77',
+                      color: '#F2B134',
                     },
                     {
                       "name": "Executados",
                       "y": 30,
-                      color: '#006699'
+                      color: '#415B76'
                     },
                     {
                       "name": "Recusados",
                       "y": 20,
-                      color: 'red'
+                      color: '#F23C50'
                     }
                   ]
                 }
@@ -166,7 +164,6 @@ $(function() {
             title: {
                 text: 'Estatística Clientes',
                    style: {
-            //color: '#FF00FF',
             fontWeight: 'bold'
         }
             },
@@ -211,22 +208,22 @@ $(function() {
                     {
                       "name": "Atendidos",
                       "y": 30,
-                      color: '#105187',
+                      color: '#415B76',
                     },
                     {
                       "name": "Cancelados",
                       "y": 10,
-                      color: '#c33325',
+                      color: '#F23C50',
                     },
                     {
                       "name": "Ausentes",
                       "y": 20,
-                      color: '#f0f1d5'
+                      color: '#D76880'
                     },
                     {
                       "name": "Reagendados NVT",
                       "y": 20,
-                      color: '#259A77'
+                      color: '#0695AB'
                     },
                     {
                       "name": "Reagendados GNS",
@@ -236,7 +233,7 @@ $(function() {
                     {
                       "name": "Sem Atender",
                       "y": 10,
-                      color: '#f19722'
+                      color: '#F2B134'
                     }
                   ]
                 }
@@ -256,7 +253,6 @@ $(function() {
             title: {
                 text: 'Estatística Serviços',
                    style: {
-            //color: '#FF00FF',
             fontWeight: 'bold'
         }
             },
@@ -288,10 +284,16 @@ $(function() {
             },
             series: [
                 {
+                    name: 'Serviços',
+                    data: [40,30,35,35,30,30,28,25,25,27,35,45],
+                    color: '#579C87',
+                    lineColor: '#579C87'
+                },
+                {
                     name: 'Serviços Realizados',
-                    data: [20,20,25,30,28,25,28,20,20,22,30,35],
-                    color: '#259A77',
-                    lineColor: '#259A77'
+                    data: [20,20,25,30,28,25,25,20,20,22,30,35],
+                    color: '#415B76',
+                    lineColor: '#415B76'
                 },
                 {
                     name: 'Serviços Faturados',
@@ -301,3 +303,70 @@ $(function() {
                 },
             ]
         });
+
+ //GRÁFICO DE SERVIÇOS
+ Highcharts.chart('jwc_chart_container_servicos_s', {
+  chart: {
+    type: 'bar'
+  },
+  title: {
+    text: 'Gráfico serviços',
+    style: {
+        fontWeight: 'bold'
+    }
+  },
+  subtitle: {
+    text: ''
+  },
+  xAxis: {
+    categories: ['Visita orcamento Exigencias IPG Complet','Manutencao de equipamento','Adequacoes de ambiente', 'Assistencia domiciliar gas', 'Instalacao de aquecedor', 'Remanej/Construcao de ponto',
+    'Certificado de rede de distribuicao interna'],
+    title: {
+      text: null
+    }
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: 'quantidade',
+      align: 'high'
+    },
+    labels: {
+      overflow: 'justify'
+    }
+  },
+  tooltip: {
+    valueSuffix: '',
+    useHTML: true,
+    shadow: false,
+    headerFormat: '<p class="al_center" style="color:white">{point.key}</p><p class="al_center" style="font-size: 2em; color:white;">{point.y}</p>',
+    pointFormat: '<p class="al_center" style="color:white">{series.name}</p><p class="al_center"></p>',
+    backgroundColor: 'rgba(87, 125, 216, 0.60)',
+  },
+  plotOptions: {
+    bar: {
+      dataLabels: {
+        enabled: true
+      }
+    }
+  },
+  legend: {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'top',
+    x: 0,
+    y: 0,
+    floating: true,
+    borderWidth: 1,
+    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+    shadow: true
+  },
+  credits: {
+    enabled: false
+  },
+  series: [{
+    name: '2018',
+    data: [141, 114, 227, 110,200,150,130],
+    color: '#415B76'
+  }]
+});

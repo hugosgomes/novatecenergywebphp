@@ -245,6 +245,53 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
                   </div>
               </div>
             </div>
+
+            <!-- Gráfico de serviços -->
+            <div class="box box100">
+              <div class="wc_ead_chart_control">
+                <select id="j_ano_s" style="width: 110px;">
+                  <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
+                  <option value="t">TODOS OS ANOS</option>
+                </select>
+                <select id="j_mes_s" style="width: 140px;">     
+                  <option value="t" id="meses">TODOS OS MESES</option>
+                  <option value="01" id="meses">JANEIRO</option>
+                  <option value="02" id="meses">FEVEREIRO</option>
+                  <option value="03" id="meses">MARÇO</option>
+                  <option value="04" id="meses">ABRIL</option>
+                  <option value="05" id="meses">MAIO</option>
+                  <option value="06" id="meses">JUNHO</option>
+                  <option value="07" id="meses">JULHO</option>
+                  <option value="08" id="meses">AGOSTO</option>
+                  <option value="09" id="meses">SETEMBRO</option>
+                  <option value="10" id="meses">OUTUBRO</option>
+                  <option value="11" id="meses">NOVEMBRO</option>
+                  <option value="12" id="meses">DEZEMBRO</option>
+                </select>
+                <select id="j_semana_s" style="width: 150px;">
+                  <option value="t">TODAS AS SEMANAS</option>
+                  <option value="t">1º SEMANA</option>
+                  <option value="t">2º SEMANA</option>
+                  <option value="t">3º SEMANA</option>
+                  <option value="t">4º SEMANA</option>
+                </select>
+            </div>
+              <div id="jwc_chart_container_servicos_s"></div>
+              <div class="wc_ead_reports_boxes">
+                  <div class="box box50 wc_ead_reports_total">
+                      <div class="box_content">
+                          <p class="icon-checkmark">303</p>
+                          <span>Serviços Realizados</span>
+                      </div>
+                  </div>
+                  <div class="box box50 wc_ead_reports_total">
+                      <div class="box_content">
+                          <p class="icon-credit-card">255</p>
+                          <span>Serviços Faturados</span>
+                      </div>
+                  </div>
+              </div>
+            </div>
             <footer class="wc_ead_reports">
             </footer>
         </div>
