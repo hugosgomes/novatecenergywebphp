@@ -1,4 +1,4 @@
 # Para todos os arquivos Thumbs.db
-*.db
+admin/_img/icons/Thumbs.db
 *.jpg
-+.png
+*.png
