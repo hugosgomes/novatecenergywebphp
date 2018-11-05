@@ -52,10 +52,36 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
   $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
     //SELECIONA AÇÃO
   switch ($Case):
-    case 'relatorio_padrao':
+    case 'relatorio_padrao_tecnicos':
     foreach ($PostData as $key => $value) {
       if($PostData[$key] == ''){
         unset($PostData[$key]);
       }
     }
+    //TRÁS TODOS OS TÉCNICOS 
+    $TecnicoNome = array();
+    $TecnicoID = array();
+    $TecnicoTotal = array();
+    $Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
+                    FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
+                    LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
+                    WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL ORDER BY NOME"," ");
+                    if ($Read->getResult()):
+                      foreach ($Read->getResult() as $FUNC):
+                       $TecnicoNome [] = $FUNC['NOME'];
+                       $TecnicoID [] =  $FUNC['ID'];
+                       $TecnicoQTD = count($TecnicoNome);
+                      endforeach;
+                    endif;
+
+    //TRANSFORMA O ARRAY DE TÉCNICOS EM STRING
+    $NomeTecnico = implode("','",$TecnicoNome);
+
+    break;
+    case 'relatorio_padrao_orcamentos';
+    break;
+  endswitch;
+endif;
+
+
 
