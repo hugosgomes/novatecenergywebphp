@@ -22,6 +22,21 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
 
 ?>
 
+<style>
+  table {
+    font-family: arial, sans-serif;
+    font-size: 14px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    text-align: left;
+    padding: 2px;
+}
+
+</style>
+
 <header class="dashboard_header">
     
     <div class="dashboard_header_title">
@@ -77,11 +92,13 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
             ?>
                 <div class="box box100 ">
                     <div class="box_content">
-                      <ul>
-                        <li style="text-align:center;font-size: 16px;display:inline-block;margin-right: 15px"><b>Atendimentos: 100</b></li>
-                        <li style="text-align:center;font-size: 16px;display:inline-block;margin-right: 15px"><b>Aprovados: 81</b></li>
-                        <li style="text-align:center;font-size: 16px;display:inline-block;margin-right: 15px"><b>Reprovados: 34</b></li>
-                      </ul>
+                      <table style="max-width: 450px;margin: auto;">
+                        <tr>
+                          <td><b>Atendimentos: 100</b></td>
+                          <td><b>Aprovados: 81</b></td>
+                          <td><b>Reprovados: 34</b></td>
+                        </tr>
+                      </table>
                     </div>
                 </div>
             <div style="height:50px"></div>
@@ -93,13 +110,20 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
               <div id="jwc_chart_container_orcamentos"></div>
                 <div class="box box100">
                     <div class="box_content">
-                      <ul style="margin:auto;max-width:40px;">
-                        <li  style="text-align:center;font-size: 16px;"><b>Total: 100</b></li>
-                        <li  style="text-align:center;font-size: 16px;"><b>Aprovados: 40</b></li>
-                        <li  style="text-align:center;font-size: 16px;"><b>Recuperados: 10</b></li>
-                        <li  style="text-align:center;font-size: 16px;"><b>Executados: 30</b></li>
-                        <li  style="text-align:center;font-size: 16px;"><b>Recusados: 20</b></li>
-                      </ul>
+                      <table style="max-width: 320px;margin: auto;">
+                        <tr>
+                          <td><b>Total: 100</b></td>
+                          <td><b>Aprovados: 40</b></td>
+                        </tr>
+                        <tr>
+                          <td><b>Recuperados: 10</b></td>
+                          <td><b>Executados: 30</b></td>
+                        </tr>
+                        <tr>
+                          <td><b>Recusados: 20</b></td>
+                          <td></td>
+                        </tr>
+                      </table>
                     </div>
                 </div>
             </div>
@@ -111,11 +135,16 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
               <div id="jwc_chart_container_orcamentos_aprovados"></div>
               <div class="box box100">
                   <div class="box_content">
-                    <ul>
-                      <li  style="text-align:center;font-size: 16px;"><b>Executados: 40</b></li>
-                      <li  style="text-align:center;font-size: 16px;"><b>Agendados: 20</b></li>
-                      <li  style="text-align:center;font-size: 16px;"><b>Recusados: 10</b></li>
-                    </ul>
+                    <table style="max-width: 300px;margin: auto;">
+                      <tr>
+                        <td><b>Executados: 40</b></td>
+                        <td><b>Agendados: 20</b></td>
+                      </tr>
+                      <tr>
+                        <td><b>Recusados: 10</b></td>
+                        <td></td>
+                      </tr>
+                    </table>
                   </div>
               </div>
             </div>
@@ -128,15 +157,24 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
               <div id="jwc_chart_container_clientes"></div>
                 <div class="box box100">
                     <div class="box_content">
-                      <ul>
-                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Total Clientes: 100</b></li>
-                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Atendidos: 30</b></li>
-                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Cancelados: 10</b></li>
-                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Ausentes: 20</b></li>
-                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Reagendamentos NVT: 20</b></li>
-                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Reagendamentos GNS: 10</b></li>
-                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Sem Atender: 10</b></li>
-                      </ul>
+                      <table style="max-width: 450px;margin: auto;">
+                        <tr>
+                          <td><b>Total Clientes: 100</b></td>
+                          <td><b>Atendidos: 30</b></td>
+                        </tr>
+                        <tr>
+                          <td><b>Cancelados: 10</b></td>
+                          <td><b>Ausentes: 20</b></td>
+                        </tr>
+                        <tr>
+                          <td><b>Reagend. NVT: 20</b></td>
+                          <td><b>Reagend. GNS: 10</b></td>
+                        </tr>
+                        <tr>
+                          <td><b>Sem Atender: 10</b></td>
+                        </tr>
+                      </table>
+                      
                     </div>
                 </div>
             </div>
@@ -149,11 +187,13 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
               <div id="jwc_chart_container_servicos"></div>
                <div class="box box100">
                   <div class="box_content">
-                    <ul>
-                      <li style="text-align:center;font-size: 16px;"><b>Total Serviços: 35</b></li>
-                      <li style="text-align:center;font-size: 16px;"><b>Serviços Realizados: 30</b></li>
-                      <li style="text-align:center;font-size: 16px;"><b>Serviços Faturados: 20</b></li>
-                    </ul>
+                    <table style="max-width: 500px;margin: auto;">
+                      <tr>
+                        <td><b>Total Serviços: 35</b></td>
+                        <td><b>Serviços Realizados: 30</b></td>
+                        <td><b>Serviços Faturados: 20</b></td>
+                      </tr>
+                    </table>
                   </div>
               </div>
             </div>
