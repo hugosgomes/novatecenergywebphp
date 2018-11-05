@@ -52,13 +52,16 @@ $("#instalacao-defeito").change(function() {
 $('.o_forma_de_pagamento_select').change(function(){
 
   var o_forma_de_pagamento = $(this).val();
-
+  var valor_parcelas;
   if(o_forma_de_pagamento == 0){
     $('#o_quant_parcelas').fadeIn(tempoEvento);
+    $('#valor-parcelas').fadeIn();
   }
   if(o_forma_de_pagamento != 0){
     $('#o_quant_parcelas').fadeOut(tempoEvento);
     $("input[name='O_quant_parcelas']").prop('checked', false);
+    $('#valor-parcelas').fadeOut();
+    $('.valor-parcelas').text('0');
   }
 });
 
@@ -73,12 +76,19 @@ $('.o_aprovado_reprovado').change(function(){
   }
 })
 
+/*
+* CONFERE OS CAMPOS STATUS DO ORÇAMENTO, STATUS DA OS 
+* E FORMA DE PAGAMENTO ANTES DE SUBMETER O FORMULÁRIO
+*/
 $(document).on('mouseenter','#j_btn_salvar',function() {
-    var statusO = $('.o_aprovado_reprovado option:selected').val();
-    var o_os_status = $('.o_os_status option:selected').val();
-    var o_forma_de_pagamento_select = $('#o_forma_de_pagamento_select option:selected').val();
-    var valorTotalOrcamento = $("#valor-total").val();
-    if(statusO == 't' || o_os_status == 't' || o_forma_de_pagamento_select == 't'){
+    statusO = $('.o_aprovado_reprovado option:selected').val();
+    statusOrcamento =$('.o_aprovado_reprovado').val();
+    o_os_status = $('.o_os_status option:selected').val();
+    o_forma_de_pagamento_select = $('#o_forma_de_pagamento_select option:selected').val();
+    valorTotalOrcamento = $("#valor-total").val();
+
+    //SE O STATUS DO ORÇAMENTO FOR APROVADO O USUÁRIO DEVE SELECIONAR O STATUS DA OS
+    if(statusOrcamento == 1 && statusO == 't' || o_forma_de_pagamento_select == 't'){
       alert('Há opções sem selecionar!');
     }
 
@@ -146,8 +156,10 @@ function adicionaLinhaTabela_peca(){
             $('.o_p_total_linhas input').val(totalLinhasP++);
             $('#o_qtd-pecas').val(1);
 
-           //CALCULA E EXIBE O VALOR DO ORÇAMENTO 
+           //CALCULA TOTAL DO ORÇAMENTO APROVADO
            calculaTotalTable();
+           //CALCULA VALOR DAS PARCELAS
+           calculaValorParcelas();
            percorreLinhasP();
         }
 
@@ -239,7 +251,11 @@ function adicionaLinhaTabela_s(){
             $('.o_s_hidden').append(idServico);
             $('.o_s_total_linhas input').val(totalLinhasS++);
             $('#o_qtd_servicos').val(1);
+
+            //CALCULA TOTAL DO ORÇAMENTO APROVADO
             calculaTotalTable();
+            //CALCULA VALOR DAS PARCELAS
+            calculaValorParcelas();
             percorreLinhasS();
 }
       })
@@ -284,12 +300,59 @@ function calculaTotalTable(){
     if(valorTotal == 0){
          $('.valor-total').text(0);
          $('#valor-total').val(0);
+         $('.forma-pagamento').fadeOut();
          //$('#valor-total-reprovado').val(0);
     }else{
         $('.valor-total').text(valorTotal.toFixed(2)/*valorTotalMask*/);
         $('#valor-total').val(valorTotal);
+        //EXIBE FORMA DE PAGAMENTO
+        $('.forma-pagamento').fadeIn();
     }
 }
+
+//CALCULAR VALOR DAS PARCELAS
+function calculaValorParcelas(){
+  var valorTotal = Number.parseFloat($('#valor-total').val());
+  var parcelas = Number.parseFloat($('.o_parcelas:checked').val());
+
+  if(valorTotal > 0 && parcelas > 0){
+    qtdParcelas = Number.parseFloat($('.o_parcelas:checked').val());
+
+    valorParcelas = (valorTotal / qtdParcelas);
+    $('.valor-parcelas').text(valorParcelas.toFixed(2));
+
+    //EXIBE FORMA DE PAGAMENTO
+    $('.forma-pagamento').fadeIn();
+  }
+
+  if(valorTotal == 0 && parcelas > 0){
+    $('.valor-parcelas').text(0);
+    $('#valor-parcelas').fadeOut();
+    $('.o_parcelas').prop('checked', false);
+    $('#o_quant_parcelas').fadeOut();
+    $('.forma-pagamento').fadeOut();
+    $('#o_forma_de_pagamento_select').find('option[value="t"]').prop('selected', true);
+  }
+}
+
+$(document).on('change','.o_parcelas',function(){
+  var valorTotal = Number.parseFloat($('#valor-total').val());
+  var qtdParcelas = Number.parseFloat($(this).val());
+  var valorParcelas = (valorTotal / qtdParcelas);
+  $('.valor-parcelas').text(valorParcelas.toFixed(2));
+})
+
+$(document).on('blur','#o_parcelas-seleciona',function(){
+  var valorTotal = Number.parseFloat($('#valor-total').val());
+  var qtdParcelas = Number.parseFloat($(this).val());
+  var valorParcelas = (valorTotal / qtdParcelas);
+  $('.valor-parcelas').text(valorParcelas.toFixed(2));
+})
+
+//REMOVE O OPTION RECUSADO NO CARREGAMENTO DA PÁGINA
+$(document).ready(function(){
+  $('.o_aprovado_reprovado').find('option[value="3"]').remove();
+})
 
 //GERAR ORÇAMENTO REPROVADO
 function geraOrcamentoReprovado(){
@@ -302,6 +365,7 @@ function geraOrcamentoReprovado(){
 
             valorTotal = 0;
             valorTotalR = 0;
+
             //PERCORRE TODOS OS INPUTS VALOR TOTAL
             $('.valorUnit input').each(function(){
                 linhacheck = $(this).parent().parent().find('.o_ckeck_status_o').prop('checked');
@@ -322,10 +386,17 @@ function geraOrcamentoReprovado(){
             $('#valor-total-reprovado').val(valorTotalRemove.toFixed(2));
             $('.valor-total-r').text(valorTotalRemove.toFixed(2));
 
+            //CALCULA VALOR DAS PARCELAS
+            calculaValorParcelas();
         }else{
             valorTotalAdd = valorTotalRep - valCheck;
             $('#valor-total-reprovado').val(valorTotalAdd.toFixed(2));
             $('.valor-total-r').text(valorTotalAdd.toFixed(2));
+
+            //CALCULA VALOR DAS PARCELAS
+            calculaValorParcelas();
+            //EXIBE FORMA DE PAGAMENTO
+            $('.forma-pagamento').fadeIn();
         }
     })
 
@@ -385,6 +456,7 @@ function removeLinhaTabela(id){
       $(this).parent().parent().remove();
 
       calculaTotalTable();
+      calculaValorParcelas();
 
       //LINHA PEÇAS
       percorreLinhasP();
@@ -496,15 +568,77 @@ function moedaParaNumero(valor)
   return isNaN(valor) == false ? parseFloat(valor) :   Number(valor.replace("R$","").replace(".","").replace(",","."));
 }
 
+//TABELA TERMO DE RESPONSABILIDADE
+$(document).ready(function(){
+  OsExist = $('.t_o_os option:selected').val();
+
+    //DESABILITA TODOS OS CHECKBOX LOCAL
+    $('.o_tr_local').prop('disabled',true);
+
+    //DESABILITA TODOS OS INPUTS
+    $('.t_responsabilidade input[type="text"]').prop('disabled',true).css({'border':'none','background':'transparent'});
+
+  if(OsExist != undefined){
+    $('.t_responsabilidade').css('display','table');
+
+  }
+})
+
+//HABILITA OS CHECKBOX LOCAL QUANDO USUÁRIO CLICAR EM ASSINALAR
+$('.o_tr_assinalar').click(function(){
+  check = $(this).prop('checked');
+  if(check == true){
+    $(this).parent().parent().find('.o_tr_local').prop('disabled',false);
+    $(this).parent().parent().find('input[type="text"]').prop('readonly',true).prop('disabled',false);
+    $(this).parent().parent().find('.o').prop('disabled',false).prop('readonly',false).css({'border':'1px solid #ccc','background':'transparent'}).focus();
+  }else{
+    $(this).parent().parent().find('.o_tr_local').prop('disabled',true).prop('checked',false);
+    $(this).parent().parent().find('input[type="text"]').prop('readonly',false).prop('disabled',true);
+    $(this).parent().parent().find('.o').prop('disabled',true).prop('readonly',false).css({'border':'none','background':'transparent'});;
+  }
+})
+
+//PERMITIR NO MÁXIMO 3 LOCAIS
+m = 1;
+function desabledBox(classe,name){
+  $(classe).on('change', function () {
+      var total = $(classe+':checked').length;
+      if(total == 3){
+       $(classe).each(function(){
+          check = $(this).prop('checked');
+          if(check === false){
+            $(classe).prop('disabled',true);
+            $(classe+':checked').prop('disabled',false);
+          }
+       });
+       $(classe+':checked').each(function(){
+        $(this).attr('name',name+(m++));
+       })
+      }else{
+        $(classe).prop('disabled',false);
+        m = 1;
+      }
+  });
+}
+
 //DISPONIBILIZAR FUNÇÃO DEPOIS QUE O DOCUMENTO FOR CARREGADO
 $(document).ready(function() {
-    adicionaLinhaTabela_peca();
-    adicionaLinhaTabela_s();
-    exibeCheckbox();
-    removeLinhaTabela('o_remove_linha_P');
-    removeLinhaTabela('o_remove_linha_S');
-    tipoDeCliente();
-    geraOrcamentoReprovado();
+  adicionaLinhaTabela_peca();
+  adicionaLinhaTabela_s();
+  exibeCheckbox();
+  removeLinhaTabela('o_remove_linha_P');
+  removeLinhaTabela('o_remove_linha_S');
+  tipoDeCliente();
+  geraOrcamentoReprovado();
+
+  desabledBox('.o_tr_local1','o_vp_superior');
+  desabledBox('.o_tr_local_vp','o_vp_inferior');
+  desabledBox('.o_tr_local_ra','o_ra_adequado');
+  desabledBox('.o_tr_local_c','o_c_adequada');
+  desabledBox('.o_tr_local_tf','o_tf_adequada');
+  desabledBox('.o_tr_local_t','o_t_chamine');
+  desabledBox('.o_tr_local_a','o_a_aberta');
+  desabledBox('.o_tr_local_outr','o_outros');
 });
 
 

@@ -112,12 +112,17 @@
                     <tbody>
                     </tbody>
                 </table>
-                  <div class="box box50">
+                  <div class="box box33">
                     <center><label class="label">
                       <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic">Total Aprovado: R$ <span class="valor-total"><!-- valor total table --></span></p>
                     </label></center>
                   </div>
-                  <div class="box box50">
+                  <div class="box box33">
+                    <center><label class="label">
+                      <p id="valor-parcelas" style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic;display:none">Valor Parcelas: R$ <span class="valor-parcelas">0</span></p>
+                    </label></center>
+                  </div>
+                  <div class="box box33">
                     <center><label class="label">
                       <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic;color: red;">Total Reprovado: R$ <span class="valor-total-r"><!-- valor total table --></span></p>
                     </label></center>
@@ -132,41 +137,40 @@
 
 
             <br/>
+              <div class="box box100">
+                  <div class="box box50 forma-pagamento" id="o_forma_de_pagamento" style="display:none">
+                      <label class="label">
+                        <span class="legend" >Forma de Pagamento</span>
+                        <select id="o_forma_de_pagamento_select" name="o_forma_de_pagamento" class="o_forma_de_pagamento_select"  style="font-family: Arial;font-size: 11px;">
+                          <option disabled selected="selected" value="t">SELECIONAR FORMA DE PAGAMENTO</option>
+                          <?php 
+                          foreach (getFormaPagamento($Transaction = null) as $key => $value) {
+                            echo "<option value='{$key}'>$value</option>";
+                          }
+                          ?>
+                        </select>
+                      </label>
+                  </div>
+                  <div id="o_quant_parcelas" class="box box50" style="display:none">
+                  <span class="legend">Número de Parcelas</span>
+                  <span><input class="o_parcelas" id="o_parcelas-1" type="radio" name="O_quant_parcelas" value="1" style="width:5%" che>A vista</span>
+                  <span><input class="o_parcelas" id="o_parcelas-3" type="radio" name="O_quant_parcelas" value="3" style="width:5%">3 parcelas</span>
+                  <span><input class="o_parcelas" id="o_parcelas-6" type="radio" name="O_quant_parcelas" value="6" style="width:5%">6 parcelas</span>
+                  <span><input class="o_parcelas" id="o_parcelas-12" type="radio" name="O_quant_parcelas" value="12" style="width:5%">12 parcelas</span>
+                  <label>
+                      <span><input class="o_parcelas" id="o_parcelas_maior_12" type="radio" name="O_quant_parcelas" value="13" style="width:5%">Mais parcelas (autorização do supervisor)</span>
 
-                <div class="box box33 status-orcamento">
+                      <input id="o_parcelas-seleciona" type="number" name=""  min="13"  style="display:none;width:5%;height:20px">
+                  </label>
+              </div>
+            </div>
+                <div class="box box50 status-orcamento">
                     <label class="label">
                       <span class="legend" >Status do Orçamento:</span>
                       <select id="" class="o_aprovado_reprovado" name="o_orcamento_status" style="font-family: Arial;font-size: 11px;">
                          <option  selected="selected" value="t">SELECIONAR O STATUS DO ORÇAMENTO</option>
                         <?php 
                         foreach (getStatusOrcamentoGNS($Transaction = null) as $key => $value) {
-                          echo "<option value='{$key}'>$value</option>";
-                        }
-                        ?>
-                      </select>
-                    </label>
-                </div>
-                <div class="box box33 status-os">
-                    <label class="label">
-                      <span class="legend" >Status da OS:</span>
-                      <select id="" class="o_os_status" name="o_os_status" style="font-family: Arial;font-size: 11px;">
-                          <option disabled selected="selected" value="t">SELECIONAR O STATUS DA OS</option>
-                        <?php 
-                        foreach (getNovoStatusOs($Transaction = null) as $key => $value) {
-                          echo "<option value='{$key}'>$value</option>";
-                        }
-                        ?>
-                      </select>
-                    </label>
-                </div>
-
-                <div class="box box33 forma-pagamento" id="o_forma_de_pagamento">
-                    <label class="label">
-                      <span class="legend" >Forma de Pagamento</span>
-                      <select id="o_forma_de_pagamento_select" name="o_forma_de_pagamento" class="o_forma_de_pagamento_select"  style="font-family: Arial;font-size: 11px;">
-                        <option disabled selected="selected" value="t">SELECIONAR FORMA DE PAGAMENTO</option>
-                        <?php 
-                        foreach (getFormaPagamento($Transaction = null) as $key => $value) {
                           echo "<option value='{$key}'>$value</option>";
                         }
                         ?>
@@ -180,18 +184,7 @@
                     </label>
                 </div>
 
-            <div id="o_quant_parcelas" style="display:none">
-                <span class="legend">Número de Parcelas</span>
-                <span><input class="o_parcelas" id="o_parcelas-1" type="radio" name="O_quant_parcelas" value="1" style="width:5%" che>A vista</span>
-                <span><input class="o_parcelas" id="o_parcelas-3" type="radio" name="O_quant_parcelas" value="3" style="width:5%">3 parcelas</span>
-                <span><input class="o_parcelas" id="o_parcelas-6" type="radio" name="O_quant_parcelas" value="6" style="width:5%">6 parcelas</span>
-                <span><input class="o_parcelas" id="o_parcelas-12" type="radio" name="O_quant_parcelas" value="12" style="width:5%">12 parcelas</span>
-                <label>
-                    <span><input class="o_parcelas" id="o_parcelas_maior_12" type="radio" name="O_quant_parcelas" value="13" style="width:5%">Mais parcelas (autorização do supervisor)</span>
-
-                    <input id="o_parcelas-seleciona" type="number" name=""  min="13"  style="display:none;width:5%;height:20px">
-                </label>
-            </div><br/>
+            <br/>
 
             <div class="box box100" id="o_cliente_com_plano" style="">
                 <label class="label">
@@ -204,7 +197,6 @@
                       <input class="formPhone" type="text" name="TelContato" placeholder="Telefone">
                     </div>
                   <br><br>
-                  <span id="j_btn_salvar" name="" class="btn btn_darkblue fl_left icon-share" style="height:35px">Finalizar</span>
                 </label>    
             </div> 
     

@@ -445,17 +445,21 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         //VERIFICA O STATUS DO ORÇAMENTO
         $statusorcamento = $PostData['o_orcamento_status'];
-        $statusOs = $PostData['o_os_status'];
-
         if($statusorcamento == 2){
           $PostData['TecExe'] = $PostData['IdTecnico'];
+
+          //ALTERA O STATUS DA OS NA TABELA 60_OS
+          $statusOs = $PostData['o_os_status'] = 1;
+          $statusOS = ['Status' => $statusOs];
+          $Update->ExeUpdate("[60_OS]",$statusOS, "WHERE OT = :ot", "ot={$PostData['IdOS']}");
         }else{
           $PostData['TecExe'] = NULL;
-        }
 
-        //ALTERA O STATUS DA OS NA TABELA 60_OS
-        $statusOS = ['Status' => $statusOs];
-        $Update->ExeUpdate("[60_OS]",$statusOS, "WHERE OT = :ot", "ot={$PostData['IdOS']}");
+          //ALTERA O STATUS DA OS NA TABELA 60_OS
+          $statusOs = $PostData['o_os_status'];
+          $statusOS = ['Status' => $statusOs];
+          $Update->ExeUpdate("[60_OS]",$statusOS, "WHERE OT = :ot", "ot={$PostData['IdOS']}");
+        }
 
         //SALVAR ORÇAMENTO APROVADO
         $orcamento = array(
@@ -509,6 +513,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
 
             //SE STATUS DO ORÇAMENTO FOR APROVADO GERA UMA LINHA NA TABELA 60_ClientesSemOT
+            $termoR1 = array();
             if($statusorcamento == 1){
               $idOt = NULL;
               $clientesSemOT = array(
@@ -531,8 +536,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             'TecnicoEnt' => $PostData['IdTecnico'],
             'Status' => $statusOrReprovado,
             'Valor' => $PostData['o_valor_total_orcamento_r'],
-            'FormaPagamento' => $PostData['o_forma_de_pagamento'],
-            'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : 1,
+            'FormaPagamento' => $PostData['o_forma_de_pagamento'] = NULL,
+            'NumParcelas' => $PostData['O_quant_parcelas'] = NULL,
         );
 
         if($PostData['o_valor_total_orcamento_r'] > 0){
@@ -574,7 +579,175 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
         }
 
-                
+        $termo1 = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_superior'.$i])){
+            array_push($termo1,$PostData['o_vp_superior'.$i]);
+          }
+        }
+
+        $termoResp1 = array(
+        'IDOs' => $PostData['IdOS'],
+        'Situacao' => isset($PostData['o_vp_superior0']) ? $PostData['o_vp_superior0'] : NULL,
+        'Local1' => isset($termo1[0]) ? $termo1[0] : NULL,
+        'Local2' => isset($termo1[1]) ? $termo1[1] : NULL,
+        'Local3' => isset($termo1[2]) ? $termo1[2] : NULL
+        );
+
+        if(isset($PostData['o_vp_superior0']) != NULL){
+          $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp1);
+        }
+
+        $termo2 = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_inferior'.$i])){
+            array_push($termo2,$PostData['o_vp_inferior'.$i]);
+          }
+        }
+
+        $termoResp2 = array(
+        'IDOs' => $PostData['IdOS'],
+        'Situacao' => isset($PostData['o_vp_inferior0']) ? $PostData['o_vp_inferior0'] : NULL,
+        'Local1' => isset($termo2[0]) ? $termo2[0] : NULL,
+        'Local2' => isset($termo2[1]) ? $termo2[1] : NULL,
+        'Local3' => isset($termo2[2]) ? $termo2[2] : NULL
+        );
+
+        if(isset($PostData['o_vp_inferior0']) != NULL){
+          $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp2);
+        }
+
+
+        $termo3 = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_superior'.$i])){
+            array_push($termo3,$PostData['o_vp_superior'.$i]);
+          }
+        }
+
+        $termoResp3 = array(
+        'IDOs' => $PostData['IdOS'],
+        'Situacao' => isset($PostData['o_ra_adequado0']) ? $PostData['o_ra_adequado0'] : NULL,
+        'Local1' => isset($termo3[0]) ? $termo3[0] : NULL,
+        'Local2' => isset($termo3[1]) ? $termo3[1] : NULL,
+        'Local3' => isset($termo3[2]) ? $termo3[2] : NULL
+        );
+
+        if(isset($PostData['o_ra_adequado0']) != NULL){
+          $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp3);
+        }
+
+        $termo4 = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_superior'.$i])){
+            array_push($termo4,$PostData['o_vp_superior'.$i]);
+          }
+        }
+
+        $termoResp4 = array(
+        'IDOs' => $PostData['IdOS'],
+        'Situacao' => isset($PostData['o_c_adequada0']) ? $PostData['o_c_adequada0'] : NULL,
+        'Local1' => isset($termo4[0]) ? $termo4[0] : NULL,
+        'Local2' => isset($termo4[1]) ? $termo4[1] : NULL,
+        'Local3' => isset($termo4[2]) ? $termo4[2] : NULL
+        );
+
+        if(isset($PostData['o_c_adequada0']) != NULL){
+          $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp4);
+        }
+
+        $termo5 = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_superior'.$i])){
+            array_push($termo5,$PostData['o_vp_superior'.$i]);
+          }
+        }
+
+        $termoResp5 = array(
+        'IDOs' => $PostData['IdOS'],
+        'Situacao' => isset($PostData['o_tf_adequada0']) ? $PostData['o_tf_adequada0'] : NULL,
+        'Local1' => isset($termo5[0]) ? $termo5[0] : NULL,
+        'Local2' => isset($termo5[1]) ? $termo5[1] : NULL,
+        'Local3' => isset($termo5[2]) ? $termo5[2] : NULL
+        );
+
+        if(isset($PostData['o_tf_adequada0']) != NULL){
+          $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp5);
+        }
+
+        $termo6 = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_superior'.$i])){
+            array_push($termo6,$PostData['o_vp_superior'.$i]);
+          }
+        }
+
+        $termoResp6 = array(
+        'IDOs' => $PostData['IdOS'],
+        'Situacao' => isset($PostData['o_t_chamine0']) ? $PostData['o_t_chamine0'] : NULL,
+        'Local1' => isset($termo6[0]) ? $termo6[0] : NULL,
+        'Local2' => isset($termo6[1]) ? $termo6[1] : NULL,
+        'Local3' => isset($termo6[2]) ? $termo6[2] : NULL
+        );
+
+        if(isset($PostData['o_t_chamine0']) != NULL){
+          $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp6);
+        }
+
+        $termo7 = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_superior'.$i])){
+            array_push($termo7,$PostData['o_vp_superior'.$i]);
+          }
+        }
+
+        $termoResp7 = array(
+        'IDOs' => $PostData['IdOS'],
+        'Situacao' => isset($PostData['o_a_aberta0']) ? $PostData['o_a_aberta0'] : NULL,
+        'Local1' => isset($termo7[0]) ? $termo7[0] : NULL,
+        'Local2' => isset($termo7[1]) ? $termo7[1] : NULL,
+        'Local3' => isset($termo7[2]) ? $termo7[2] : NULL,
+        );
+
+        if(isset($PostData['o_a_aberta0']) != NULL){
+          $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp7);
+        }
+
+        $termo8 = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_superior'.$i])){
+            array_push($termo8,$PostData['o_vp_superior'.$i]);
+          }
+        }
+
+         $termoResp8 = array(
+        'IDOs' => $PostData['IdOS'],
+        'Situacao' => isset($PostData['o_outros0']) ? $PostData['o_outros0'] : NULL,
+        'Local1' => isset($termo8[0]) ? $termo8[0] : NULL,
+        'Local2' => isset($termo8[1]) ? $termo8[1] : NULL,
+        'Local3' => isset($termo8[2]) ? $termo8[2] : NULL
+        );
+
+        if(isset($PostData['o_outros0']) != NULL){
+          $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp8);
+        }
+
+        /*$termo = [];
+
+        for($i = 1; $i <= 6; $i++){
+          if(isset($PostData['o_vp_superior'.$i])){
+            array_push($termo,$PostData['o_vp_superior'.$i]);
+          }
+        }*/
+
                 break;    
               endswitch;
 

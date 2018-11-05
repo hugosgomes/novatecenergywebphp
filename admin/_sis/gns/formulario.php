@@ -98,9 +98,8 @@ tr:nth-child(even) {
 <header class="dashboard_header">
     <div class="dashboard_header_title">
         <p class="dashboard_header_breadcrumbs">
-            &raquo; <?= ADMIN_NAME; ?>
-            <span class="crumb">/</span>
-            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=gns/historico">Histórico de Clientes</a>
+            &raquo;
+            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
             Orçamento
         </p>
@@ -158,8 +157,8 @@ tr:nth-child(even) {
            <div class="box_conf_menu" style="font-size: 15px;">
                <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Informações Gerais do Cliente</a>
                <!--<a class='conf_menu wc_tab' href='#defeitos'>Defeitos</a>-->
-               <a class='conf_menu wc_tab' href='#observacoes'>Observações</a>
                <a class='conf_menu wc_tab' href='#orcamento'>Orçamentos</a>
+               <a class='conf_menu wc_tab' href='#observacoes'>Observações</a>
            </div>
        </div>
    </div>
