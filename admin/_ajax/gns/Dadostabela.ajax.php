@@ -56,7 +56,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     //SALVANDO O ATENDIMENTO
     $atendimento = array(
-
       'idOS' => $PostData['IdOS'],
       'idTecnico' => $PostData['IdTecnico'],
       'Status' => 1,
@@ -68,7 +67,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       'NumOcorrencia' => isset($PostData['t_num_ocorrencia']) ? $PostData['t_num_ocorrencia'] : NULL,
       'Defeito' => isset($PostData['t_2status']) ? $PostData['t_2status'] : NULL,
       'DataAtendimento' => $Data->format('Ymd H:i:s'),
+      'DataSaida' => isset($PostData['dataSaida']) ? $PostData['dataSaida'] : NULL,
+      'Gas' => isset($PostData['t_inf_gas']) ? $PostData['t_inf_gas'] : NULL,
+      'Ramificacao' => isset($PostData['t_inf_ramif']) ? $PostData['t_inf_ramif'] : NULL,
+      'Diametro' => isset($PostData['t_inf_diametro']) ? $PostData['t_inf_diametro'] : NULL,
+      'Material' => isset($PostData['t_inf_material']) ? $PostData['t_inf_material'] : NULL,
+      'Pressao' => isset($PostData['t_inf_pressao']) ? $PostData['t_inf_pressao'] : NULL,
       'NomeContato' => isset($PostData['NomeContato'])?$PostData['NomeContato'] : NULL,
+      'Latitude' => isset($PostData['Latitude']) ? $PostData['Latitude'] : NULL,
+      'Longitude' => isset($PostData['Longitude']) ? $PostData['Longitude'] : NULL,
       'TelefoneContato' => isset($PostData['TelContato']) ? $PostData['TelContato'] : NULL,
       'Obs' => isset($PostData['Obs']) ? $PostData['Obs'] : NULL 
     );

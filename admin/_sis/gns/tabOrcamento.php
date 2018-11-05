@@ -143,17 +143,13 @@
                         <span class="legend" >Forma de Pagamento</span>
                         <select id="o_forma_de_pagamento_select" name="o_forma_de_pagamento" class="o_forma_de_pagamento_select"  style="font-family: Arial;font-size: 11px;">
                           <option disabled selected="selected" value="t">SELECIONAR FORMA DE PAGAMENTO</option>
-                          <?php 
-                          foreach (getFormaPagamento($Transaction = null) as $key => $value) {
-                            echo "<option value='{$key}'>$value</option>";
-                          }
-                          ?>
+                          <option value="0">À VISTA</option>
+                          <option value="1">PARCELADO</option>
                         </select>
                       </label>
                   </div>
                   <div id="o_quant_parcelas" class="box box50" style="display:none">
                   <span class="legend">Número de Parcelas</span>
-                  <span><input class="o_parcelas" id="o_parcelas-1" type="radio" name="O_quant_parcelas" value="1" style="width:5%" che>A vista</span>
                   <span><input class="o_parcelas" id="o_parcelas-3" type="radio" name="O_quant_parcelas" value="3" style="width:5%">3 parcelas</span>
                   <span><input class="o_parcelas" id="o_parcelas-6" type="radio" name="O_quant_parcelas" value="6" style="width:5%">6 parcelas</span>
                   <span><input class="o_parcelas" id="o_parcelas-12" type="radio" name="O_quant_parcelas" value="12" style="width:5%">12 parcelas</span>

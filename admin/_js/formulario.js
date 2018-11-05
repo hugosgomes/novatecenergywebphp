@@ -53,11 +53,11 @@ $('.o_forma_de_pagamento_select').change(function(){
 
   var o_forma_de_pagamento = $(this).val();
   var valor_parcelas;
-  if(o_forma_de_pagamento == 0){
+  if(o_forma_de_pagamento == 1){
     $('#o_quant_parcelas').fadeIn(tempoEvento);
     $('#valor-parcelas').fadeIn();
   }
-  if(o_forma_de_pagamento != 0){
+  if(o_forma_de_pagamento != 1){
     $('#o_quant_parcelas').fadeOut(tempoEvento);
     $("input[name='O_quant_parcelas']").prop('checked', false);
     $('#valor-parcelas').fadeOut();
@@ -597,6 +597,27 @@ $('.o_tr_assinalar').click(function(){
     $(this).parent().parent().find('.o').prop('disabled',true).prop('readonly',false).css({'border':'none','background':'transparent'});;
   }
 })
+
+//DATEPICKER DATA E HORA
+$(function() {
+  $('.dataSaida').datepicker({
+        dateFormat: 'yy-dd-mm',
+        onSelect: function(datetext){
+            var d = new Date(); // for now
+            var h = d.getHours();
+            h = (h < 10) ? ("0" + h) : h ;
+
+            var m = d.getMinutes();
+            m = (m < 10) ? ("0" + m) : m ;
+
+            var s = d.getSeconds();
+            s = (s < 10) ? ("0" + s) : s ;
+
+            datetext = datetext + " " + h + ":" + m + ":" + s;
+            $('.dataSaida').val(datetext);
+        },
+    });
+});
 
 //PERMITIR NO MÁXIMO 3 LOCAIS
 m = 1;

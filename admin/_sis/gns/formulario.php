@@ -17,6 +17,8 @@ endif;
 $IdOS = filter_input(INPUT_GET, 'IdOS', FILTER_VALIDATE_INT);
 $IdTecnico = filter_input(INPUT_GET, 'IdTecnico', FILTER_VALIDATE_INT);
 $IdDoCliente = filter_input(INPUT_GET, 'IdDoCliente', FILTER_VALIDATE_INT);
+$Longitude = filter_input(INPUT_GET, 'Longitude', FILTER_DEFAULT);
+$Latitude = filter_input(INPUT_GET, 'Latitude', FILTER_DEFAULT);
 
 
 
@@ -119,6 +121,8 @@ tr:nth-child(even) {
           echo "<input type='hidden' name='IdOS' value='{$IdOS}'>";
           echo "<input type='hidden' name='IdTecnico' value='{$IdTecnico}'>";
           echo "<input type='hidden' name='IdDoCliente' value='{$IdDoCliente}' >";
+          echo "<input type='hidden' name='Latitude' value='{$Latitude}' >";
+          echo "<input type='hidden' name='Longitude' value='{$Longitude}' >";
         ?>
         <input type="hidden" name="callback" value="Dadostabela"/>
                             <input type="hidden" name="callback_action" value="dados_formulario"/>
