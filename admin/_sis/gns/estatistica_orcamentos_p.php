@@ -29,7 +29,7 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
             &raquo;</span>
             <a title="Novatec Energy" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
-            Estatisticas Orçamentos
+            Estatisticas
         </p>
     </div>
 </header>
@@ -61,213 +61,6 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
                   <option value="11" id="meses">NOVEMBRO</option>
                   <option value="12" id="meses">DEZEMBRO</option>
                 </select>
-            </div>
-            <div id="jwc_chart_container_tecnicos"></div>
-            <?php
-            $totalAtendimentos = 4;//$totalAtendimento;//atendimentos
-            $viewViews = 200;
-            $viewsPages = 200;
-            ?>
-            <div class="wc_ead_reports_boxes">
-                <div class="box box33 wc_ead_reports_total">
-                    <div class="box_content">
-                        <p class="icon-home">100</p>
-                        <span>Atendimentos</span>
-                    </div>
-                </div>
-                <div class="box box33 wc_ead_reports_total">
-                    <div class="box_content">
-                        <p class="icon-checkmark">81</p>
-                        <span>Aprovados</span>
-                    </div>
-                </div>
-                <div class="box box33 wc_ead_reports_total">
-                    <div class="box_content">
-                        <p class="icon-cancel-circle">34</p>
-                        <span>Reprovados</span>
-                    </div>
-                </div>
-            </div>
-            <div style="height:50px"></div>
-
-            <!-- Gráfico de orçamentos -->
-            <div class="box box50">
-              <div class="wc_ead_chart_control">
-                <select id="j_ano_o" style="width: 110px;">
-                  <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
-                  <option value="t">TODOS OS ANOS</option>
-                </select>
-                <select id="j_mes_o" style="width: 140px;">     
-                  <option value="t" id="meses">TODOS OS MESES</option>
-                  <option value="01" id="meses">JANEIRO</option>
-                  <option value="02" id="meses">FEVEREIRO</option>
-                  <option value="03" id="meses">MARÇO</option>
-                  <option value="04" id="meses">ABRIL</option>
-                  <option value="05" id="meses">MAIO</option>
-                  <option value="06" id="meses">JUNHO</option>
-                  <option value="07" id="meses">JULHO</option>
-                  <option value="08" id="meses">AGOSTO</option>
-                  <option value="09" id="meses">SETEMBRO</option>
-                  <option value="10" id="meses">OUTUBRO</option>
-                  <option value="11" id="meses">NOVEMBRO</option>
-                  <option value="12" id="meses">DEZEMBRO</option>
-                </select>
-            </div>
-              <div id="jwc_chart_container_orcamentos"></div>
-              <div class="wc_ead_reports_boxes">
-                  <div class="box box50 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-checkmark">40</p>
-                          <span>Aprovados</span>
-                      </div>
-                  </div>
-                  <div class="box box50 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-undo2">10</p>
-                          <span>Recuperados</span>
-                      </div>
-                  </div>
-                  <div class="box box50 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class=" icon-checkmark">30</p>
-                          <span>Executados</span>
-                      </div>
-                  </div>
-                  <div class="box box50 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-cancel-circle">20</p>
-                          <span>Recusados</span>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-            <!-- Gráfico de clientes -->
-            <div class="box box50">
-              <div class="wc_ead_chart_control">
-                <select id="j_ano_c" style="width: 110px;">
-                  <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
-                  <option value="t">TODOS OS ANOS</option>
-                </select>
-                <select id="j_mes_c" style="width: 140px;">     
-                  <option value="t" id="meses">TODOS OS MESES</option>
-                  <option value="01" id="meses">JANEIRO</option>
-                  <option value="02" id="meses">FEVEREIRO</option>
-                  <option value="03" id="meses">MARÇO</option>
-                  <option value="04" id="meses">ABRIL</option>
-                  <option value="05" id="meses">MAIO</option>
-                  <option value="06" id="meses">JUNHO</option>
-                  <option value="07" id="meses">JULHO</option>
-                  <option value="08" id="meses">AGOSTO</option>
-                  <option value="09" id="meses">SETEMBRO</option>
-                  <option value="10" id="meses">OUTUBRO</option>
-                  <option value="11" id="meses">NOVEMBRO</option>
-                  <option value="12" id="meses">DEZEMBRO</option>
-                </select>
-            </div>
-              <div id="jwc_chart_container_clientes"></div>
-              <div class="wc_ead_reports_boxes">
-                  <div class="box box33 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-checkmark">30</p>
-                          <span>Atendidos</span>
-                      </div>
-                  </div>
-                  <div class="box box33 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-cancel-circle">10</p>
-                          <span>Cancelados</span>
-                      </div>
-                  </div>
-                  <div class="box box33 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-undo2">20</p>
-                          <span>Ausentes</span>
-                      </div>
-                  </div>
-                  <div class="box box33 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-calendar">20</p>
-                          <span>Reagendamento NVT</span>
-                      </div>
-                  </div>
-                  <div class="box box33 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-calendar">10</p>
-                          <span>Reagendamento GNS</span>
-                      </div>
-                  </div>
-                  <div class="box box33 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-checkmark">10</p>
-                          <span>Sem Atender</span>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-            <!-- Gráfico de serviços -->
-            <div class="box box100">
-              <div class="wc_ead_chart_control">
-                <select id="j_ano_s" style="width: 110px;">
-                  <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
-                  <option value="t">TODOS OS ANOS</option>
-                </select>
-                <select id="j_mes_s" style="width: 140px;">     
-                  <option value="t" id="meses">TODOS OS MESES</option>
-                  <option value="01" id="meses">JANEIRO</option>
-                  <option value="02" id="meses">FEVEREIRO</option>
-                  <option value="03" id="meses">MARÇO</option>
-                  <option value="04" id="meses">ABRIL</option>
-                  <option value="05" id="meses">MAIO</option>
-                  <option value="06" id="meses">JUNHO</option>
-                  <option value="07" id="meses">JULHO</option>
-                  <option value="08" id="meses">AGOSTO</option>
-                  <option value="09" id="meses">SETEMBRO</option>
-                  <option value="10" id="meses">OUTUBRO</option>
-                  <option value="11" id="meses">NOVEMBRO</option>
-                  <option value="12" id="meses">DEZEMBRO</option>
-                </select>
-            </div>
-              <div id="jwc_chart_container_servicos"></div>
-              <div class="wc_ead_reports_boxes">
-                  <div class="box box50 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-checkmark">303</p>
-                          <span>Serviços Realizados</span>
-                      </div>
-                  </div>
-                  <div class="box box50 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-credit-card">255</p>
-                          <span>Serviços Faturados</span>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-            <!-- Gráfico de serviços -->
-            <div class="box box100">
-              <div class="wc_ead_chart_control">
-                <select id="j_ano_s" style="width: 110px;">
-                  <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
-                  <option value="t">TODOS OS ANOS</option>
-                </select>
-                <select id="j_mes_s" style="width: 140px;">     
-                  <option value="t" id="meses">TODOS OS MESES</option>
-                  <option value="01" id="meses">JANEIRO</option>
-                  <option value="02" id="meses">FEVEREIRO</option>
-                  <option value="03" id="meses">MARÇO</option>
-                  <option value="04" id="meses">ABRIL</option>
-                  <option value="05" id="meses">MAIO</option>
-                  <option value="06" id="meses">JUNHO</option>
-                  <option value="07" id="meses">JULHO</option>
-                  <option value="08" id="meses">AGOSTO</option>
-                  <option value="09" id="meses">SETEMBRO</option>
-                  <option value="10" id="meses">OUTUBRO</option>
-                  <option value="11" id="meses">NOVEMBRO</option>
-                  <option value="12" id="meses">DEZEMBRO</option>
-                </select>
                 <select id="j_semana_s" style="width: 150px;">
                   <option value="t">TODAS AS SEMANAS</option>
                   <option value="t">1º SEMANA</option>
@@ -276,21 +69,101 @@ $DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
                   <option value="t">4º SEMANA</option>
                 </select>
             </div>
-              <div id="jwc_chart_container_servicos_s"></div>
-              <div class="wc_ead_reports_boxes">
-                  <div class="box box50 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-checkmark">303</p>
-                          <span>Serviços Realizados</span>
-                      </div>
-                  </div>
-                  <div class="box box50 wc_ead_reports_total">
-                      <div class="box_content">
-                          <p class="icon-credit-card">255</p>
-                          <span>Serviços Faturados</span>
-                      </div>
+            <div id="jwc_chart_container_tecnicos"></div>
+            <?php
+            $totalAtendimentos = 4;//$totalAtendimento;//atendimentos
+            $viewViews = 200;
+            $viewsPages = 200;
+            ?>
+                <div class="box box100 ">
+                    <div class="box_content">
+                      <ul>
+                        <li style="text-align:center;font-size: 16px;display:inline-block;margin-right: 15px"><b>Atendimentos: 100</b></li>
+                        <li style="text-align:center;font-size: 16px;display:inline-block;margin-right: 15px"><b>Aprovados: 81</b></li>
+                        <li style="text-align:center;font-size: 16px;display:inline-block;margin-right: 15px"><b>Reprovados: 34</b></li>
+                      </ul>
+                    </div>
+                </div>
+            <div style="height:50px"></div>
+
+            <!-- Gráfico de orçamentos -->
+            <div class="box box33">
+              <div class="wc_ead_chart_control">
+            </div>
+              <div id="jwc_chart_container_orcamentos"></div>
+                <div class="box box100">
+                    <div class="box_content">
+                      <ul style="margin:auto;max-width:40px;">
+                        <li  style="text-align:center;font-size: 16px;"><b>Total: 100</b></li>
+                        <li  style="text-align:center;font-size: 16px;"><b>Aprovados: 40</b></li>
+                        <li  style="text-align:center;font-size: 16px;"><b>Recuperados: 10</b></li>
+                        <li  style="text-align:center;font-size: 16px;"><b>Executados: 30</b></li>
+                        <li  style="text-align:center;font-size: 16px;"><b>Recusados: 20</b></li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de orçamentos aprovados -->
+            <div class="box box33">
+              <div class="wc_ead_chart_control">
+            </div>
+              <div id="jwc_chart_container_orcamentos_aprovados"></div>
+              <div class="box box100">
+                  <div class="box_content">
+                    <ul>
+                      <li  style="text-align:center;font-size: 16px;"><b>Executados: 40</b></li>
+                      <li  style="text-align:center;font-size: 16px;"><b>Agendados: 20</b></li>
+                      <li  style="text-align:center;font-size: 16px;"><b>Recusados: 10</b></li>
+                    </ul>
                   </div>
               </div>
+            </div>
+
+            <!-- Gráfico de clientes -->
+            <div class="box box33">
+            <div class="wc_ead_chart_control">
+                
+            </div>
+              <div id="jwc_chart_container_clientes"></div>
+                <div class="box box100">
+                    <div class="box_content">
+                      <ul>
+                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Total Clientes: 100</b></li>
+                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Atendidos: 30</b></li>
+                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Cancelados: 10</b></li>
+                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Ausentes: 20</b></li>
+                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Reagendamentos NVT: 20</b></li>
+                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Reagendamentos GNS: 10</b></li>
+                        <li  style="text-align:center;font-size: 16px;margin-left:10%"><b>Sem Atender: 10</b></li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de serviços -->
+            <div class="box box100">
+              <div class="wc_ead_chart_control">
+                
+            </div>
+              <div id="jwc_chart_container_servicos"></div>
+               <div class="box box100">
+                  <div class="box_content">
+                    <ul>
+                      <li style="text-align:center;font-size: 16px;"><b>Total Serviços: 35</b></li>
+                      <li style="text-align:center;font-size: 16px;"><b>Serviços Realizados: 30</b></li>
+                      <li style="text-align:center;font-size: 16px;"><b>Serviços Faturados: 20</b></li>
+                    </ul>
+                  </div>
+              </div>
+            </div>
+
+            <!-- Gráfico de serviços -->
+            <div class="box box100">
+              <div class="wc_ead_chart_control">
+                
+            </div>
+              <div id="jwc_chart_container_servicos_s"></div>
             </div>
             <footer class="wc_ead_reports">
             </footer>
