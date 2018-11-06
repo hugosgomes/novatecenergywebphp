@@ -3,23 +3,6 @@ if (!$DashboardLogin || !$_SESSION['userLogin'] || ($Permissao['DIRETORIA'] == 0
     die('<div style="text-align: center; margin: 5% 0; color: #C54550; font-size: 1.6em; font-weight: 400; background: #fff; float: left; width: 100%; padding: 30px 0;"><b>ACESSO NEGADO:</b> Você não esta logado<br>ou não tem permissão para acessar essa página!</div>');
 endif;
 
-// AUTO INSTANCE OBJECT READ
-if (empty($Read)):
-    $Read = new Read;
-endif;
-
-$Search = filter_input_array(INPUT_POST);
-
-//GET DATES
-$StartDate = (!empty($_SESSION['wc_report_date'][0]) ? $_SESSION['wc_report_date'][0] : date("Y-01-01"));//RECEBE DATA INICIAL
-$EndDate = (!empty($_SESSION['wc_report_date'][1]) ? $_SESSION['wc_report_date'][1] : date("Y-12-31"));//RECEBE DATA FINAL
-
-//DEFAULT REPORT
-$DateStart = new DateTime($StartDate);
-$DateEnd = new DateTime(date("Y-m-d", strtotime($EndDate . "+1day")));
-$DateInt = new DateInterval("P22D");
-$DateInterval = new DatePeriod($DateStart, $DateInt, $DateEnd);
-
 ?>
 
 <style>
@@ -85,11 +68,6 @@ td, th {
                 </select>
             </div>
             <div id="jwc_chart_container_tecnicos"></div>
-            <?php
-            $totalAtendimentos = 4;//$totalAtendimento;//atendimentos
-            $viewViews = 200;
-            $viewsPages = 200;
-            ?>
                 <div class="box box100 ">
                     <div class="box_content">
                       <table style="max-width: 450px;margin: auto;">
@@ -211,73 +189,9 @@ td, th {
     </article>
 </div>
 
-<?php
-//TRÁS TODOS OS TÉCNICOS 
-/*$TecnicoNome = array();
-$TecnicoID = array();
-$TecnicoTotal = array();
-$Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
-                FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
-                LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
-                WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL ORDER BY NOME"," ");
-                if ($Read->getResult()):
-                  foreach ($Read->getResult() as $FUNC):
-                   $TecnicoNome [] = $FUNC['NOME'];
-                   $TecnicoID [] =  $FUNC['ID'];
-                   $TecnicoQTD = count($TecnicoNome);
-                  endforeach;
-                endif;
-
-//TRANSFORMA O ARRAY DE TÉCNICOS EM STRING
-$NomeTecnico = implode("','",$TecnicoNome);
-
-$getDayChart = array();
-$getSupportChart = array();
-$getResponseChart = array();
-$Id = 0;
-$f = 1;
-foreach ($DateInterval as $setDayChart):
-    $MesAtualI = date('Y-m-01');
-   // $dataInicioMais1 = date('Y-m-d',strtotime($datainicio.'+'.$i++.' month'));
-    $MesAtualF = date('Y-m-31');
-   // $dataFimMais1 = date('Y-m-d',strtotime($dataFim.'+'.$f++.' month'));
-    
-    //GET DAYS
-    $getDayChart[] = "'" . $setDayChart->format('m/Y') . "'";
-
-    //GET DAY FOR READ
-    $ReadDay = $setDayChart->format('Y-m');
-    $Read->FullRead("SELECT count(Id) AS TOTAL from [BDNVT].[dbo].[60_Atendimentos] WHERE CONVERT(DATE, [DataAtendimento]) BETWEEN '{$MesAtualI}' AND '{$MesAtualF}' AND [idTecnico] = {$TecnicoID[$Id++]}");
-     if($Read->getResult()){
-        foreach ($Read->getResult() as $atendimentos) {
-            extract($atendimentos);
-            $totalAtendimento = $TOTAL;
-        }
-     }else{
-        $totalAtendimento = 0;
-     }
-    //GET STATS
-    $getAccessUsers[] = (200 ? 20 : 0);//TOTAL DE ORÇAMENTOS APROVADOS
-    $getAtendimentos[] = ($totalAtendimento ? $totalAtendimento : 0);//TOTAL DE ATENDIMENTOS 
-    $getAccessPages[] = (200 ? 60 : 0);//TOTAL DE ORÇAMENTOS REPROVADOS
-endforeach;
-
-$DaysChart = implode(", ", $getDayChart);
-$AccessUsers = implode(", ", $getAccessUsers);
-$AtendTec = implode(", ", $getAtendimentos);
-$AccessPages = implode(", ", $getAccessPages);
-
-unset($_SESSION['wc_report_date']);*/
-
-?>
-
-<script src="_js/relatorios_estatisticas_p.js"></script>
-<script src="_js/report_gns.js"></script>
+<script src="_js/estatisticas.js"></script>
 <script>
-  $(document).ready(iniciaPagina('#j_ano_t','j_mes_t'));
-  $(document).ready(iniciaPagina('#j_ano_o','j_mes_o'));
-  $(document).ready(iniciaPagina('#j_ano_c','j_mes_c'));
-  $(document).ready(iniciaPagina('#j_ano_s','j_mes_s'));
+  $(document).ready(iniciaPagina());
 
   //REQUISIÇÃO AJAX DEFAULT PARA TÉCNICOS
   $(document).ready(function(){
@@ -290,6 +204,5 @@ unset($_SESSION['wc_report_date']);*/
       type : 'post',
       data:{callback:callback,callback_action:callback_action,/*mes_t:campoMes*/}
     })
-
   })
 </script>
