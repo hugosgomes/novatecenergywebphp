@@ -5,8 +5,6 @@ $(document).ready(function(){
 
 $('#j_ano_t').change(atualiza);
 
-var tecnicos = ['Teste','Teste2'];
-
 function atualiza(){
 
   var Callback = $("input[name='callback']").val();
@@ -14,13 +12,22 @@ function atualiza(){
 
   $.post('_ajax/gns/'+Callback+'.ajax.php',{ano: ano, callback: Callback},function(data){
     
-    if(data.Tecnicos){
-      tecnicos = data.Tecnicos;
+    if(data){
+      carregaGraficos(data);
     }    
 
-  }, 'json');
+  }, 'json');  
 
-  alert(tecnicos);
+}
+
+
+function carregaGraficos(data){
+
+  data.Atendimentos.forEach(function(element, index, array){
+    data.Atendimentos[index] = parseInt(data.Atendimentos[index]);
+    data.Aprovados[index] = parseInt(data.Aprovados[index]);
+    data.Reprovados[index] = parseInt(data.Reprovados[index]);
+  });
 
   //ESTATÍSTICAS TÉCNICOS
   var wc_chart = Highcharts.chart('jwc_chart_container_tecnicos', {
@@ -61,25 +68,25 @@ function atualiza(){
     }
   },
   xAxis: {
-    categories: tecnicos,//NOME DO TÉCNICO ABAIXO DO GRÁFICO  
+    categories: data.Tecnicos,//NOME DO TÉCNICO ABAIXO DO GRÁFICO  
     minTickInterval: 1 //SPAÇO ENTRE AS DATAS EXIBIDAS ABAIXO DO GRÁFICO
   },
   series: [
   {
   name: 'Atendimentos',
-      data: [20,15,30,15,20,15,10],//EXIBE QTD DE ATENDIMENTOS REALIZADOS PELO TÉCNICO
+      data: data.Atendimentos,//EXIBE QTD DE ATENDIMENTOS REALIZADOS PELO TÉCNICO
       color: '#415B76',
       lineColor: '#B25900'
     },
     {
       name: 'Orçamentos Aprovados',
-      data: [15,13,15,10,15,13,10],//EXIBE QTD DE ORÇAMNTOS APROVADOS
+      data: data.Aprovados,//EXIBE QTD DE ORÇAMNTOS APROVADOS
       color: '#579C87',
       lineColor: '#006699'
     },
     {
       name: 'Orçamentos Reprovados',
-      data: [5,2,5,15,5,2,10],//EXIBE QTD DE ORÇAMENTOS REPROVADOS
+      data: data.Reprovados,//EXIBE QTD DE ORÇAMENTOS REPROVADOS
       color: '#F23C50',
       lineColor: '#008068'
     }
@@ -454,8 +461,6 @@ var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
     color: '#415B76'
   }]
 });
-
-
 }
 
 
