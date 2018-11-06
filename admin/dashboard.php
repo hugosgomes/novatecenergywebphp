@@ -207,7 +207,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/historico' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/historico">&raquo; Histórico de Clientes</a></li>  
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/orcamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/orcamentos">&raquo; Orçamentos</a></li>
-                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/estatistica_orcamentos_p' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/estatistica_orcamentos_p">&raquo; Estatísticas</a></li> 
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/estatisticas' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/estatisticas">&raquo; Estatísticas</a></li> 
                     </ul>
                 </li>
                 <?php
