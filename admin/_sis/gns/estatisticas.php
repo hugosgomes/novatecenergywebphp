@@ -17,7 +17,6 @@ td, th {
     text-align: left;
     padding: 2px;
 }
-
 </style>
 
 <header class="dashboard_header">
@@ -38,8 +37,7 @@ td, th {
 
           <!-- Gráfico de técnicos -->
             <div class="wc_ead_chart_control" id="relatorio_tecnicos">
-                <input type="hidden" name="callback" value="ReportTecnicos">
-                <input type="hidden" name="callback_action" value="relatorio_padrao_tecnicos">
+                <input type="hidden" name="callback" value="Estatisticas">
                 <select id="j_ano_t" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
                   <option value="t">TODOS OS ANOS</option>
@@ -190,19 +188,3 @@ td, th {
 </div>
 
 <script src="_js/estatisticas.js"></script>
-<script>
-  $(document).ready(iniciaPagina());
-
-  //REQUISIÇÃO AJAX DEFAULT PARA TÉCNICOS
-  $(document).ready(function(){
-    //campoMes = $('#j_mes_t option:selected').val();
-    callback = $('#relatorio_tecnicos').find('input[name="callback"]').val();
-    callback_action = $('#relatorio_tecnicos').find('input[name="callback_action"]').val();
-
-    $.ajax({
-      url: '_ajax/gns/' + callback + '.ajax.php',
-      type : 'post',
-      data:{callback:callback,callback_action:callback_action,/*mes_t:campoMes*/}
-    })
-  })
-</script>
