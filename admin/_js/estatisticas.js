@@ -454,12 +454,5 @@ $(function() {
   }]
 });
 
+  
 
- function iniciaPagina(){
-  var dataAtual = new Date();
-  $('#j_ano_t').append('<option value='+(dataAtual.getFullYear()-1)+'>' + (dataAtual.getFullYear()-1) + '</option>');
-  $('#j_ano_t').append('<option value='+(dataAtual.getFullYear())+' selected="selected">' + dataAtual.getFullYear() + '</option>');
-  $('#j_ano_t').append('<option value='+(dataAtual.getFullYear()+1)+'>' + (dataAtual.getFullYear()+1) + '</option>');
-
-  document.getElementById('j_mes_t').selectedIndex = dataAtual.getMonth()+1;
-}
