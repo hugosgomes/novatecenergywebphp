@@ -230,6 +230,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home2">&raquo; Grandes Orçamentos</a></li>
 
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/cadastro' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/cadastro">&raquo; Cadastro</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/estatísticas' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/estatisticas">&raquo; Estatísticas</a></li>
                     </ul>
                 </li>
                 <?php
