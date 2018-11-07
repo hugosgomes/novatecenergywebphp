@@ -17,11 +17,16 @@ endif;
 $IdOS = filter_input(INPUT_GET, 'IdOS', FILTER_VALIDATE_INT);
 $IdTecnico = filter_input(INPUT_GET, 'IdTecnico', FILTER_VALIDATE_INT);
 $IdDoCliente = filter_input(INPUT_GET, 'IdDoCliente', FILTER_VALIDATE_INT);
+$Longitude = filter_input(INPUT_GET, 'Longitude', FILTER_DEFAULT);
+$Latitude = filter_input(INPUT_GET, 'Latitude', FILTER_DEFAULT);
 
 
 
 ?>
 <style>
+.btn{
+  padding:9px 12px;
+}
 .dashboard_sidebar{
     height: 69px;
 }
@@ -95,9 +100,8 @@ tr:nth-child(even) {
 <header class="dashboard_header">
     <div class="dashboard_header_title">
         <p class="dashboard_header_breadcrumbs">
-            &raquo; <?= ADMIN_NAME; ?>
-            <span class="crumb">/</span>
-            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=gns/historico">Histórico de Clientes</a>
+            &raquo;
+            <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
             Orçamento
         </p>
@@ -117,10 +121,12 @@ tr:nth-child(even) {
           echo "<input type='hidden' name='IdOS' value='{$IdOS}'>";
           echo "<input type='hidden' name='IdTecnico' value='{$IdTecnico}'>";
           echo "<input type='hidden' name='IdDoCliente' value='{$IdDoCliente}' >";
+          echo "<input type='hidden' name='Latitude' value='{$Latitude}' >";
+          echo "<input type='hidden' name='Longitude' value='{$Longitude}' >";
         ?>
         <input type="hidden" name="callback" value="Dadostabela"/>
                             <input type="hidden" name="callback_action" value="dados_formulario"/>
-           <div class="box box70">
+           <div class="box box80" style="width: 80%;">
              <article class="wc_tab_target wc_active" id="testeEstanqueidade">
                <div class="panel_header default" style="border-bottom: 2px solid #EEE !important;">
                    <center><h1 class="tab_title" >Teste de Estanqueidade</h1></center>
@@ -150,13 +156,13 @@ tr:nth-child(even) {
             </div>
        </article>
    </div><!-- box70 -->
-   <div class="box box30" style="width:30%;padding-top:0px;">
+   <div class="box box20" style="width:20%;padding-top:0px;">
        <div class="panel">
            <div class="box_conf_menu" style="font-size: 15px;">
                <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Informações Gerais do Cliente</a>
                <!--<a class='conf_menu wc_tab' href='#defeitos'>Defeitos</a>-->
-               <a class='conf_menu wc_tab' href='#observacoes'>Observações</a>
                <a class='conf_menu wc_tab' href='#orcamento'>Orçamentos</a>
+               <a class='conf_menu wc_tab' href='#observacoes'>Observações</a>
            </div>
        </div>
    </div>
