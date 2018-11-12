@@ -358,6 +358,7 @@ function getStatusOs($Transaction = null){
 
 function getNovoStatusOs($Transaction = null){
     $RealtyTransaction = [
+        2 => 'Atendido',
         3 => 'Cancelado',
         4 => 'Ausente',
         5 => 'Reagendado NVT',
@@ -377,7 +378,8 @@ function getStatusOrcamentoGNS($Transaction = null){
     $RealtyTransaction = [
         1 => 'APROVADO',
         2 => 'EXECUTADO',
-        3 => 'RECUSADO'
+        3 => 'RECUSADO',
+        4 => 'RECUPERADO'
     ];
     
     if ($Transaction!=null):

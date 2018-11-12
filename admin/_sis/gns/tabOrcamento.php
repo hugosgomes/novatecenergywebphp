@@ -127,11 +127,11 @@
                       <p style="font-size:20px;padding-top: 10px;font-weight: bold;font-style: italic;color: red;">Total Reprovado: R$ <span class="valor-total-r"><!-- valor total table --></span></p>
                     </label></center>
                   </div>
-                <input id="valor-total" type="hidden" name="o_valor_total_orcamento"/>
+                <input id="valor-total" type="hidden" name="o_valor_total_orcamento" value="0"/>
                 <input id="valor-total-reprovado" type="hidden" name="o_valor_total_orcamento_r" value="0"/>
 
-                <span class="o_p_hidden"><!--valor total peças--></span>
-                <span class="o_s_hidden"><!--valor total serviços--></span><br>
+                <span class="o_p_hidden" value="0"><!--valor total peças--></span>
+                <span class="o_s_hidden" value="0"><!--valor total serviços--></span><br>
                 <span class="o_p_total_linhas"><!--total de linhas p--><input type="hidden" value="0" name="o_p_total_linhas"></span>
                 <span class="o_s_total_linhas"><!--total de linhas s--><input type="hidden" value="0" name="o_s_total_linhas"></span>
 

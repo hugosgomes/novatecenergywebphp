@@ -35,7 +35,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         <a title="OS Sem Endereço" href="dashboard.php?wc=gns/osEndereco" class="btn btn_darkblue flt_left">(<?php echo count($Read->getResult());?>) - OS sem Endereço</a>
       </div>
       <div class="box box40">
-        <?php $Read->FullRead("SELECT ID FROM [60_ClientesSemOT] WHERE IDOT IS NULL", " ");?>
+        <?php $Read->FullRead("SELECT ID FROM [60_ClientesSemOT] WHERE IDOS IS NULL", " ");?>
         <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_lefts">(<?php echo count($Read->getResult());?>) - Clientes Sem OT / OS</a>
       </div>
     </article>
@@ -127,10 +127,6 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
             $url = $Hoje .'&s=1';
           }
 
-          ?>
-          <a title="Recarregar Comentários" href="dashboard.php?wc=gns/agendamentos&day=<?= $url; ?>" class="btn btn_blue icon-spinner11">Recarregar Mapa</a>
-          <?php
-
           if($Semana == '1'):
             $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
               NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
@@ -149,7 +145,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
               AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :day","day={$Day}");
           endif;
 
-          echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b>&ensp;".count($Read->getResult())."</span>";
+          echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b>&ensp;<span class='qtd_OS'>".count($Read->getResult())."</span></span>";
           ?>           
         </header>
         <div class="box_content" id="mapa">

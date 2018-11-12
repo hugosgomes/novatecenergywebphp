@@ -81,15 +81,11 @@ $('.o_aprovado_reprovado').change(function(){
 * E FORMA DE PAGAMENTO ANTES DE SUBMETER O FORMULÁRIO
 */
 $(document).on('mouseenter','#j_btn_salvar',function() {
-    statusO = $('.o_aprovado_reprovado option:selected').val();
-    statusOrcamento =$('.o_aprovado_reprovado').val();
     o_os_status = $('.o_os_status option:selected').val();
-    o_forma_de_pagamento_select = $('#o_forma_de_pagamento_select option:selected').val();
-    valorTotalOrcamento = $("#valor-total").val();
 
     //SE O STATUS DO ORÇAMENTO FOR APROVADO O USUÁRIO DEVE SELECIONAR O STATUS DA OS
-    if(statusOrcamento == 1 && statusO == 't' || o_forma_de_pagamento_select == 't'){
-      alert('Há opções sem selecionar!');
+    if(o_os_status == 't'){
+      alert('Selecione status da OS!');
     }
 
 });

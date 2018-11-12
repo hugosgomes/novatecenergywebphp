@@ -58,7 +58,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     $atendimento = array(
       'idOS' => $PostData['IdOS'],
       'idTecnico' => $PostData['IdTecnico'],
-      'Status' => 1,
+      'Status' => $PostData['o_os_status'],
       'NumManometro' => $PostData['t_num_manometro'],
       'PressaoInicial' => $PostData['t_p_inicial'],
       'PressaoFinal' => $PostData['t_p_Final'],
@@ -456,28 +456,25 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
           $PostData['TecExe'] = $PostData['IdTecnico'];
 
           //ALTERA O STATUS DA OS NA TABELA 60_OS
-          $statusOs = $PostData['o_os_status'] = 1;
+          $statusOs = $PostData['o_os_status'];
           $statusOS = ['Status' => $statusOs];
           $Update->ExeUpdate("[60_OS]",$statusOS, "WHERE OT = :ot", "ot={$PostData['IdOS']}");
         }else{
           $PostData['TecExe'] = NULL;
-
-          //ALTERA O STATUS DA OS NA TABELA 60_OS
-          $statusOs = $PostData['o_os_status'];
-          $statusOS = ['Status' => $statusOs];
-          $Update->ExeUpdate("[60_OS]",$statusOS, "WHERE OT = :ot", "ot={$PostData['IdOS']}");
         }
 
         //SALVAR ORÇAMENTO APROVADO
         $orcamento = array(
             'IdOS' => $PostData['IdOS'],
             'TecnicoEnt' => $PostData['IdTecnico'],
-            'Status' => $PostData['o_orcamento_status'],
-            'Valor' => $PostData['o_valor_total_orcamento'],
-            'FormaPagamento' => $PostData['o_forma_de_pagamento'],
+            'Status' => isset($PostData['o_orcamento_status']) ? $PostData['o_orcamento_status'] : NULL,
+            'Valor' => isset($PostData['o_valor_total_orcamento']) ? $PostData['o_valor_total_orcamento'] : NULL,
+            'FormaPagamento' => isset($PostData['o_forma_de_pagamento']) ? $PostData['o_forma_de_pagamento'] : NULL,
             'NumParcelas' => isset($PostData['O_quant_parcelas']) ? $PostData['O_quant_parcelas'] : 1,
-            'TecExe'  => $PostData['TecExe'],
-            'DataExe' => $statusorcamento == 2? $Data->format('Ymd H:i:s') : NULL
+            'TecExe'  => isset($PostData['TecExe']) ? $PostData['TecExe'] : NULL,
+            'DataExe' => $statusorcamento == 2? $Data->format('Ymd H:i:s') : NULL,
+            'DataAgendamento' => isset($PostData['o_data_agendamento']) ? $PostData['o_data_agendamento'] : NULL,
+            'Obs' => isset($PostData['Obs']) ? $PostData['Obs'] : NULL
   
         );
         
@@ -525,7 +522,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               $idOt = NULL;
               $clientesSemOT = array(
                 'IDCLIENTE' => $PostData['IdDoCliente'],
-                'IDOT' =>  $idOt,
+                'IDOS' =>  $idOt,
                 'DATAAGENDAMENTO' => $PostData['o_data_agendamento'],
                 'USUARIOSISTEMA' => $PostData['USUARIOSISTEMA'],
                 'IDORCAMENTO' => $idOrcamento
@@ -542,12 +539,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             'IdOS' => $PostData['IdOS'],
             'TecnicoEnt' => $PostData['IdTecnico'],
             'Status' => $statusOrReprovado,
-            'Valor' => $PostData['o_valor_total_orcamento_r'],
+            'Valor' => isset($PostData['o_valor_total_orcamento_r']) ? $PostData['o_valor_total_orcamento_r'] : NULL,
             'FormaPagamento' => $PostData['o_forma_de_pagamento'] = NULL,
             'NumParcelas' => $PostData['O_quant_parcelas'] = NULL,
+            'Obs' => isset($PostData['Obs']) ? $PostData['Obs'] : NULL
         );
 
-        if($PostData['o_valor_total_orcamento_r'] > 0){
+        if(isset($PostData['o_valor_total_orcamento_r']) && $PostData['o_valor_total_orcamento_r'] > 0){
               $Create->ExeCreate("[60_Orcamentos]",$orcamentor);
 
 
@@ -747,14 +745,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
           $Create->ExeCreate("[60_TermosResponsabilidade]",$termoResp8);
         }
 
-        /*$termo = [];
-
-        for($i = 1; $i <= 6; $i++){
-          if(isset($PostData['o_vp_superior'.$i])){
-            array_push($termo,$PostData['o_vp_superior'.$i]);
-          }
-        }*/
-
                 break;    
               endswitch;
 
@@ -762,7 +752,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               if ($jSON):
                 echo json_encode($jSON);
               else:
-                $jSON['trigger'] = AjaxErro(' Oçamento Criado com sucesso!');
+                $jSON['trigger'] = AjaxErro('Atendimento efetuado com sucesso!');
                 echo json_encode($jSON);
               endif;
             else:

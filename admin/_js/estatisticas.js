@@ -105,7 +105,263 @@ function carregaGraficos(data){
     ]
   });
 
-  //ESTATÍSTICAS ORÇAMENTOS*****************************************
+
+        var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos', {
+          chart: {
+                type:'pie',//DETERMINA O FORMATO DO GRÁFICO
+                spacingBottom: 0,
+                spacingTop: 5,
+                spacingLeft: 0,
+                spacingRight: 20
+              },
+              title: {
+                text: 'Estatística Orçamentos',
+                style: {
+                  fontWeight: 'bold'
+                }
+              },
+              subtitle: {
+                text: false
+              },
+              yAxis: {
+                allowDecimals: false,
+                title: {
+                  text: 'Estatísticas Técnicos'
+                }
+              },
+              plotOptions: {
+                pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                    enabled: false
+                  },
+                  showInLegend: true
+                }
+              },
+              tooltip: {
+                useHTML: true,
+                shadow: false,
+                headerFormat: '<p class="al_center" style="color:white">{point.key}</p><p class="al_center" style="font-size: 2em; color:white;">{point.y}</p>',
+                pointFormat: '<p class="al_center" style="color:white">{series.name}</p><p class="al_center"></p>',
+                backgroundColor: 'rgba(87, 125, 216, 0.60)',
+                borderWidth: 0,
+                padding: 20,
+                style: {
+                 color:'#fff',
+                 fontWeight:'bold',
+                 color:'#fff',
+               }
+             },
+             "series": [
+             {
+              "name": "Orçamentos",
+              "colorByPoint": true,
+              "data": [
+              {
+                "name": "Aprovados",
+                "y": 40,
+                color: '#579C87',
+              },
+              {
+                "name": "Recuperados",
+                "y": 10,
+                color: '#F2B134',
+              },
+              {
+                "name": "Executados",
+                "y": 30,
+                color: '#415B76'
+              },
+              {
+                "name": "Recusados",
+                "y": 20,
+                color: '#F23C50'
+              }
+              ]
+            }
+            ]
+          });
+}
+
+
+
+//ESTATÍSTICAS ORÇAMENTOS
+$(function() {
+
+        
+      });
+
+//ESTATÍSTICAS ORÇAMENTOS APROVADOS
+$(function() {
+
+        //CHART CONFIG
+        var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
+          chart: {
+                type:'pie',//DETERMINA O FORMATO DO GRÁFICO
+                spacingBottom: 0,
+                spacingTop: 5,
+                spacingLeft: 0,
+                spacingRight: 20
+              },
+              title: {
+                text: 'Orçamentos Aprovados',
+                style: {
+                  fontWeight: 'bold'
+                }
+              },
+              subtitle: {
+                text: false
+              },
+              yAxis: {
+                allowDecimals: false,
+                title: {
+                  text: 'Estatísticas Técnicos'
+                }
+              },
+              plotOptions: {
+                pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                    enabled: false
+                  },
+                  showInLegend: true
+                }
+              },
+              tooltip: {
+                useHTML: true,
+                shadow: false,
+                headerFormat: '<p class="al_center" style="color:white">{point.key}</p><p class="al_center" style="font-size: 2em; color:white;">{point.y}</p>',
+                pointFormat: '<p class="al_center" style="color:white">{series.name}</p><p class="al_center"></p>',
+                backgroundColor: 'rgba(87, 125, 216, 0.60)',
+                borderWidth: 0,
+                padding: 20,
+                style: {
+                 color:'#fff',
+                 fontWeight:'bold',
+                 color:'#fff',
+               }
+             },
+             "series": [
+             {
+              "name": "Orçamentos",
+              "colorByPoint": true,
+              "data": [
+              {
+                "name": "Executados",
+                "y": 40,
+                color: '#415B76',
+              },
+              {
+                "name": "Agendados",
+                "y": 10,
+                color: '#F2B134',
+              },
+              {
+                "name": "Recusados",
+                "y": 30,
+                color: '#F23C50'
+              },
+              ]
+            }
+            ]
+          });
+      });
+
+//ESTATÍSTICAS CLIENTES
+$(function() {
+
+        //CHART CONFIG
+        var wc_chart = Highcharts.chart('jwc_chart_container_clientes', {
+          chart: {
+                type:'pie',//DETERMINA O FORMATO DO GRÁFICO
+                spacingBottom: 0,
+                spacingTop: 5,
+                spacingLeft: 0,
+                spacingRight: 20
+              },
+              title: {
+                text: 'Estatística Clientes',
+                style: {
+                  fontWeight: 'bold'
+                }
+              },
+              subtitle: {
+                text: false
+              },
+              yAxis: {
+                allowDecimals: false,
+                title: {
+                  text: 'Estatísticas Técnicos'
+                }
+              },
+              plotOptions: {
+                pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                    enabled: false
+                  },
+                  showInLegend: true
+                }
+              },
+              tooltip: {
+                useHTML: true,
+                shadow: false,
+                headerFormat: '<p class="al_center" style="color:white">{point.key}</p><p class="al_center" style="font-size: 2em; color:white;">{point.y}</p>',
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+                backgroundColor: 'rgba(87, 125, 216, 0.60)',
+                borderWidth: 0,
+                padding: 20,
+                style: {
+                 color:'#fff',
+                 fontWeight:'bold',
+                 color:'#fff',
+               }
+             },
+             "series": [
+             {
+              "name": "Clientes",
+              "colorByPoint": true,
+              "data": [
+              {
+                "name": "Atendidos",
+                "y": 30,
+                color: '#415B76',
+              },
+              {
+                "name": "Cancelados",
+                "y": 10,
+                color: '#F23C50',
+              },
+              {
+                "name": "Ausentes",
+                "y": 20,
+                color: '#D76880'
+              },
+              {
+                "name": "Reagendados NVT",
+                "y": 20,
+                color: '#0695AB'
+              },
+              {
+                "name": "Reagendados GNS",
+                "y": 10,
+                color: '#88D89E'
+              },
+              {
+                "name": "Sem Atender",
+                "y": 10,
+                color: '#F2B134'
+              }
+              ]
+            }
+            ]
+          });
+      });
+
+ //GRÁFICO SERVIÇOS
   var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos', {
   chart: {
         type:'pie',//DETERMINA O FORMATO DO GRÁFICO
@@ -344,6 +600,7 @@ var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
   });
 
   //GRÁFICO SERVIÇOS
+
  var wc_chart = Highcharts.chart('jwc_chart_container_servicos', {
   chart: {
     type: 'line',
@@ -471,10 +728,6 @@ var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
     color: '#415B76'
   }]
 });
-}
-
-
-  
 
 function iniciaPagina(){
   var dataAtual = new Date();
@@ -483,4 +736,5 @@ function iniciaPagina(){
   $('#j_ano_t').append('<option value='+(dataAtual.getFullYear()+1)+'>' + (dataAtual.getFullYear()+1) + '</option>');
 
   document.getElementById('j_mes_t').selectedIndex = dataAtual.getMonth()+1;
+
 }

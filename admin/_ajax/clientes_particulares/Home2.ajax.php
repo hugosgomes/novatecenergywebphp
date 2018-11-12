@@ -264,21 +264,25 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         case 'consulta_modal':
             //Preenchendo modal
+            $TIPO = getWcTipoServico();
             $idOrcamento = $PostData['idOrcamento'];
             $Read->FullRead("SELECT UPPER([80_ClientesParticulares].NOME) AS NOME, [80_ClientesParticulares].EMAIL, [80_ClientesParticulares].TELEFONE, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, [80_Orcamentos].STATUS FROM [80_Orcamentos]
+                [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, [80_Orcamentos].STATUS,[80_Orcamentos].OBS,[80_Orcamentos].TIPOSERVICO FROM [80_Orcamentos]
                 INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
                 INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID WHERE [80_Orcamentos].ID = " . $idOrcamento,"");
             if ($Read->getResult()):                
                 $jSON['addClienteModal'] = null;//É necessário desclarar como numo por causa da fraca tipação
                 $jSON['statusOrcamento'] = null;
                 foreach ($Read->getResult() as $dadosModalCliente):
+                    extract($dadosModalCliente);
                     $jSON['addClienteModal'] = "<div class='dados_clientes'>".
-                                             "<h5>{$dadosModalCliente['NOME']}</h5>".
-                                             "<ul class='cl_dados' id='{$dadosModalCliente['ID']}'>".
-                                               "<li style='padding-bottom: 0px;' class='dados_endereco'>{$dadosModalCliente['EMAIL']}<span class='m_endereco'></span></li>".
-                                               "<li  style='padding-bottom: 0px;'>{$dadosModalCliente['ENDERECO']}</li>".
-                                               "<li  style='padding-bottom: 0px;'><a href='tel:021980564678' style='color: #004491'>{$dadosModalCliente['TELEFONE']}</a></li>".
+                                             "<h5>{$NOME}</h5>".
+                                             "<ul class='cl_dados' id='{$ID}'>".
+                                               "<li style='padding-bottom: 0px;' class='dados_endereco'>{$EMAIL}<span class='m_endereco'></span></li>".
+                                               "<li  style='padding-bottom: 0px;'>{$ENDERECO}</li>".
+                                               "<li  style='padding-bottom: 0px;'><a href='tel:021980564678' style='color: #004491'>{$TELEFONE}</a></li>".
+                                               "<li  style='padding-bottom: 0px;'>Serviço: {$TIPO[$TIPOSERVICO]}</li>".
+                                               "<li  style='padding-bottom: 0px;'>OBS.: {$OBS}</li>".
                                                "<br>".
                                                "<hr>".
                                              "</div>";     
