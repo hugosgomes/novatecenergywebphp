@@ -189,7 +189,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $jSON['addExecutando'] = NULL;
         $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 3 "  . $criterioEndereco . $criterioCliente . 
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 3 "  . $criterioEndereco . $criterioCliente . $criterioMes .
                         "AND [80_ClientesParticulares].TIPO = 2","");
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
@@ -202,7 +202,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $jSON['addExecutado'] = NULL;
         $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 5 "  . $criterioEndereco . $criterioCliente . 
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 5 "  . $criterioEndereco . $criterioCliente . $criterioMes .
                         "AND [80_ClientesParticulares].TIPO = 2","");
         foreach ($Read->getResult() as $totais):        
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
@@ -214,7 +214,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $jSON['addCancelado'] = NULL;
         $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 6 "  . $criterioEndereco . $criterioCliente . 
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 6 "  . $criterioEndereco . $criterioCliente . $criterioMes .
                         "AND [80_ClientesParticulares].TIPO = 2","");
         foreach ($Read->getResult() as $totais):        
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
