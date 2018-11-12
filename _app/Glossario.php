@@ -1,9 +1,10 @@
 <?php
 
 //BUSCAR UM ITEM ESPECIFICO DENTRO DO ARRAY RETORNANDO VERDADEIRO OU FALSO
-in_array(itemProcurado, array)
+in_array(itemProcurado, array);
 
-
+//INSERIR ITEM NUM ARRAY
+array_push(array, itemInserido);
 
  ?>
 
@@ -21,5 +22,8 @@ in_array(itemProcurado, array)
 
 	//DESMARCAR RADIO BUTTON VIA JQUERY
 	$("input[name='t_1status']").prop('checked', false);
+
+	//SUBSTITUIR ELEMENTO
+	$( "div.second" ).replaceWith( "<h2>New heading</h2>" );
 
  </script>
