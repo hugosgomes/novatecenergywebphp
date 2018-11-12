@@ -95,8 +95,8 @@ class Email {
     /**
      * <b>Enviar Anexo:</b> Efetue o Upload da imagem com a classe de upload. Com o getResult() deste envio, basta anexar ao e-mail! 
      */
-    public function addFile($File) {
-        $this->File = $this->Mail->addAttachment($File);
+    public function addFile($File, $Name = null) {
+        $this->File = $this->Mail->addAttachment($File, $Name);
     }
 
     /**
