@@ -200,7 +200,7 @@ endif;
           <input class="input j_valor wc_value" style="font-family: Arial;font-size: 11px;" name="VALOR" type="text" size='10' value='' onkeypress='return SomenteNumeroVirgula(this,event)' id="valor" name="campo3" placeholder="R$" required/>
         </label>
 
-        <label class="label" style="margin-left: 0px;">
+        <label class="label" style="margin-left: 0px;width:22%">
           <span class="legend" >FORMA DE PAGAMENTO:</span>
           <select id="" class="j_forma wc_value" name="FORMAPAGAMENTO" style="font-family: Arial;font-size: 11px;">
             <?php 
@@ -211,12 +211,12 @@ endif;
           </select>
         </label>
 
-        <label class="label">
+        <label class="label" style="width:22%">
           <span class="legend">QUANTIDADE DE PARCELAS:</span>
           <input class="input j_qnt wc_value" style="font-family: Arial;font-size: 11px;" name="QNTPARCELAS" type="text" size='2' value='' onkeypress='return SomenteNumero(this,event)' name="campo3" placeholder="" required/>
         </label>
 
-        <label class="label">
+        <label class="label" style="width:54%">
           <span class="legend">OBSERVAÇÃO:</span>
           <input class="input j_obs wc_value" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder="" required/>
         </label>
