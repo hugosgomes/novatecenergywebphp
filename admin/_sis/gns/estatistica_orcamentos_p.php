@@ -52,10 +52,7 @@ td, th {
 <div class="dashboard_content">
     <article class="box box100">
         <div class="panel">
-          <div class="listar-tecnicos">
-            <input type="hidden" name="Callback" value="ReportTecnicos">
-            <input type="hidden" name="Callback_action" value="listar-tecnicos">
-          </div>
+
           <!-- Gráfico de técnicos -->
             <div class="wc_ead_chart_control" id="relatorio_tecnicos">
                 <input type="hidden" name="callback" value="ReportTecnicos">

@@ -3,26 +3,45 @@ $(document).ready(function(){
     atualiza();
 });
 
-$('#j_ano_t').change(atualiza);
-
-var tecnicos = ['Teste','Teste2'];
+$('#j_ano_t, #j_mes_t, #j_semana_s').change(atualiza);
 
 function atualiza(){
 
   var Callback = $("input[name='callback']").val();
-  var ano = $('#j_ano_t').val();  
+  var ano = $('#j_ano_t').val();
+  var mes = $('#j_mes_t').val();
+  var semana = $('#j_semana_s').val();
 
-  $.post('_ajax/gns/'+Callback+'.ajax.php',{ano: ano, callback: Callback},function(data){
+  $.post('_ajax/gns/'+Callback+'.ajax.php',{ano: ano, mes: mes, semana: semana, callback: Callback},function(data){
     
-    if(data.Tecnicos){
-      tecnicos = data.Tecnicos;
-    }    
-
+    if(data){
+      carregaGraficos(data);
+      $('#j_totalTecnicos td').remove();
+      $('#j_totalTecnicos tr').append(data.LegendaTecnicos);
+      $('#j_estat_orcamento tr').remove();
+      $('#j_estat_orcamento').append(data.LegendaEstarOrcam);
+      $('#j_estat_orcamentoAprov tr').remove();
+      $('#j_estat_orcamentoAprov').append(data.LegendaOrcamAprov);
+      $('#j_estat_clientes').replaceWith(data.LegendaEstatClientes);
+    }
   }, 'json');
+}
 
-  alert(tecnicos);
 
-  //ESTATÍSTICAS TÉCNICOS
+function carregaGraficos(data){
+
+  //CONVERTENDO OS VALORES JSON PARA INTEIRO PARA O GRÁFICO DE ESTATÍSTICAS TÉCNICOS
+  data.Atendimentos.forEach(function(element, index, array){
+    data.Atendimentos[index] = parseInt(data.Atendimentos[index]);
+    data.Aprovados[index] = parseInt(data.Aprovados[index]);
+    data.Reprovados[index] = parseInt(data.Reprovados[index]);
+  });
+
+  data.GraficoServicoSerie.forEach(function(element, index, array){
+    data.GraficoServicoSerie[index] = parseInt(data.GraficoServicoSerie[index]);
+  });
+
+  //ESTATÍSTICAS TÉCNICOS *****************************************
   var wc_chart = Highcharts.chart('jwc_chart_container_tecnicos', {
   chart: {
     type:'column',//DETERMINA O FORMATO DO GRÁFICO
@@ -61,32 +80,32 @@ function atualiza(){
     }
   },
   xAxis: {
-    categories: tecnicos,//NOME DO TÉCNICO ABAIXO DO GRÁFICO  
-    minTickInterval: 1 //SPAÇO ENTRE AS DATAS EXIBIDAS ABAIXO DO GRÁFICO
+    categories: data.Tecnicos,//NOME DO TÉCNICO ABAIXO DO GRÁFICO  
+    minTickInterval: 1 //ESPAÇO ENTRE AS DATAS EXIBIDAS ABAIXO DO GRÁFICO
   },
   series: [
   {
   name: 'Atendimentos',
-      data: [20,15,30,15,20,15,10],//EXIBE QTD DE ATENDIMENTOS REALIZADOS PELO TÉCNICO
+      data: data.Atendimentos,//EXIBE QTD DE ATENDIMENTOS REALIZADOS PELO TÉCNICO
       color: '#415B76',
       lineColor: '#B25900'
     },
     {
       name: 'Orçamentos Aprovados',
-      data: [15,13,15,10,15,13,10],//EXIBE QTD DE ORÇAMNTOS APROVADOS
+      data: data.Aprovados,//EXIBE QTD DE ORÇAMNTOS APROVADOS
       color: '#579C87',
       lineColor: '#006699'
     },
     {
       name: 'Orçamentos Reprovados',
-      data: [5,2,5,15,5,2,10],//EXIBE QTD DE ORÇAMENTOS REPROVADOS
+      data: data.Reprovados,//EXIBE QTD DE ORÇAMENTOS REPROVADOS
       color: '#F23C50',
       lineColor: '#008068'
     }
     ]
   });
 
-  //ESTATÍSTICAS ORÇAMENTOS
+  //ESTATÍSTICAS ORÇAMENTOS*****************************************
   var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos', {
   chart: {
         type:'pie',//DETERMINA O FORMATO DO GRÁFICO
@@ -135,36 +154,36 @@ function atualiza(){
        }
      },
      "series": [
-     {
-      "name": "Orçamentos",
-      "colorByPoint": true,
-      "data": [
-      {
-        "name": "Aprovados",
-        "y": 40,
-        color: '#579C87',
-      },
-      {
-        "name": "Recuperados",
-        "y": 10,
-        color: '#F2B134',
-      },
-      {
-        "name": "Executados",
-        "y": 30,
-        color: '#415B76'
-      },
-      {
-        "name": "Recusados",
-        "y": 20,
-        color: '#F23C50'
+       {
+        "name": "Orçamentos",
+        "colorByPoint": true,
+        "data": [
+          {
+            "name": "Aprovados",
+            "y": parseInt(data.PizzaOrcamentosAprov),
+            color: '#579C87',
+          },
+          {
+            "name": "Recuperados",
+            "y": parseInt(data.PizzaOrcamentosRecup),
+            color: '#F2B134',
+          },
+          {
+            "name": "Executados",
+            "y": parseInt(data.PizzaOrcamentosExec),
+            color: '#415B76'
+          },
+          {
+            "name": "Recusados",
+            "y": parseInt(data.PizzaOrcamentosReprov),
+            color: '#F23C50'
+          }
+        ]
       }
-      ]
-    }
     ]
   });
 
-  //ESTATÍSTICAS ORÇAMENTOS APROVADOS
+  //ESTATÍSTICAS ORÇAMENTOS APROVADOS***************************************
 var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
   chart: {
         type:'pie',//DETERMINA O FORMATO DO GRÁFICO
@@ -219,18 +238,18 @@ var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
       "data": [
       {
         "name": "Executados",
-        "y": 40,
+        "y": parseInt(data.PizzaOrcamentosExec),
         color: '#415B76',
       },
       {
-        "name": "Agendados",
-        "y": 10,
+        "name": "Recuperados",
+        "y": parseInt(data.PizzaOrcamentosRecup),
         color: '#F2B134',
       },
       {
-        "name": "Recusados",
-        "y": 30,
-        color: '#F23C50'
+        "name": "Aprovados",
+        "y": parseInt(data.PizzaOrcamentosAprov),
+        color: '#579C87'
       },
       ]
     }
@@ -292,33 +311,32 @@ var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
       "data": [
       {
         "name": "Atendidos",
-        "y": 30,
+        "y": parseInt(data.PizzaEstatClientesAtend),
         color: '#415B76',
       },
       {
         "name": "Cancelados",
-        "y": 10,
-        color: '#F23C50',
+        "y": parseInt(data.PizzaEstatClientesCanc),
+        color: '#F2B134',
       },
       {
         "name": "Ausentes",
-        "y": 20,
+        "y": parseInt(data.PizzaEstatClientesAus),
         color: '#D76880'
       },
       {
         "name": "Reagendados NVT",
-        "y": 20,
+        "y": parseInt(data.PizzaEstatClientesReagNVT),
         color: '#0695AB'
       },
       {
         "name": "Reagendados GNS",
-        "y": 10,
+        "y": parseInt(data.PizzaEstatClientesReagGNS),
         color: '#88D89E'
       },
       {
         "name": "Sem Atender",
-        "y": 10,
-        color: '#F2B134'
+        "y": parseInt(data.PizzaEstatClientesSemAtender),
       }
       ]
     }
@@ -376,8 +394,8 @@ var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
   {
     name: 'Serviços Realizados',
     data: [20,20,25,30,28,25,25,20,20,22,30,35],
-    color: '#415B76',
-    lineColor: '#415B76'
+    color: '#F23C50',
+    lineColor: '#F23C50'
   },
   {
     name: 'Serviços Faturados',
@@ -403,8 +421,7 @@ var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
     text: ''
   },
   xAxis: {
-    categories: ['Visita orcamento Exigencias IPG Complet','Manutencao de equipamento','Adequacoes de ambiente', 'Assistencia domiciliar gas', 'Instalacao de aquecedor', 'Remanej/Construcao de ponto',
-    'Certificado de rede de distribuicao interna'],
+    categories: data.GraficoServico,
     title: {
       text: null
     }
@@ -450,15 +467,14 @@ var wc_chart = Highcharts.chart('jwc_chart_container_orcamentos_aprovados', {
   },
   series: [{
     name: '2018',
-    data: [141, 114, 227, 110,200,150,130],
+    data: data.GraficoServicoSerie,
     color: '#415B76'
   }]
 });
-
-
 }
 
 
+  
 
 function iniciaPagina(){
   var dataAtual = new Date();
