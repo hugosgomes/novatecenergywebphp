@@ -40,6 +40,41 @@ try{
             select NUMLOTEGNF from [12_Lotes]
         )"," ");
 
+         //ENVIAR UM E-MAIL INFORMANDO SE EXISTEM NOVOS LOTES IMPORTADOS
+            $Read->FullRead("SELECT DISTINCT [14_ImportEstadoPortas_SVSH].Lote
+             FROM [14_ImportEstadoPortas_SVSH] LEFT JOIN (
+             SELECT NUMLOTEGNF AS LOTE FROM [11_Lotes] UNION SELECT NUMLOTEGNF AS LOTE FROM [12_Lotes] UNION SELECT NUM_LOTE_GNF AS LOTE FROM [11_ImportaLoteB])A
+             ON [14_ImportEstadoPortas_SVSH].Lote = A.LOTE
+             WHERE (([14_ImportEstadoPortas_SVSH].Tipo)='SV') AND (A.LOTE Is Null);"," ");
+            $qtdLinhas = count($Read->getResult());
+
+            if($qtdLinhas > 0){
+
+                $NumOs = 5;
+                $Cliente = "teste";
+                $EmailCliente = "cmailard@novatecenergy.com.br";
+                $linhas = $qtdLinhas;
+                function envioTeste($NumOs, $Cliente, $EmailCliente, $linhas){
+
+                   $Email = new Email;
+                   $MailContent = '<table width="550" style="font-family: "Trebuchet MS", sans-serif;">
+                   <tr><td>
+                   <font face="Trebuchet MS" size="3">#mail_body#</font>
+                   </td></tr>
+                   </table>
+                   <style>body, img{max-width: 550px !important; height: auto !important;} p{margin-botton: 15px 0 !important;}</style>';
+
+                    $ToAdmin = "<p>Novos Lotes Importados</p>
+                    <p>Qtd. de Lotes Importados: {$linhas}</p>
+                    <p style='font-size: 0.9em;'>Sistema Ch4_Bot</p>";
+
+                    $CopyMensage = str_replace("#mail_body#", $ToAdmin, $MailContent);
+
+                    $Email->EnviarMontando("Comprovante de envio. OS: ".$NumOs." ", $CopyMensage, $Cliente, $EmailCliente, "Novatec Energy", "cmailard@novatecenergy.com.br");
+                }
+                envioTeste($NumOs, $Cliente, $EmailCliente, $linhas);
+            }
+
         //Inserindo dados formatados SV na tabela 11_ImportaLoteB
         $Query->FullQuery("INSERT INTO [11_ImportaLoteB] (LOCALIDADE, BAIRRO, TIPO_LOGRADOURO, LOGRADOURO, NUM, COMPLEMENTO, APT, CASA, NOVO, LOTE, COD_ATIVIDADE, NUM_LOTE_GNF, CIDI, TIPO) 
             SELECT DISTINCT [14_ImportEstadoPortas_SVSH].Municipio, [14_ImportEstadoPortas_SVSH].Bairro, [14_ImportEstadoPortas_SVSH].[Tipovia], [14_ImportEstadoPortas_SVSH].Via, 
@@ -100,6 +135,7 @@ try{
                 // Montar registro com valores indexados pelo cabecalho
                 $linha = array_map("utf8_encode", $linha);
                 foreach ($linha as $key => $value) {
+                    $value = str_replace("'", "", $value);
                     $linha[$key] = "'".$value."'";
                 }
 
@@ -110,13 +146,13 @@ try{
                  ,[Porta],[Bairro],[Gestor],[Empresa],[CodigoAgente],[Nomedoagente],[Movelagente],[ResultadoVisita],[DetalheResultado],[DatadoRelatoriodaVisita]
                  ,[HoradoRelatoriodaVisita],[DatadaVisita],[Horavisita],[DatahoradoUltimoRelatorio],[Tipocombustivelfogao],[Tipocombustivelaquecedor]
                  ,[Tipocombustivelcalefacao],[Tipo_de_Moradia],[Regime_de_posse],[ContrataACS],[Contratafogao],[ContrataCalefacao],[Nome],[Sobrenome]
-                 ,[Telefone1],[Telefone2],[Email],[Comentarios],[Foto1],[Foto2],[Foto3],[Foto4],[Foto5],[Foto6]) VALUES (" . implode(",", array_values($linha)) . ")"," ");
+                 ,[Telefone1],[Telefone2],[Email],[Comentarios],[Foto1],[Foto2],[Foto3],[Foto4],[Foto5],[Foto6]) VALUES (" . implode(",", array_values($linha)) . ")","");
                 
             }
             fclose($f);
         }
         
-
+/*
         //traz as visitas que vieram e as coloca no banco, trasz somente se não existir
         $Query->FullQuery("insert into [dbo].[14_ImportVisitasPortas] (
             [Zona] ,[Distribuidora]  ,[Delegacao] ,[Lote]      ,[CIDI]      ,[Mercado]      ,[Municipio]      ,[Estado]      ,[Tipovia]      ,[Via]
@@ -186,7 +222,7 @@ try{
             set [11_CondVisitas].IDUSUARIO = v.IDUSUario
             from [11_CondVisitas] c
             inner join [14_VW_ImportVisitas] v on c.IDCONDESTRUTURA = v.IDCONDESTRUTURA
-            where c.IDUSUARIO is null"," ");
+            where c.IDUSUARIO is null"," ");*/
 
         break;
 
