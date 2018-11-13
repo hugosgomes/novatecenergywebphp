@@ -135,6 +135,7 @@ try{
                 // Montar registro com valores indexados pelo cabecalho
                 $linha = array_map("utf8_encode", $linha);
                 foreach ($linha as $key => $value) {
+                    $value = str_replace("'", "", $value);
                     $linha[$key] = "'".$value."'";
                 }
 
@@ -145,13 +146,13 @@ try{
                  ,[Porta],[Bairro],[Gestor],[Empresa],[CodigoAgente],[Nomedoagente],[Movelagente],[ResultadoVisita],[DetalheResultado],[DatadoRelatoriodaVisita]
                  ,[HoradoRelatoriodaVisita],[DatadaVisita],[Horavisita],[DatahoradoUltimoRelatorio],[Tipocombustivelfogao],[Tipocombustivelaquecedor]
                  ,[Tipocombustivelcalefacao],[Tipo_de_Moradia],[Regime_de_posse],[ContrataACS],[Contratafogao],[ContrataCalefacao],[Nome],[Sobrenome]
-                 ,[Telefone1],[Telefone2],[Email],[Comentarios],[Foto1],[Foto2],[Foto3],[Foto4],[Foto5],[Foto6]) VALUES (" . implode(",", array_values($linha)) . ")"," ");
+                 ,[Telefone1],[Telefone2],[Email],[Comentarios],[Foto1],[Foto2],[Foto3],[Foto4],[Foto5],[Foto6]) VALUES (" . implode(",", array_values($linha)) . ")","");
                 
             }
             fclose($f);
         }
         
-
+/*
         //traz as visitas que vieram e as coloca no banco, trasz somente se não existir
         $Query->FullQuery("insert into [dbo].[14_ImportVisitasPortas] (
             [Zona] ,[Distribuidora]  ,[Delegacao] ,[Lote]      ,[CIDI]      ,[Mercado]      ,[Municipio]      ,[Estado]      ,[Tipovia]      ,[Via]
@@ -221,7 +222,7 @@ try{
             set [11_CondVisitas].IDUSUARIO = v.IDUSUario
             from [11_CondVisitas] c
             inner join [14_VW_ImportVisitas] v on c.IDCONDESTRUTURA = v.IDCONDESTRUTURA
-            where c.IDUSUARIO is null"," ");
+            where c.IDUSUARIO is null"," ");*/
 
         break;
 
