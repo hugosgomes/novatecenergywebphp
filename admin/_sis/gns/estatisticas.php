@@ -166,7 +166,7 @@ td, th {
               <div id="jwc_chart_container_servicos"></div>
                <div class="box box100">
                   <div class="box_content">
-                    <table style="max-width: 500px;margin: auto;">
+                    <table style="max-width: 1000px;margin: auto;">
                       <tr>
                         <td><b>Total Serviços: 35</b></td>
                         <td><b>Serviços Realizados: 30</b></td>
@@ -179,13 +179,8 @@ td, th {
 
             <!-- Gráfico de serviços -->
             <div class="box box100">
-              <div class="wc_ead_chart_control">
-                
-            </div>
               <div id="jwc_chart_container_servicos_s"></div>
             </div>
-            <footer class="wc_ead_reports">
-            </footer>
         </div>
     </article>
 </div>

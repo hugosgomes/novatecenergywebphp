@@ -343,7 +343,7 @@ function carregaGraficos(data){
     ]
   });
 
-  //GRÁFICO SERVIÇOS
+  //GRÁFICO CLIENTES
 
   var wc_chart = Highcharts.chart('jwc_chart_container_servicos', {
     chart: {
@@ -354,7 +354,7 @@ function carregaGraficos(data){
       spacingRight: 20
     },
     title: {
-      text: 'Estatística Serviços',
+      text: 'Estatística Clientes',
       style: {
         fontWeight: 'bold'
       }
@@ -365,7 +365,7 @@ function carregaGraficos(data){
     yAxis: {
       allowDecimals: false,
       title: {
-        text: 'Serviços Realizados'
+        text: ''
       }
     },
     tooltip: {
@@ -423,18 +423,18 @@ function carregaGraficos(data){
   },
   xAxis: {
     categories: data.GraficoServico,
-    title: {
-      text: null
+    tickPositioner: function () {
+      var positions = [];
+      for (var i = 0; i <= data.GraficoServico.length; i++) {
+        positions.push(i);
+      }
+      return positions;
     }
   },
   yAxis: {
     min: 0,
     title: {
-      text: 'quantidade',
-      align: 'high'
-    },
-    labels: {
-      overflow: 'justify'
+      text: 'Quantidade'
     }
   },
   tooltip: {
