@@ -58,7 +58,7 @@ if ($PostData && $PostData['callback'] == $CallBack):
   $criterioAno = $ano <> 't' ? ' AND YEAR([60_OS].DataAgendamento) = '.$ano : ' AND YEAR([60_OS].DataAgendamento) > 0';
   $criterioSemana = $semana <> 't' ? ' AND DATEPART(WK, [60_OS].DataAgendamento) - DATEPART(WK, [60_OS].DataAgendamento - DAY([60_OS].DataAgendamento) + 1) + 1 = '.$semana : ' AND DATEPART(WK, [60_OS].DataAgendamento) - DATEPART(WK, [60_OS].DataAgendamento - DAY([60_OS].DataAgendamento) + 1) + 1 > 0 ';
 
-  $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME, SUBQUERY.ATENDIMENTOS
+  $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME, CASE WHEN SUBQUERY.ATENDIMENTOS IS NULL THEN 0 ELSE SUBQUERY.ATENDIMENTOS END AS ATENDIMENTOS
     FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
     LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
   LEFT JOIN
@@ -73,12 +73,12 @@ if ($PostData && $PostData['callback'] == $CallBack):
       ) SUBQUERY
   ON CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END = SUBQUERY.NOMETEC
   WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL
-  ORDER BY NOME"," ");
+  ORDER BY NOME","");
 
   if ($Read->getResult()):    
     foreach ($Read->getResult() as $FUNC):
       array_push($atendimentos, $FUNC['ATENDIMENTOS']);
-      $totalAtendimentos = $totalAtendimentos + $FUNC['ATENDIMENTOS'];
+      $totalAtendimentos = $totalAtendimentos + $FUNC['ATENDIMENTOS'] == "" ? 0 : $FUNC['ATENDIMENTOS'];
     endforeach;
   endif;
 
@@ -88,7 +88,7 @@ if ($PostData && $PostData['callback'] == $CallBack):
   $criterioAno = $ano <> 't' ? ' AND YEAR([60_Orcamentos].DataEnt) = '.$ano : ' AND YEAR([60_Orcamentos].DataEnt) > 0';
   $criterioSemana = $semana <> 't' ? ' AND DATEPART(WK, [60_Orcamentos].DataEnt) - DATEPART(WK, [60_Orcamentos].DataEnt - DAY([60_Orcamentos].DataEnt) + 1) + 1 = '.$semana : ' AND DATEPART(WK, [60_Orcamentos].DataEnt) - DATEPART(WK, [60_Orcamentos].DataEnt - DAY([60_Orcamentos].DataEnt) + 1) + 1 > 0 ';
 
-  $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME, SUBQUERY.APROVADOS
+  $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME, CASE WHEN SUBQUERY.APROVADOS IS NULL THEN 0 ELSE SUBQUERY.APROVADOS END AS APROVADOS
     FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
     LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
   LEFT JOIN
@@ -114,7 +114,7 @@ if ($PostData && $PostData['callback'] == $CallBack):
 
 
   //QUANTIDADE DE ORÇAMENTOS REPROVADOS POR TÉCNICO
-  $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME, SUBQUERY.REPROVADOS
+  $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME, CASE WHEN SUBQUERY.REPROVADOS IS NULL THEN 0 ELSE SUBQUERY.REPROVADOS END AS REPROVADOS
     FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
     LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
   LEFT JOIN
@@ -320,6 +320,12 @@ if ($PostData && $PostData['callback'] == $CallBack):
 
 
   //FIM DO GRÁFICO ESTATÍSTICAS CLIENTES
+
+  //GRÁFICO ESTATÍSTICAS CLIENTES EM LINHA *****************************
+
+
+
+  //FIM DO GRÁFICO ESTATÍSTICAS CLIENTES EM LINHA **********************
 
   //GRÁFICO ESTATÍSTICAS SERVIÇOS
   $eixoY = [];

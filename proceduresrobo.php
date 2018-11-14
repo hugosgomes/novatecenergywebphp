@@ -152,7 +152,7 @@ try{
             fclose($f);
         }
         
-/*
+
         //traz as visitas que vieram e as coloca no banco, trasz somente se não existir
         $Query->FullQuery("insert into [dbo].[14_ImportVisitasPortas] (
             [Zona] ,[Distribuidora]  ,[Delegacao] ,[Lote]      ,[CIDI]      ,[Mercado]      ,[Municipio]      ,[Estado]      ,[Tipovia]      ,[Via]
@@ -222,7 +222,7 @@ try{
             set [11_CondVisitas].IDUSUARIO = v.IDUSUario
             from [11_CondVisitas] c
             inner join [14_VW_ImportVisitas] v on c.IDCONDESTRUTURA = v.IDCONDESTRUTURA
-            where c.IDUSUARIO is null"," ");*/
+            where c.IDUSUARIO is null"," ");
 
         break;
 
