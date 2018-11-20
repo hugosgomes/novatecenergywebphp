@@ -41,6 +41,18 @@ function carregaGraficos(data){
     data.GraficoServicoSerie[index] = parseInt(data.GraficoServicoSerie[index]);
   });
 
+  data.LinhaClienteLineGreen.forEach(function(element, index, array){
+    data.LinhaClienteLineGreen[index] = parseInt(data.LinhaClienteLineGreen[index]);
+  });
+
+  data.LinhaClienteLineBlue.forEach(function(element, index, array){
+    data.LinhaClienteLineBlue[index] = parseInt(data.LinhaClienteLineBlue[index]);
+  });
+
+  data.LinhaClienteLineRed.forEach(function(element, index, array){
+    data.LinhaClienteLineRed[index] = parseInt(data.LinhaClienteLineRed[index]);
+  });
+
   //ESTATÍSTICAS TÉCNICOS *****************************************
   var wc_chart = Highcharts.chart('jwc_chart_container_tecnicos', {
     chart: {
@@ -382,27 +394,27 @@ function carregaGraficos(data){
       }
     },
     xAxis: {
-      categories: ['01/2018','02/2018','03/2018','04/2018','05/2018','06/2018','07/2018','08/2018','09/2018','10/2018','11/2018','12/2018'],
+      categories: data.LinhaClienteEixoX,
       minTickInterval: 1
     },
     series: [
     {
-      name: 'Serviços',
-      data: [40,30,35,35,30,30,28,25,25,27,35,45],
+      name: 'Clientes Recebidos',
+      data: data.LinhaClienteLineGreen,
       color: '#579C87',
       lineColor: '#579C87'
     },
     {
-      name: 'Serviços Realizados',
-      data: [20,20,25,30,28,25,25,20,20,22,30,35],
-      color: '#F23C50',
-      lineColor: '#F23C50'
-    },
-    {
-      name: 'Serviços Faturados',
-      data: [15,15,20,20,25,22,25,15,18,20,30,30],
+      name: 'Clientes Atendidos',
+      data: data.LinhaClienteLineBlue,
       color: '#0E96E5',
       lineColor: '#0E96E5'
+    },
+    {
+      name: 'Clientes Orçados',
+      data: data.LinhaClienteLineRed,
+      color: '#F23C50',
+      lineColor: '#F23C50'
     },
     ]
   });

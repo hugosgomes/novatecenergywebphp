@@ -8,6 +8,11 @@ $('#Tecnico').change(function(){
     var S = $(this).attr('semana');
 
     $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
+
+        if(data.locations){
+            initMap(data.locations);
+        }
+        
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
             Trigger(data.trigger);
@@ -29,6 +34,10 @@ $('#Tecnico').change(function(){
             $("#orcamento-list").remove();            
             $(data.addOrcamentolist).appendTo('.orcamento-list');
         }
+
+        if (data.qtdOs) {
+            $(".qtdOs").html("Quantidade de OS:<b> "+data.qtdOs+" </b>"); 
+        }
                   
     }, 'json');
 });
@@ -42,7 +51,7 @@ $('#Tecnico').change(function(){
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         var Tecnico = $("#Tecnico option:selected").val();
-
+               
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
 
@@ -316,6 +325,11 @@ $('#Tecnico').change(function(){
                     $(data.addPecas).appendTo('#j_AddPecasServicos');   
                     $(data.addServicos).appendTo('#j_AddPecasServicos');     
                 }     
+            }
+
+            if(data.addOrcamentos){
+                $("#j_Orcamentos *").remove();
+                $(data.addOrcamentos).appendTo('#j_Orcamentos');       
             }
             
 

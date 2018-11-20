@@ -77,7 +77,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $NumOT = $OT['NumOT'];
                     $TipoOT = $OT['TipoOT'];
                     $jSON['trigger'] = true;
-                    $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td style='width: 80%;'>{$NumOT} - {$TipoOT}</td><td callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$cliente}' id='{$Id}' linha_sem_os='{$cliente}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
+                    $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td >{$NumOT} - {$TipoOT}</td><td style='text-align:center' callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$cliente}' id='{$Id}' linha_sem_os='{$cliente}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
                 endforeach;
             else:
                 $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");
@@ -106,16 +106,21 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     extract($CLI);
                     $IDCLIENTE = $CLI['IDCLIENTE'];
                     $ID = $CLI['ID'];
-                    $dataAgendamento = date('d/m/Y', strtotime($DATAAGENDAMENTO));
-                    $Read->FullRead("SELECT NomeCliente FROM [60_Clientes] WHERE [Id] = :id","id={$IDCLIENTE}");
+                    if($DATAAGENDAMENTO == NULL){
+                        $dataAgendamento = NULL;
+                    }else{
+                        $dataAgendamento = date('d/m/Y', strtotime($DATAAGENDAMENTO));
+                    }
+                    $Read->FullRead("SELECT NomeCliente, NumCliente FROM [60_Clientes] WHERE [Id] = :id","id={$IDCLIENTE}");
                     foreach ($Read->getResult() as $CLI):
                         extract($CLI);
                     endforeach;
                     $jSON['addTabela'] .= "
                     <tr>
+                    <td id='{$IDCLIENTE}'>{$NumCliente}</td>
                     <td id='{$IDCLIENTE}'>{$NomeCliente}</td>
-                    <td>{$dataAgendamento}</td>
-                    <td><span class='j_pesquisa_ot icon-search btn btn_darkblue' rel='{$IDCLIENTE}' linha_sem_os='{$IDCLIENTE}' callback='ClientesOT' callback_action='consulta'>&ensp;Consultar OT/OS</span></td>
+                    <td style='text-align:center'>{$dataAgendamento}</td>
+                    <td style='text-align:center'><span class='j_pesquisa_ot icon-search btn btn_darkblue' rel='{$IDCLIENTE}' linha_sem_os='{$IDCLIENTE}' callback='ClientesOT' callback_action='consulta'>&ensp;Consultar OT/OS</span></td>
                     </tr>";
                 endforeach;
             else:

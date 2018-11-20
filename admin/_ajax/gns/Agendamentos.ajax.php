@@ -60,14 +60,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             $jSON['success'] = true;
                             $Update->ExeUpdate("[60_OS]", $PostData, "WHERE [60_OS].Id = :id", "id={$OSId}");
                             if($Update->getResult()):
-                                $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[NomeOS],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                          [60_OS].Latitude, [60_OS].Longitude, [Funcionários].[NOME COMPLETO] AS Tecnico, [Funcionários].[ID] AS IdTecnico FROM [60_Clientes]
-                                              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                              INNER JOIN [Funcionários] ON [60_OS].Tecnico = [Funcionários].ID  
+                                $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
+                                  [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
+                                  inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                                  inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                                  INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
+                                  LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
+                                  LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
                                               WHERE [60_OS].Id = :id","id={$OSId}");
-                                $jSON['addtable'] = "<tr class='j_tecnico' id='{$Read->getResult()[0]['Id']}'><td>{$Read->getResult()[0]['NomeCliente']}</td><td>{$Read->getResult()[0]['NumOS']}</td><td>{$Read->getResult()[0]['NomeOS']}</td><td>{$Read->getResult()[0]['Endereco']} {$Read->getResult()[0]['Bairro']} {$Read->getResult()[0]['Municipio']}</td><td>". date('d/m/Y', strtotime($Read->getResult()[0]['DataAgendamento'])) ."</td><td>". strstr($Read->getResult()[0]['Tecnico'], ' ', true)."</td><td>{$Read->getResult()[0]['TURNO']}</td><td class='no-print'><span rel='agendamentos' callback='Agendamentos' callback_action='delete' style='padding-right: 5px;margin-left: 20%;margin-right: 30%;margin-top: 10%;' class='j_del_tecnico icon-cross btn btn_red' id='{$Read->getResult()[0]['Id']}'></span></td></td></tr>";
-                                 $jSON['idOS'] = $Read->getResult()[0]['Id'];
+                                $jSON['addtable'] = "<tr class='j_tecnico' id='{$Read->getResult()[0]['IDOS']}'><td>{$Read->getResult()[0]['NomeCliente']}</td><td>{$Read->getResult()[0]['NumOS']}</td><td>{$Read->getResult()[0]['NomeOS']}</td><td>{$Read->getResult()[0]['Endereco']} {$Read->getResult()[0]['Bairro']} {$Read->getResult()[0]['Municipio']}</td><td>". date('d/m/Y', strtotime($Read->getResult()[0]['DataAgendamento'])) ."</td><td>". strstr($Read->getResult()[0]['Tecnico'], ' ', true)."</td><td>{$Read->getResult()[0]['TURNO']}</td><td class='no-print'><span rel='agendamentos' callback='Agendamentos' callback_action='delete' style='padding-right: 5px;margin-left: 20%;margin-right: 30%;margin-top: 10%;' class='j_del_tecnico icon-cross btn btn_red' id='{$Read->getResult()[0]['IDOS']}'></span></td></td></tr>";
+                                 $jSON['idOS'] = $Read->getResult()[0]['IDOS'];
                             else:
                                  $jSON['trigger'] = AjaxErro("Erro ao adicionar OS ao Técnico! Por favor tente novamente.");           
                             endif;

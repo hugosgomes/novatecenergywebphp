@@ -322,7 +322,57 @@ if ($PostData && $PostData['callback'] == $CallBack):
   //FIM DO GRÁFICO ESTATÍSTICAS CLIENTES
 
   //GRÁFICO ESTATÍSTICAS CLIENTES EM LINHA *****************************
+  $meses = 0;
+  $qtdClientes = [0,0,0,0,0,0,0,0,0,0,0,0];
+  $qtdClientesAtendidos = [0,0,0,0,0,0,0,0,0,0,0,0];
+  $qtdClientesOrcados = [0,0,0,0,0,0,0,0,0,0,0,0];
 
+
+  if($ano <> 't' && $mes == 't' && $semana == 't'){
+    //CLIENTES RECEBIDOS
+    $Read->FullRead("Select [1] AS JANEIRO, [2] AS FEVEREIRO, [3] AS MARÇO, [4] AS ABRIL, [5] AS MAIO, [6] AS JUNHO, [7] AS JULHO, [8] AS AGOSTO, [9] AS SETEMBRO, [10] AS OUTUBRO
+      , [11] AS NOVEMBRO, [12] AS DEZEMBRO from(
+      SELECT YEAR([60_OS].DataAgendamento) AS ANO, MONTH([60_OS].DataAgendamento) AS MES, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT)A
+      PIVOT (COUNT(Id) FOR mes IN ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12])) P
+      ORDER BY 1;", "");
+
+    if ($Read->getResult()):
+      $meses = array_keys($Read->getResult()[0]);
+      $qtdClientes = array_values($Read->getResult()[0]);
+    endif; 
+
+    //CLIENTES ATENDIDOS
+    $Read->FullRead("Select [1] AS JANEIRO, [2] AS FEVEREIRO, [3] AS MARÇO, [4] AS ABRIL, [5] AS MAIO, [6] AS JUNHO, [7] AS JULHO, [8] AS AGOSTO, [9] AS SETEMBRO, [10] AS OUTUBRO
+      , [11] AS NOVEMBRO, [12] AS DEZEMBRO from(
+      SELECT YEAR([60_OS].DataAgendamento) AS ANO, MONTH([60_OS].DataAgendamento) AS MES, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT
+      WHERE [60_OS].Status = 1)A
+      pivot (COUNT(Id) for mes in ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12])) p
+      order by 1;", "");
+
+    if ($Read->getResult()):
+      $qtdClientesAtendidos = array_values($Read->getResult()[0]);
+    endif; 
+
+    //CLIENTES ATENDIDOS E ORÇADOS
+    $Read->FullRead("Select [1] AS JANEIRO, [2] AS FEVEREIRO, [3] AS MARÇO, [4] AS ABRIL, [5] AS MAIO, [6] AS JUNHO, [7] AS JULHO, [8] AS AGOSTO, [9] AS SETEMBRO, [10] AS OUTUBRO
+      , [11] AS NOVEMBRO, [12] AS DEZEMBRO from(
+      SELECT YEAR([60_OS].DataAgendamento) AS ANO, MONTH([60_OS].DataAgendamento) AS MES, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT  INNER JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].IdOS
+      WHERE [60_OS].Status = 1)A
+      pivot (COUNT(Id) for mes in ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12])) p
+      order by 1;", "");
+
+    if ($Read->getResult()):
+      $qtdClientesOrcados = array_values($Read->getResult()[0]);
+    endif;
+  }
+
+  $jSON['LinhaClienteEixoX'] = $meses;
+  $jSON['LinhaClienteLineGreen'] = $qtdClientes;
+  $jSON['LinhaClienteLineBlue'] = $qtdClientesAtendidos;
+  $jSON['LinhaClienteLineRed'] = $qtdClientesOrcados;
 
 
   //FIM DO GRÁFICO ESTATÍSTICAS CLIENTES EM LINHA **********************
@@ -332,7 +382,7 @@ if ($PostData && $PostData['callback'] == $CallBack):
   $serie = [];
   $Read->FullRead("SELECT NomeOs, COUNT(Id) AS CONTADOR FROM [60_OS] WHERE" . substr($criterioMes,4) . $criterioAno . $criterioSemana . "GROUP BY NomeOs ORDER BY NomeOs", " ");
 
-  if ($Read->getResult()):    
+  if ($Read->getResult()):
     foreach ($Read->getResult() as $FUNC):
       array_push($eixoY, $FUNC['NomeOs']);
       array_push($serie, $FUNC['CONTADOR']);

@@ -98,7 +98,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $IdOS = $Oss['IdOS'];
                     $Longitude = $Oss['Longitude'];
                     $Latitude = $Oss['Latitude'];
-                    $finalizaOs = $Oss['TecnicoId'] > 0 ? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''>Finalizar OS</a></span>" : '';
+                    $finalizaOs = $Oss['TecnicoId'] > 0 && $Oss['Status'] == 6? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''>Finalizar OS</a></span>" : '';
                     $atualizadopor = $Oss['Atualizadopor'] ? $Oss['Atualizadopor'] : 'Não Associado';
                 	$jSON['historicoOs'] .= "<hr><hr>
 									          <div class='box box100' style='padding-bottom: 0px;'>

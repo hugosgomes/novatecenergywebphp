@@ -14,6 +14,12 @@ endif;
   padding: 8px;
   font-size: 15px;
 }
+.linha:nth-child(even) {
+    background-color:  #c0c0c02e;
+}
+.linha td{
+  padding:5px;
+}
 </style>
 
 <header class="dashboard_header">
@@ -105,7 +111,7 @@ endif;
     <center><h4>Informações Detalhadas</h4></center>
     <br>
     <ul class="j_detalhes" id="detalhes">
-      <li><center><a id="j_btn_editar" class="btn btn_darkblue icon-share" >Editar</a></center></li>
+      <li><center><a id="j_btn_editar" class="btn btn_darkblue icon-share" style="display:none">Editar</a></center></li>
       <br>
       <li><span>Data Entrada: </span></li>
       <li><span>Técnico Entrada: </span></li>
@@ -124,12 +130,26 @@ endif;
           </tr>
           <tr class="pecasServicos">    
             <th>Peça / Serviço</th>
-            <th>Quantidade</th>
+            <th>Qtd</th>
             <th>Valor</th>
             <th>Total</th>
           </tr>
         </thead>
-        <tbody id="j_AddPecasServicos" style="font-size: 12px;">
+        <tbody id="j_AddPecasServicos" style="font-size: 11px;">
+
+        </tbody>
+      </table>
+    </div>
+    <div class="box box100">
+        <table id="tabelaOrcamento" class="table" style="text-align: center;">
+          <thead>
+          <tr class="orcamentos">    
+            <th>Nº Parcelas</th>
+            <th>Valor Parcelas</th>
+            <th>Total Orçamento</th>
+          </tr>
+        </thead>
+        <tbody id="j_Orcamentos" style="font-size: 11px;">
 
         </tbody>
       </table>
@@ -157,12 +177,12 @@ endif;
     <div class="label_50">
 
       <label class="label" style="width: 26%;">
-        <span>Data Entrada:</span>
+        <span>Data Realiz.:</span>
         <input id="j_dataEntrada" type="text" placeholder="" class="jwc_datepicker" name="DataEnt" required disabled="readonly"/>
       </label>
 
       <label class="label" style="width:72%;">
-        <span>Técnico Entrada: </span>
+        <span>Técnico Realiz.: </span>
         <select id="j_tecnicoEntrada" class="" name="TecnicoEnt" required disabled="readonly"/>
           <option value = "t">SELECIONE UM TÉCNICO</option>
         </select>
