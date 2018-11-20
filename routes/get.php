@@ -94,7 +94,7 @@ $app->get('/atendimentos/{tecnico}', function (Request $request, Response $respo
                FROM [60_Clientes] 
                INNER JOIN [60_OT] on [60_Clientes].Id = [60_OT].Cliente
                INNER JOIN [60_OS] on [60_OT].Id = [60_OS].OT
-               WHERE [Tecnico] = :tecnico AND [Status] = 1 AND (DataAgendamento = CONVERT (date, GETDATE())   OR DataAgendamento = DATEADD(day,1,(CONVERT (date, GETDATE()))))","tecnico={$tecnico}");
+               WHERE [Tecnico] = :tecnico AND [Status] = 0 AND (DataAgendamento = CONVERT (date, GETDATE())   OR DataAgendamento = DATEADD(day,1,(CONVERT (date, GETDATE()))))","tecnico={$tecnico}");
     if($Read->getResult()):
         return $response->withJson($Read->getResult());
     else:

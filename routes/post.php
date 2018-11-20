@@ -20,8 +20,8 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
         $atendimentoFinalizado[$i]['IdOS'] = intval($body[$i]['idAtendimento']);
         $atendimentoFinalizado[$i]['idTecnico'] = intval($body[$i]['idTecnico']);
         $atendimentoFinalizado[$i]['Status'] = intval($body[$i]['Status']);
-        $atendimentoFinalizado[$i]['DataAtendimento'] = $body[$i]['dataHoraAtendimento']['dataHoraInicio'];
-        $atendimentoFinalizado[$i]['DataSaida'] = ($body[$i]['dataHoraAtendimento']['dataHoraFinal'] == "null" ? NULL : $body[$i]['dataHoraAtendimento']['dataHoraFinal']);
+        $atendimentoFinalizado[$i]['DataAtendimento'] = ($body[$i]['dataHoraAtendimento'] == "null" || $body[$i]['dataHoraAtendimento'] == null ? $body[$i]['DataAtendimento'] : $body[$i]['dataHoraAtendimento']['dataHoraInicio']);
+        $atendimentoFinalizado[$i]['DataSaida'] = ($body[$i]['dataHoraAtendimento'] == "null" || $body[$i]['dataHoraAtendimento'] == null ? $body[$i]['DataAtendimento'] : $body[$i]['dataHoraAtendimento']['dataHoraFinal']);
         $atendimentoFinalizado[$i]['NumManometro'] = ($body[$i]['NumManometro'] == "null" || $body[$i]['NumManometro'] == ""? 0 : $body[$i]['NumManometro']);
         $atendimentoFinalizado[$i]['PressaoInicial'] = ($body[$i]['PressaoInicial'] == "null" ? 0 : floatval($body[$i]['PressaoInicial']));
         $atendimentoFinalizado[$i]['PressaoFinal'] = ($body[$i]['PressaoFinal'] == "null" || $body[$i]['PressaoFinal'] == ""? 0 : floatval($body[$i]['PressaoFinal']));
@@ -535,65 +535,96 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
             $orcamento[$i]['TecnicoEnt'] = intval($body[$i]['orcamento']['idTecnico']);
             $orcamento[$i]['FormaPagamento'] = intval($body[$i]['orcamento']['FormaPagamento']);
             $orcamento[$i]['NumParcelas'] = intval($body[$i]['orcamento']['NumParcelas']);
-            //$orcamento[$i]['DataAgendamento'] = ($body[$i]['orcamento']['dataAgendamento'] == "null" || $body[$i]['orcamento']['dataAgendamento'] == ""? NULL : $body[$i]['orcamento']['dataAgendamento']);
+            $orcamento[$i]['DataAgendamento'] = ($body[$i]['orcamento']['dataAgendamento'] == "null" || $body[$i]['orcamento']['dataAgendamento'] == ""? NULL : $body[$i]['orcamento']['dataAgendamento']);
+            $orcamento[$i]['Status'] = intval($body[$i]['orcamento']['Status']);
 
 
-            if($body[$i]['orcamento']['Status'] == "null" || $body[$i]['orcamento']['Status'] == "Não"){
-                $orcamento[$i]['Status'] = 3;
-            }else{
-                $orcamento[$i]['Status'] = 1;
-            }
             $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = :st","idos={$orcamento[$i]['IdOS']}&st={$orcamento[$i]['Status']}");
             if(!$Read->getResult()){
                 $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
                 $IdOrcamento = $Create->getResult();
 
-                $ClienteSemOT[$i]['IDCLIENTE'] = intval($body[$i]['idCliente']);
-                $ClienteSemOT[$i]['IDORCAMENTO'] = $IdOrcamento;
-                $ClienteSemOT[$i]['USUARIOSISTEMA'] = intval($body[$i]['orcamento']['idTecnico']);
-                //$ClienteSemOT['DATAAGENDAMENTO'] = $body[$i]['orcamento']['dataAgendamento'];
-                
-                $Create->ExeCreate("[60_ClientesSemOT]", $ClienteSemOT[$i]);
+                    if($orcamento[$i]['Status'] == 1){
+                        $ClienteSemOT[$i]['IDCLIENTE'] = intval($body[$i]['idCliente']);
+                        $ClienteSemOT[$i]['IDORCAMENTO'] = $IdOrcamento;
+                        $ClienteSemOT[$i]['USUARIOSISTEMA'] = intval($body[$i]['orcamento']['idTecnico']);
+                        $ClienteSemOT[$i]['DATAAGENDAMENTO'] = $body[$i]['orcamento']['dataAgendamento'];
+                        
+                        $Create->ExeCreate("[60_ClientesSemOT]", $ClienteSemOT[$i]);
+                    }  
+                    
+                    //var_dump($body[$i]['orcamento']['item']);
+                    for($o=0; $o < count($body[$i]['orcamento']['item']); $o++){
+                        if($body[$i]['orcamento']['item'][$o]['tipo'] == "1"){
+                            if($body[$i]['orcamento']['item'][$o]['aprovado'] == "1"){
+                                $ItemPecas[$o]['IDOrcamento'] = $IdOrcamento;
+                                $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                                $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                                $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                                $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);
+                            }else{
+                                $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = 3","idos={$orcamento[$i]['IdOS']}");
+                                $IdOrcamentoReprov = NULL;
+                                if(!$Read->getResult()){
+                                    $orcamento[$i]['Status'] = 3;
+                                    $orcamento[$i]['DataAgendamento'] = NULL;
+                                    $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
+                                    $IdOrcamentoReprov = $Create->getResult();       
 
+                                    $ItemPecas[$o]['IDOrcamento'] = $IdOrcamentoReprov;
+                                    $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                                    $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                                    $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                                    $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);                             
+                                }else{
+                                    $IdOrcamentoReprov = $Read->getResult()[0]['ID'];
+                                    $ItemPecas[$o]['IDOrcamento'] = $IdOrcamentoReprov;
+                                    $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                                    $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                                    $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                                    $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);
+                                }
+                            }
+                            
+                        }else{    
+                            if($body[$i]['orcamento']['item'][$o]['aprovado'] == "1"){                   
+                                $ItemServicos[$o]['IDOrcamento'] = $IdOrcamento;
+                                $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                                $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                                $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                                $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
+                            }else{
+                                $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = 3","idos={$orcamento[$i]['IdOS']}");
+                                $IdOrcamentoReprov = NULL;
+                                if(!$Read->getResult()){
+                                    $orcamento[$i]['Status'] = 3;
+                                    $orcamento[$i]['DataAgendamento'] = NULL;
+                                    $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
+                                    $IdOrcamentoReprov = $Create->getResult();
 
-                for($o=0; $o < count($body[$i]['orcamento']['item']); $o++){
-                    if($body[$i]['orcamento']['item'][$o]['tipo'] == "1" && $orcamento[$i]['Status'] == intval($body[$i]['orcamento']['item'][$o]['aprovado'])){
-                        $ItemServicos[$o]['IDOrcamento'] = $IdOrcamento;
-                        $ItemServicos[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                        $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                        $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                        $Create->ExeCreate("[60_OS_PecasAPP]", $ItemServicos[$o]);
-                    }else{                       
-                        $ItemPecas[$o]['IDOrcamento'] = $IdOrcamento;
-                        $ItemPecas[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                        $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                        $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                        $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemPecas[$o]);
-                    }                
-                }
-            }else{
-                $IdOrcamento = $Read->getResult()[0]['ID'];
-                for($o=0; $o < count($body[$i]['orcamento']['item']); $o++){
-                    if($body[$i]['orcamento']['item'][$o]['tipo'] == "1" && $Read->getResult()[0]['Status'] == intval($body[$i]['orcamento']['item'][$o]['aprovado'])){
-                        $ItemPecas[$o]['IDOrcamento'] = $IdOrcamento;
-                        $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                        $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                        $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                        $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);
-                    }else{                       
-                        $ItemServicos[$o]['IDOrcamento'] = $IdOrcamento;
-                        $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                        $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                        $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                        $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
-                    }                
-                }
-            }          
-        }      
+                                    $ItemServicos[$o]['IDOrcamento'] = $IdOrcamentoReprov;
+                                    $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                                    $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                                    $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                                    $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
+                                }else{
+                                    $IdOrcamentoReprov = $Read->getResult()[0]['ID'];
+                                    $ItemServicos[$o]['IDOrcamento'] = $IdOrcamentoReprov;
+                                    $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                                    $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                                    $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                                    $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
+                                }
+                            }                
+                        }
+                    }      
+
+            }
+        }          
     }
         
-    //return $response->withJson($Retorno);
-    return $response->withJson($body);
+    return $response->withJson($Retorno);
+    //return $response->withJson($body);
 
 });
 
@@ -735,7 +766,7 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
 
             //DEVE SER ALTERADO QUANDO ESTIVER EM PRODUÇÃO
             //var_dump($Atendimento, $Cliente, $Orcamentos, $Defeitos, $Aparelhos);
-            sleep(120);
+            sleep(15);
             $email = enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos, $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico);
         }           
                
@@ -927,19 +958,20 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $A
                     <p>Este e-mail é refente ao cancelamento de nosso Atendimento. Data de nosso atendimento {$DataAtendimento}.</p>
                     <p>Observações identificadas pelo técnico: {$Atendimento['Obs'] }</p>
                     <p>*****************************</p>
-                    <p><em>Atenciosamente,</em></p>
-                    <p><em>Novatec Energy</em></p>
-                    <p><em>(21)3046-8004</em></p>";
+                    <table width='1000' >
+                      <tr>
+                        <td><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/uploads/{$AssinaturaCliente}' width='250' ><br><b>ASSINATURA DO CLIENTE</b></td>                       
+                        <td><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/uploads/{$AssinaturaTecnico}' width='250' ><br><b>ASSINATURA DO TÉCNICO</b></td>   
+                      </tr>                                        
+                    </table>";
                 break;
 
             case 3:
                 $ToCliente = "  <p style='font-size: 1.2em;'>Prezado(a) {$Cliente['NomeCliente']}</p>
                     <p>Este e-mail é refente a tentativa de atendimento realizado pela Novatec Energy na data {$DataAtendimento}.</p>
                     <p>Observações identificadas pelo técnico: {$Atendimento['Obs'] }</p>
-                    <p>*****</p>
-                    <p><em>Atenciosamente,</em></p>
-                    <p><em>Novatec Energy</em></p>
-                    <p><em>(21)3046-8004</em></p>";
+                    <p>*****</p>  
+                    ";
                 break;
 
         }
