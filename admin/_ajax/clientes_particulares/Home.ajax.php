@@ -269,7 +269,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
                 INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID WHERE [80_Orcamentos].ID = " . $idOrcamento,"");
             if ($Read->getResult()):                
-                $jSON['addClienteModal'] = null;//É necessário desclarar como numo por causa da fraca tipação
+                $jSON['addClienteModal'] = null;//É necessário declarar como numo por causa da fraca tipação
                 $jSON['statusOrcamento'] = null;
                 foreach ($Read->getResult() as $dadosModalCliente):
                     extract($dadosModalCliente);
@@ -421,7 +421,7 @@ function preencherHistorico($PostData){
         $jSON['addHistorico'] = null;//É necessário desclarar como numo por causa da fraca tipação
         foreach ($Read->getResult() as $addHistorico):
             $obs = substr($addHistorico['OBS'],0,76);
-            $valor = number_format($addHistorico['VALOR'],2,',','.');
+            $valor = number_format($addHistorico['VALOR'] == "" ? 0 : $addHistorico['VALOR'],2,',','.');
             $tipoServico = getStatusOrcamento()[$addHistorico['TIPO_SERVICO']];
             $historico .= "<div class='box_content buttons_chamados {$classe}' style='height: auto;''>
                             <ul>
