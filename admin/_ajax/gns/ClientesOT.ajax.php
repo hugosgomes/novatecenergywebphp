@@ -117,8 +117,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endforeach;
                     $jSON['addTabela'] .= "
                     <tr>
-                    <td id='{$IDCLIENTE}'>{$NumCliente}</td>
-                    <td id='{$IDCLIENTE}'>{$NomeCliente}</td>
+                    <td style='text-align:center' id='{$IDCLIENTE}'>{$NumCliente}</td>
+                    <td style='text-indent:5px' id='{$IDCLIENTE}'>{$NomeCliente}</td>
                     <td style='text-align:center'>{$dataAgendamento}</td>
                     <td style='text-align:center'><span class='j_pesquisa_ot icon-search btn btn_darkblue' rel='{$IDCLIENTE}' linha_sem_os='{$IDCLIENTE}' callback='ClientesOT' callback_action='consulta'>&ensp;Consultar OT/OS</span></td>
                     </tr>";

@@ -80,36 +80,36 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             //SOMATÓRIO DE VALOR APROVADO
             $Read->FullRead("SELECT SUM([60_Orcamentos].Valor) SOMA FROM [60_Clientes] INNER JOIN [60_OT] ON [60_Clientes].Id = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT INNER JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].idOS WHERE [60_Orcamentos].Status = 1","");
-                if ($Read->getResult()):
+                if (!empty($Read->getResult()[0]['SOMA'])):
                     foreach ($Read->getResult() as $orcamentos):
                         $valor = number_format($orcamentos['SOMA'],2,',','.');
                         $jSON['addAprovado'] = "R$ " . $valor;
                     endforeach;
                 else:
-                    $jSON['addAprovado'] = 0;
+                    $jSON['addAprovado'] = "R$ ". 0;
                 endif;
 
             //SOMATÓRIO DE VALOR REPROVADO
             $Read->FullRead("SELECT SUM([60_Orcamentos].Valor) SOMA FROM [60_Clientes] INNER JOIN [60_OT] ON [60_Clientes].Id = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT INNER JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].idOS WHERE [60_Orcamentos].Status = 3","");
-                if ($Read->getResult()):
+                if (!empty($Read->getResult()[0]['SOMA'])):
                     foreach ($Read->getResult() as $orcamentos):
                         $valor = number_format($orcamentos['SOMA'],2,',','.');
                         $jSON['addReprovado'] = "R$ " . $valor;
                     endforeach;
                 else:
-                    $jSON['addReprovado'] = 0;
+                    $jSON['addReprovado'] = "R$ ". 0;
                 endif;
 
 
             //SOMATÓRIO DE VALOR EXECUTADO
             $Read->FullRead("SELECT SUM([60_Orcamentos].Valor) SOMA FROM [60_Clientes] INNER JOIN [60_OT] ON [60_Clientes].Id = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT INNER JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].idOS WHERE [60_Orcamentos].Status = 2","");
-                if ($Read->getResult()):
+                if (!empty($Read->getResult()[0]['SOMA'])):
                     foreach ($Read->getResult() as $orcamentos):
                         $valor = number_format($orcamentos['SOMA'],2,',','.');
                         $jSON['addExecutado'] = "R$ " . $valor;
                     endforeach;
                 else:
-                    $jSON['addExecutado'] = 0;
+                    $jSON['addExecutado'] = "R$ ". 0;
                 endif;
         break;
 
@@ -133,7 +133,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     foreach ($Read->getResult() as $detalhes):
                         $valor = number_format($detalhes['Valor'],2,',','.');
                         $status = getStatusOrcamentoGNS($detalhes['Status']);
-                        $jSON['addDetalhes'] = $detalhes['Status'] != 1 && $detalhes['Status'] != 2 && $detalhes['Status'] != 4? "<li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>Editar</a></center></li>
+                        $jSON['addDetalhes'] = $detalhes['Status'] == 3 ? "<li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>Editar</a></center></li>
                               <br>
                               <li><span>Data Entrada: </span>{$detalhes['DataEnt']}</li>
                               <li><span>Técnico Entrada: </span>{$detalhes['TecnicoEnt']}</li>
@@ -141,16 +141,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                               <li><span>Data Execução: </span>{$detalhes['DataExe']}</li>
                               <li><span>Técnico Execução: </span>{$detalhes['TecnicoExe']}</li>
                               <li><span>Status: </span>$status</li>
-                              <li id='itens'></li>
-                              <!--<span><b>Valor:</b> (R$)$valor</span>-->" : "<br>
+                              <li><span>Valor:</span> (R$) $valor</li>" : "<br>
                               <li><span>Data Entrada: </span>{$detalhes['DataEnt']}</li>
                               <li><span>Técnico Entrada: </span>{$detalhes['TecnicoEnt']}</li>
                               <li><span>Data Agendamento: </span>{$detalhes['DataAgend']}</li>
                               <li><span>Data Execução: </span>{$detalhes['DataExe']}</li>
                               <li><span>Técnico Execução: </span>{$detalhes['TecnicoExe']}</li>
                               <li><span>Status: </span>$status</li>
-                              <li id='itens'></li>
-                              <!--<span><b>Valor:</b> (R$)$valor</span>-->";
+                              <li><span>Valor:</span> (R$) $valor</li>";
                     endforeach;
                 else:
                     $jSON['addDetalhes'] = 0;
@@ -165,13 +163,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if ($Read->getResult()):
                     foreach ($Read->getResult() as $Servicos):
                         $totalServico = $Servicos['QtdServico'] * $Servicos['ValorServico'];
+                        $TotalServico = number_format($totalServico,2,',','.');
                         $valorServico = number_format($Servicos['ValorServico'],2,',','.');
                         $jSON['addServicos'] = "
                         <tr class='j_Servicos linha' idOrcamento='{$PostData['idOrcamento']}'>
                          <td style='width: 50%;'>{$Servicos['NomeServico']}</td>
                          <td>{$Servicos['QtdServico']}</td>
                          <td>{$valorServico}</td>
-                         <td>{$totalServico}</td>
+                         <td>{$TotalServico}</td>
                         </tr>";
                            $jSON['Servico'] = "{$totalServico}";
                     endforeach;
@@ -196,13 +195,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if ($Read->getResult()):
                     foreach ($Read->getResult() as $Pecas):
                         $totalPecas = $Pecas['QtdPeca'] * $Pecas['ValorPeca'];
+                        $TotalPecas = number_format($totalPecas,2,',','.');
                         $valorPecas = number_format($Pecas['ValorPeca'],2,',','.');
                         $jSON['addPecas'] = "
                         <tr class='j_Pecas linha' idOrcamento='{$PostData['idOrcamento']}'>
                          <td style='width: 50%;'>{$Pecas['NomePeca']}</td>
                          <td>{$Pecas['QtdPeca']}</td>
                          <td>{$valorPecas}</td>
-                         <td>{$totalPecas}</td>
+                         <td>{$TotalPecas}</td>
                         </tr>";
                         $jSON['Peca'] = "{$totalPecas}";
                     endforeach;
@@ -228,11 +228,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             $parcelas = 1;
                         }
                         $vParcelas = $valor / $parcelas;
+                        $Valor = number_format($valor,2,',','.');
+                        $VParcelas = number_format($vParcelas,2,',','.');
                         $jSON['addOrcamentos'] = "
                         <tr class='j_Orcamentos linha' idOrcamento='{$PostData['idOrcamento']}'>
                          <td style='width: 50%;'>{$parcelas}</td>
-                         <td>{$vParcelas}</td>
-                         <td>{$valor}</td>
+                         <td>{$VParcelas}</td>
+                         <td>{$Valor}</td>
                         </tr>";
                         $jSON['orcamento'] = "{$valor}";
                     endforeach;

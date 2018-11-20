@@ -15,6 +15,10 @@ $ID = 0;
 .blocker{
     z-index: 98;
 }
+
+tr:nth-child(even) {
+    background-color:  #f2f2f2;;
+}
 </style>
 
 <header class="dashboard_header">
