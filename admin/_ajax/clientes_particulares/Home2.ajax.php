@@ -421,7 +421,7 @@ function preencherHistorico($PostData){
         $obs = null;    
         foreach ($Read->getResult() as $addHistorico):
             $obs = substr($addHistorico['OBS'],0,76);
-            $valor = number_format($addHistorico['VALOR'],2,',','.');
+            $valor = number_format($addHistorico['VALOR'] == "" ? 0 : $addHistorico['VALOR'],2,',','.');
             $tipoServico = getStatusOrcamento()[$addHistorico['TIPO_SERVICO']];
             $historico .= "<div class='box_content buttons_chamados {$classe}' style='height: auto;''>
                             <ul>

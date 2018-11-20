@@ -328,7 +328,7 @@ if ($PostData && $PostData['callback'] == $CallBack):
   $qtdClientesOrcados = [0,0,0,0,0,0,0,0,0,0,0,0];
 
 
-  if($ano <> 't' && $mes == 't' && $semana == 't'){
+  if($ano <> 't'/* && $mes == 't' && $semana == 't'*/){
     //CLIENTES RECEBIDOS
     $Read->FullRead("Select [1] AS JANEIRO, [2] AS FEVEREIRO, [3] AS MARÇO, [4] AS ABRIL, [5] AS MAIO, [6] AS JUNHO, [7] AS JULHO, [8] AS AGOSTO, [9] AS SETEMBRO, [10] AS OUTUBRO
       , [11] AS NOVEMBRO, [12] AS DEZEMBRO from(
