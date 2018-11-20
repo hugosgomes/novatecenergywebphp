@@ -8,12 +8,25 @@ if (empty($Read)):
   $Read = new Read;
 endif;
 ?>
+
 <style type="text/css">
-  .panel_header{
-     padding: 0px;
-  padding-top: 12px;
+.panel_header{
+ padding: 0px;
+ padding-top: 12px;
 }
+
+.ui-tooltip {
+  position: absolute;
+  padding: 8px;
+  z-index: 9999;
+  max-width: 10%;
+  box-shadow: 1px 1px 1px 1px grey;
+  font-family: Arial;
+  font-size: 11px;"
+}
+
 </style>
+
 <link rel="stylesheet" href="_css/clientes_particulares.css"/>
 <header class="dashboard_header">
   <div class="dashboard_header_title">
@@ -167,7 +180,7 @@ endif;
  </div><!-- BOX 100 -->
  <div class="box box100">
    <div class="formulario">
-    <form method="post" action="" id="j_form">
+    <form  class="j_form" name="user_manager" action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="callback" value="Home"/>
       <input type="hidden" name="callback_action" value="salvachamado"/>
       <div class="label_33">
@@ -180,7 +193,7 @@ endif;
         </label>
         <label class="label" style="width: 18.6666%;">
           <span class="legend">DATA AGENDAMENTO:</span>
-          <input type="text" placeholder="" class="jwc_datepicker wc_value j_data" name="DATAAGENDAMENTO" readonly = "readonly" style="font-family: Arial;font-size: 11px;" required/>
+          <input type="text" placeholder="" class="jwc_datepicker wc_value j_data" name="DATAAGENDAMENTO" style="font-family: Arial;font-size: 11px;"/>
         </label>
 
         <label class="label">
@@ -196,7 +209,7 @@ endif;
           <input class="input j_valor wc_value" style="font-family: Arial;font-size: 11px;" name="VALOR" type="text" size='10' value='' onkeypress='return SomenteNumeroVirgula(this,event)' id="valor" name="campo3" placeholder="R$" required/>
         </label>
 
-        <label class="label" style="margin-left: 0px;">
+        <label class="label" style="margin-left: 0px;width:22%">
           <span class="legend" >FORMA DE PAGAMENTO:</span>
           <select id="" class="j_forma wc_value" name="FORMAPAGAMENTO" style="font-family: Arial;font-size: 11px;">
             <?php 
@@ -207,15 +220,15 @@ endif;
           </select>
         </label>
 
-        <label class="label">
+        <label class="label" style="width:22%">
           <span class="legend">QUANTIDADE DE PARCELAS:</span>
 
           <input class="input j_qnt wc_value" style="font-family: Arial;font-size: 11px;" name="QNTPARCELAS" type="text" size='2' value='' onkeypress='return SomenteNumero(this,event)' name="campo3" placeholder="" required/>
         </label>
 
-        <label class="label">
+        <label class="label" style="width:54%">
           <span class="legend">OBSERVAÇÃO:</span>
-          <input class="input j_obs wc_value" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder="" required/>
+          <input class="input j_obs wc_value" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder=""/>
         </label>
 
         <label class="label">
@@ -256,13 +269,4 @@ endif;
 <!-- mascara para cobrir o site -->  
 <div id="mascara"></div>
 </div>
-<script type="text/javascript">
-
-
-
-</script>
-
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="_js/clientes_particulares.js"></script>
-<script src="_js/modal.js"></script>

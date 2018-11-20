@@ -6,7 +6,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:83'):
     define('SIS_DB_HOST', 'NVTSERVERSQL'); //Link do banco de dados no localhost
     define('SIS_DB_USER', 'NVT'); //Usuário do banco de dados no localhost
     define('SIS_DB_PASS', '1'); //Senha  do banco de dados no localhost
-    define('SIS_DB_DBSA', 'TESTEHU'); //Nome  do banco de dados no localhost
+    define('SIS_DB_DBSA', 'BDNVT'); //Nome  do banco de dados no localhost
 else:
     define('SIS_DB_HOST', 'NVTSERVERSQL'); //Link do banco de dados no servidor
     define('SIS_DB_USER', 'NVT'); //Usuário do banco de dados no servidor
@@ -339,14 +339,31 @@ function getFormaPagamento($Transaction = null)
 
 function getStatusOs($Transaction = null){
     $RealtyTransaction = [
-        0 => 'Não Associado',
-        1 => 'Associado',
-        2 => 'Atendido',
-        3 => 'Cancelado',
-        4 => 'Ausente',
-        5 => 'Reagendado NVT',
-        6 => 'Reagendado GNS',
-        7 => 'Sem Atender'
+        //0 => 'Não Associado',
+        0 => 'Associado',
+        1 => 'Atendido',
+        2 => 'Cancelado',
+        3 => 'Ausente',
+        4 => 'Reagendado NVT',
+        5 => 'Reagendado GNS',
+        6 => 'Sem Atender'
+    ];
+    
+    if ($Transaction!=null):
+        return $RealtyTransaction[$Transaction];
+    else:
+        return $RealtyTransaction;
+    endif;
+}
+
+function getNovoStatusOs($Transaction = null){
+    $RealtyTransaction = [
+        1 => 'Atendido',
+        2 => 'Cancelado',
+        3 => 'Ausente',
+        4 => 'Reagendado NVT',
+        5 => 'Reagendado GNS',
+        6 => 'Sem Atender'
     ];
     
     if ($Transaction!=null):
@@ -359,9 +376,10 @@ function getStatusOs($Transaction = null){
 
 function getStatusOrcamentoGNS($Transaction = null){
     $RealtyTransaction = [
-        0 => 'APROVADO',
-        1 => 'EXECUTADO',
-        2 => 'RECUSADO'
+        1 => 'APROVADO',
+        2 => 'EXECUTADO',
+        3 => 'RECUSADO',
+        4 => 'RECUPERADO'
     ];
     
     if ($Transaction!=null):

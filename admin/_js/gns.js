@@ -8,6 +8,11 @@ $('#Tecnico').change(function(){
     var S = $(this).attr('semana');
 
     $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
+
+        if(data.locations){
+            initMap(data.locations);
+        }
+        
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
             Trigger(data.trigger);
@@ -29,6 +34,10 @@ $('#Tecnico').change(function(){
             $("#orcamento-list").remove();            
             $(data.addOrcamentolist).appendTo('.orcamento-list');
         }
+
+        if (data.qtdOs) {
+            $(".qtdOs").html("Quantidade de OS:<b> "+data.qtdOs+" </b>"); 
+        }
                   
     }, 'json');
 });
@@ -42,9 +51,7 @@ $('#Tecnico').change(function(){
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         var Tecnico = $("#Tecnico option:selected").val();
-
-
-
+               
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
 
@@ -68,6 +75,12 @@ $('#Tecnico').change(function(){
                 $(data.addtable).appendTo('.dataTable');
 
                 markers[OSId].setMap(null);
+
+                var Tecnico = $("#Tecnico option:selected").text();
+                $('.j_tecnico td:nth-child(6)').text(Tecnico.split(' ')[0]);
+
+                var QtdOs = parseInt($('.qtd_OS').text());
+                $('.qtd_OS').text(QtdOs - 1);
 
             }
 
@@ -132,7 +145,8 @@ $('#Tecnico').change(function(){
           }
       })(marker));
 
-
+            var QtdOs = parseInt($('.qtd_OS').text());
+            $('.qtd_OS').text(QtdOs + 1);
            
            }
 
@@ -183,7 +197,7 @@ $('#Tecnico').change(function(){
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOT: OTId, IDCLIENTE:CliId, linhaSemOs: LinhaSemOs }, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, IDOS: OTId, IDCLIENTE:CliId, linhaSemOs: LinhaSemOs }, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -267,15 +281,18 @@ $('#Tecnico').change(function(){
 
     //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $('html').on('click', '.pointer', function (e) {
+        
+      //document.getElementById("tabelaPecasServicos").style.display = "block";
+      //document.getElementById("detalhes").style.display = "block";
 
-      document.getElementById("tabelaPecasServicos").style.display = "block";
-      document.getElementById("detalhes").style.display = "block";
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         var idCliente = $(this).attr('value');
         var idOrcamento = $(this).attr('idOrcamento');
+        var IdCliente = $(this).attr('Idcliente');
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idCliente: idCliente, idOrcamento}, function (data) {
+        $('#j_idCliente').val(IdCliente);
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action,idCliente: idCliente,IdCliente, idOrcamento}, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -308,6 +325,11 @@ $('#Tecnico').change(function(){
                     $(data.addPecas).appendTo('#j_AddPecasServicos');   
                     $(data.addServicos).appendTo('#j_AddPecasServicos');     
                 }     
+            }
+
+            if(data.addOrcamentos){
+                $("#j_Orcamentos *").remove();
+                $(data.addOrcamentos).appendTo('#j_Orcamentos');       
             }
             
 
@@ -406,9 +428,10 @@ $('#Tecnico').change(function(){
 
     document.getElementById('j_mes').selectedIndex = dataAtual.getMonth()+1;
 
-    $('#j_statusOrcamento').append('<option value="0">APROVADO</option>');
-    $('#j_statusOrcamento').append('<option value="2">RECUSADO</option>');
-    $('#j_statusOrcamento').append('<option value="1">EXECUTADO</option>');
+    $('#j_statusOrcamento').append('<option value="1">APROVADO</option>');
+    $('#j_statusOrcamento').append('<option value="2">EXECUTADO</option>');
+    $('#j_statusOrcamento').append('<option value="3" selected>RECUSADO</option>');
+    $('#j_statusOrcamento').append('<option value="4">RECUPERADO</option>');
 
     carregaTabelaOrcamento();
 
@@ -474,6 +497,7 @@ $('html').on('click', '#j_btn_editar', function (e) {
         }   
 
         if(data.addStatus){
+            $("#j_status *").remove();
             $(data.addStatus).appendTo("#j_status");
         }
 
@@ -481,15 +505,22 @@ $('html').on('click', '#j_btn_editar', function (e) {
             $("#j_id").val(data.addId);
             $("#j_dataEntrada").val(dataAtualFormatada(data[0]['DataEnt']));
             $('#j_tecnicoEntrada').val(data[0]['TecnicoEnt']);
-            $("#j_dataExecucao").val(dataAtualFormatada(data[0]['DataExe']));
-            $('#j_tecnicoExecucao').val(data[0]['TecExe']);
+            $("#j_dataAgend").val(dataAtualFormatada(data[0]['DataAgendamento']));
+            $("#j_dataExec").val(dataAtualFormatada(data[0]['DataExe']));
             $('#j_status').val(data[0]['Status']);
+            $('#j_obs').val(data[0]['Obs']);
             $('#j_valor').val(numeroParaMoeda(data[0]['Valor'],2,',','.'));
+
+
+            select = $('#j_status').find('option:selected').val();
+            $('#j_status option[value="1"],#j_status option[value="2"]').remove();
+            $('#j_status option[value="3"]').prop('disabled',true);
+            $('#j_status option[value="4"]').prop('selected',true);
+
         }
     }, 'json');
 
 });
-
 
 
 $('html').on('click', '#j_btn_salvar', function (e) {
@@ -502,7 +533,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
         tinyMCE.triggerSave();
     }
 
-    form.ajaxSubmit({            
+    form.ajaxSubmit({
         url: '_ajax/gns/' + callback + '.ajax.php',
         dataType: 'json',
         beforeSubmit: function () {

@@ -58,6 +58,7 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
                     $Os['Status'] = $atendimentoFinalizado[$i]['Status'];
                     //MUDAR AO COLOCAR EM PRODUÇÃO
                     //$Update->ExeUpdate("[60_OS]", $Os, "WHERE Id = :id", "id={$atendimentoFinalizado[$i]['IdOS']}");
+
                     $Retorno[$atendimentoFinalizado[$i]['IdOS']] = "sucess1";                    
                 }else{
                      $Retorno[$atendimentoFinalizado[$i]['IdOS']] = "error";
@@ -68,6 +69,7 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
                 $Os['Status'] = $atendimentoFinalizado[$i]['Status'];
                 //MUDAR AO COLOCAR EM PRODUÇÃO
                 //$Update->ExeUpdate("[60_OS]", $Os, "WHERE Id = :id", "id={$atendimentoFinalizado[$i]['IdOS']}");
+
                 $Retorno[$atendimentoFinalizado[$i]['IdOS']] = "sucess2";                
             }else{
                  $Retorno[$atendimentoFinalizado[$i]['IdOS']] = "error";
@@ -536,7 +538,9 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
             $orcamento[$i]['FormaPagamento'] = intval($body[$i]['orcamento']['FormaPagamento']);
             $orcamento[$i]['NumParcelas'] = intval($body[$i]['orcamento']['NumParcelas']);
             $orcamento[$i]['DataAgendamento'] = ($body[$i]['orcamento']['dataAgendamento'] == "null" || $body[$i]['orcamento']['dataAgendamento'] == ""? NULL : $body[$i]['orcamento']['dataAgendamento']);
+
             $orcamento[$i]['Status'] = intval($body[$i]['orcamento']['Status']);
+
 
 
             $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = :st","idos={$orcamento[$i]['IdOS']}&st={$orcamento[$i]['Status']}");
@@ -620,7 +624,7 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
                     }      
 
             }
-        }          
+        }   
     }
         
     return $response->withJson($Retorno);
@@ -766,6 +770,7 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
 
             //DEVE SER ALTERADO QUANDO ESTIVER EM PRODUÇÃO
             //var_dump($Atendimento, $Cliente, $Orcamentos, $Defeitos, $Aparelhos);
+
             sleep(15);
             $email = enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos, $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico);
         }           

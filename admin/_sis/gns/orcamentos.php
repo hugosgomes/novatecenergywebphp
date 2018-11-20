@@ -14,6 +14,12 @@ endif;
   padding: 8px;
   font-size: 15px;
 }
+.linha:nth-child(even) {
+    background-color:  #c0c0c02e;
+}
+.linha td{
+  padding:5px;
+}
 </style>
 
 <header class="dashboard_header">
@@ -104,8 +110,8 @@ endif;
   <div class="box_content" style="height: 659px;">
     <center><h4>Informações Detalhadas</h4></center>
     <br>
-    <ul class="j_detalhes" id="detalhes" style="display: none;">
-      <li><center><a id="j_btn_editar" class="btn btn_darkblue icon-share" >Editar</a></center></li>
+    <ul class="j_detalhes" id="detalhes">
+      <li><center><a id="j_btn_editar" class="btn btn_darkblue icon-share" style="display:none">Editar</a></center></li>
       <br>
       <li><span>Data Entrada: </span></li>
       <li><span>Técnico Entrada: </span></li>
@@ -117,19 +123,33 @@ endif;
 
     </ul>
       <div class="box box100">
-        <table id="tabelaPecasServicos" class="table" style="text-align: center;display: none;">
+        <table id="tabelaPecasServicos" class="table" style="text-align: center;">
           <thead>
            <tr>
             <td colspan="4" style="height: 40px;"><b>Tabela de Peças e Serviços</b></td>
           </tr>
           <tr class="pecasServicos">    
             <th>Peça / Serviço</th>
-            <th>Quantidade</th>
+            <th>Qtd</th>
             <th>Valor</th>
             <th>Total</th>
           </tr>
         </thead>
-        <tbody id="j_AddPecasServicos" style="font-size: 12px;">
+        <tbody id="j_AddPecasServicos" style="font-size: 11px;">
+
+        </tbody>
+      </table>
+    </div>
+    <div class="box box100">
+        <table id="tabelaOrcamento" class="table" style="text-align: center;">
+          <thead>
+          <tr class="orcamentos">    
+            <th>Nº Parcelas</th>
+            <th>Valor Parcelas</th>
+            <th>Total Orçamento</th>
+          </tr>
+        </thead>
+        <tbody id="j_Orcamentos" style="font-size: 11px;">
 
         </tbody>
       </table>
@@ -144,50 +164,48 @@ endif;
   <hr style="height: 4px; background-color: black;">
   
   <br>
+  <?php
+    $Read->FullRead("SELECT [ID],[EMPRESA],[DATA DE ADMISSÃO] FROM [Funcionários] WHERE [ID] = :id", "id={$_SESSION['userLogin']['ID']}");
+    $NOME = $Read->getResult()[0];
+  ?>
   <form id="j_form" method="post">
     <input id="j_id" type="hidden" name="ID" value="0" />
+    <input id="j_idCliente" type="hidden" name="Idcliente" value="0"/>
+    <input id="j_usuario_sis" type="hidden" name="usuario" value="<?php echo $NOME['ID'] ?>"/>
     <input type="hidden" name="callback" value="Orcamentos" />
     <input type="hidden" name="callback_action" value="atualizar" />
     <div class="label_50">
 
       <label class="label" style="width: 26%;">
-        <span>Data Entrada:</span>
-        <input id="j_dataEntrada" type="text" placeholder="" class="jwc_datepicker" name="DataEnt" required/>
+        <span>Data Realiz.:</span>
+        <input id="j_dataEntrada" type="text" placeholder="" class="jwc_datepicker" name="DataEnt" required disabled="readonly"/>
       </label>
 
-      <label class="label" style="width: 72%;">
-        <span>Técnico Entrada: </span>
-        <select id="j_tecnicoEntrada" class="" name="TecnicoEnt" required/>
+      <label class="label" style="width:72%;">
+        <span>Técnico Realiz.: </span>
+        <select id="j_tecnicoEntrada" class="" name="TecnicoEnt" required disabled="readonly"/>
           <option value = "t">SELECIONE UM TÉCNICO</option>
         </select>
       </label>
+      <label class="label" style="width: 26%;">
+        <span>Data Agend.:</span>
+        <input id="j_dataAgend" type="text" placeholder="" class="jwc_datepicker" name="DataAgendamento" required/>
+      </label>
 
-    <label class="label"  style="width: 26%;">
-      <span>Data Execução: </span>
-      <input id="j_dataExecucao" type="text" placeholder="" class="jwc_datepicker" name="DataExe" required/>
-    </label>
-
-      <label class="label"  style="width: 72%;">
-        <span>Técnico Execução: </span>
-        <select id="j_tecnicoExecucao" class="" name="TecExe" required/>
-        <option value = "t">SELECIONE UM TÉCNICO</option>
-      </select>
-    </label>
-
-      <label class="label_100">
+      <label class="label" style="width:72%">
         <span>Status: </span>
         <select id="j_status" class="" name="Status" required style="margin-bottom: 5%;" />
         <option value = "t">SELECIONE UM STATUS</option>
-      </select>
+        </select>
+      </label>
+        
+    <label class="label" style="width:100%;">
+        <span>OBS: </span>
+        <input id="j_obs" class="" name="Obs" required style="margin-bottom: 5%;"/>
     </label>
     <br>
 
-    <!--<label class="label">
-      <span>Valor: </span>
-      <input id="j_valor" type="text" placeholder="R$" class="" name="Valor" onkeypress='return SomenteNumeroVirgula(this,event)' required/>
-    </label>-->
-
-<hr style="height: 4px; background-color: black;">
+<hr style="height: 4px;background-color: black;width:100%">
 
 <center><a id="j_btn_salvar" class="btn btn_darkblue icon-share" style="width: 104px;">Salvar</a>&ensp;<a id="j_btn_cancelar" class="btn btn_red icon-cancel-circle" >Cancelar</a></center>
 </div>

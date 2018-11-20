@@ -45,14 +45,7 @@ endif;
         </select>
       </label>
 
-      <?php
-      $Data = date('d/m/Y');
-      $Read->FullRead("SELECT  NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
-        [60_OS].Tecnico, [60_OS].turno as TURNO,
-        [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
-        inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-        inner join [60_OS] on [60_OT].Id = [60_OS].OT
-        AND [DataAgendamento] = :day AND [60_OS].Status <> 0","day={$Data}");
+      <?php      
 
       $ReadClientesAssoc = new Read();
       $ReadClientesAssoc->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Clientes]", "");
@@ -99,15 +92,6 @@ endif;
           <td><b>Total:</b></td>
         </tr>
       </table>
-      <!--<div id="orcamento-list">
-        <h1>Orçamentos:</h1>
-        <ul>
-          <li>Aprovados:</li>
-          <li>Executados:</li>
-          <li>Reprovados:</li>
-          <li><b>Total:</b></li>
-        </ul>
-      </div>-->
     </article>
     <div class="clear"></div>
   </div>
@@ -115,8 +99,7 @@ endif;
 <!--MAPA-->
 <article class="box box50" style="width:67%;">
   <header>
-    <?php
-    echo "<div class='box box25'><span class='flt_right m_left qtdOs'>Quantidade de OS:<b> ".count($Read->getResult())."</b></span></div>
+    <div class='box box25'><span class='flt_right m_left qtdOs'>Quantidade de OS:<b> </b></span></div>
     <div class='box box50'>
     <table>
     <tr>
@@ -124,7 +107,6 @@ endif;
    <!-- <td><div class='associado'></div></td><td>&ensp;Associado&ensp;</td>-->
     <td><div class='Atendido'></div></td><td>&ensp;Atendido</td>
     </tr></table></div>";
-    ?>           
   </header>
   <div class="box_content">
     <div id="map" style="height: 72%;"></div>
@@ -132,80 +114,75 @@ endif;
 </article>
 </div>
 
+<script src="_js/gns.js"></script>
+
 <!--inicia o Google Maps-->
 <script>
-  function initMap() {
-    var myLatLng = {lat: -22.9068467, lng: -43.1728965};
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 8,
-      center: myLatLng
+function initMap(locations) {
+  var myLatLng = {lat: -22.9068467, lng: -43.1728965};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 8,
+    center: myLatLng
+  });
+  var image1 = './_img/marcador.png';
+  var image2 = './_img/marcador2.png';
+
+  if(locations){
+    locations.forEach(function(element, index, array){
+      var latitude = parseFloat(locations[index]['Latitude']);
+      var longitude = parseFloat(locations[index]['Longitude']);
+      var image = locations[index]['Status'] == 0 ? image1 : image2;
+      var dataOs = new Date();
+      var dataFormatada = dataOs.getDate()+"/"+dataOs.getMonth()+"/"+dataOs.getFullYear();
+      var marker = new google.maps.Marker({
+        map: map,
+        icon: image,
+        animation: google.maps.Animation.DROP,
+        position: {lat: latitude, lng: longitude},     
+        title: ''});
+
+      var contentString = "<h3 class='m_bottom'>"+locations[index]['NomeOs']+"</h3><div class='info-content'><p>OS: <b>"+locations[index]['NumOS']+"</b></p><p>Cliente: <b>"+locations[index]['NomeCliente']+"</b></p></p><p>Data: <b>"+dataFormatada+"</b></p>";
+
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString,
+        maxWidth: 400
+      });
+      marker.addListener('click', function () {
+        infowindow.open(map, marker);
+      });
     });
-    var image1 = './_img/marcador.png';
-    var image2 = './_img/marcador2.png';
-    //var image3 = './_img/marcador3.png';
-    var number = 5;
+  }
+}
 
-    <?php
+$(document).ready(function(){
+  $('#Tecnico').val('t');
+  $('#Tecnico').change();
+});
 
-    foreach ($Read->getResult() as $OS):
-      extract($OS);     
-     // $Cliente = str_replace("'", " ", $NomeCliente); // RETIRANDO APÓSTROFO
-                         
-      echo "var marker".$Id." = new google.maps.Marker({
-        position: myLatLng,
-        map: map,"; 
-        if($Status == 1):       
-          echo"icon: image1,"; 
-        elseif($Status > 1):
-          echo"icon: image2,"; 
-        else:
-         // echo"icon: image3,"; 
-        endif;
- 
-        echo "animation: google.maps.Animation.DROP,
-        position: {lat:".$Latitude.", lng: ".$Longitude."},     
-        title: ''});";
-?>
-        var contentString = "<div class='info-window'><h3 class='m_bottom'><?php echo $OSServico; ?></h3><div class='info-content'><p>OS: <b><?php echo $NumOS;?></b></p><p>Cliente: <b><?php echo $NomeCliente; ?></b></p></p><p>Nome Os: <b><?php echo $NomeOs; ?></b></p><p>Data: <b><?php echo date('d/m/Y', strtotime($DataAgendamento)); ?></b></p></div></div>";
+</script>
 
-<?php
-        echo "var infowindow".$Id." = new google.maps.InfoWindow({
-          content: contentString,
-          maxWidth: 400
-        });";
+<!--Chamada da API do Google Maps-->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
 
-        echo "marker".$Id.".addListener('click', function () {
-          infowindow".$Id.".open(map, marker".$Id.");
-        });";     
+<script>
 
-      endforeach;
-      ?>            
-    };
+    var tempoInicial = 0;
+    //SE TEMPO INICIAL FOR IGUAL 60 REALIZA REFRESH NA PÁGINA
+    setInterval(function(){
+      tempoInicial++;
+      if(tempoInicial === 60){
+         document.location.reload(true);
+      }
+    },1000);
 
-  </script>
-
-  <!--Chamada da API do Google Maps-->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
-  <script src="_js/gns.js"></script>
-  <script>
-
-      var tempoInicial = 0;
-      //SE TEMPO INICIAL FOR IGUAL 60 REALIZA REFRESH NA PÁGINA
-      setInterval(function(){
-        tempoInicial++;
-        if(tempoInicial === 60){
-           document.location.reload(true);
+    //SE OCORRER UM DOS EVENTOS ABAIXO TEMPO INICIAL RECEBE (0)
+    $(document).on({
+        click: function(){
+          tempoInicial = 0;
+        },
+        mousemove: function(){
+          tempoInicial = 0;
         }
-      },1000);
+      });
 
-      //SE OCORRER UM DOS EVENTOS ABAIXO TEMPO INICIAL RECEBE (0)
-      $(document).on({
-          click: function(){
-            tempoInicial = 0;
-          },
-          mousemove: function(){
-            tempoInicial = 0;
-          }
-        });
-
-  </script>
+</script>

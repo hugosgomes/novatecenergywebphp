@@ -85,7 +85,7 @@ endif;
 
 
 </head>
-<body class="dashboard_main">
+<body class="dashboard_main" id="body">
     <!-- PRINTER GNS/AGENDAMENTOS -->
 
     <div class="table-printer">
@@ -206,7 +206,8 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/agendamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/agendamentos&day=<?= $Data->format('Ymd');?>">&raquo; Agendamentos</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/monitoramento">&raquo; Monitoramento</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/historico' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/historico">&raquo; Histórico de Clientes</a></li>  
-                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/orcamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/orcamentos">&raquo; Orçamentos</a></li> 
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/orcamentos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/orcamentos">&raquo; Orçamentos</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'gns/estatisticas' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Destaques ativos" href="dashboard.php?wc=gns/estatisticas">&raquo; Estatísticas</a></li> 
                     </ul>
                 </li>
                 <?php
@@ -229,6 +230,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/' ? 'dashboard_nav_menu_active' : ''; ?>"><a  title="Clientes Particulares" href="dashboard.php?wc=clientes/home2">&raquo; Grandes Orçamentos</a></li>
 
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/cadastro' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/cadastro">&raquo; Cadastro</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'clientes/estatísticas' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Cadastro" href="dashboard.php?wc=clientes/estatisticas">&raquo; Estatísticas</a></li>
                     </ul>
                 </li>
                 <?php
@@ -240,6 +242,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-database" title="Usuários" href="#">TI</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/controleUsuarios' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=ti/controleUsuarios">&raquo; Controle de Usuários</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/convertercsv' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Procedimentos Automatizados" href="dashboard.php?wc=ti/convertercsv">&raquo; Procedimentos Automatizados</a></li>
                     </ul>
                 </li>
                 <?php
@@ -259,7 +262,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
             //MÓDULO DE DIRETORIA
             if ($_SESSION['userLogin'] && ($Permissao['DIRETORIA'] == 1)):
                 ?>
-                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'ti/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-stats-dots" title="Usuários" href="#">Diretoria</a>
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'diretoria/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-stats-dots" title="Usuários" href="#">Diretoria</a>
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/dashboard' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/dashboard">&raquo; Dashboard</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/graficos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/graficos">&raquo; Gráficos</a></li>

@@ -296,6 +296,11 @@ function travaCampos(valor){
       break;
 
     case '1':
+      $('#j_select_tecnicos').attr('disabled', false);
+      $('.j_data').attr('disabled', false);
+      $('.j_valor').attr('disabled', false);
+      $('.j_forma').attr('disabled', false);
+      $('.j_qnt').attr('disabled', false);
     case '3':
     case '4':
     case '5':

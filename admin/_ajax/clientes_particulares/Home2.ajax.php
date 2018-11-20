@@ -182,6 +182,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 2 "  . $criterioEndereco . $ctiterioCliente . 
                         "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):
+            $totais['VALOR'] = $totais['VALOR'] ? $totais['VALOR'] : 0;
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
             $jSON['addEmAnalise'] = "<h2 class='js_h2_emAnalise'><a href='#'  onclick='ordenarOrcamentoAnalise();'><i id='j_ordemEmAnalise' ordemAnalise='". $valueOrdem . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Em Análise <p style='color: white;padding-right: 15px;'>(R$){$totais['VALOR']}</p><br></h2>";
@@ -195,6 +196,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 3 "  . $criterioEndereco . $ctiterioCliente . 
                         "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):
+            $totais['VALOR'] = $totais['VALOR'] ? $totais['VALOR'] : 0;
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
             $jSON['addServicoAgendado'] = "<h2 class='js_h2_agendado' style=' text-align:center;'><a href='#'  onclick='ordenarOrcamentoAgendado();'><i id='j_ordemAgendado' ordemAgendado='". $valueOrdemAgendado . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Serviço Agendado <p style='color: white;padding-right: 15px;'>(R$){$totais['VALOR']}</p><br></h2>";
@@ -219,7 +221,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
                         INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 5 "  . $criterioEndereco . $ctiterioCliente . 
                         "AND [80_ClientesParticulares].TIPO = 1","");
-        foreach ($Read->getResult() as $totais):            
+        foreach ($Read->getResult() as $totais):  
+            $totais['VALOR'] = $totais['VALOR'] ? $totais['VALOR'] : 0;          
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
             $jSON['addExecutado'] = "<h2 class='js_h2_executado'><a href='#'><i class='' id='j_ordemExecutado' ordemExecutado='data' callback='Home2' callback_action='consulta' style='font-size: 15px;float: right;color: white;'></i></a>Executado <p style='color: white;'>(R$){$totais['VALOR']}</p></h2>";
@@ -264,21 +267,25 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         case 'consulta_modal':
             //Preenchendo modal
+            $TIPO = getWcTipoServico();
             $idOrcamento = $PostData['idOrcamento'];
             $Read->FullRead("SELECT UPPER([80_ClientesParticulares].NOME) AS NOME, [80_ClientesParticulares].EMAIL, [80_ClientesParticulares].TELEFONE, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, [80_Orcamentos].STATUS FROM [80_Orcamentos]
+                [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, [80_Orcamentos].STATUS,[80_Orcamentos].OBS,[80_Orcamentos].TIPOSERVICO FROM [80_Orcamentos]
                 INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
                 INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID WHERE [80_Orcamentos].ID = " . $idOrcamento,"");
             if ($Read->getResult()):                
                 $jSON['addClienteModal'] = null;//É necessário desclarar como numo por causa da fraca tipação
                 $jSON['statusOrcamento'] = null;
                 foreach ($Read->getResult() as $dadosModalCliente):
+                    extract($dadosModalCliente);
                     $jSON['addClienteModal'] = "<div class='dados_clientes'>".
-                                             "<h5>{$dadosModalCliente['NOME']}</h5>".
-                                             "<ul class='cl_dados' id='{$dadosModalCliente['ID']}'>".
-                                               "<li style='padding-bottom: 0px;' class='dados_endereco'>{$dadosModalCliente['EMAIL']}<span class='m_endereco'></span></li>".
-                                               "<li  style='padding-bottom: 0px;'>{$dadosModalCliente['ENDERECO']}</li>".
-                                               "<li  style='padding-bottom: 0px;'><a href='tel:021980564678' style='color: #004491'>{$dadosModalCliente['TELEFONE']}</a></li>".
+                                             "<h5>{$NOME}</h5>".
+                                             "<ul class='cl_dados' id='{$ID}'>".
+                                               "<li style='padding-bottom: 0px;' class='dados_endereco'>{$EMAIL}<span class='m_endereco'></span></li>".
+                                               "<li  style='padding-bottom: 0px;'>{$ENDERECO}</li>".
+                                               "<li  style='padding-bottom: 0px;'><a href='tel:021980564678' style='color: #004491'>{$TELEFONE}</a></li>".
+                                               "<li  style='padding-bottom: 0px;'>Serviço: {$TIPO[$TIPOSERVICO]}</li>".
+                                               "<li  style='padding-bottom: 0px;'>OBS.: {$OBS}</li>".
                                                "<br>".
                                                "<hr>".
                                              "</div>";     
@@ -414,7 +421,7 @@ function preencherHistorico($PostData){
         $obs = null;    
         foreach ($Read->getResult() as $addHistorico):
             $obs = substr($addHistorico['OBS'],0,76);
-            $valor = number_format($addHistorico['VALOR'],2,',','.');
+            $valor = number_format($addHistorico['VALOR'] == "" ? 0 : $addHistorico['VALOR'],2,',','.');
             $tipoServico = getStatusOrcamento()[$addHistorico['TIPO_SERVICO']];
             $historico .= "<div class='box_content buttons_chamados {$classe}' style='height: auto;''>
                             <ul>

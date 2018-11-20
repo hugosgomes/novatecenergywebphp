@@ -42,39 +42,29 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $orcamentoAprov = 0;
         $orcamentoExec = 0;
         $orcamentoReprov = 0;
+        $qtdOs = 0;
 
                 if(!$PostData['Tecnico']):
                     $jSON['trigger'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING);
                 else:
                     //CLAUSULA DE CRITÉRIO PARA FILTRAR POR TÉCNICO
-                    $criterioTec = $PostData['Tecnico'] != "t" ? " AND Tecnico = " . $PostData['Tecnico'] : "";
+                    $criterioTec = $PostData['Tecnico'] != "t" ? " AND Tecnico = " . $PostData['Tecnico'] : " AND Tecnico <> 0 ";
 
                     //CLIENTES ASSOCIADOS
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 0 AND convert(varchar(10), DataAgendamento, 102) 
-                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
-                    if ($Read->getResult()):
-                        foreach ($Read->getResult() as $OS):
-                            extract($OS);
-                            $naoassociados = $QUANTIDADE;
-                        endforeach;                   
-                    else:
-                        $naoassociados = 0;
-                    endif;
-
-                    //CLIENTES ASSOCIADOS
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 1 AND convert(varchar(10), DataAgendamento, 102) 
-                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE convert(varchar(10), DataAgendamento, 102) = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
                             $associados = $QUANTIDADE;
+                            $qtdOs = $QUANTIDADE;
                         endforeach;                   
                     else:
                         $associados = 0;
+                        $qtdOs = 0;
                     endif;
 
                     //CLIENTES ATENDIDOS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 2 AND convert(varchar(10), DataAgendamento, 102) 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 1 AND convert(varchar(10), DataAgendamento, 102) 
                         = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
@@ -86,7 +76,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES CANCELADOS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 3 AND convert(varchar(10), DataAgendamento, 102) 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 2 AND convert(varchar(10), DataAgendamento, 102) 
                         = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
@@ -98,7 +88,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES AUSENTES  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 4 AND convert(varchar(10), DataAgendamento, 102) 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 3 AND convert(varchar(10), DataAgendamento, 102) 
                         = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
@@ -110,7 +100,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES REAGENDADOS NVT  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 5 AND convert(varchar(10), DataAgendamento, 102) 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 4 AND convert(varchar(10), DataAgendamento, 102) 
                         = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
@@ -122,7 +112,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES REAGENDADOS GNS  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 6 AND convert(varchar(10), DataAgendamento, 102) 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 5 AND convert(varchar(10), DataAgendamento, 102) 
                         = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
@@ -134,7 +124,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
 
                     //CLIENTES SEM ATENDER  
-                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 7 AND convert(varchar(10), DataAgendamento, 102) 
+                    $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS = 0 AND convert(varchar(10), DataAgendamento, 102) 
                         = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
@@ -148,7 +138,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     //ORÇAMENTOS APROVADOS 
                     $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Orcamentos]
                         INNER JOIN [60_OS] ON [60_Orcamentos].IdOS = [60_OS].Id
-                        WHERE [60_Orcamentos].Status = 0 " . $criterioTec,"");
+                        WHERE [60_Orcamentos].Status = 1 AND convert(varchar(10), [60_OS].DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102)" . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -161,7 +152,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     //ORÇAMENTOS EXECUTADOS 
                     $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Orcamentos]
                         INNER JOIN [60_OS] ON [60_Orcamentos].IdOS = [60_OS].Id
-                        WHERE [60_Orcamentos].Status = 1 " . $criterioTec,"");
+                        WHERE [60_Orcamentos].Status = 2 AND convert(varchar(10), [60_OS].DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102) " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
@@ -174,12 +166,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     //ORÇAMENTOS REPROVADOS 
                     $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_Orcamentos]
                         INNER JOIN [60_OS] ON [60_Orcamentos].IdOS = [60_OS].Id
-                        WHERE [60_Orcamentos].Status =  2 " . $criterioTec,"");
+                        WHERE [60_Orcamentos].Status =  3 AND convert(varchar(10), [60_OS].DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102) " . $criterioTec,"");
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $OS):
                             extract($OS);
                             $orcamentoReprov = $QUANTIDADE;
-                        endforeach;                   
+                        endforeach;
                     else:
                         $orcamentoReprov = 0;
                     endif;
@@ -236,6 +229,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     <td>{$orcamentoTotal}</td>
                     </tr>
                     </table>";
+
+                    $Read->FullRead("SELECT  [60_OS].NomeOs,[60_OS].NumOS, NomeCliente, [60_OS].DataAgendamento,
+                    [60_OS].Latitude, [60_OS].Longitude, [60_OS].Status FROM [60_Clientes]
+                    inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                    inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                    WHERE convert(varchar(10), DataAgendamento, 102) = convert(varchar(10), getdate(), 102) " . $criterioTec,"");
+
+                    $jSON['locations'] = $Read->getResult();
+
+                    $jSON['qtdOs'] = $qtdOs;
+
+
                 endif;
             break;
     endswitch;

@@ -48,86 +48,97 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 
                 $Cliente = null; 
                 $IdCli = null;
-                $IdEnd = null;
+                $IdEnd = null;                
 
-                //TESTA SE O CEP TEM O TRAÇO OU NÃO
-                if (strstr($PostData['CEP'], '-')):
-                    $Quebra = explode("-", $PostData['CEP']);
-                    $PostData['CEP'] = $Quebra[0].$Quebra[1];
-                endif;
+                if ($PostData['id_cliente'] == 0) {
 
-                //CASO O CLIENTE NÃO TENHA CPF E CNPJ
-                if(empty($PostData['CPF']) && empty($PostData['CNPJ'])):
+                    //CONSULTA PARA VERIFICAR SE EXISTE CADASTRO UTILIZANDO ESTE TELEFONE
+                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE TELEFONE = '{$PostData["TELEFONE"]}'",""); 
 
-                    $CLIENTE = array("NOME"=>strtoupper($PostData["NOME"]),"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"]);
-                    $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
-                    if ($Create->getResult()):
-                        $IdCli = $Create->getResult();
+                    if($Read->getResult()):
+                        $jSON['trigger'] = AjaxErro("Já existe cadastro para este telefone!",E_USER_WARNING);
+                        break;
                     endif;
 
-                endif;
+                    //CONSULTA PARA VERIFICAR SE EXISTE CADASTRO UTILIZANDO ESTE EMAIL
+                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE EMAIL = '{$PostData["EMAIL"]}'",""); 
 
-                if(!empty($PostData['CPF'])):   
+                    if($Read->getResult()):
+                        $jSON['trigger'] = AjaxErro("Já existe cadastro para este email!",E_USER_WARNING);
+                        break;
+                    endif;
+
+
+                    //TESTA SE O CEP TEM O TRAÇO OU NÃO
+                    if (strstr($PostData['CEP'], '-')):
+                        $Quebra = explode("-", $PostData['CEP']);
+                        $PostData['CEP'] = $Quebra[0].$Quebra[1];
+                    endif;
 
                     //TRATAMENTO DE CPF RETIRANDO PONTOS E TRAÇO DO CPF
-                    $CPF2 = str_replace(".", "", $PostData["CPF"]);
-                    $AUXCPF = str_replace("-", "", $CPF2);
-                    $PostData["CPF"] = $AUXCPF;
-
-                    //PESQUISA DE EXISTE O CPF INFORMADO
-                    $Read->FullRead("SELECT ID FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
-                    if(!$Read->getResult()):   
-                        //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
-                        $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CPF"=>$PostData["CPF"]);
-                        $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
-                        $IdCli = $Create->getResult();                       
-                    else:
-                        $IdCli = $Read->getResult()[0]["ID"];                                
-                    endif; 
-                endif; 
-
-                if (!empty($PostData['CNPJ'])):
-
-                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
-                    $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
-                    $CNPJ3 = str_replace("/", "", $CNPJ2);
-                    $AUXCNPJ = str_replace("-", "", $CNPJ3);
-                    $PostData["CNPJ"] = $AUXCNPJ;
-
-                    $Read->FullRead("SELECT ID, CNPJ FROM [80_ClientesParticulares] WHERE CNPJ = :cnpj","cnpj={$PostData['CNPJ']}");
-                    if(!$Read->getResult()):   
-                        //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
-                        $CLIENTE = array("NOME"=>strtoupper($PostData["NOME"]),"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CNPJ"=>$PostData["CNPJ"]);
-                        $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
-                        $IdCli = $Create->getResult();
-                    else:
-                        $IdCli = $Read->getResult()[0]["ID"];                                
-                    endif; 
-                endif;                
-                    
-                     //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
-                    $Read->FullRead("SELECT ID FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");                        
-                           
-                    if(!$Read->getResult()):                  
-                        //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
-                        $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>strtoupper($PostData["LOGRADOURO"]),"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>strtoupper($PostData["BAIRRO"]), "CIDADE"=>strtoupper($PostData["CIDADE"]),"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
-                        $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
-                        $IdEnd = $Create->getResult();
-                    else:
-                        $IdEnd = $Read->getResult()[0]['ID'];
+                    if(!empty($PostData['CPF'])):                    
+                        $CPF2 = str_replace(".", "", $PostData["CPF"]);
+                        $AUXCPF = str_replace("-", "", $CPF2);
+                        $PostData["CPF"] = $AUXCPF;
                     endif;
 
-                    //CRIA ARRAY DE ORÇAMENTO
-                    if($IdCli && $IdEnd):
-                        $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"], "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]);
-                        $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
+                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
+                    if (!empty($PostData['CNPJ'])):                    
+                        $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
+                        $CNPJ3 = str_replace("/", "", $CNPJ2);
+                        $AUXCNPJ = str_replace("-", "", $CNPJ3);
+                        $PostData["CNPJ"] = $AUXCNPJ;
+                    endif;
 
-                        $jSON['inpuval'] = "null"; 
-                        $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
-                        $jSON['success'] = true;  
-                    else:
-                        $jSON['trigger'] = AjaxErro("Erro ao cadastrar o Orçamento");
-                    endif;            
+                    //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
+                    $CLIENTE = array(
+                        "NOME"=>strtoupper($PostData["NOME"]),
+                        "TELEFONE"=>$PostData["TELEFONE"],
+                        "EMAIL"=>$PostData["EMAIL"],
+                        "TIPO"=>$PostData["TIPO"],
+                        "CPF"=> !empty($PostData['CPF'])? $PostData["CPF"]: NULL,
+                        "CNPJ"=> !empty($PostData['CNPJ'])? $PostData["CNPJ"] : NULL
+                    );
+
+                    $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
+                    $IdCli = $Create->getResult();
+                }else{
+                    $IdCli = $PostData['id_cliente'];
+                }
+                                               
+                    
+                 //VERIFICA SE JÁ EXISTE ENDEREÇO SEMELHANTE CADASTRADO PARA ESTE CLIENTE
+                $Read->FullRead("SELECT ID FROM [80_Enderecos] WHERE IDCLIENTE = :cliente AND CEP = :cep AND NUMERO = :numero AND COMPLEMENTO = :complemento","cliente={$IdCli}&cep={$PostData['CEP']}&numero={$PostData['NUMERO']}&complemento={$PostData['COMPLEMENTO']}");                   
+                       
+                if(!$Read->getResult()):
+
+                    //MONTA ARRAY ENDEREÇO PARA INSERIR NO BANCO
+                    $ENDERECO = array("IDCLIENTE"=>$IdCli,"CEP"=>$PostData["CEP"],"LOGRADOURO"=>strtoupper($PostData["LOGRADOURO"]),"NUMERO"=>$PostData["NUMERO"],"BAIRRO"=>strtoupper($PostData["BAIRRO"]), "CIDADE"=>strtoupper($PostData["CIDADE"]),"UF"=>$PostData["UF"], "COMPLEMENTO"=>$PostData["COMPLEMENTO"]);
+                    $Create->ExeCreate("[80_Enderecos]", $ENDERECO);
+                    $IdEnd = $Create->getResult();
+                else:
+                    $IdEnd = $Read->getResult()[0]['ID'];
+
+                    //VERIFICA SE JÁ EXISTE UM ORÇAMENTO EM ABERTO PARA ESTE CLIENTE E ENDEREÇO
+                    $ReadOrc = new Read;
+                    $ReadOrc->FullRead("SELECT COUNT(ID) AS QTD FROM [80_Orcamentos] WHERE TIPOSERVICO = :tipoServico AND STATUS < 5 AND IDCLIENTE = :cliente AND IDENDERECO = :idEndereco","tipoServico={$PostData['TIPOSERVICO']}&cliente={$IdCli}&idEndereco={$IdEnd}");
+                    if($ReadOrc->getResult()[0]['QTD'] > 0):
+                        $jSON['trigger'] = AjaxErro("Já existe orçamento em andamento para este serviço!",E_USER_WARNING);
+                        break;
+                    endif;
+                endif;
+
+                //CRIA ARRAY DE ORÇAMENTO
+                if($IdCli && $IdEnd):
+                    $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"], "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]);
+                    $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
+
+                    $jSON['inpuval'] = "null"; 
+                    $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
+                    $jSON['success'] = true;  
+                else:
+                    $jSON['trigger'] = AjaxErro("Erro ao cadastrar o Orçamento");
+                endif;
       break;
     case 'consulta':       
             switch ($PostData["Rel"]):

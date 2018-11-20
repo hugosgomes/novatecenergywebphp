@@ -13,6 +13,7 @@
                 if(data.Trigger){
                     Trigger(data.trigger);
                 }
+
                 if (data.cliente) {
                     $('.wc_cpf').val(data.cliente['CPF']);
                     $('.wc_cnpj').val(data.cliente['CNPJ']);
@@ -21,10 +22,38 @@
                     $('.wc_endereco').val(data.cliente['ENDERECO']);
                     $('.wc_email').val(data.cliente['EMAIL']);
                     $('.wc_tipo').val(data.cliente['TIPO']);
+                    $('.wc_idCliente').val(data.cliente['ID']);
+                    $('.wc_logradouro').val("");
+                    $('.wc_numero').val("");
+                    $('.wc_complemento').val("");
+                    $('.wc_bairro').val("");
+                    $('.wc_localidade').val("");
+                    $('.wc_uf').val("");
+                    $('.wc_cep').val("");
 
                      // MUDAR BOTÃO AO ESCOLHER CLIENTE
                      $(".abrir_chamado").show();
                      $(".cad_cadastro").hide();
+                }else{
+                    $('.wc_cpf').val("");
+                    $('.wc_cnpj').val("");
+                    $('.wc_nome').val("");
+                    $('.wc_telefone').val("");
+                    $('.wc_endereco').val("");
+                    $('.wc_email').val("");
+                    $('.wc_tipo').val("");
+                    $('.wc_idCliente').val(0);
+                    $('.wc_logradouro').val("");
+                    $('.wc_numero').val("");
+                    $('.wc_complemento').val("");
+                    $('.wc_bairro').val("");
+                    $('.wc_localidade').val("");
+                    $('.wc_uf').val("");
+                    $('.wc_cep').val("");
+
+                     // MUDAR BOTÃO AO ESCOLHER CLIENTE
+                     $(".abrir_chamado").hide();
+                     $(".cad_cadastro").show();
                 } 
                 if (data.dadosCliente) {
                     $('.dados').remove();
@@ -133,18 +162,34 @@
 
 });
 
+  /*$(function() {
+      var esportes = [
+      "Natação",
+      "Futebol",
+      "Vôlei",
+      "Basquete"
+      ];
+      $("#tags").autocomplete({
+        source: esportes,
+        select: function( event, ui ) {
+            console.log("Selected: " + ui.item.value + " aka " + ui.item.id );
+        }
+    });
+  });*/
 
 
 
 
- /*$('html, body').on('click', '.j_buscar_cliente', function (e) {
+/*
+ $('html, body').on('click', '.j_buscar_cliente', function (e) {
     var  availableTags = [];
 
    //var Cliente = $(this).val();
    var Callback = $(this).attr('callback');
    var Callback_action = $(this).attr('callback_action');
+   var Rel = $(this).attr('rel');
 
-   $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action}, function (data) {
+   $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Rel: Rel}, function (data) {
 
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if (data.trigger) {
@@ -168,10 +213,7 @@
 
                 }
             });
-         }
-               //console.log(data.buscarCliente[0]['NOME']);
+         }               //console.log(data.buscarCliente[0]['NOME']);
         }
-
     }, 'json');
-
   });*/
