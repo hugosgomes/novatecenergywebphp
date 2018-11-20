@@ -51,7 +51,7 @@ $('#Tecnico').change(function(){
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         var Tecnico = $("#Tecnico option:selected").val();
-
+               
 
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, os_id: OSId, Tecnico: Tecnico}, function (data) {
 
@@ -325,6 +325,11 @@ $('#Tecnico').change(function(){
                     $(data.addPecas).appendTo('#j_AddPecasServicos');   
                     $(data.addServicos).appendTo('#j_AddPecasServicos');     
                 }     
+            }
+
+            if(data.addOrcamentos){
+                $("#j_Orcamentos *").remove();
+                $(data.addOrcamentos).appendTo('#j_Orcamentos');       
             }
             
 

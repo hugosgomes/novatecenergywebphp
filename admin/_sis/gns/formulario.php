@@ -103,7 +103,7 @@ tr:nth-child(even) {
             &raquo;
             <a title="<?= ADMIN_NAME; ?>" href="dashboard.php?wc=home">Home</a>
             <span class="crumb">/</span>
-            Orçamento
+            Atendimentos
         </p>
     </div>
 </header>

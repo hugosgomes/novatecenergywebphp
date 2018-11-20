@@ -69,26 +69,34 @@ $ID = 0;
 </article>
 </div>
 <article class="box box100">
-    <div class="box box50">
-        <a class="btn btn_darkblue" href="#cad_clientes_semOTOS" rel="modal:open"><i class="icon-share"></i> Cadastrar</a>
-    </div>
     <header>
       <h3 style="text-align: center;">Relação de Clientes sem OT/OS</h3>
   </header>
   <div class="box_content">
     <article class='box box100'>
         <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
-        <article class="box box50">
-            <div class="tabela-responsivel" style="height: 62%;">
-               <table id='j_cliente_semOT' class='table' style="width: 100%;">
+        <article class="box" style="width:60%">
+            <div class="tabela-responsivel" style="height: 62%;font-size:13px;">
+               <table  class='table' style="width: 100%;font-size:13px;">
+                    <thead>
+                        <tr>
+                            <th>Nº Cliente</th>
+                            <th>Nome Cliente</th>
+                            <th>Data Agend.</th>
+                            <th>Consultar OT/OS</th>
+                        </tr>
+                    </thead>
+                    <tbody id='j_cliente_semOT'>
+                        
+                    </tbody>
                 <!--LOCAL ONDE CARREGA OS DADOS DOS CLIENTES VINDOS DO AJAX-->
-            </table>
+                </table>
         </div>
     </article>
     <!--LOCAL ONDE É APRESENTADO AS SUGESTÕES DE OT PARA VINCULAR-->
-    <article class="box box_50">
+    <article class="box" style="width:40%">
         <div class="tabela-responsivel" style="height: 62%;">
-            <table class="ot" style="font-size: 0.9em;">           
+            <table class="ot" style="font-size: 0.9em;width:100%">           
             </table>
         </div>
     </article>
