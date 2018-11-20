@@ -156,7 +156,7 @@
                   <label>
                       <span><input class="o_parcelas" id="o_parcelas_maior_12" type="radio" name="O_quant_parcelas" value="13" style="width:5%">Mais parcelas (autorização do supervisor)</span>
 
-                      <input id="o_parcelas-seleciona" type="number" name=""  min="13"  style="display:none;width:5%;height:20px">
+                      <input id="o_parcelas-seleciona" type="number" name=""  min="13"  style="display:none;width:12%;height:20px">
                   </label>
               </div>
             </div>

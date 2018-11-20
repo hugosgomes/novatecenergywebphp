@@ -1,4 +1,4 @@
-        <h4 class="icon-user-plus">Teste de Estanquidade</h4>
+        <h4>Teste de Estanquidade</h4>
         <div class="box box100">
               <div class="box box100">
                 <div class="label box box15">

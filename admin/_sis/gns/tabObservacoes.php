@@ -6,8 +6,8 @@
 </div>
 <div class="box box100 ">
     <label class="label">
-    	<span class="legend" >Serviço de Origem:</span>
-    	<select class="t_o_os">
+    	<span class="legend termo-respon" style="display:none">Serviço de Origem:</span>
+    	<select class="t_o_os" style="display:none">
     		<?php
                 $Read->FullRead("SELECT [NomeOs] FROM [BDNVT].[dbo].[60_OS] WHERE {$IdOS} = [OT] AND [NomeOs] = 'Assistencia Tecnica' OR {$IdOS} = [OT] AND [NomeOs] = 'Assistencia domiciliar gas' OR {$IdOS} = [OT] AND [NomeOs] = 'Revisao preventiva anual' OR {$IdOS} = [OT] AND [NomeOs] = 'Visita de manutencao periodica' OR {$IdOS} = [OT] AND [NomeOs] = 'Visita tecnica' OR {$IdOS} = [OT] AND [NomeOs] = 'Visita de venda de equipamento'","");
                 if ($Read->getResult()):
@@ -17,7 +17,7 @@
                 endif;
                 ?>
     	</select>
-    	<p>Declaro que os itens abaixo encontram-se adequados conforme aprovado no serviço acima realizado, e estou ciente de que os mesmos não devem ser alterados, e que a alteração deste coloca em risco a segurança na utilização do abastecimento a gás</p>
+    	<p class="decla" style="display:none">Declaro que os itens abaixo encontram-se adequados conforme aprovado no serviço acima realizado, e estou ciente de que os mesmos não devem ser alterados, e que a alteração deste coloca em risco a segurança na utilização do abastecimento a gás</p>
     	<div class="box box100">
     		<table class="t_responsabilidade" style="display:none">
     			<thead>
@@ -224,7 +224,7 @@
     				</tr>
     			</tbody>
     		</table>
-    		<ul>
+    		<ul id="legenda" style="display:none">
     			<li style="display:inline-block;margin-right: 5px"><strong>1</strong> cozinha</li>
     			<li style="display:inline-block;margin-right: 5px"><strong>2</strong> banheiro social</li>
     			<li style="display:inline-block;margin-right: 5px"><strong>3</strong> banheiro suíte</li>

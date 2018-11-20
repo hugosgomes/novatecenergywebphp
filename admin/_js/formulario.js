@@ -82,7 +82,13 @@ $('.o_aprovado_reprovado').change(function(){
 */
 $(document).on('mouseenter','#j_btn_salvar',function() {
     o_os_status = $('.o_os_status option:selected').val();
+    orcamento = $('#valor-total').val();
+    statusOrcamento = $('.o_aprovado_reprovado option:selected').val();
+    dataAgendamento = $('input[name="o_data_agendamento"]').val();
 
+    if(orcamento > 0 && statusOrcamento == 1 && dataAgendamento == 0){
+      alert('Insira data de agendamento');
+    }
     //SE O STATUS DO ORÇAMENTO FOR APROVADO O USUÁRIO DEVE SELECIONAR O STATUS DA OS
     if(o_os_status == 't'){
       alert('Selecione status da OS!');
@@ -576,6 +582,10 @@ $(document).ready(function(){
 
   if(OsExist != undefined){
     $('.t_responsabilidade').css('display','table');
+    $('#legenda').css('display','block');
+    $('.t_o_os').css('display','block');
+    $('.termo-respon').css('display','block');
+    $('.decla').css('display','block');
 
   }
 })
