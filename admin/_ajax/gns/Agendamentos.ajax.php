@@ -48,8 +48,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $OSId = $PostData['os_id'];
             unset($PostData['os_id']);
 
-            $PostData['Status'] = "1";
-
                 if(!$PostData['Tecnico']):
                     $jSON['triggerErro'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING);
                 else:
@@ -87,7 +85,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $OSId = $PostData['os_id'];
             unset($PostData['os_id']);
             $Tecnico['Tecnico'] = "0";
-            $Tecnico['Status'] = "0";
 
 
 

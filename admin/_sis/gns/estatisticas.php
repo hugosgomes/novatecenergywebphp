@@ -34,7 +34,10 @@ td, th {
 <div class="dashboard_content">
     <article class="box box100">
         <div class="panel">
-
+          <div class="listar-tecnicos">
+            <input type="hidden" name="Callback" value="ReportTecnicos">
+            <input type="hidden" name="Callback_action" value="listar-tecnicos">
+          </div>
           <!-- Gráfico de técnicos -->
             <div class="wc_ead_chart_control" id="relatorio_tecnicos">
                 <input type="hidden" name="callback" value="Estatisticas">
@@ -59,14 +62,14 @@ td, th {
                 </select>
                 <select id="j_semana_s" style="width: 150px;">
                   <option value="t">TODAS AS SEMANAS</option>
-                  <option value="t">1º SEMANA</option>
-                  <option value="t">2º SEMANA</option>
-                  <option value="t">3º SEMANA</option>
-                  <option value="t">4º SEMANA</option>
+                  <option value="1">1º SEMANA</option>
+                  <option value="2">2º SEMANA</option>
+                  <option value="3">3º SEMANA</option>
+                  <option value="4">4º SEMANA</option>
                 </select>
             </div>
             <div id="jwc_chart_container_tecnicos"></div>
-                <div class="box box100 ">
+                <div id="j_totalTecnicos" class="box box100 ">
                     <div class="box_content">
                       <table style="max-width: 450px;margin: auto;">
                         <tr>
@@ -86,7 +89,7 @@ td, th {
               <div id="jwc_chart_container_orcamentos"></div>
                 <div class="box box100">
                     <div class="box_content">
-                      <table style="max-width: 320px;margin: auto;">
+                      <table id="j_estat_orcamento" style="max-width: 320px;margin: auto;">
                         <tr>
                           <td><b>Total: 100</b></td>
                           <td><b>Aprovados: 40</b></td>
@@ -111,14 +114,14 @@ td, th {
               <div id="jwc_chart_container_orcamentos_aprovados"></div>
               <div class="box box100">
                   <div class="box_content">
-                    <table style="max-width: 300px;margin: auto;">
+                    <table id="j_estat_orcamentoAprov" style="max-width: 300px;margin: auto;">
                       <tr>
-                        <td><b>Executados: 40</b></td>
-                        <td><b>Agendados: 20</b></td>
+                        <td><b>Total: 70</b></td>
+                        <td><b>Executados: 40</b></td>                        
                       </tr>
                       <tr>
-                        <td><b>Recusados: 10</b></td>
-                        <td></td>
+                        <td><b>Agendados: 20</b></td>
+                        <td><b>Recusados: 10</b></td>   
                       </tr>
                     </table>
                   </div>
@@ -133,7 +136,7 @@ td, th {
               <div id="jwc_chart_container_clientes"></div>
                 <div class="box box100">
                     <div class="box_content">
-                      <table style="max-width: 450px;margin: auto;">
+                      <table id="j_estat_clientes" style="max-width: 450px;margin: auto;">
                         <tr>
                           <td><b>Total Clientes: 100</b></td>
                           <td><b>Atendidos: 30</b></td>
@@ -163,7 +166,7 @@ td, th {
               <div id="jwc_chart_container_servicos"></div>
                <div class="box box100">
                   <div class="box_content">
-                    <table style="max-width: 500px;margin: auto;">
+                    <table style="max-width: 1000px;margin: auto;">
                       <tr>
                         <td><b>Total Serviços: 35</b></td>
                         <td><b>Serviços Realizados: 30</b></td>
@@ -176,13 +179,8 @@ td, th {
 
             <!-- Gráfico de serviços -->
             <div class="box box100">
-              <div class="wc_ead_chart_control">
-                
-            </div>
               <div id="jwc_chart_container_servicos_s"></div>
             </div>
-            <footer class="wc_ead_reports">
-            </footer>
         </div>
     </article>
 </div>

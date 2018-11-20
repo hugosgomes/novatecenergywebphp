@@ -89,7 +89,7 @@ $app->get('/atendimentos/{tecnico}', function (Request $request, Response $respo
     
     $Read = new Read;
     $Read->FullRead("SELECT [60_OS].Id AS idOS, [60_OS].NumOS AS numeroOS, [60_OS].NomeOS AS nomeOS, [60_OS].Status AS statusOS, [60_OS].ObsCEG AS obsCEG,  [60_OS].ObsEmpreiteira AS obsEmpreiteira, CONVERT (date, [60_OS].DataAgendamento) AS DataAgendamento, [60_OS].PeriodoAgendamento AS periodo, [60_OS].Prioridade AS prioridadeOS, [60_OS].Tecnico AS tecnico, [60_OS].Turno AS turno, [60_OS].Endereco AS endereco, [60_OS].Bairro AS bairro, [60_OS].Municipio AS municipio, [60_OS].Cep AS cep, [60_OS].Latitude AS latitude, [60_OS].Longitude AS longitude,
-        [60_Clientes].id AS idCliente, [60_Clientes].NumCliente AS numCliente, [60_Clientes].NomeCliente AS nomeCliente, [60_Clientes].Telefone1 AS telefone1, [60_Clientes].Telefone2 AS telefone2, [60_Clientes].Telefone3 AS telefone3,
+        [60_Clientes].id AS idCliente, [60_Clientes].[CPFCNPJ] AS cpfcnpj, [60_Clientes].NumCliente AS numCliente, [60_Clientes].NomeCliente AS nomeCliente, [60_Clientes].Telefone1 AS telefone1, [60_Clientes].Telefone2 AS telefone2, [60_Clientes].Telefone3 AS telefone3,
                [60_OT].Id AS idOT, [60_OT].NumOT AS numOT, [60_OT].ObsOT AS obsOT, [60_OT].TipoOT AS TipoOT
                FROM [60_Clientes] 
                INNER JOIN [60_OT] on [60_Clientes].Id = [60_OT].Cliente
@@ -101,43 +101,3 @@ $app->get('/atendimentos/{tecnico}', function (Request $request, Response $respo
         return $response->withJson($Read->getResult());
     endif;
 });
-
-
-/* GET QUE RETORNA O TECNICO PELO ID INFORMADO
-$app->get('/tecnicos/{id}', function (Request $request, Response $response, array $args) {
-    $id = $request->getAttribute('id');
-    $Read = new Read;
-    $Read->FullRead("SELECT [p].[ID] AS id,  [p].[NOME COMPLETO] AS nome, [p].[SETOR] AS setor, [p].[TITULO (FUNÇÃO)] AS funcao FROM [Funcionários] AS [p] WHERE [ID] = :id","id={$id}");
-    if($Read->getResult()):
-    	return $response->withJson($Read->getResult()[0]);
-    else:
-    	return $response->withJson("Técnico não encontrado!");
-    endif;
-});
-
-$app->get('/atendimentos/', function (Request $request, Response $response, array $args) {
-    //$id = $request->getAttribute('id');
-    $Read = new Read;
-    $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
-						NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Tecnico, [60_OS].turno as TURNO
-						FROM [60_Clientes]
-						inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-						inner join [60_OS] on [60_OT].Id = [60_OS].OT
-						WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())"," ");
-    if($Read->getResult()):
-    	return $response->withJson($Read->getResult()[0]);
-    else:
-    	return $response->withJson("Técnico não encontrado!");
-    endif;
-});
-
-$app->get('/pecas/', function (Request $request, Response $response, array $args) {
-    //$id = $request->getAttribute('id');
-    $Read = new Read;
-    $Read->FullRead("SELECT ID, Peca, ValorFinal, [40_Unidades].UNIDADE FROM [60_Pecas] inner join [40_Unidades] on [60_Pecas].Unidade = [40_Unidades].[COD]"," ");
-    if($Read->getResult()):
-    	return $response->withJson($Read->getResult());
-    else:
-    	return $response->withJson("Peças não encontradas!");
-    endif;
-});*/

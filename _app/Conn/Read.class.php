@@ -46,7 +46,14 @@ class Read {
      * @return ARRAY $this = Array ResultSet
      */
     public function getResult() {
-        return $this->Result;
+        return $this->removeSpecialCaracters($this->Result);
+    }
+
+    public function removeSpecialCaracters($Result){
+        foreach ($Result as $key => $value) {
+            $Result[$key] = str_replace("'", "", $value);
+        }
+        return $Result;
     }
 
     /**
