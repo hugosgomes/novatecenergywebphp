@@ -178,7 +178,7 @@ endif;
 
       <label class="label" style="width: 26%;">
         <span>Data Realiz.:</span>
-        <input id="j_dataEntrada" type="text" placeholder="" class="jwc_datepicker" name="DataEnt" required disabled="readonly"/>
+        <p id="j_dataEntrada" type="text" placeholder="" class="jwc_datepicker" name="DataEnt" /></p>
       </label>
 
       <label class="label" style="width:72%;">
@@ -242,4 +242,15 @@ endif;
   margin-top: 12;
 }
 
+#j_tecnicoEntrada{
+  border:none;
+  color:#000;
+  cursor:default;
+  background-image:none;
+  
+}
+
+#j_dataEntrada{
+  margin-top: 5px;
+}
 </style>

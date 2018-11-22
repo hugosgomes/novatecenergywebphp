@@ -117,7 +117,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'detalhes':
                 
             $jSON['addDetalhes'] = null;
-
             //INFORMAÇÕES DETALHADAS
             $Read->FullRead("SELECT CONVERT(NVARCHAR,[60_Orcamentos].DataEnt,103) AS DataEnt,[60_OS_ServicosAPP].Qtd AS QtdServico,[60_OS_ServicosAPP].Valor AS ValorServico,[60_OS_PecasAPP].Qtd AS QTDPecas,[60_OS_PecasAPP].Valor AS ValorPecas, IIF(Func1.ID is not null, Func1.[NOME COMPLETO], Func2.NOME) AS TecnicoEnt, 
             IIF(Funcionários.ID is not null, Funcionários.[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS TecnicoExe,
@@ -134,10 +133,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if (!empty($Read->getResult())):
                     foreach ($Read->getResult() as $detalhes):
                       extract($detalhes);
+                    if($QtdServico != NULL && $ValorServico != NULL && $QTDPecas != NULL && $ValorPecas){
                         $valorOrcamento = ($QtdServico * $ValorServico) + ($QTDPecas * $ValorPecas);
+                      }elseif ($QtdServico == NULL && $ValorServico == NULL) {
+                        $valorOrcamento = $QTDPecas * $ValorPecas;
+                      }elseif ($QTDPecas == NULL || $ValorPecas == NULL) {
+                        $valorOrcamento = $QtdServico * $ValorServico;
+                      }
                         $valor = number_format($valorOrcamento,2,',','.');
                         $status = getStatusOrcamentoGNS($detalhes['Status']);
-                        $jSON['addDetalhes'] = $detalhes['Status'] != 1 || $detalhes['Status'] != 2 || $detalhes['Status'] != 4  ? "<li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>Editar</a></center></li>
+                        $jSON['addDetalhes'] = $Status == 3  ? "<li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>Editar</a></center></li>
                               <br>
                               <li><span>Data Entrada: </span>{$detalhes['DataEnt']}</li>
                               <li><span>Técnico Entrada: </span>{$detalhes['TecnicoEnt']}</li>
@@ -196,7 +201,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     LEFT JOIN [60_OS_PecasAPP] ON [60_Orcamentos].ID = [60_OS_PecasAPP].IDOrcamento
                     LEFT JOIN [60_Pecas] ON [60_OS_PecasAPP].ID_Pecas = [60_Pecas].Id
                     WHERE [60_Orcamentos].ID = " . $PostData['idOrcamento'],"");
-            if ($Read->getResult()):
+            if ($Read->getResult()[0]['NomePeca']):
+              $Pecas = NULL;
                     foreach ($Read->getResult() as $Pecas):
                         $totalPecas = $Pecas['QtdPeca'] * $Pecas['ValorPeca'];
                         $TotalPecas = number_format($totalPecas,2,',','.');
@@ -230,7 +236,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if (!empty($Read->getResult())):
                     foreach ($Read->getResult() as $Orcamentos):
                         extract($Orcamentos);
-                        $valorOrcamento = ($QtdServico * $ValorServico) + ($QTDPecas * $ValorPecas);
+
+                        if($QtdServico != NULL && $ValorServico != NULL && $QTDPecas != NULL && $ValorPecas){
+                          $valorOrcamento = ($QtdServico * $ValorServico) + ($QTDPecas * $ValorPecas);
+                        }elseif ($QtdServico == NULL && $ValorServico == NULL) {
+                          $valorOrcamento = $QTDPecas * $ValorPecas;
+                        }elseif ($QTDPecas == NULL || $ValorPecas == NULL) {
+                          $valorOrcamento = $QtdServico * $ValorServico;
+                        }
+
+                        //$valorOrcamento = ($QtdServico * $ValorServico) + ($QTDPecas * $ValorPecas);
                         if($parcelas == 0 || $parcelas == NULL){
                             unset($parcelas);
                             $parcelas = 1;
