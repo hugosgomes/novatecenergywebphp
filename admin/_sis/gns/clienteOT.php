@@ -76,10 +76,9 @@ tr:nth-child(even) {
     <header>
       <h3 style="text-align: center;">Relação de Clientes sem OT/OS</h3>
   </header>
-  <div class="box_content">
-    <article class='box box100'>
-        <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
-        <article class="box" style="width:60%">
+  <div class="box_content" style="height: 60%;">
+          <!--APRESENTA OS CLIENTES SEM OT VINCULADA -->
+        <article class="box" id="boxCliente" style="width:100%">
             <div class="tabela-responsivel" style="height: 62%;font-size:13px;">
                <table  class='table' style="width: 100%;font-size:13px;">
                     <thead>
@@ -100,11 +99,21 @@ tr:nth-child(even) {
     <!--LOCAL ONDE É APRESENTADO AS SUGESTÕES DE OT PARA VINCULAR-->
     <article class="box" style="width:40%">
         <div class="tabela-responsivel" style="height: 62%;">
-            <table class="ot" style="font-size: 0.9em;width:100%">           
-            </table>
+            <table class="table tabela_atribuirOtOs" style="font-size: 0.9em;width:100%;display: none;">    
+                <thead>     
+                  <tr>
+                    <th>Nº OT</th>
+                    <th>Tipo OT</th>
+                    <th>Atribuir</th>
+                </tr>
+            </thead>
+            <tbody class="ot">
+
+            </tbody>  
+        </table>
         </div>
     </article>
-</article>
+
 </div>
 </article>
 </div>

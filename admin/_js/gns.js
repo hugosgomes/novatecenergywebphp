@@ -168,13 +168,19 @@ $('#Tecnico').change(function(){
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         
-
+        $('.tabela_atribuirOtOs').fadeIn();
+        document.getElementById('boxCliente').style.width = "60%";
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId, linhaSemOs: LinhaSemOs}, function (data) {
 
             //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
             if (data.addOT) {
+               
                 $('.j_ot').remove();
                 $(data.addOT).appendTo('.ot');
+            }
+             if (data.errorAddOT) {
+                 $('.j_ot').remove();
+                $(data.errorAddOT).appendTo('.ot');
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
@@ -206,7 +212,9 @@ $('#Tecnico').change(function(){
 
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.ot) {
-                $('.j_ot, .table *').remove();
+               // $('.j_ot, .table *').remove();
+                $('.tabela_atribuirOtOs').fadeOut();
+               $(this).closest('tr').remove();
                 $('#'+ data.ot).fadeOut(400);
                 carregarTabela();
             }
@@ -503,7 +511,7 @@ $('html').on('click', '#j_btn_editar', function (e) {
 
         if(data.addId){
             $("#j_id").val(data.addId);
-            $("#j_dataEntrada").val(dataAtualFormatada(data[0]['DataEnt']));
+            $("#j_dataEntrada").text(dataAtualFormatada(data[0]['DataEnt']));
             $('#j_tecnicoEntrada').val(data[0]['TecnicoEnt']);
             $("#j_dataAgend").val(dataAtualFormatada(data[0]['DataAgendamento']));
             $("#j_dataExec").val(dataAtualFormatada(data[0]['DataExe']));
@@ -582,3 +590,11 @@ function numeroParaMoeda(n, c, d, t)
     c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
+
+
+//images 
+    $(document).on('click','.img',function(){
+     var img =  $(this).attr('href');
+
+     alert('click');
+    })
