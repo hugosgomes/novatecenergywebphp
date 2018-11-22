@@ -101,13 +101,20 @@
   </p>
 </div>
 </header>
-<div class="dashboard_content custom_app" >
-  <!--BOTÕES SUPERIORES-->
-  <article class="box box100 no-print">   
-    <div class="box_content">
+<div class="dashboard_content custom_app">
+    <article class="box box100">
+        <header>
+            <div class="box box33">
+              <input id="pac-input" class="controls pac-input" type="text" placeholder="Buscar com Endereço - Bairro - Município - Cep" style="margin-top: 10px;padding: 10px;display: none;">
+          </div>
+          <div class="box box33">
+            <center><h3>Buscar Coordenadas</h3></center>
+             <center><h6 style="color: red;">*Digite o endereço no campo de busca para encontrar suas respectivas coordenadas!</h6></center>
+          </div>
+      </header> 
+          <div class="box_content">
 
-    <input id="pac-input" class="controls pac-input" type="text" placeholder="Buscar com Endereço - Bairro - Município - Cep" style="margin-top: 10px;padding: 10px;display: none;">
-    <div id="map" style="height: 80%;"></div>
+    <div id="map" style="height: 70%;"></div>
   </div>
 </article>
 </div>
