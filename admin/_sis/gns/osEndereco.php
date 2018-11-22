@@ -34,7 +34,7 @@ input{
     <article class="box box100">
         <header>
             <div class="box box33">
-              <a href="http://www.mapcoordinates.net/pt" target="_blank" class="btn btn_darkblue"><i class="icon-search"></i>Buscar Coordenadas</a>
+              <a href="dashboard.php?wc=gns/mapaGns" target="_blank" class="btn btn_darkblue"><i class="icon-search"></i>Buscar Coordenadas</a>
           </div>
           <div class="box box33">
             <center><h3>Endereços Sem Coordenadas</h3></center>

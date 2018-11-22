@@ -168,13 +168,19 @@ $('#Tecnico').change(function(){
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
         
-
+        $('.tabela_atribuirOtOs').fadeIn();
+        document.getElementById('boxCliente').style.width = "60%";
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, cli_id: CliId, linhaSemOs: LinhaSemOs}, function (data) {
 
             //ADICIONA OS ENDEREÇOS RELACIONADOS AO ENDEREÇO PESQUISADO
             if (data.addOT) {
+               
                 $('.j_ot').remove();
                 $(data.addOT).appendTo('.ot');
+            }
+             if (data.errorAddOT) {
+                 $('.j_ot').remove();
+                $(data.errorAddOT).appendTo('.ot');
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
@@ -206,7 +212,9 @@ $('#Tecnico').change(function(){
 
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.ot) {
-                $('.j_ot, .table *').remove();
+               // $('.j_ot, .table *').remove();
+                $('.tabela_atribuirOtOs').fadeOut();
+               $(this).closest('tr').remove();
                 $('#'+ data.ot).fadeOut(400);
                 carregarTabela();
             }
