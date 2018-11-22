@@ -67,7 +67,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'consulta':
 
             //PESQUISA SE JÁ EXISTE NO BANCO UMA OT CRIADA PARA ESTE CLIENTE
-            $Read->FullRead("SELECT Id,Cliente, NumOT, TipoOT FROM [60_OT] WHERE [Cliente] = :cliente","cliente={$PostData['cli_id']}");
+            $Read->FullRead("SELECT [60_OT].Id,Cliente, NumOT, TipoOT, [60_OS].Status FROM [60_OT]
+                            INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT
+                            WHERE [60_OS].Status = 0 AND [60_OT].Cliente = :cliente","cliente={$PostData['cli_id']}");
             if ($Read->getResult()):
 
                 foreach ($Read->getResult() as $OT):
@@ -77,10 +79,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $NumOT = $OT['NumOT'];
                     $TipoOT = $OT['TipoOT'];
                     $jSON['trigger'] = true;
-                    $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'><td >{$NumOT} - {$TipoOT}</td><td style='text-align:center' callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$cliente}' id='{$Id}' linha_sem_os='{$cliente}' style='float: right;'>&ensp;Atribuir OT/OS</td></tr>";
+                    $jSON['addOT'] = "<tr class='j_ot' id='{$Id}'>
+                   <td><br><center>{$NumOT}</center></td>
+                    <td><br><center>{$TipoOT}</center></td>
+                    <td><br><center><span style='text-align:center' callback='ClientesOT' callback_action='insere' class='j_insere_ot icon-checkmark btn btn_darkblue' rel='{$cliente}' id='{$Id}' linha_sem_os='{$cliente}' style='float: right;'>&ensp;Atribuir OT/OS </span></center></td>
+                    </tr>";
                 endforeach;
             else:
-                $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");
+                $jSON['errorAddOT'] = "<tr class='j_ot' id=''><td colspan='3'><center><br><b>Sem OT cadastrada para vincular ao Cliente!</b></center></td></tr>";
+               // $jSON['trigger'] = AjaxErro("Sem OT cadastrada para vincular ao Cliente!");
             endif;
         break;
 
