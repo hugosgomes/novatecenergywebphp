@@ -171,7 +171,7 @@ $(document).ready(function(){
     setInterval(function(){
       tempoInicial++;
       if(tempoInicial === 60){
-         document.location.reload(true);
+         $('#Tecnico').change();
       }
     },1000);
 
