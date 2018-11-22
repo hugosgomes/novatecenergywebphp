@@ -592,9 +592,3 @@ function numeroParaMoeda(n, c, d, t)
 }
 
 
-//images 
-    $(document).on('click','.img',function(){
-     var img =  $(this).attr('href');
-
-     alert('click');
-    })
