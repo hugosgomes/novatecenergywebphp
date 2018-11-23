@@ -575,7 +575,7 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
 
                                 $SubTotalPc =  $ItemPecas[$o]['Qtd'] * $ItemPecas[$o]['Valor'];
                                 $TotalAprov = $TotalAprov + $SubTotalPc;
-                            }else{//CASO O ITEM NÃO SEJA APROVADO
+                            }else{//CASO O ITE
                                 $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = 3","idos={$orcamento[$i]['IdOS']}");
                                 $IdOrcamentoReprov = NULL;
                                 if(!$Read->getResult()){
@@ -618,7 +618,6 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
 
                                 $SubTotalSv =  $ItemServicos[$o]['Qtd'] * $ItemServicos[$o]['Valor'];
                                 $TotalAprov = $TotalAprov + $SubTotalSv;
-
                             }else{//$body[$i]['orcamento']['item'][$o]['aprovado'] == "1"
                                 $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = 3","idos={$orcamento[$i]['IdOS']}");
                                 $IdOrcamentoReprov = NULL;
@@ -652,7 +651,6 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
                                 }
                             }                
                         }
-                        var_dump("UPDATE [60_Orcamentos] SET Valor = Valor + " . floatval($body[$i]['orcamento']['item'][$o]['total']) . " WHERE ID = " . $idOrcamentoQuery);
                         $Query = new Query();
                         $Query->FullQuery("UPDATE [60_Orcamentos] SET Valor = Valor + " . floatval($body[$i]['orcamento']['item'][$o]['total']) . " WHERE ID = " . $idOrcamentoQuery,"");
                     }
@@ -805,7 +803,7 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
             //DEVE SER ALTERADO QUANDO ESTIVER EM PRODUÇÃO
             //var_dump($Atendimento, $Cliente, $Orcamentos, $Defeitos, $Aparelhos);
 
-            sleep(15);
+            sleep(30);
             $email = enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos, $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico);
         }           
                

@@ -168,6 +168,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                    $Read->FullRead(" SELECT [60_Orcamentos].ID,  [60_OS_ListaServicos].Descricao AS NomeServico, [60_OS_ServicosAPP].Qtd AS QtdServico, [60_OS_ServicosAPP].Valor AS ValorServico FROM [60_Orcamentos]
                     INNER JOIN [60_OS_ServicosAPP] ON [60_Orcamentos].ID = [60_OS_ServicosAPP].IDOrcamento
                     INNER JOIN [60_OS_ListaServicos] ON [60_OS_ServicosAPP].ID_servico = [60_OS_ListaServicos].Id
+
                     WHERE [60_Orcamentos].ID = " . $PostData['idOrcamento'],"");
             if ($Read->getResult()):
                     foreach ($Read->getResult() as $Servicos):
