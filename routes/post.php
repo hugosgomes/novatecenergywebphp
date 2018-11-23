@@ -794,7 +794,7 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
             //DEVE SER ALTERADO QUANDO ESTIVER EM PRODUÇÃO
             //var_dump($Atendimento, $Cliente, $Orcamentos, $Defeitos, $Aparelhos);
 
-            sleep(15);
+            sleep(30);
             $email = enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos, $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico);
         }           
                
