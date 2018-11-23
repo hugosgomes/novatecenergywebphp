@@ -43,7 +43,6 @@ td, th {
                 <input type="hidden" name="callback" value="Estatisticas">
                 <select id="j_ano_t" style="width: 110px;">
                   <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
-                  <option value="t">TODOS OS ANOS</option>
                 </select>
                 <select id="j_mes_t" style="width: 140px;" name="mes_t">     
                   <option value="t" id="meses">TODOS OS MESES</option>
@@ -60,12 +59,13 @@ td, th {
                   <option value="11" id="meses">NOVEMBRO</option>
                   <option value="12" id="meses">DEZEMBRO</option>
                 </select>
-                <select id="j_semana_s" style="width: 150px;">
+                <select id="j_semana_s" style="width: 160px;">
                   <option value="t">TODAS AS SEMANAS</option>
-                  <option value="1">1º SEMANA</option>
-                  <option value="2">2º SEMANA</option>
-                  <option value="3">3º SEMANA</option>
-                  <option value="4">4º SEMANA</option>
+                  <option value="1">1ª SEMANA</option>
+                  <option value="2">2ª SEMANA</option>
+                  <option value="3">3ª SEMANA</option>
+                  <option value="4">4ª SEMANA</option>
+                  <option value="5">5ª SEMANA</option>
                 </select>
             </div>
             <div id="jwc_chart_container_tecnicos"></div>
@@ -166,7 +166,7 @@ td, th {
               <div id="jwc_chart_container_servicos"></div>
                <div class="box box100">
                   <div class="box_content">
-                    <table style="max-width: 1000px;margin: auto;">
+                    <table id="j_estat_clientes_line" style="max-width: 1000px;margin: auto;">
                       <tr>
                         <td><b>Total Serviços: 35</b></td>
                         <td><b>Serviços Realizados: 30</b></td>

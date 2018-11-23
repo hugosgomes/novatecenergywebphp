@@ -78,8 +78,8 @@ if ($PostData && $PostData['callback'] == $CallBack):
   if ($Read->getResult()):    
     foreach ($Read->getResult() as $FUNC):
       array_push($atendimentos, $FUNC['ATENDIMENTOS']);
-      $totalAtendimentos = $totalAtendimentos + $FUNC['ATENDIMENTOS'] == "" ? 0 : $FUNC['ATENDIMENTOS'];
     endforeach;
+    $totalAtendimentos = array_sum($atendimentos);
   endif;
 
 
@@ -107,9 +107,9 @@ if ($PostData && $PostData['callback'] == $CallBack):
 
   if ($Read->getResult()):    
     foreach ($Read->getResult() as $FUNC):
-      array_push($aprovados, $FUNC['APROVADOS']);
-      $totalAprovados = $totalAprovados + $FUNC['APROVADOS'];
+      array_push($aprovados, $FUNC['APROVADOS']);      
     endforeach;
+    $totalAprovados = array_sum($aprovados);
   endif;
 
 
@@ -134,17 +134,17 @@ if ($PostData && $PostData['callback'] == $CallBack):
   if ($Read->getResult()):    
     foreach ($Read->getResult() as $FUNC):
       array_push($reprovados, $FUNC['REPROVADOS']);
-      $totalReprovados = $totalReprovados + $FUNC['REPROVADOS'];      
     endforeach;
+    $totalReprovados = array_sum($reprovados);
   endif;
 
   $jSON['Tecnicos'] = $tecnicos;
   $jSON['Atendimentos'] = $atendimentos;
   $jSON['Aprovados'] = $aprovados;
   $jSON['Reprovados'] = $reprovados;
-  $jSON['LegendaTecnicos'] = "<td><b>Atendimentos: {$totalAtendimentos}</b></td>
+  $jSON['LegendaTecnicos'] = "<tr><td><b>Atendimentos: {$totalAtendimentos}</b></td>
                           <td><b>Aprovados: {$totalAprovados}</b></td>
-                          <td><b>Reprovados: {$totalReprovados}</b></td>";
+                          <td><b>Reprovados: {$totalReprovados}</b></td></tr>";
 
   //FIM DO GRÁFICO ESTATÍSTICAS TÉCNICOS ****************************************
 
@@ -322,37 +322,42 @@ if ($PostData && $PostData['callback'] == $CallBack):
   //FIM DO GRÁFICO ESTATÍSTICAS CLIENTES
 
   //GRÁFICO ESTATÍSTICAS CLIENTES EM LINHA *****************************
-  $meses = 0;
-  $qtdClientes = [0,0,0,0,0,0,0,0,0,0,0,0];
-  $qtdClientesAtendidos = [0,0,0,0,0,0,0,0,0,0,0,0];
-  $qtdClientesOrcados = [0,0,0,0,0,0,0,0,0,0,0,0];
+  $eixoX = array();
+  $qtdClientes = array();
+  $qtdClientesAtendidos = array();
+  $qtdClientesOrcados = array();
 
 
-  if($ano <> 't'/* && $mes == 't' && $semana == 't'*/){
+  //CONSULTA FILTRADA APENAS POR ANO
+  if($ano <> 't' && $mes == 't' && $semana == 't'){
     //CLIENTES RECEBIDOS
     $Read->FullRead("Select [1] AS JANEIRO, [2] AS FEVEREIRO, [3] AS MARÇO, [4] AS ABRIL, [5] AS MAIO, [6] AS JUNHO, [7] AS JULHO, [8] AS AGOSTO, [9] AS SETEMBRO, [10] AS OUTUBRO
       , [11] AS NOVEMBRO, [12] AS DEZEMBRO from(
       SELECT YEAR([60_OS].DataAgendamento) AS ANO, MONTH([60_OS].DataAgendamento) AS MES, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
-      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT)A
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT WHERE YEAR([60_OS].DataAgendamento) = $ano)A
       PIVOT (COUNT(Id) FOR mes IN ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12])) P
       ORDER BY 1;", "");
 
     if ($Read->getResult()):
-      $meses = array_keys($Read->getResult()[0]);
+      $eixoX = array_keys($Read->getResult()[0]);
       $qtdClientes = array_values($Read->getResult()[0]);
-    endif; 
+    else:
+      $qtdClientes = [0,0,0,0,0,0,0,0,0,0,0,0];
+    endif;
 
     //CLIENTES ATENDIDOS
     $Read->FullRead("Select [1] AS JANEIRO, [2] AS FEVEREIRO, [3] AS MARÇO, [4] AS ABRIL, [5] AS MAIO, [6] AS JUNHO, [7] AS JULHO, [8] AS AGOSTO, [9] AS SETEMBRO, [10] AS OUTUBRO
       , [11] AS NOVEMBRO, [12] AS DEZEMBRO from(
       SELECT YEAR([60_OS].DataAgendamento) AS ANO, MONTH([60_OS].DataAgendamento) AS MES, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
       ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT
-      WHERE [60_OS].Status = 1)A
+      WHERE [60_OS].Status = 1 AND YEAR([60_OS].DataAgendamento) = $ano)A
       pivot (COUNT(Id) for mes in ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12])) p
       order by 1;", "");
 
     if ($Read->getResult()):
       $qtdClientesAtendidos = array_values($Read->getResult()[0]);
+    else:
+      $qtdClientesAtendidos = [0,0,0,0,0,0,0,0,0,0,0,0];
     endif; 
 
     //CLIENTES ATENDIDOS E ORÇADOS
@@ -360,19 +365,126 @@ if ($PostData && $PostData['callback'] == $CallBack):
       , [11] AS NOVEMBRO, [12] AS DEZEMBRO from(
       SELECT YEAR([60_OS].DataAgendamento) AS ANO, MONTH([60_OS].DataAgendamento) AS MES, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
       ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT  INNER JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].IdOS
-      WHERE [60_OS].Status = 1)A
+      WHERE [60_OS].Status = 1 AND YEAR([60_OS].DataAgendamento) = $ano)A
       pivot (COUNT(Id) for mes in ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12])) p
       order by 1;", "");
 
     if ($Read->getResult()):
       $qtdClientesOrcados = array_values($Read->getResult()[0]);
+    else:
+      $qtdClientesOrcados = [0,0,0,0,0,0,0,0,0,0,0,0];
+    endif;
+
+  //CONSULTA FILTRADA POR ANO E POR MES
+  }elseif ($ano <> 't' && $mes <> 't' && $semana == 't') {
+    //CLIENTES RECEBIDOS
+    $Read->FullRead("Select [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21], [22], [23], [24], [25], [26], [27], [28],
+      [29], [30], [31] from(
+      SELECT MONTH([60_OS].DataAgendamento) AS MES, DAY([60_OS].DataAgendamento) AS DIA, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT WHERE YEAR([60_OS].DataAgendamento) = $ano AND MONTH([60_OS].DataAgendamento) = $mes)A
+      PIVOT (COUNT(Id) FOR DIA IN ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],
+      [28],[29],[30],[31])) P
+      ORDER BY 1;", "");
+
+    if ($Read->getResult()):
+      $eixoX = array_keys($Read->getResult()[0]);
+      $qtdClientes = array_values($Read->getResult()[0]);
+    else:
+      $qtdClientes = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    endif;
+
+    //CLIENTES ATENDIDOS
+    $Read->FullRead("Select [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21], [22], [23], [24], [25], [26], [27], [28],
+      [29], [30], [31] from(
+      SELECT MONTH([60_OS].DataAgendamento) AS MES, DAY([60_OS].DataAgendamento) AS DIA, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT WHERE [60_OS].Status = 1 AND YEAR([60_OS].DataAgendamento) = $ano AND MONTH([60_OS].DataAgendamento) = $mes)A
+      PIVOT (COUNT(Id) FOR DIA IN ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],
+      [28],[29],[30],[31])) P
+      ORDER BY 1;", "");
+
+    if ($Read->getResult()):
+      $qtdClientesAtendidos = array_values($Read->getResult()[0]);
+    else:
+      $qtdClientesAtendidos = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    endif; 
+
+    //CLIENTES ATENDIDOS E ORÇADOS
+    $Read->FullRead("Select [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21], [22], [23], [24], [25], [26], [27], [28],
+      [29], [30], [31] from(
+      SELECT MONTH([60_OS].DataAgendamento) AS MES, DAY([60_OS].DataAgendamento) AS DIA, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT INNER JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].IdOS 
+      WHERE [60_OS].Status = 1 AND YEAR([60_OS].DataAgendamento) = $ano AND MONTH([60_OS].DataAgendamento) = $mes)A
+      PIVOT (COUNT(Id) FOR DIA IN ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],
+      [28],[29],[30],[31])) P
+      ORDER BY 1;", "");
+
+    if ($Read->getResult()):
+      $qtdClientesOrcados = array_values($Read->getResult()[0]);
+    else:
+      $qtdClientesOrcados = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    endif;
+
+  //CONSULTA FILTRADA POR ANO, POR MES E POR SEMANA
+  }elseif ($ano <> 't' && $mes <> 't' && $semana <> 't') {
+    //CLIENTES RECEBIDOS
+    $Read->FullRead("Select [1], [2], [3], [4], [5], [6], [7] from(
+      SELECT (DAY([60_OS].DataAgendamento) + (DATEPART(dw, DATEADD (month, DATEDIFF (month, 0, [60_OS].DataAgendamento), 0)) -1) -1)/7 + 1  AS SEMANA,
+      DATEPART(dw, [60_OS].DataAgendamento) AS DIA, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT WHERE YEAR([60_OS].DataAgendamento) = $ano AND MONTH([60_OS].DataAgendamento) = $mes AND (DAY([60_OS].DataAgendamento) + (DATEPART(dw, DATEADD (month, DATEDIFF (month, 0, [60_OS].DataAgendamento), 0)) -1) -1)/7 + 1 = $semana)A
+      PIVOT (COUNT(Id) FOR DIA IN ([1],[2],[3],[4],[5],[6],[7])) P
+      ORDER BY 1;", "");
+
+    if ($Read->getResult()):
+      $eixoX = array('Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado');
+      $qtdClientes = array_values($Read->getResult()[0]);
+    else:
+      $qtdClientes = [0,0,0,0,0,0,0];
+    endif;
+
+    //CLIENTES ATENDIDOS
+    $Read->FullRead("Select [1], [2], [3], [4], [5], [6], [7] from(
+      SELECT (DAY([60_OS].DataAgendamento) + (DATEPART(dw, DATEADD (month, DATEDIFF (month, 0, [60_OS].DataAgendamento), 0)) -1) -1)/7 + 1  AS SEMANA,
+      DATEPART(dw, [60_OS].DataAgendamento) AS DIA, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT WHERE [60_OS].Status = 1 AND YEAR([60_OS].DataAgendamento) = $ano AND MONTH([60_OS].DataAgendamento) = $mes AND (DAY([60_OS].DataAgendamento) + (DATEPART(dw, DATEADD (month, DATEDIFF (month, 0, [60_OS].DataAgendamento), 0)) -1) -1)/7 + 1 = $semana)A
+      PIVOT (COUNT(Id) FOR DIA IN ([1],[2],[3],[4],[5],[6],[7])) P
+      ORDER BY 1;", "");
+
+    if ($Read->getResult()):
+      $qtdClientesAtendidos = array_values($Read->getResult()[0]);
+    else:
+      $qtdClientesAtendidos = [0,0,0,0,0,0,0];
+    endif; 
+
+    //CLIENTES ATENDIDOS E ORÇADOS
+    $Read->FullRead("Select [1], [2], [3], [4], [5], [6], [7] from(
+      SELECT (DAY([60_OS].DataAgendamento) + (DATEPART(dw, DATEADD (month, DATEDIFF (month, 0, [60_OS].DataAgendamento), 0)) -1) -1)/7 + 1  AS SEMANA,
+      DATEPART(dw, [60_OS].DataAgendamento) AS DIA, [60_Clientes].Id  FROM [60_Clientes] INNER JOIN [60_OT] 
+      ON [60_Clientes].ID = [60_OT].Cliente INNER JOIN [60_OS] ON [60_OT].Id = [60_OS].OT INNER JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].IdOS WHERE [60_OS].Status = 1 AND YEAR([60_OS].DataAgendamento) = $ano AND MONTH([60_OS].DataAgendamento) = $mes AND (DAY([60_OS].DataAgendamento) + (DATEPART(dw, DATEADD (month, DATEDIFF (month, 0, [60_OS].DataAgendamento), 0)) -1) -1)/7 + 1 = $semana)A
+      PIVOT (COUNT(Id) FOR DIA IN ([1],[2],[3],[4],[5],[6],[7])) P
+      ORDER BY 1;", "");
+
+    if ($Read->getResult()):
+      $qtdClientesOrcados = array_values($Read->getResult()[0]);
+    else:
+      $qtdClientesOrcados = [0,0,0,0,0,0,0];
     endif;
   }
 
-  $jSON['LinhaClienteEixoX'] = $meses;
+  $jSON['LinhaClienteEixoX'] = $eixoX;
   $jSON['LinhaClienteLineGreen'] = $qtdClientes;
   $jSON['LinhaClienteLineBlue'] = $qtdClientesAtendidos;
   $jSON['LinhaClienteLineRed'] = $qtdClientesOrcados;
+
+  $somaLinhaRecebidos = array_sum($qtdClientes);
+  $somaLinhaAtendidos = array_sum($qtdClientesAtendidos);
+  $somaLinhaOrcados = array_sum($qtdClientesOrcados);
+
+  $jSON['SomaLinhaClienteLine'] = "".
+    "<tr>
+      <td><b>Clientes Recebidos: $somaLinhaRecebidos</b></td>
+      <td><b>Clientes Atendidos: $somaLinhaAtendidos</b></td>
+      <td><b>Clientes Orçados: $somaLinhaOrcados</b></td>
+    </tr>";
 
 
   //FIM DO GRÁFICO ESTATÍSTICAS CLIENTES EM LINHA **********************

@@ -82,14 +82,20 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         //CARREGA O HISTÓRICO DE OS's NA LATERAL DIREITA DA PÁGINA
 	    case 'CarregarHistorico':
 	    $jSON['historicoOs'] = null;
-	    $Read->FullRead("SELECT [60_Clientes].Id AS IdDoCliente,NomeOs, NumOS, [60_OS].Status,[60_OS].Latitude,[60_OS].Longitude, Valorcobrar, 'VERIFICAR' AS Atualizadopor, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS Tecnico, 
-            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG, [00_NivelAcesso].ID AS TecnicoId, [60_OT].Id AS IdOS FROM [60_OS] INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id 
-            INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id LEFT JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
+	    $Read->FullRead("SELECT [60_Clientes].Id AS IdDoCliente,NomeOs,[60_OS].Id AS IDOS, NumOS, [60_OS].Status,[60_OS].Latitude,[60_OS].Longitude, Valorcobrar, 'VERIFICAR' AS Atualizadopor, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS Tecnico, 
+            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG, [00_NivelAcesso].ID AS TecnicoId, [60_OT].Id AS IdOS FROM [60_OS]
+            INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id 
+            INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id 
+            LEFT JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
             LEFT JOIN  Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
             LEFT JOIN  FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
 					WHERE [60_Clientes].Id = " . $PostData['idCliente'] . " ORDER BY Atualizadoem DESC","");
             if ($Read->getResult()):
+                $Idos = $Read->getResult()[0]['IDOS'];
+                
                 foreach ($Read->getResult() as $Oss):
+                    extract($Oss);
+                   // $end = $Foto != NULL ? "http://192.168.0.101:83/Rodrigo/novatec/uploads/".$Foto : "";
                 	$valor = number_format($Oss['Valorcobrar'],2,',','.');
                 	$status = getStatusOs($Oss['Status']);
                     $tecnico = $Oss['Tecnico'] ? $Oss['Tecnico'] : 'Não Associado';
@@ -98,8 +104,25 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $IdOS = $Oss['IdOS'];
                     $Longitude = $Oss['Longitude'];
                     $Latitude = $Oss['Latitude'];
-                    $finalizaOs = $Oss['TecnicoId'] > 0 && $Oss['Status'] == 6? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''>Finalizar OS</a></span>" : '';
+                    $finalizaOs = $Oss['TecnicoId'] > 0 && $Oss['Status'] == 0? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''>Finalizar OS</a></span>" : '';
                     $atualizadopor = $Oss['Atualizadopor'] ? $Oss['Atualizadopor'] : 'Não Associado';
+
+                        //$fotos .= "<li style='padding-bottom: 5px;font-size: 12px;'><img src='{$end}'/></li>"
+                    $imgs = NULL;
+                    $i = 1;
+                    $Read->FullRead("SELECT [60_OS_Fotos].Arquivo AS Foto FROM [BDNVT].[dbo].[60_OS_Fotos] WHERE [60_OS_Fotos].OS =:id ","id={$Idos}");
+                    if($Read->getResult()){
+                        //$t = count($Read->getResult());
+                        foreach ($Read->getResult() as $img) {
+                            extract($Read->getResult());
+                            $imgs .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                            $i++;
+                        }
+                        
+                    }
+
+                    
                 	$jSON['historicoOs'] .= "<hr><hr>
 									          <div class='box box100' style='padding-bottom: 0px;'>
 									            <li style='padding-bottom: 5px;'><h3><b><i class='icon-history'></i>&ensp;{$Oss['NomeOs']}</b></h3></li>
@@ -118,7 +141,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									            <li style='padding-bottom: 5px;font-size: 12px;'>OBS.: {$Oss['ObsCEG']}</li>
                                                 <li>{$finalizaOs}
                                                 </li>
-									          </div>";
+									          </div>
+                                              <div class='box box100' style='padding-top: 0px;'>
+                                                    {$imgs}
+                                                </div>
+                                              ";
                 endforeach;                   
             else:
                 $jSON['historicoOs'] = null;

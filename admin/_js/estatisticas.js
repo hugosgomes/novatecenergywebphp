@@ -16,13 +16,13 @@ function atualiza(){
     
     if(data){
       carregaGraficos(data);
-      $('#j_totalTecnicos td').remove();
-      $('#j_totalTecnicos tr').append(data.LegendaTecnicos);
+      $('#j_totalTecnicos tr').replaceWith(data.LegendaTecnicos);
       $('#j_estat_orcamento tr').remove();
       $('#j_estat_orcamento').append(data.LegendaEstarOrcam);
       $('#j_estat_orcamentoAprov tr').remove();
       $('#j_estat_orcamentoAprov').append(data.LegendaOrcamAprov);
       $('#j_estat_clientes').replaceWith(data.LegendaEstatClientes);
+      $('#j_estat_clientes_line *').replaceWith(data.SomaLinhaClienteLine);
     }
   }, 'json');
 }
