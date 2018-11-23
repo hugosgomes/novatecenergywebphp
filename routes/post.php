@@ -803,7 +803,7 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
             //DEVE SER ALTERADO QUANDO ESTIVER EM PRODUÇÃO
             //var_dump($Atendimento, $Cliente, $Orcamentos, $Defeitos, $Aparelhos);
 
-            sleep(30);
+            sleep(20);
             $email = enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos, $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico);
         }           
                
