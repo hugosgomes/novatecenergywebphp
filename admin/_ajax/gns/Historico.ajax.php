@@ -125,12 +125,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $valorReprovado = 0;
 
                     $Read->FullRead("SELECT Valor FROM [60_Orcamentos] WHERE Status <> 3 AND IdOS =:id ","id={$Idos}");
-                    if($Read->getResult()[0]['Valor']){
+                    if($Read->getResult()){
                         $valorAprovado =  number_format($Read->getResult()[0]['Valor'],2,',','.');
                     }
 
                     $Read->FullRead("SELECT Valor FROM [60_Orcamentos] WHERE Status = 3 AND IdOS =:id ","id={$Idos}");
-                    if($Read->getResult()[0]['Valor']){
+                    if($Read->getResult()){
                         $valorReprovado = number_format($Read->getResult()[0]['Valor'],2,',','.');
                     }
 
