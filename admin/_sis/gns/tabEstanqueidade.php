@@ -1,4 +1,4 @@
-        <h4>Teste de Estanquidade</h4>
+        
         <div class="box box100">
               <div class="box box100">
                 <div class="label box box15">
@@ -31,6 +31,7 @@
                 </div>
               </div>
         </div>
+        <center><h1 class="tab_title" >TESTE DE ESTANQUIDADE</h1></center>
                     <div id="tipo-servico">            
                      <div class="t_hiddens">
                      </div>
@@ -103,7 +104,7 @@
                         </label>
 
                         <center><label class="label box box100">
-                            <span class="legend" style="font-size: 15px;"><b>Aparelhos no Local:</b></span>
+                            <span class="legend" style="font-size: 15px;"><b>APARELHOS DE UTILIZAÇÃO</b></span>
                             <br>
                             <a class="btn btn_green t_aparelho1" href="#aparelho-1" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho1">Cozinha</span></a>
                             <a class="btn btn_green t_aparelho2" href="#aparelho-2" rel="modal:open"><i class="icon-plus"></i><span contador="0" quantidade="0" id="t_aparelho2"> Banheiro Social</span></a>

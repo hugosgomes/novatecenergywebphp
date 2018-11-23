@@ -82,14 +82,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         //CARREGA O HISTÓRICO DE OS's NA LATERAL DIREITA DA PÁGINA
 	    case 'CarregarHistorico':
 	    $jSON['historicoOs'] = null;
-        $jSON['historicoOsimgs1'] = null;
-        $jSON['historicoOsimgs2'] = null;
-        $jSON['historicoOsimgs3'] = null;
-        $jSON['historicoOsimgs4'] = null;
-        $jSON['historicoOsimgs5'] = null;
-        $jSON['historicoOsimgs6'] = null;
 	    $Read->FullRead("SELECT [60_Clientes].Id AS IdDoCliente,NomeOs,[60_OS].Id AS IDOS, NumOS, [60_OS].Status,[60_OS].Latitude,[60_OS].Longitude, Valorcobrar, 'VERIFICAR' AS Atualizadopor, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS Tecnico, 
-            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG, [00_NivelAcesso].ID AS TecnicoId, [60_OT].Id AS IdOS FROM [60_OS]
+            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG, [00_NivelAcesso].ID AS TecnicoId, [60_OT].Id AS IdOT FROM [60_OS]
             INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id 
             INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id 
             LEFT JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
@@ -107,7 +101,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $tecnico = $Oss['Tecnico'] ? $Oss['Tecnico'] : 'Não Associado';
                     $tecnicoId = $Oss['TecnicoId'];
                     $IdCliente = $Oss['IdDoCliente'];
-                    $IdOS = $Oss['IdOS'];
+                    $IdOS = $Oss['IDOS'];
                     $Longitude = $Oss['Longitude'];
                     $Latitude = $Oss['Latitude'];
                     $finalizaOs = $Oss['TecnicoId'] > 0 && $Oss['Status'] == 0? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''>Finalizar OS</a></span>" : '';
@@ -115,49 +109,33 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                         //$fotos .= "<li style='padding-bottom: 5px;font-size: 12px;'><img src='{$end}'/></li>"
                     $imgs = NULL;
-                    $imgs = null;
-                    $imgs2 = null;
-                    $imgs3 = null;
-                    $imgs4 = null;
-                    $imgs5 = null;
-                    $imgs6 = null;
                     $i = 1;
-                    $Read->FullRead("SELECT [60_OS_Fotos].Arquivo AS Foto,[60_OS_Fotos].Tipo FROM [BDNVT].[dbo].[60_OS_Fotos] WHERE [60_OS_Fotos].OS =:id ","id={$Idos}");
+                    $Read->FullRead("SELECT [60_OS_Fotos].Arquivo AS Foto FROM [BDNVT].[dbo].[60_OS_Fotos] WHERE [60_OS_Fotos].OS =:id ","id={$Idos}");
                     if($Read->getResult()){
-                        foreach ($Read->getResult() as $img) {
+                        foreach ($Read->getResult() as $img) {  
                             extract($Read->getResult());
-                            if($img['Tipo'] == 1){
                             $imgs .= "
-                                <div style='width:15%;display:inline-block'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></div>";
-                            }
-                            if ($img['Tipo'] == 2) {
-                               $imgs2 .= "
-                                <div style='width:15%;display:inline-block'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></div>";
-                            }
-                            if ($img['Tipo'] == 3) {
-                               $imgs3 .= "
-                                <div style='width:15%;display:inline-block'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></div>";
-                            }
-                            if ($img['Tipo'] == 4) {
-                               $imgs4 .= "
-                                <div style='width:15%;display:inline-block'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></div>";
-                            }else{
-                                $imgs4 = NULL;
-                            }
-                            if ($img['Tipo'] == 5) {
-                               $imgs5 .= "
-                                <div style='width:15%;display:inline-block'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></div>";
-                            }
-                            if ($img['Tipo'] == 6) {
-                               $imgs6 .= "
-                                <div style='width:15%;display:inline-block'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></div>";
-                            }
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
                             $i++;
                         }
-
-
                         
                     }
+
+                    $valorAprovado = 0;
+                    $valorReprovado = 0;
+
+                    $Read->FullRead("SELECT Valor FROM [60_Orcamentos] WHERE Status <> 3 AND IdOS =:id ","id={$Idos}");
+                    if($Read->getResult()[0]['Valor']){
+                        $valorAprovado =  number_format($Read->getResult()[0]['Valor'],2,',','.');
+                    }
+
+                    $Read->FullRead("SELECT Valor FROM [60_Orcamentos] WHERE Status = 3 AND IdOS =:id ","id={$Idos}");
+                    if($Read->getResult()[0]['Valor']){
+                        $valorReprovado = number_format($Read->getResult()[0]['Valor'],2,',','.');
+                    }
+
+                     $valorAprovado = $valorAprovado == 0 ? "" : "<li style='padding-bottom: 5px;font-size: 12px;'>Valor Aprovado: R$ {$valorAprovado}</li>";
+                     $valorReprovado = $valorReprovado == 0 ? "" : "<li style='padding-bottom: 5px;font-size: 12px;'>Valor Reprovado: R$ {$valorReprovado}</li>";
 
                     
                 	$jSON['historicoOs'] .= "<hr><hr>
@@ -165,8 +143,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									            <li style='padding-bottom: 5px;'><h3><b><i class='icon-history'></i>&ensp;{$Oss['NomeOs']}</b></h3></li>
 									          </div>
 									          <div class='box box50' style='padding-bottom: 0px;'>
-									            <li style='padding-bottom: 5px;font-size: 12px;'>OS:{$Oss['NumOS']}</li>
-									            <li style='padding-bottom: 5px;font-size: 12px;'>Valor Aprovado: R$ {$valor}</li>
+									            <li style='padding-bottom: 5px;font-size: 12px;'>OS:{$Oss['NumOS']}</li>                                               
+                                                {$valorAprovado}{$valorReprovado}
 									            <li style='padding-bottom: 5px;font-size: 12px;'>Técnico: {$tecnico}</li>
 									          </div>
 									          <div class='box box50' style='padding-bottom: 0px;text-align: right;'>
@@ -179,43 +157,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                                 <li>{$finalizaOs}
                                                 </li>
 									          </div>
+                                              <div class='box box100' style='padding-top: 0px;'>
+                                                    {$imgs}
+                                                </div>
                                               ";
-
-                    $jSON['historicoOsimgs1'] .= "
-                        <div class='box box100' style='padding-top: 0px;'>
-                            {$imgs}
-                        </div>
-                    ";
-
-                    $jSON['historicoOsimgs2'] .= "
-                        <div class='box box100' style='padding-top: 0px;'>
-                            {$imgs2}
-                        </div>
-                    ";
-
-                    $jSON['historicoOsimgs3'] .= "
-                        <div class='box box100' style='padding-top: 0px;'>
-                            {$imgs3}
-                        </div>
-                    ";
-
-                    $jSON['historicoOsimgs4'] .= "
-                        <div class='box box100' style='padding-top: 0px;'>
-                            {$imgs4}
-                        </div>
-                    ";
-
-                    $jSON['historicoOsimgs5'] .= "
-                        <div class='box box100' style='padding-top: 0px;'>
-                            {$imgs5}
-                        </div>
-                    ";
-
-                    $jSON['historicoOsimgs6'] .= "
-                        <div class='box box100' style='padding-top: 0px;'>
-                            {$imgs6}
-                        </div>
-                    ";
                 endforeach;                   
             else:
                 $jSON['historicoOs'] = null;

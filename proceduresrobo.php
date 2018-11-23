@@ -8,7 +8,7 @@ require '_app/Config.inc.php';
 
 try{
     switch ($Case):
-        case 'Importacao':
+    case 'Importacao':
 
         $Query = new Query;
 
@@ -106,7 +106,7 @@ try{
 
         break;
 
-        case 'Visitas':
+    case 'Visitas':
 
         $delimitador = ';';
         $cerca = '"';
@@ -227,7 +227,7 @@ try{
         break;
 
 
-        case 'Fechados':
+    case 'Fechados':
 
         importarCSV('//192.168.0.101/Robo/relatorioestadoportas.csv', "[14_ImportEstadoPortas_SVSH]");
         

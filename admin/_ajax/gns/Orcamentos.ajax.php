@@ -166,8 +166,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //TABELA SERVIÇOS
                 $jSON['addServicos'] = null;
                    $Read->FullRead(" SELECT [60_Orcamentos].ID,  [60_OS_ListaServicos].Descricao AS NomeServico, [60_OS_ServicosAPP].Qtd AS QtdServico, [60_OS_ServicosAPP].Valor AS ValorServico FROM [60_Orcamentos]
-                    LEFT JOIN [60_OS_ServicosAPP] ON [60_Orcamentos].ID = [60_OS_ServicosAPP].IDOrcamento
-                    LEFT JOIN [60_OS_ListaServicos] ON [60_OS_ServicosAPP].ID_servico = [60_OS_ListaServicos].Id
+                    INNER JOIN [60_OS_ServicosAPP] ON [60_Orcamentos].ID = [60_OS_ServicosAPP].IDOrcamento
+                    INNER JOIN [60_OS_ListaServicos] ON [60_OS_ServicosAPP].ID_servico = [60_OS_ListaServicos].Id
+
                     WHERE [60_Orcamentos].ID = " . $PostData['idOrcamento'],"");
             if ($Read->getResult()):
                     foreach ($Read->getResult() as $Servicos):
@@ -198,10 +199,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['addPecas'] = null;
 
                    $Read->FullRead("SELECT [60_Orcamentos].ID, [60_Pecas].Peca AS NomePeca, [60_OS_PecasAPP].Qtd AS QtdPeca, [60_OS_PecasAPP].Valor AS ValorPeca FROM [60_Orcamentos]
-                    LEFT JOIN [60_OS_PecasAPP] ON [60_Orcamentos].ID = [60_OS_PecasAPP].IDOrcamento
-                    LEFT JOIN [60_Pecas] ON [60_OS_PecasAPP].ID_Pecas = [60_Pecas].Id
+                    INNER JOIN [60_OS_PecasAPP] ON [60_Orcamentos].ID = [60_OS_PecasAPP].IDOrcamento
+                    INNER JOIN [60_Pecas] ON [60_OS_PecasAPP].ID_Pecas = [60_Pecas].Id
                     WHERE [60_Orcamentos].ID = " . $PostData['idOrcamento'],"");
-            if ($Read->getResult()[0]['NomePeca']):
+            if ($Read->getResult()):
               $Pecas = NULL;
                     foreach ($Read->getResult() as $Pecas):
                         $totalPecas = $Pecas['QtdPeca'] * $Pecas['ValorPeca'];
