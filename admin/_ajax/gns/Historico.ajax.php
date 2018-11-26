@@ -116,7 +116,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         foreach ($Read->getResult() as $img) {
                             extract($Read->getResult());
                             $imgs .= "
-                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                <div style='width:15%;display:inline-block'><a class='link' href='#ex1' rel='modal:open' onclick='abreModal(this);'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
                             $i++;
                         }
                         
@@ -138,7 +138,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									            <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>Atualizado em: {$Oss['ATUALIZADO_EM']}</li>
 									          </div>
 									          <div class='box box100' style='padding-top: 0px;'>
-									            <li style='padding-bottom: 5px;font-size: 12px;'>OBS.: {$Oss['ObsCEG']}</li>
+									            <li style='padding-bottom: 5px;font-size: 12px;'><a class='link' href='#ex1' rel='modal:open' onclick='abreModal(this);'>OBS.: {$Oss['ObsCEG']}</a></li>
                                                 <li>{$finalizaOs}
                                                 </li>
 									          </div>
