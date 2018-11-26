@@ -12,7 +12,7 @@ try{
 
         $Query = new Query;
 
-        $Query->FullQuery("DELETE from [14_ImportVisitasPortasSVSH];"," ");
+        $Query->FullQuery("DELETE from [14_ImportEstadoPortas_SVSH];"," ");
 
         importarCSV('//192.168.0.101/Robo/relatorioestadoportas.csv', "[14_ImportEstadoPortas_SVSH]");        
 
