@@ -118,7 +118,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 
             $jSON['addDetalhes'] = null;
             //INFORMAÇÕES DETALHADAS
-            $Read->FullRead("SELECT CONVERT(NVARCHAR,[60_Orcamentos].DataEnt,103) AS DataEnt,[60_OS_ServicosAPP].Qtd AS QtdServico,[60_OS_ServicosAPP].Valor AS ValorServico,[60_OS_PecasAPP].Qtd AS QTDPecas,[60_OS_PecasAPP].Valor AS ValorPecas, IIF(Func1.ID is not null, Func1.[NOME COMPLETO], Func2.NOME) AS TecnicoEnt, 
+            $Read->FullRead("SELECT CONVERT(NVARCHAR,[60_Orcamentos].DataEnt,103) AS DataEnt, IIF(Func1.ID is not null, Func1.[NOME COMPLETO], Func2.NOME) AS TecnicoEnt, 
             IIF(Funcionários.ID is not null, Funcionários.[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS TecnicoExe,
             CONVERT(NVARCHAR,[60_Orcamentos].DataExe,103) AS DataExe, [60_Orcamentos].Status, [60_Orcamentos].Valor,CONVERT(NVARCHAR,[60_Orcamentos].DataAgendamento,103) AS DataAgend FROM [60_Orcamentos]
             LEFT JOIN [00_NivelAcesso] ON [60_Orcamentos].TecExe = [00_NivelAcesso].ID
@@ -133,14 +133,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if (!empty($Read->getResult())):
                     foreach ($Read->getResult() as $detalhes):
                       extract($detalhes);
-                    if($QtdServico != NULL && $ValorServico != NULL && $QTDPecas != NULL && $ValorPecas){
-                        $valorOrcamento = ($QtdServico * $ValorServico) + ($QTDPecas * $ValorPecas);
-                      }elseif ($QtdServico == NULL && $ValorServico == NULL) {
-                        $valorOrcamento = $QTDPecas * $ValorPecas;
-                      }elseif ($QTDPecas == NULL || $ValorPecas == NULL) {
-                        $valorOrcamento = $QtdServico * $ValorServico;
-                      }
-                        $valor = number_format($valorOrcamento,2,',','.');
+                        $valor = number_format($Valor,2,',','.');
                         $status = getStatusOrcamentoGNS($detalhes['Status']);
                         $jSON['addDetalhes'] = $Status == 3  ? "<li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>Editar</a></center></li>
                               <br>
@@ -165,7 +158,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             //TABELA SERVIÇOS
                 $jSON['addServicos'] = null;
-                   $Read->FullRead(" SELECT [60_Orcamentos].ID,  [60_OS_ListaServicos].Descricao AS NomeServico, [60_OS_ServicosAPP].Qtd AS QtdServico, [60_OS_ServicosAPP].Valor AS ValorServico FROM [60_Orcamentos]
+                   $Read->FullRead("SELECT [60_Orcamentos].ID,  [60_OS_ListaServicos].Descricao AS NomeServico, [60_OS_ServicosAPP].Qtd AS QtdServico, [60_OS_ServicosAPP].Valor AS ValorServico FROM [60_Orcamentos]
                     INNER JOIN [60_OS_ServicosAPP] ON [60_Orcamentos].ID = [60_OS_ServicosAPP].IDOrcamento
                     INNER JOIN [60_OS_ListaServicos] ON [60_OS_ServicosAPP].ID_servico = [60_OS_ListaServicos].Id
 
@@ -175,7 +168,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $totalServico = $Servicos['QtdServico'] * $Servicos['ValorServico'];
                         $TotalServico = number_format($totalServico,2,',','.');
                         $valorServico = number_format($Servicos['ValorServico'],2,',','.');
-                        $jSON['addServicos'] = "
+                        $jSON['addServicos'] .= "
                         <tr class='j_Servicos linha' idOrcamento='{$PostData['idOrcamento']}'>
                          <td style='width: 50%;'>{$Servicos['NomeServico']}</td>
                          <td>{$Servicos['QtdServico']}</td>
@@ -208,7 +201,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $totalPecas = $Pecas['QtdPeca'] * $Pecas['ValorPeca'];
                         $TotalPecas = number_format($totalPecas,2,',','.');
                         $valorPecas = number_format($Pecas['ValorPeca'],2,',','.');
-                        $jSON['addPecas'] = "
+                        $jSON['addPecas'] .= "
                         <tr class='j_Pecas linha' idOrcamento='{$PostData['idOrcamento']}'>
                          <td style='width: 50%;'>{$Pecas['NomePeca']}</td>
                          <td>{$Pecas['QtdPeca']}</td>
@@ -228,9 +221,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                          $jSON['Peca'] = "0";
                 endif;
 
-                //TABELA PEÇAS
+                //TABELA orçamento
                 $jSON['addOrcamentos'] = null;
-                   $Read->FullRead("SELECT [60_Orcamentos].ID,[NumParcelas] AS parcelas,[60_OS_ServicosAPP].Qtd AS QtdServico,[60_OS_ServicosAPP].Valor AS ValorServico,[60_OS_PecasAPP].Qtd AS QTDPecas,[60_OS_PecasAPP].Valor AS ValorPecas FROM [60_Orcamentos]
+                   $Read->FullRead("SELECT [60_Orcamentos].Valor,[60_Orcamentos].ID,[NumParcelas] AS parcelas,[60_OS_ServicosAPP].Qtd AS QtdServico,[60_OS_ServicosAPP].Valor AS ValorServico,[60_OS_PecasAPP].Qtd AS QTDPecas,[60_OS_PecasAPP].Valor AS ValorPecas FROM [60_Orcamentos]
                 LEFT JOIN [60_OS_ServicosAPP] ON [60_Orcamentos].ID = [60_OS_ServicosAPP].IDOrcamento
                 LEFT JOIN [60_OS_PecasAPP] ON [60_Orcamentos].ID = [60_OS_PecasAPP].IDOrcamento 
                 WHERE [60_Orcamentos].ID = " . $PostData['idOrcamento'],"");
@@ -238,28 +231,22 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     foreach ($Read->getResult() as $Orcamentos):
                         extract($Orcamentos);
 
-                        if($QtdServico != NULL && $ValorServico != NULL && $QTDPecas != NULL && $ValorPecas){
-                          $valorOrcamento = ($QtdServico * $ValorServico) + ($QTDPecas * $ValorPecas);
-                        }elseif ($QtdServico == NULL && $ValorServico == NULL) {
-                          $valorOrcamento = $QTDPecas * $ValorPecas;
-                        }elseif ($QTDPecas == NULL || $ValorPecas == NULL) {
-                          $valorOrcamento = $QtdServico * $ValorServico;
-                        }
-
-                        //$valorOrcamento = ($QtdServico * $ValorServico) + ($QTDPecas * $ValorPecas);
                         if($parcelas == 0 || $parcelas == NULL){
                             unset($parcelas);
                             $parcelas = 1;
                         }
-                        $vParcelas = $valorOrcamento / $parcelas;
-                        $Valor = number_format($valorOrcamento,2,',','.');
+
+                        $vParcelas = $Valor / $parcelas;
+                        $Valor = number_format($Valor,2,',','.');
                         $VParcelas = number_format($vParcelas,2,',','.');
+
                         $jSON['addOrcamentos'] = "
                         <tr class='j_Orcamentos linha' idOrcamento='{$PostData['idOrcamento']}'>
                          <td style='width: 50%;'>{$parcelas}</td>
                          <td>{$VParcelas}</td>
                          <td>{$Valor}</td>
                         </tr>";
+
                         $jSON['orcamento'] = "{$valor}";
                     endforeach;
                 else:
