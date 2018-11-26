@@ -27,8 +27,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $Read = new Read;
     endif;
 
-    if (empty($Procedure)):
-        $Procedure = new Procedure;
+    if (empty($Query)):
+        $Query = new Query;
     endif;
 
     //SELECIONA AÇÃO

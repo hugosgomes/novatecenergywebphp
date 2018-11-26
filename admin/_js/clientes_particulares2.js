@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
-  mesAtual();
-  mostraDados('Home2','consulta',0);
+  mostraDados('Home2','consulta',0);  
+  iniciaPagina();
 });
 
 
@@ -13,7 +13,7 @@ $('.j_select_cliente').change(function(){
           mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
-$('#mes').change(function(){
+$('#mes,#j_ano').change(function(){
           mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
@@ -35,12 +35,13 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
   var Endereco = $('#endereco').val();
   var Cliente = $('#cliente').val();
   var Mes = $('#mes').val();
+  var ano = $('#j_ano').val();
   var ordemAnalise = $('#j_ordemEmAnalise').attr('ordemAnalise');
   var ordemExecutando = $('#j_ordemExecutando').attr('ordemExecutando');
   var ordemAgendado = $('#j_ordemAgendado').attr('ordemAgendado');
 
 
-  $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, endereco: Endereco, cliente: Cliente, mes:Mes, 
+  $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, endereco: Endereco, cliente: Cliente, mes:Mes, ano:ano,
     inicial: inicial, ordemAnalise: ordemAnalise, ordemExecutando: ordemExecutando, ordem: ordem, ordemAgendado: ordemAgendado}, function (data) {  
 
        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
@@ -178,6 +179,10 @@ function abreModal(element){
 
 
 $('html').on('click', '#wc_pdt_stoc', function () {
+
+    if(verificaCampos($('#j_statusOrcamento').val()) == false){
+      return;
+    }
         
     var form = $("#j_form");
     var callback = form.find('input[name="callback"]').val();
@@ -251,13 +256,17 @@ $('html').on('click', '#j_edit_chamado', function (e) {
 
             //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
             if (data.editaChamado) {
-                $('.j_statusOrcamento').val(1);
-                $('.j_tecnico').val(data.editaChamado['TECNICO']);
-                $('.j_valor').val(data.editaChamado['VALOR']);
-                $('.j_forma').val(data.editaChamado['FORMAPAGAMENTO']);
-                $('.j_qnt').val(data.editaChamado['NUM_PARCELAS']);
-                $('.j_obs').val(data.editaChamado['OBS']);
+              $('.j_status').val(data.editaChamado['TIPO_SERVICO']);
+              $('.j_data').val(data.editaChamado['DATAAGENDADA']);
+              $('.j_tecnico').val(data.editaChamado['TECNICO']);
+              $('.j_valor').val(data.editaChamado['VALOR']);
+              $('.j_forma').val(data.editaChamado['FORMAPAGAMENTO']);
+              $('.j_qnt').val(data.editaChamado['NUM_PARCELAS']);
+              $('.j_obs').val(data.editaChamado['OBS']);
+              travaCampos(data.editaChamado['TIPO_SERVICO']);
+              $('#j_statusOrcamento').attr('disabled', true);
             }
+            
             if(data.addIdChamado){
                $(data.addIdChamado).prependTo('#j_form');
             }
@@ -266,13 +275,6 @@ $('html').on('click', '#j_edit_chamado', function (e) {
         e.preventDefault();
         e.stopPropagation();
 });
-
-function mesAtual(){
-  var data = new Date();
-  var mes = data.getMonth();
-  document.getElementById('mes').selectedIndex = mes;
-}
-
 
 $('#j_statusOrcamento').change(function(){
           travaCampos($(this).val());
@@ -343,4 +345,51 @@ function travaCampos(valor){
       document.getElementById(el).style.display = 'none';
   });
 
+}
+
+function verificaCampos(status){
+  switch(status){
+    case '1':
+    case '3':
+    case '4':
+    case '5':
+
+      if($('.j_data').val() == ''){
+        alert("O Campo Data é Obrigatório!");
+        return false;
+      }
+
+      if(!$('#j_select_tecnicos').val()){
+        alert("O Campo Técnico é Obrigatório!");
+        return false;
+      }
+      
+    break;
+
+    case '2':
+
+      if($('.j_valor').val() == ''){
+        alert("O Campo Valor é Obrigatório!");
+        return false;
+      }
+
+      if(!$('.j_forma').val()){
+        alert("O Campo Forma de Pagamento é Obrigatório!");
+        return false;
+      }
+
+      if($('.j_qnt').val() == '' && $('.j_forma').val() == 0){
+        alert("O Campo Quantidade de Parcelas é Obrigatório!");
+        return false;
+      }
+      break;
+  }
+}
+
+function iniciaPagina(){
+  var dataAtual = new Date();
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear()-1)+'>' + (dataAtual.getFullYear()-1) + '</option>');
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear())+' selected="selected">' + dataAtual.getFullYear() + '</option>');
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear()+1)+'>' + (dataAtual.getFullYear()+1) + '</option>');
+    $('#j_ano').selected = dataAtual.getFullYear();
 }
