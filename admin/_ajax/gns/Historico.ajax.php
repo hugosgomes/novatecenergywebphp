@@ -109,17 +109,65 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                         //$fotos .= "<li style='padding-bottom: 5px;font-size: 12px;'><img src='{$end}'/></li>"
                     $imgs = NULL;
+                    $imgs2 = NULL;
+                    $imgs3 = NULL;
+                    $imgs4 = NULL;
+                    $imgs5 = NULL;
+                    $imgs6 = NULL;
+                    $imgs7 = NULL;
                     $i = 1;
-                    $Read->FullRead("SELECT [60_OS_Fotos].Arquivo AS Foto FROM [BDNVT].[dbo].[60_OS_Fotos] WHERE [60_OS_Fotos].OS =:id ","id={$Idos}");
+                    $Read->FullRead("SELECT [60_OS_Fotos].Arquivo AS Foto,[60_OS_Fotos].Tipo FROM [BDNVT].[dbo].[60_OS_Fotos] WHERE [60_OS_Fotos].OS =:id ","id={$IdOS}");
                     if($Read->getResult()){
                         foreach ($Read->getResult() as $img) {  
                             extract($Read->getResult());
+                            if($img['Tipo'] == 1){
                             $imgs .= "
-                                <div style='width:15%;display:inline-block'><a class='link' href='#ex1' rel='modal:open' onclick='abreModal(this);'><img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/>
+                                </a></div>";
+                            }
+                            if ($img['Tipo'] == 2) {
+                               $imgs2 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                            }
+                            if ($img['Tipo'] == 3) {
+                               $imgs3 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                            }
+                            if ($img['Tipo'] == 4) {
+                               $imgs4 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                            }
+                            if ($img['Tipo'] == 5) {
+                               $imgs5 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                            }
+                            if ($img['Tipo'] == 6) {
+                               $imgs6 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                            }
+                            if ($img['Tipo'] == 7) {
+                               $imgs7 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                            }
                             $i++;
                         }
                         
                     }
+
+                    $imgs  != null ?  $i1 = "block" : $i1 = "none";
+                    $imgs2 != null ?  $i2 = "block" : $i2 = "none";
+                    $imgs3 != null ?  $i3 = "block" : $i3 = "none";
+                    $imgs4 != null ?  $i4 = "block" : $i4 = "none";
+                    $imgs5 != null ?  $i5 = "block" : $i5 = "none";
+                    $imgs6 != null ?  $i6 = "block" : $i6 = "none";
+                    $imgs7 != null ?  $i7 = "block" : $i7 = "none";
 
                     $valorAprovado = 0;
                     $valorReprovado = 0;
@@ -153,12 +201,25 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									            <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>Atualizado em: {$Oss['ATUALIZADO_EM']}</li>
 									          </div>
 									          <div class='box box100' style='padding-top: 0px;'>
-									            <li style='padding-bottom: 5px;font-size: 12px;'><a class='link' href='#ex1' rel='modal:open' onclick='abreModal(this);'>OBS.: {$Oss['ObsCEG']}</a></li>
+									            <li style='padding-bottom: 5px;font-size: 12px;'>OBS.: {$Oss['ObsCEG']}</li>
                                                 <li>{$finalizaOs}
                                                 </li>
 									          </div>
                                               <div class='box box100' style='padding-top: 0px;'>
+                                                <p style='display:{$i1}'><b>Foto Medidor</b></p>
                                                     {$imgs}
+                                                <p style='display:{$i2}'><b>Situação do serviço</b></p>
+                                                    {$imgs2}
+                                                <p style='display:{$i3}'><b>Defeitos</b></p>
+                                                    {$imgs3}
+                                                <p style='display:{$i4}'><b>Assinatura</b></p>
+                                                    {$imgs4}
+                                                <p style='display:{$i5}'><b>Local</b></p>
+                                                    {$imgs5}
+                                                <p style='display:{$i6}'><b>Assinatura técnico</b></p>
+                                                    {$imgs6}
+                                                <p style='display:{$i7}'><b>Ausente</b></p>
+                                                    {$imgs7}
                                                 </div>
                                               ";
                 endforeach;                   

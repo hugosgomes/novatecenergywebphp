@@ -88,10 +88,6 @@ endif;
     </article>
 
 </div>
-<!--código modal imgs -->
-<div id="ex1" class="modal" style="height: auto;">
-  
-</div>
 
 <!--Inicia o data table-->
 <script src="_js/gns.js"></script>
