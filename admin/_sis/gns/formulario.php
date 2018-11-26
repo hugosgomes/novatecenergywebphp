@@ -129,7 +129,7 @@ tr:nth-child(even) {
            <div class="box box80" style="width: 80%;">
              <article class="wc_tab_target wc_active" id="testeEstanqueidade">
                <div class="panel_header default" style="border-bottom: 2px solid #EEE !important;">
-                   <center><h1 class="tab_title" >Teste de Estanqueidade</h1></center>
+                   <center><h1 class="tab_title" >Informações do Atendimento</h1></center>
                    <br>
                </div>
                <div class="panel">
@@ -159,7 +159,7 @@ tr:nth-child(even) {
    <div class="box box20" style="width:20%;padding-top:0px;">
        <div class="panel">
            <div class="box_conf_menu" style="font-size: 15px;">
-               <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Informações Gerais do Cliente</a>
+               <a class='conf_menu wc_tab wc_active' href='#testeEstanqueidade'>Informações do Atendimento</a>
                <!--<a class='conf_menu wc_tab' href='#defeitos'>Defeitos</a>-->
                <a class='conf_menu wc_tab' href='#orcamento'>Orçamentos</a>
                <a class='conf_menu wc_tab' href='#observacoes'>Observações</a>

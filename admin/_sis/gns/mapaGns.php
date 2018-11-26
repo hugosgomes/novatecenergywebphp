@@ -170,7 +170,7 @@
               return;
 
             }
-              console.log(place.geometry.location.lat());
+             
            var contentString = '<span style="font-size: 15px;"><b>Latitude: </b>'+ place.geometry.location.lat() + '<br><b>Longitude: </b>'+ place.geometry.location.lng() + '</span>';
 
         var infowindow = new google.maps.InfoWindow({
@@ -192,9 +192,10 @@
               scaledSize: new google.maps.Size(25, 25)
             };
 
-    $(document).ready(function(){
+
+   
           infowindow.open(map, marker);
-        });
+     
             if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
