@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
-  mesAtual();
   mostraDados('Home','consulta',0);
+  iniciaPagina();
 });
 
 
@@ -13,7 +13,7 @@ $('.j_select_cliente').change(function(){
           mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
-$('#mes').change(function(){
+$('#mes,#j_ano').change(function(){
           mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
@@ -31,11 +31,12 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
   var Endereco = $('#endereco').val();
   var Cliente = $('#cliente').val();
   var Mes = $('#mes').val();
+  var ano = $('#j_ano').val();
   var ordemAnalise = $('#j_ordemEmAnalise').attr('ordemAnalise');
   var ordemExecutando = $('#j_ordemExecutando').attr('ordemExecutando');
 
 
-  $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, endereco: Endereco, cliente: Cliente, mes:Mes, 
+  $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, endereco: Endereco, cliente: Cliente, mes:Mes, ano:ano,
     inicial: inicial, ordemAnalise: ordemAnalise, ordemExecutando: ordemExecutando, ordem: ordem}, function (data) {  
 
        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
@@ -177,8 +178,6 @@ $('#wc_pdt_stoc').on('click', function (e) {
     if(verificaCampos($('#j_statusOrcamento').val()) == false){
       return;
     }
-
-    alert($('#j_select_tecnicos').val());
         
     var form = $(".j_form");
     var callback = form.find('input[name="callback"]').val();
@@ -274,24 +273,18 @@ $('html').on('click', '#j_edit_chamado', function (e) {
         e.stopPropagation();
 });
 
-function mesAtual(){
-  var data = new Date();
-  var mes = data.getMonth();
-  document.getElementById('mes').selectedIndex = mes;
-
-}
 //MUDANÇA DE MÊS
-  function filtro_mes(el) {
+function filtro_mes(el) {
 
-    var display = document.getElementById(el).style.display;
+  var display = document.getElementById(el).style.display;
 
-    if(display == "none")
-      document.getElementById(el).style.display = 'inline-block';
+  if(display == "none")
+    document.getElementById(el).style.display = 'inline-block';
   else
-      document.getElementById(el).style.display = 'none';
+    document.getElementById(el).style.display = 'none';
 
   $( ".target" ).change(function() {
-      document.getElementById(el).style.display = 'none';
+    document.getElementById(el).style.display = 'none';
   });
 
 }
@@ -388,4 +381,12 @@ function verificaCampos(status){
       }
       break;
   }
+}
+
+function iniciaPagina(){
+  var dataAtual = new Date();
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear()-1)+'>' + (dataAtual.getFullYear()-1) + '</option>');
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear())+' selected="selected">' + dataAtual.getFullYear() + '</option>');
+    $('#j_ano').append('<option value='+(dataAtual.getFullYear()+1)+'>' + (dataAtual.getFullYear()+1) + '</option>');
+    $('#j_ano').selected = dataAtual.getFullYear();
 }

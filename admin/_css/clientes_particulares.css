@@ -271,3 +271,21 @@ select {
 .panel_header.info_gradient > h2{font-size: 0.875em; font-weight: 600; color: #FFF; padding-bottom: 5px;}
 .panel_header.info_gradient > span{position: relative; right: 0; top: -10px;}
 
+
+.legenda-red{
+    background-image: linear-gradient(#ea7a7a, #a01010);
+    width:10px; 
+    height: 10px;
+}
+
+.legenda-yellow{
+    background-image: linear-gradient(#ead77a, #ffbc00);
+    width:10px; 
+    height: 10px;
+}
+
+.legenda-green{
+    background-image: linear-gradient(#7aea7d, #07732e);
+    width:10px; 
+    height: 10px;
+}

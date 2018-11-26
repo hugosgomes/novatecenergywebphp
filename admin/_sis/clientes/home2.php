@@ -11,8 +11,8 @@ endif;
 <style type="text/css">
   .panel_header{
     padding: 0px;
-  padding-top: 12px;
-}
+    padding-top: 12px;
+  }
 </style>
 <link rel="stylesheet" href="_css/clientes_particulares.css"/>
 <header class="dashboard_header">
@@ -23,8 +23,7 @@ endif;
     <span class="crumb">/</span>
     <a title="Novatec Energy" href="dashboard.php?wc=clientes/particulares">Clientes Particulares</a>
     <span class="crumb">/</span>
-    <a title="Novatec Energy" href="dashboard.php?wc=clientes/home">Grandes Orçamentos</a>
-
+    <a title="Novatec Energy" href="dashboard.php?wc=clientes/home2">Grandes Orçamentos</a>
   </p>
 </div>
 </header>
@@ -59,6 +58,14 @@ endif;
   </div>
 </form>
 </div>
+<div class="box box33" style="align-items: right;">
+  <table>
+    <tr><span style="font-family: Arial;font-size: 11px;">LEGENDA PARA AS CORES DE VISITA AGENDADA</span></tr>
+    <tr><td><div class="legenda-red"></div></td><td><span style="font-family: Arial;font-size: 11px;">Agendamento Hoje Ou Em Atraso</span></td></tr>
+    <tr><td><div class="legenda-yellow"></div></td><td><span style="font-family: Arial;font-size: 11px;">Agendamento Amanhã</span></td></tr>
+    <tr><td><div class="legenda-green"></div></td><td><span style="font-family: Arial;font-size: 11px;">Agendamento Em 2 Dias Ou Mais</span></td></tr>
+  </table>
+</div>
 <div class="top_border" style="border-top: solid; border-color: #052242;"></div>
 <div class="box box70" style="width: 71.3%;padding-right: 4px;">
   <div class="box_content" style="margin: 0px;">
@@ -68,9 +75,13 @@ endif;
 <div class="box box30" style="width: 28.5%;padding-left: 0px;">
   <div class="box_content" style="margin: 0px;padding-top: 5px;padding-bottom: 10px;height: 4.6%;">
    <label class="label" style="margin-bottom: 0px;text-align: center;">
-      <h5 class="title_view" style="float: left;padding-top: 10px;padding-left: 35%;">MÊS</h5>
-   <button class="btn btn_darkblue" onclick="filtro_mes('mes')" style="float: right;padding-right: 10px;outline: none;margin-top: 3px;"><span class="icon-filter">Filtrar por Mês</span></button>
+      <h5 class="title_view" style="float: left;padding-top: 10px;padding-left: 10%;">FILTRO</h5>
+   <button class="btn btn_darkblue" onclick="filtro_mes('mes'),filtro_mes('j_ano')" style="float: right;padding-right: 10px;outline: none;margin-top: 3px;"><span class="icon-filter">Filtrar por Mês</span></button>
+   <select id="j_ano" style="font-family: Arial;font-size: 11px;width: 20%;display: none;margin-top: 2px;" callback="Home2" callback_action="consulta"  class="target">
+    <option value="t">TODOS</option>
+   </select>
    <select id="mes" style="font-family: Arial;font-size: 11px;width: 25%;display: none;margin-top: 2px;" callback="Home2" callback_action="consulta"  class="target">
+    <option value="t" id="meses">TODOS</option>
     <option value="01" id="meses">JANEIRO</option>
     <option value="02" id="meses">FEVEREIRO</option>
     <option value="03" id="meses">MARÇO</option>
