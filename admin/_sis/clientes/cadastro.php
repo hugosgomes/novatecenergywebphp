@@ -46,8 +46,7 @@ textarea, input, select{
             <article class="box box50">
                 <div class="label_50">
                     <label class="label">
-                       <!--<input id="tags" type="text" idCliente="" value="" placeholder="PESQUISA POR CLIENTE" rel="0" class="j_buscar_cliente" callback="Clientes" callback_action="consulta" />-->
-                      <select rel="0" class="j_consulta_cliente" callback="Clientes" callback_action="consulta" >
+                       <select rel="0" class="j_consulta_cliente" callback="Clientes" callback_action="consulta" >
                         <option value="">PESQUISA POR CLIENTE</option>             
                         <?php
                         $Read->FullRead("SELECT ID, NOME FROM [80_ClientesParticulares] ORDER BY NOME"," ");
@@ -135,15 +134,19 @@ textarea, input, select{
                 </label>
                 <div class="clear"></div>
             </div>       
-            <div class="label_50">
-                <label class="label">
-                    <span class="legend">Telefone:</span>
-                    <input class="formPhone wc_telefone wc_value" style="font-size: 1.0em;" type="tel" name="TELEFONE" placeholder="Telefone" required/>
-                </label>
-                <label class="label">
-                    <span class="legend">E-mail:</span>
-                    <input class="wc_email wc_value" style="font-size: 1.0em;" type="email" name="EMAIL" placeholder="E-mail" required/>
-                </label>                    
+            <div class="label_33">
+              <label class="label" style="width: 24%;">
+                <span class="legend">Telefone:</span>
+                <input class="formPhone wc_telefone wc_value" style="font-size: 1.0em;" type="tel" name="TELEFONE" placeholder="Telefone" required/>
+            </label>
+            <label class="label" style="width: 24%;">
+                <span class="legend">Telefone2:</span>
+                <input class="formPhone wc_telefone2 wc_value" style="font-size: 1.0em;" type="tel" name="TELEFONE2" placeholder="Telefone2" required/>
+            </label>
+            <label class="label" style="width: 49%;margin-left: 2%;">
+                <span class="legend">E-mail:</span>
+                <input class="wc_email wc_value" style="font-size: 1.0em;" type="email" name="EMAIL" placeholder="E-mail" required/>
+            </label>   
             </div>
             <hr style="border-top: 2px solid #1a4a7b;">   <!-- SEPERAÇÃO DE LINHAS -->
             <br>
@@ -204,7 +207,7 @@ textarea, input, select{
             <div class="label_100">
                 <label class="label">
                     <span  class="legend">OBS:</span>
-                    <textarea class="wc_value" style="font-size: 1.0em;" type="text" name="OBS" placeholder="Observações" required></textarea>
+                    <textarea class="wc_value" style="font-size: 1.0em;" type="text" name="OBS" placeholder="Observações"></textarea>
                 </label>
                 <div class="clear"></div>
             </div>

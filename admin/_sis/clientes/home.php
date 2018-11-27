@@ -171,12 +171,11 @@ endif;
 </div>
 <div id="ex1" class="modal" style="height: auto;">
   <div class="panel_header" style=" border-bottom: 1px solid #04182e;
-  border-width: 2px;">
+  border-width: 2px; padding-top: 0px;">
   <h2 class="icon-keyboard" style="text-align: center;font-size: 15px;"><b>CHAMADO DO CLIENTE</b></h2>
 </div>
-<br>
 <div class="top-chamados">
-  <div class="box box100">
+  <div class="box box100" style="padding: 0px;">
     <div id="j_dados_clientes">
       <div class="dados_clientes">
        <h5>CINTIA LUÍZA MOURA MAILARD</h5>
@@ -190,38 +189,37 @@ endif;
      </div>
    </div>
  </div><!-- BOX 100 -->
- <div class="box box100">
+ <div class="box box100" style="padding-top: 0px;">
    <div class="formulario">
     <form  class="j_form" name="user_manager" action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="callback" value="Home"/>
       <input type="hidden" name="callback_action" value="salvachamado"/>
       <div class="label_33">
 
-        <label class="label" style="width: 25%;">
+        <label class="label" style="width: 33.3%;">
           <span class="legend">STATUS:</span>
           <select id="j_statusOrcamento" class="j_status wc_value" name="STATUS" style="font-family: Arial;font-size: 11px;">
-
           </select>
         </label>
-        <label class="label" style="width: 18.6666%;">
+
+        <label class="label" style="width: 31%;">
           <span class="legend">DATA AGENDAMENTO:</span>
           <input type="text" placeholder="" class="jwc_datepicker wc_value j_data" name="DATAAGENDAMENTO" style="font-family: Arial;font-size: 11px;"/>
         </label>
 
-        <label class="label">
+        <label class="label" style="width: 33.3%;">
           <span class="legend">TÉCNICO:</span>
-
           <select name="TECNICO" id="j_select_tecnicos" class="j_tecnico wc_value" style="font-family: Arial;font-size: 11px;"> 
           </select>
         </label>
         
 
-        <label class="label" style="width: 20.6%;">
+        <label class="label" style="width: 33.3%; margin-left:0px;">
           <span class="legend">VALOR:</span>
           <input class="input j_valor wc_value" style="font-family: Arial;font-size: 11px;" name="VALOR" type="text" size='10' value='' onkeypress='return SomenteNumeroVirgula(this,event)' id="valor" name="campo3" placeholder="R$" required/>
         </label>
 
-        <label class="label" style="margin-left: 0px;width:22%">
+        <label class="label" style="width:31%">
           <span class="legend" >FORMA DE PAGAMENTO:</span>
           <select id="" class="j_forma wc_value" name="FORMAPAGAMENTO" style="font-family: Arial;font-size: 11px;">
             <?php 
@@ -232,21 +230,21 @@ endif;
           </select>
         </label>
 
-        <label class="label" style="width:22%">
+        <label class="label" style="width:33.3%">
           <span class="legend">QUANTIDADE DE PARCELAS:</span>
 
           <input class="input j_qnt wc_value" style="font-family: Arial;font-size: 11px;" name="QNTPARCELAS" type="text" size='2' value='' onkeypress='return SomenteNumero(this,event)' name="campo3" placeholder="" required/>
         </label>
 
-        <label class="label" style="width:54%">
+        <label class="label" style="width:100%; margin:0px;">
           <span class="legend">OBSERVAÇÃO:</span>
-          <textarea rows="5" class="input j_obs wc_value" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder=""></textarea>
+          <textarea rows="3" class="input j_obs wc_value" style="font-family: Arial;font-size: 11px;" name="OBS" type="text" name="campo3" placeholder=""></textarea>
         </label>
-
-        <label class="label">
+        <label class="label"></label>
+        <label class="label" style="width:99.9%; margin: 0px;">
           <!--<span class="btn btn_blue icon-share fl_left" id="j_salva_chamado" onClick="salvarChamado();" callback="Home" callback_action="salvachamado">Cadastrar!</span>-->
 
-          <span id="wc_pdt_stoc" name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 5px;">Salvar</span>
+          <span id="wc_pdt_stoc" name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 0px; margin: 0% 45% 0% 45%;">Salvar</span>
         </label>
       </div>
     </form>
@@ -254,7 +252,7 @@ endif;
 </div>
 
 </div>
-<div  id="j_historico" class="coluna" style="height: 50%;margin-top: 3%;">
+<div  id="j_historico" class="coluna" style="height: 50%;margin-top: 1%;">
   <div class="box_content buttons_chamados" style="height: auto;">
     <ul>
       <div class="box box50" style="padding-bottom: 0px;">
@@ -271,10 +269,7 @@ endif;
       <div class="box box100" style="padding-top: 0px;">
         <li style="padding-bottom: 5px;font-size: 12px;">OBS.: HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHaHHH</li>
       </div>
-
   </div>  
-
-
 </div>
 </div>
 

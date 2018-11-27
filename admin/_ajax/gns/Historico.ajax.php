@@ -83,19 +83,19 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 	    case 'CarregarHistorico':
 	    $jSON['historicoOs'] = null;
 	    $Read->FullRead("SELECT [60_Clientes].Id AS IdDoCliente,NomeOs,[60_OS].Id AS IDOS, NumOS, [60_OS].Status,[60_OS].Latitude,[60_OS].Longitude, Valorcobrar, 'VERIFICAR' AS Atualizadopor, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS Tecnico, 
-            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM, ObsCEG, [00_NivelAcesso].ID AS TecnicoId, [60_OT].Id AS IdOT FROM [60_OS]
+            CONVERT(NVARCHAR,Atualizadoem,103) AS ATUALIZADO_EM,[60_Atendimentos].Obs , [00_NivelAcesso].ID AS TecnicoId, [60_OT].Id AS IdOT FROM [60_OS]
             INNER JOIN [60_OT] ON [60_OS].OT = [60_OT].Id 
             INNER JOIN [60_Clientes] ON [60_OT].Cliente = [60_Clientes].Id 
+            LEFT JOIN [60_Atendimentos] ON [60_OS].Id = [60_Atendimentos].IdOS
             LEFT JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
             LEFT JOIN  Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
-            LEFT JOIN  FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
-					WHERE [60_Clientes].Id = " . $PostData['idCliente'] . " ORDER BY Atualizadoem DESC","");
+            LEFT JOIN  FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID WHERE [60_Clientes].Id = {$PostData['idCliente']} ORDER BY Atualizadoem DESC","");
+
             if ($Read->getResult()):
                 $Idos = $Read->getResult()[0]['IDOS'];
                 
                 foreach ($Read->getResult() as $Oss):
                     extract($Oss);
-                   // $end = $Foto != NULL ? "http://192.168.0.101:83/Rodrigo/novatec/uploads/".$Foto : "";
                 	$valor = number_format($Oss['Valorcobrar'],2,',','.');
                 	$status = getStatusOs($Oss['Status']);
                     $tecnico = $Oss['Tecnico'] ? $Oss['Tecnico'] : 'Não Associado';
@@ -201,7 +201,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 									            <li style='padding-bottom: 5px;font-size: 11px;color: gray;'>Atualizado em: {$Oss['ATUALIZADO_EM']}</li>
 									          </div>
 									          <div class='box box100' style='padding-top: 0px;'>
-									            <li style='padding-bottom: 5px;font-size: 12px;'>OBS.: {$Oss['ObsCEG']}</li>
+									            <li style='padding-bottom: 5px;font-size: 12px;'>OBS.: {$Oss['Obs']}</li>
                                                 <li>{$finalizaOs}
                                                 </li>
 									          </div>
