@@ -1,9 +1,9 @@
         
         <div class="box box100">
               <div class="box box100">
-                <div class="label box box15">
+                <div class="label box box15" style="display:none">
                   <div class="legend"><b>Data Finalização</b></div>
-                  <input class="dataSaida jwc_datepicker" type="text" name="dataSaida" placeholder="Data e hora">
+                  <input class="dataSaida jwc_datepicker" type="text" name="dataSaida" placeholder="Data e hora" disabled>
                 </div>
                 <div class="t_inf_diametro box box15">
                     <div class="legend"><b>Diâmetro</b></div>

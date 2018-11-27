@@ -167,7 +167,7 @@
                          <option  selected="selected" value="t">SELECIONAR O STATUS DO ORÇAMENTO</option>
                         <?php 
                         foreach (getStatusOrcamentoGNS($Transaction = null) as $key => $value) {
-                          echo "<option value='{$key}'>$value</option>";
+                          echo $key == 4 ? " " : "<option value='{$key}'>$value</option>";
                         }
                         ?>
                       </select>
