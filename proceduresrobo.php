@@ -39,41 +39,35 @@ try{
             union
             select NUMLOTEGNF from [12_Lotes]
         )"," ");
+            $novosLotes = $rowCount;
+            if($novosLotes > 0){
 
-         //ENVIAR UM E-MAIL INFORMANDO SE EXISTEM NOVOS LOTES IMPORTADOS
-            $Read->FullRead("SELECT DISTINCT [14_ImportEstadoPortas_SVSH].Lote
-             FROM [14_ImportEstadoPortas_SVSH] LEFT JOIN (
-             SELECT NUMLOTEGNF AS LOTE FROM [11_Lotes] UNION SELECT NUMLOTEGNF AS LOTE FROM [12_Lotes] UNION SELECT NUM_LOTE_GNF AS LOTE FROM [11_ImportaLoteB])A
-             ON [14_ImportEstadoPortas_SVSH].Lote = A.LOTE
-             WHERE (([14_ImportEstadoPortas_SVSH].Tipo)='SV') AND (A.LOTE Is Null);"," ");
-            $qtdLinhas = count($Read->getResult());
+                $Cliente = "Novatec Energy";
+                $EmailCliente = "gns@novatecenergy.com.br";
+                
+                function envioTeste($Cliente, $EmailCliente, $novosLotes){
 
-            if($qtdLinhas > 0){
+                 $destinatarios = array("fcruz@novatecenergy.com.br", "gramos@novatecenergy.com.br", "apralon@novatecenergy.com.br", "sbrito@novatecenergy.com.br", "gneto@novatecenergy.com.br");
+                 $Email = new Email;
+                 $MailContent = '<table width="550" style="font-family: "Trebuchet MS", sans-serif;">
+                 <tr><td>
+                 <font face="Trebuchet MS" size="3">#mail_body#</font>
+                 </td></tr>
+                 </table>
+                 <style>body, img{max-width: 550px !important; height: auto !important;} p{margin-botton: 15px 0 !important;}</style>';
 
-                $NumOs = 5;
-                $Cliente = "teste";
-                $EmailCliente = "cmailard@novatecenergy.com.br";
-                $linhas = $qtdLinhas;
-                function envioTeste($NumOs, $Cliente, $EmailCliente, $linhas){
+                 $ToAdmin = "<p>Novos Lotes Importados</p>
+                 <p>Qtd. de Lotes Importados: {$novosLotes}</p>
+                 <p style='font-size: 0.9em;'>Sistema Ch4_Bot</p>";
 
-                   $Email = new Email;
-                   $MailContent = '<table width="550" style="font-family: "Trebuchet MS", sans-serif;">
-                   <tr><td>
-                   <font face="Trebuchet MS" size="3">#mail_body#</font>
-                   </td></tr>
-                   </table>
-                   <style>body, img{max-width: 550px !important; height: auto !important;} p{margin-botton: 15px 0 !important;}</style>';
-
-                    $ToAdmin = "<p>Novos Lotes Importados</p>
-                    <p>Qtd. de Lotes Importados: {$linhas}</p>
-                    <p style='font-size: 0.9em;'>Sistema Ch4_Bot</p>";
-
-                    $CopyMensage = str_replace("#mail_body#", $ToAdmin, $MailContent);
-
-                    $Email->EnviarMontando("Comprovante de envio. OS: ".$NumOs." ", $CopyMensage, $Cliente, $EmailCliente, "Novatec Energy", "cmailard@novatecenergy.com.br");
-                }
-                envioTeste($NumOs, $Cliente, $EmailCliente, $linhas);
-            }
+                 $CopyMensage = str_replace("#mail_body#", $ToAdmin, $MailContent);
+                 for ($i=0; $i < count($destinatarios); $i++) { 
+                    $Email->EnviarMontando("Novos Lotes Importados", $CopyMensage, $Cliente, $EmailCliente, "Novatec Energy", $destinatarios[$i]);
+                 }
+                 
+             }
+             envioTeste($Cliente, $EmailCliente, $novosLotes);
+         }
 
         //Inserindo dados formatados SV na tabela 11_ImportaLoteB
         $Query->FullQuery("INSERT INTO [11_ImportaLoteB] (LOCALIDADE, BAIRRO, TIPO_LOGRADOURO, LOGRADOURO, NUM, COMPLEMENTO, APT, CASA, NOVO, LOTE, COD_ATIVIDADE, NUM_LOTE_GNF, CIDI, TIPO) 
