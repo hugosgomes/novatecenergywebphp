@@ -26,7 +26,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
   </p>
 </div>
 </header>
-<div class="dashboard_content custom_app" >
+<div class="dashboard_content custom_app">
   <!--BOTÕES SUPERIORES-->
   <article class="box box100 no-print">   
     <div class="box_content">
@@ -36,9 +36,22 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
       </div>
       <div class="box box40">
         <?php $Read->FullRead("SELECT ID FROM [60_ClientesSemOT] WHERE IDOS IS NULL", " ");?>
-        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_lefts">(<?php echo count($Read->getResult());?>) - Clientes Sem OT / OS</a>
+        <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_lefts">(<?php echo count($Read->getResult());?>) - Clientes Sem OT / OS</a>        
       </div>
-    </article>
+      <div class="box box50" style="width:31%;">
+
+      </div>
+      <div class="box box50" style="width:20%;padding-top: 15px; text-align: right;">
+        <span class="legend "><b>Receber Os Manualmente:</b></span>
+      </div>
+      <div class="box box40">
+        <input type="file" id="os_manual" class="wc_loadimage"/>
+      </div>
+      <div class="box box40">
+        <span id="j_importar" class="btn btn_darkblue"><b>Importar</b></span>
+      </div>
+    </div>      
+  </article>
 
 
     <article class="box box100">    
@@ -52,7 +65,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}' class='btn btn_green'>Agendamentos HOJE</a></div>";
           echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Amanha}' class='btn btn_yellow'>Agendamentos AMANHÃ</a></div>";
           echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos da SEMANA</a></div>";
-          ?>
+          ?>          
         </header>
         <div class="box_content">
 

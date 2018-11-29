@@ -584,6 +584,10 @@ $('html').on('click', '#j_btn_cancelar', function (e) {
     $('#j_modal, .blocker').hide();
 });
 
+$('html').on('click', '#j_importar', function (e) {
+    alert($('#os_manual').val());
+});
+
 
 function numeroParaMoeda(n, c, d, t)
 {
