@@ -125,44 +125,44 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             switch ($img['Tipo']) {
                                 case '1':
                                     $imgs .= "<div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/>
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/>
                                 </a></div>";
                                 break;
                                 
                                 case '2':
                                     $imgs2 .= "
                                 <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
                                 break;
 
                                 case '3':
                                 $imgs3 .= "
                                 <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
                                 break;
 
                                 case '4':
                                 $imgs4 .= "
                                 <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
                                 break;
 
                                 case '5':
                                 $imgs5 .= "
                                 <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
                                 break;
 
                                 case '6':
                                 $imgs6 .= "
                                 <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
                                 break;
 
                                 case '7':
                                 $imgs7 .= "
                                 <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
                                 break;
                             }
                             
