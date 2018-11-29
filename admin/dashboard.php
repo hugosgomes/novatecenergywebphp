@@ -84,14 +84,7 @@ endif;
 
     <!-- jquery shadowbox -->
 
-    <link rel="stylesheet" type="text/css" href="../_cdn/shadowbox/shadowbox.css">
-    <script src="../_cdn/shadowbox/shadowbox.js"></script>
-    <script type="text/javascript">
-        Shadowbox.init({
-            handleOversize:"drag",
-            modal:true
-        });
-    </script>
+    
 
 
 

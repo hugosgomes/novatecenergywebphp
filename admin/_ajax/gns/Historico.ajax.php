@@ -104,7 +104,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $IdOS = $Oss['IDOS'];
                     $Longitude = $Oss['Longitude'];
                     $Latitude = $Oss['Latitude'];
-                    $finalizaOs = $Oss['TecnicoId'] > 0 && $Oss['Status'] == 0? "<span class='btn btn_darkblue finalizar-OS' style='height:35px;'><a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''>Finalizar OS</a></span>" : '';
+                    $finalizaOs = $Oss['TecnicoId'] > 0 && $Oss['Status'] == 1? "<a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''><span class='btn btn_darkblue finalizar-OS' style='height:35px;'>Finalizar OS</span></a>" : '';
                     $atualizadopor = $Oss['Atualizadopor'] ? $Oss['Atualizadopor'] : 'Não Associado';
 
                         //$fotos .= "<li style='padding-bottom: 5px;font-size: 12px;'><img src='{$end}'/></li>"
@@ -161,6 +161,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         
                     }
 
+                    //SÓ EXIBE O TÍTULO E IMAGEM EM HISTÓRICO DE CLIENTE SE FOR DIFERENTE DE NULO
                     $imgs  != null ?  $i1 = "block" : $i1 = "none";
                     $imgs2 != null ?  $i2 = "block" : $i2 = "none";
                     $imgs3 != null ?  $i3 = "block" : $i3 = "none";
@@ -168,6 +169,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $imgs5 != null ?  $i5 = "block" : $i5 = "none";
                     $imgs6 != null ?  $i6 = "block" : $i6 = "none";
                     $imgs7 != null ?  $i7 = "block" : $i7 = "none";
+
 
                     $valorAprovado = 0;
                     $valorReprovado = 0;

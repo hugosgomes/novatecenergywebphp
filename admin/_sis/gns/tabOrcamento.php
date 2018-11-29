@@ -7,16 +7,6 @@
     <input type="hidden" name="EMPRESA" value="<?php echo $NOME['EMPRESA'] ?>">
     <div id="orcamento"/>
         <label class="label box box100">
-          <div class="box box50">
-            <h3>Orçamento</h3>
-          </div>
-          <div class="box box50">
-            <div class="">
-              <span class="legend">Cliente tem plano ?</span>
-              <span><input class="o_tipoCliente" id="orc-aprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteCp" style="width:5%" checked>Sim</span>
-              <span><input class="o_tipoCliente" id="orc-reprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteSp" style="width:5%">Não</span>
-            </div>
-          </div>
              <div class="box box50">
                  <div class="box box50" style="">
                      <label class="label">
@@ -50,7 +40,7 @@
                 <div class="box box50" style="padding-top: 12px;">
                 <div class="box box50" id="o_cliente_sem_plano" style="display:none">
                      <label class="label">
-                        <span class="legend">Pesquisar Serviços / sem plano</span>
+                        <span class="legend">Pesquisar Serviços </span>
                          <select id="o_servicos_s_com_p" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" >   <option disabled="disabled" selected value="t">SELECIONAR SERVIÇO</option>
                         <?php
                         $Read->FullRead("SELECT [Id] AS id, [Codigo] AS codigo, [Descricao] AS descricao, [ValorClienteAssist] AS valorcliente, [ValorClientePAG] AS valorclientepag FROM [60_OS_ListaServicos]"," ");
@@ -67,7 +57,7 @@
                  </div>
                  <div class="box box50" id="o_cliente_com_plano">
                    <label class="label">
-                    <span class="legend">Pesquisar Serviços / com plano</span>
+                    <span class="legend">Pesquisar Serviços</span>
                     <select id="o_servicos_c_com_p" name="" rel="0" class="j_consulta" callback="Dadostabela" callback_action="consulta" > 
                       <option disabled="disabled" selected value="t">SELECIONAR SERVIÇO</option>  
                       <?php
@@ -184,13 +174,17 @@
 
             <div class="box box100" id="o_cliente_com_plano" style="">
                 <label class="label">
-                    <div class="box box50">
-                      <span class="legend">Nome para Contato</span>
+                    <div class="box box33">
+                      <span class="legend">Nome do Contato</span>
                       <input type="text" name="NomeContato" placeholder="Nome do contato">
                     </div>
-                    <div class="box box50">
-                      <span class="legend">Telefone para Contato</span>
+                    <div class="box box33">
+                      <span class="legend">Telefone do Contato</span>
                       <input class="formPhone" type="text" name="TelContato" placeholder="Telefone">
+                    </div>
+                    <div class="box box33">
+                      <span class="legend">CPF do cotnato</span>
+                      <input class="formCpf" type="text" name="CPFContato" placeholder="Nº CPF">
                     </div>
                   <br><br>
                 </label>    
