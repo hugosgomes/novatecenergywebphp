@@ -31,6 +31,21 @@ function exibeCheckbox(){
   })
 }
 
+$('.o_os_status').change(function(){
+  var status = $('.o_os_status option:selected').val();
+
+  //EXIBIR E OCULTAR INPUTS DE ACORDO COM O CHANGE DO STATUS DA OS
+  if(status != 3){
+    $('#imagens-os-ass-t').show().find('input[name="asstecnico_fotos_arquivos[]"]').prop('disabled',false);
+    $('#imagens-os-ass-c').show().find('input[name="asscliente_fotos_arquivos[]"]').prop('disabled',false);
+    $('#imagens-os-local').hide().find('input[name="local_fotos_arquivos[]"]').val("").prop('disabled',true);;
+  }else if(status == 3){
+    $('#imagens-os-ass-t').show().find('input[name="asstecnico_fotos_arquivos[]"]').prop('disabled',false);;
+    $('#imagens-os-ass-c').show().find('input[name="asscliente_fotos_arquivos[]"]').prop('disabled',false);;
+    $('#imagens-os-local').show().find('input[name="local_fotos_arquivos[]"]').prop('disabled',false);;
+  }
+})
+
 //EXIBE E OCULTA IMPUT FOTOS DEFEITOS
 $("#instalacao-ok").change(function() {
   if(this.checked){
@@ -85,14 +100,36 @@ $(document).on('mouseenter','#j_btn_salvar',function() {
     orcamento = $('#valor-total').val();
     statusOrcamento = $('.o_aprovado_reprovado option:selected').val();
     dataAgendamento = $('input[name="o_data_agendamento"]').val();
+    assc = $('input[name="asscliente_fotos_arquivos[]"]').val();
+    asst = $('input[name="asstecnico_fotos_arquivos[]"]').val();
+    assl = $('input[name="local_fotos_arquivos[]"]').val();
 
     if(orcamento > 0 && statusOrcamento == 1 && dataAgendamento == 0){
       alert('Insira data de agendamento');
     }
-    //SE O STATUS DO ORÇAMENTO FOR APROVADO O USUÁRIO DEVE SELECIONAR O STATUS DA OS
-    if(o_os_status == 't'){
-      alert('Selecione status da OS!');
+
+    switch(o_os_status){
+      case 't':
+        alert("Selecione Status da OS");
+      break;
+      case '1':
+        if(assc == "" || asst == ""){
+          alert("Os campos Ass. do cliente e Ass. do técnico devem conter ao menos uma foto");
+        }
+      break;
+      case '2':
+        if(assc == "" || asst == ""){
+          alert("Os campos Ass. do cliente e Ass. do técnico devem conter ao menos uma foto");
+        }
+      break;
+      case '3':
+        if(assc == "" || asst == "" || assl == ""){
+          alert("Os campos Ass. do cliente e Ass. do técnico e Foto do local devem conter ao menos uma foto");
+        }
+      break;
+
     }
+
 
 });
 
@@ -351,9 +388,12 @@ $(document).on('blur','#o_parcelas-seleciona',function(){
   $('.valor-parcelas').text(valorParcelas.toFixed(2));
 })
 
-//REMOVE O OPTION RECUSADO NO CARREGAMENTO DA PÁGINA
+//REMOVE OU DESABILITA INPUTS NO CARREGAMENTO DA PÁGINA
 $(document).ready(function(){
   $('.o_aprovado_reprovado').find('option[value="3"]').remove();
+  $('input[name="asscliente_fotos_arquivos[]"]').prop('disabled',true);
+  $('input[name="asstecnico_fotos_arquivos[]"]').prop('disabled',true);
+  $('input[name="local_fotos_arquivos[]"]').prop('disabled',true);
 })
 
 //GERAR ORÇAMENTO REPROVADO
@@ -604,10 +644,31 @@ $('.o_tr_assinalar').click(function(){
   }
 })
 
-//DATEPICKER DATA E HORA
+//DATEPICKER DATA E HORA INICIO
+$(function() {
+  $('.dataInicio').datepicker({
+        dateFormat: 'dd-mm-yy',
+        onSelect: function(datetext){
+            var d = new Date(); // for now
+            var h = d.getHours();
+            h = (h < 10) ? ("0" + h) : h ;
+
+            var m = d.getMinutes();
+            m = (m < 10) ? ("0" + m) : m ;
+
+            var s = d.getSeconds();
+            s = (s < 10) ? ("0" + s) : s ;
+
+            datetext = datetext + " " + h + ":" + m + ":" + s;
+            $('.dataInicio').val(datetext);
+        },
+    });
+});
+
+//DATEPICKER DATA E HORA SAIDA
 $(function() {
   $('.dataSaida').datepicker({
-        dateFormat: 'yy-dd-mm',
+        dateFormat: 'dd-mm-yy',
         onSelect: function(datetext){
             var d = new Date(); // for now
             var h = d.getHours();
