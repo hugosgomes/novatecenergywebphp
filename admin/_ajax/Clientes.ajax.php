@@ -60,14 +60,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         break;
                     endif;
 
-                    //CONSULTA PARA VERIFICAR SE EXISTE CADASTRO UTILIZANDO ESTE EMAIL
-                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE EMAIL = '{$PostData["EMAIL"]}'",""); 
-
-                    if($Read->getResult()):
-                        $jSON['trigger'] = AjaxErro("Já existe cadastro para este email!",E_USER_WARNING);
+                    if(strlen($PostData["NUMERO"])>5):
+                        $jSON['trigger'] = AjaxErro("O campo número só conter 5 dígitos!",E_USER_WARNING);
                         break;
                     endif;
 
+                    //CONSULTA PARA VERIFICAR SE EXISTE CADASTRO UTILIZANDO ESTE TELEFONE2
+                    $Read->FullRead("SELECT * FROM [80_ClientesParticulares] WHERE TELEFONE2 = '{$PostData["TELEFONE2"]}'",""); 
+
+                    if($Read->getResult()):
+                        $jSON['trigger'] = AjaxErro("Já existe cadastro para este telefone2!",E_USER_WARNING);
+                        break;
+                    endif;
 
                     //TESTA SE O CEP TEM O TRAÇO OU NÃO
                     if (strstr($PostData['CEP'], '-')):
@@ -94,6 +98,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $CLIENTE = array(
                         "NOME"=>strtoupper($PostData["NOME"]),
                         "TELEFONE"=>$PostData["TELEFONE"],
+                        "TELEFONE2"=>$PostData["TELEFONE2"],
                         "EMAIL"=>$PostData["EMAIL"],
                         "TIPO"=>$PostData["TIPO"],
                         "CPF"=> !empty($PostData['CPF'])? $PostData["CPF"]: NULL,

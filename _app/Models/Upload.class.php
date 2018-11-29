@@ -52,7 +52,7 @@ class Upload {
         $this->Folder = ( (string) $Folder ? $Folder : 'images' );
 
         //VALID EXTENSION FOR IMAGES
-        $Extension = ['.jpg', '.jpeg', '.png'];
+        $Extension = ['.jpg', '.jpeg', '.png','.csv'];
 
         if (!in_array($this->Ext, $Extension) || !strstr($this->File["type"], 'image/')):
             $this->Result = false;

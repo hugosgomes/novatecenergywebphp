@@ -530,11 +530,11 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
         $Recomendacoes[6] = ['IdOs'=> intval($body[$i]['idAtendimento']), 'ItemInspecao' => 91, 'InstalacaoInterna' => NULL, 'Aparelho1' => $body[$i]['recomendacoes']['recomendacoes91Aparelho1'], 'Aparelho2' => $body[$i]['recomendacoes']['recomendacoes91Aparelho2'], 'Aparelho3' => $body[$i]['recomendacoes']['recomendacoes91Aparelho3']];
         if(isset($Recomendacoes)){
             foreach ($Recomendacoes as $RECO) { 
-                $Create->ExeCreate("[60_Defeitos]", $RECO);                                                             
-            }  
-        } 
+                $Create->ExeCreate("[60_Defeitos]", $RECO);                   
+            }
+        }
 
-        //TRATAMENTO DO ORÇAMENTO, PEÇAS E SERVIÇOS
+        //TRATAMENTO DO ORÇAMENTO, PEÇAS E SERVIÇOS **********************************
         if ($body[$i]['orcamento']['item'] != NULL){
             $orcamento[$i]['IdOS'] = intval($body[$i]['orcamento']['idAtendimento']);
             $orcamento[$i]['DataEnt'] = $body[$i]['orcamento']['DataEnt'];
@@ -550,7 +550,6 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
             
             $TotalAprov = 0;
             $TotalReprov = 0;
-
 
             $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = :st","idos={$orcamento[$i]['IdOS']}&st={$orcamento[$i]['Status']}");
             if(!$Read->getResult()){
@@ -597,10 +596,11 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
                                     $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);     
 
                                     $SubTotalPc =  $ItemPecas[$o]['Qtd'] * $ItemPecas[$o]['Valor'];
-                                    $TotalReprov = $TotalReprov + $SubTotalSv;
+                                    //$TotalReprov = $TotalReprov + $SubTotalSv;
 
                                 }else{
                                     $IdOrcamentoReprov = $Read->getResult()[0]['ID'];
+                                    $idOrcamentoQuery = $IdOrcamentoReprov;
                                     $ItemPecas[$o]['IDOrcamento'] = $IdOrcamentoReprov;
                                     $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
                                     $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
@@ -644,6 +644,7 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
 
                                 }else{
                                     $IdOrcamentoReprov = $Read->getResult()[0]['ID'];
+                                    $idOrcamentoQuery = $IdOrcamentoReprov;
                                     $ItemServicos[$o]['IDOrcamento'] = $IdOrcamentoReprov;
                                     $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
                                     $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
@@ -655,6 +656,7 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
                                 }
                             }                
                         }
+                        var_dump(floatval($body[$i]['orcamento']['item'][$o]['total']));
                         $Query = new Query();
                         $Query->FullQuery("UPDATE [60_Orcamentos] SET Valor = Valor + " . floatval($body[$i]['orcamento']['item'][$o]['total']) . " WHERE ID = " . $idOrcamentoQuery,"");
                     }

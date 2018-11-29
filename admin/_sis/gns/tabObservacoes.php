@@ -235,6 +235,27 @@
     </label>
 </div>
 
+<label class="label box box20 imagens-os" style="display:none" id="imagens-os-ass-c">
+    <span class="legend"><b>Foto assinatura do cliente:</b></span>
+    <input type="file" name="asscliente_fotos_arquivos[]" class="wc_loadimage" multiple/>
+    <div class="dados_medidor">
+
+    </div>
+</label>
+<label class="label box box20 imagens-os" style="display:none" id="imagens-os-ass-t">
+    <span class="legend"><b>Foto assinatura do técnico:</b></span>
+    <input type="file" name="asstecnico_fotos_arquivos[]" class="wc_loadimage" multiple/>
+    <div class="dados_medidor">
+
+    </div>
+</label>
+<label class="label box box20 imagens-os" style="display:none" id="imagens-os-local">
+    <span class="legend"><b>Fotos do local:</b></span>
+    <input type="file" name="local_fotos_arquivos[]" class="wc_loadimage" multiple/>
+    <div class="dados_medidor">
+
+    </div>
+</label>
 <div class="box box20 status-os">
     <label class="label">
       <span class="legend" >Status da OS:</span>
@@ -242,7 +263,7 @@
           <option disabled selected="selected" value="t">SELECIONAR O STATUS DA OS</option>
         <?php 
         foreach (getNovoStatusOs($Transaction = null) as $key => $value) {
-          echo "<option value='{$key}'>$value</option>";
+          echo $key == 6 || $key == 5 || $key == 4 ? "" : "<option value='{$key}'>$value</option>";
         }
         ?>
       </select>

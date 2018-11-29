@@ -66,7 +66,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       'StatusTeste' => isset($PostData['t_1status']) ? $PostData['t_1status'] : NULL,
       'NumOcorrencia' => isset($PostData['t_num_ocorrencia']) ? $PostData['t_num_ocorrencia'] : NULL,
       'Defeito' => isset($PostData['t_2status']) ? $PostData['t_2status'] : NULL,
-      'DataAtendimento' => $Data->format('Ymd H:i:s'),
+      'DataAtendimento' => isset($PostData['dataInicio']) ? $PostData['dataInicio'] : NULL,
       'DataSaida' => isset($PostData['dataSaida']) ? $PostData['dataSaida'] : NULL,
       'Gas' => isset($PostData['t_inf_gas']) ? $PostData['t_inf_gas'] : NULL,
       'Ramificacao' => isset($PostData['t_inf_ramif']) ? $PostData['t_inf_ramif'] : NULL,
@@ -77,16 +77,17 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       'Latitude' => isset($PostData['Latitude']) ? $PostData['Latitude'] : NULL,
       'Longitude' => isset($PostData['Longitude']) ? $PostData['Longitude'] : NULL,
       'TelefoneContato' => isset($PostData['TelContato']) ? $PostData['TelContato'] : NULL,
+      'CpfContato' => isset($PostData['CPFContato']) ? $PostData['CPFContato'] : NULL,
       'Obs' => isset($PostData['Obs']) ? $PostData['Obs'] : NULL 
     );
 
-    $idOsExist = $PostData['IdOS'];
-    $Read->FullRead("SELECT [IdOS] FROM [BDNVT].[dbo].[60_Atendimentos] WHERE [IdOS] = {$idOsExist};");
-    if($Read->getResult() == NULL){
-      $Create->ExeCreate("[60_Atendimentos]",$atendimento);
-    }else{
-      $Update->ExeUpdate("[60_Atendimentos]",$atendimento, "WHERE IdOS = :idos", "idos={$PostData['IdOS']}");
-    }
+    // ATUALIZA STATUS DA OS EM 60_OS
+    $OS = ['Status' => $PostData['o_os_status']];
+    $Update->ExeUpdate("[60_OS]",$OS, "WHERE Id = :idos", "idos={$PostData['IdOS']}");
+
+    // CRIA NOVA LINHA NA TABELA 60_ATENDIMENTOS
+    $Create->ExeCreate("[60_Atendimentos]",$atendimento);
+
             /////////////////////////////////////////////////////////
 
     for ($i=1; $i <= 10; $i++) {
@@ -449,6 +450,130 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endforeach;
                   endif;
                 endif;
+
+                // FOTOS ASSINATURA DO CLIENTE
+                $ass_cliente_title = "Cliente";
+                $ass_cliente_arquivos = array($_FILES['asscliente_fotos_arquivos']['size']);
+                $ass_cliente_GalleryId = $PostData['IdOS'];
+                $ass_cliente_Image = (!empty($_FILES['asscliente_fotos_arquivos']) ? $_FILES['asscliente_fotos_arquivos'] : NULL);
+                $ass_cliente_Size = (!empty($_FILES['asscliente_fotos_arquivos']['size']) ? array_sum($ass_cliente_arquivos) : NULL);
+                $ass_cliente_GalleryName = Check::Name($ass_cliente_title);
+
+                    
+                if (!empty($ass_cliente_Image)):
+                  $ass_cliente_File = $ass_cliente_Image;
+                  $ass_cliente_gbFile = array();
+                  $ass_cliente_gbCount = count($ass_cliente_File['type']);
+                  $ass_cliente_gbKeys = array_keys($ass_cliente_File);
+                  $ass_cliente_gbLoop = 0;
+
+        
+                  if ($ass_cliente_gbCount > 1):
+                    $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
+                  else:
+                    for ($gb = 0; $gb < $ass_cliente_gbCount; $gb++):
+                      foreach ($ass_cliente_gbKeys as $Keys):
+                        $ass_cliente_gbFiles[$gb][$Keys] = $ass_cliente_File[$Keys][$gb];
+                      endforeach;
+                    endfor;
+                         
+                    foreach ($ass_cliente_gbFiles as $ass_cliente_UploadFile):
+                      $ass_cliente_gbLoop ++;
+                      $Upload->Image($ass_cliente_UploadFile, "{$PostData['IdOS']}{$ass_cliente_title}". time(), IMAGE_W, 'images');
+
+                      if ($Upload->getResult()):
+                        $ass_cliente_gbCreate = array('OS' => $ass_cliente_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 4);
+                                  
+                        $Create->ExeCreate('[60_OS_Fotos]', $ass_cliente_gbCreate);
+
+                      endif;
+                    endforeach;
+                  endif;
+                endif;
+
+                // FOTOS ASSINATURA DO TÉCNICO
+                $ass_tecnico_title = "Tecnico";
+                $ass_tecnico_arquivos = array($_FILES['asstecnico_fotos_arquivos']['size']);
+                $ass_tecnico_GalleryId = $PostData['IdOS'];
+                $ass_tecnico_Image = (!empty($_FILES['asstecnico_fotos_arquivos']) ? $_FILES['asstecnico_fotos_arquivos'] : NULL);
+                $ass_tecnico_Size = (!empty($_FILES['asstecnico_fotos_arquivos']['size']) ? array_sum($ass_tecnico_arquivos) : NULL);
+                $ass_tecnico_GalleryName = Check::Name($ass_tecnico_title);
+
+                    
+                if (!empty($ass_tecnico_Image)):
+                  $ass_tecnico_File = $ass_tecnico_Image;
+                  $ass_tecnico_gbFile = array();
+                  $ass_tecnico_gbCount = count($ass_tecnico_File['type']);
+                  $ass_tecnico_gbKeys = array_keys($ass_tecnico_File);
+                  $ass_tecnico_gbLoop = 0;
+
+        
+                  if ($ass_tecnico_gbCount > 1):
+                    $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
+                  else:
+                    for ($gb = 0; $gb < $ass_tecnico_gbCount; $gb++):
+                      foreach ($ass_tecnico_gbKeys as $Keys):
+                        $ass_tecnico_gbFiles[$gb][$Keys] = $ass_tecnico_File[$Keys][$gb];
+                      endforeach;
+                    endfor;
+                         
+                    foreach ($ass_tecnico_gbFiles as $ass_tecnico_UploadFile):
+                      $ass_tecnico_gbLoop ++;
+                      $Upload->Image($ass_tecnico_UploadFile, "{$PostData['IdOS']}{$ass_tecnico_title}".time(), IMAGE_W, 'images');
+
+                      if ($Upload->getResult()):
+                        $ass_tecnico_gbCreate = array('OS' => $ass_tecnico_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 6);
+                                  
+                        $Create->ExeCreate('[60_OS_Fotos]', $ass_tecnico_gbCreate);
+
+                      endif;
+                    endforeach;
+                  endif;
+                endif;
+
+                // FOTOS DO LOCAL
+                if(!empty($PostData['local_fotos_arquivos'])):
+                  $ass_local_title = "Local";
+                  $ass_local_arquivos = array($_FILES['local_fotos_arquivos']['size']);
+                  $ass_local_GalleryId = $PostData['IdOS'];
+                  $ass_local_Image = (!empty($_FILES['local_fotos_arquivos']) ? $_FILES['local_fotos_arquivos'] : NULL);
+                  $ass_local_Size = (!empty($_FILES['local_fotos_arquivos']['size']) ? array_sum($ass_local_arquivos) : NULL);
+                  $ass_local_GalleryName = Check::Name($ass_local_title);
+
+                      
+                  if (!empty($ass_local_Image)):
+                    $ass_local_File = $ass_local_Image;
+                    $ass_local_gbFile = array();
+                    $ass_local_gbCount = count($ass_local_File['type']);
+                    $ass_local_gbKeys = array_keys($ass_local_File);
+                    $ass_local_gbLoop = 0;
+
+          
+                    if ($ass_local_gbCount > 4):
+                      $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>QUANTIDADE DE FOTOS SUPERIOR A 10 FOTOS!</b>");
+                    else:
+                      for ($gb = 0; $gb < $ass_local_gbCount; $gb++):
+                        foreach ($ass_local_gbKeys as $Keys):
+                          $ass_local_gbFiles[$gb][$Keys] = $ass_local_File[$Keys][$gb];
+                        endforeach;
+                      endfor;
+                           
+                      foreach ($ass_local_gbFiles as $ass_local_UploadFile):
+                        $ass_local_gbLoop ++;
+                        $Upload->Image($ass_local_UploadFile, "{$PostData['IdOS']}{$ass_local_title}". time(), IMAGE_W, 'images');
+
+                        if ($Upload->getResult()):
+                          $ass_local_gbCreate = array('OS' => $ass_local_GalleryId, 'Arquivo' => $Upload->getResult(), 'Tipo' => 5);
+                           
+                          if($PostData['o_os_status'] == 3){        
+                            $Create->ExeCreate('[60_OS_Fotos]', $ass_local_gbCreate);
+                          }
+                        endif;
+                    endforeach;
+                  endif;
+                  endif;
+                endif;
+
 
         //VERIFICA O STATUS DO ORÇAMENTO
         $statusorcamento = $PostData['o_orcamento_status'];

@@ -2,12 +2,21 @@
         <div class="box box100">
               <div class="box box100">
                 <div class="label box box15">
+                  <div class="legend"><b>Data Início</b></div>
+                  <input class="dataInicio jwc_datepicker" type="text" name="dataInicio" placeholder="Data e hora">
+                </div>
+                <div class="label box box15">
                   <div class="legend"><b>Data Finalização</b></div>
                   <input class="dataSaida jwc_datepicker" type="text" name="dataSaida" placeholder="Data e hora">
                 </div>
-                <div class="t_inf_diametro box box15">
+                <div class="label t_inf_diametro box box15">
                     <div class="legend"><b>Diâmetro</b></div>
-                    <input type="text"  name="t_inf_diametro" placeholder="Diâmetro" style="height:35px">
+                    <input type="text"  name="t_inf_diametro" placeholder="Diâmetro">
+                </div>
+                <div class="label box box15">
+                      <div class="legend" style="display: block;margin-bottom: 12px;text-transform: uppercase"><b>Cliente tem plano ?</b></div>
+                      <span><input class="o_tipoCliente" id="orc-aprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteCp" style="width:15%" checked>Sim</span>
+                      <span><input class="o_tipoCliente" id="orc-reprovado" type="radio" name="o_cliente_tem_plano" value="o_tipoClienteSp" style="width:15%">Não</span>
                 </div>
               </div>
               <div class="label box box100">

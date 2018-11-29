@@ -135,6 +135,7 @@
 
     }, 'json');
   }
+
   $('html, body').on('click', '.j_usar_endereco', function (e) {
     var ID = $(this).attr('id');
     var Callback = $(this).attr('callback');
@@ -148,7 +149,6 @@
        
         }
         if(data.useEndereco){
-
             $('.wc_cep').val(data.useEndereco['CEP']);
             $('.wc_logradouro').val(data.useEndereco['LOGRADOURO']);
             $('.wc_numero').val(data.useEndereco['NUMERO']);
@@ -161,59 +161,3 @@
     }, 'json');
 
 });
-
-  /*$(function() {
-      var esportes = [
-      "Natação",
-      "Futebol",
-      "Vôlei",
-      "Basquete"
-      ];
-      $("#tags").autocomplete({
-        source: esportes,
-        select: function( event, ui ) {
-            console.log("Selected: " + ui.item.value + " aka " + ui.item.id );
-        }
-    });
-  });*/
-
-
-
-
-/*
- $('html, body').on('click', '.j_buscar_cliente', function (e) {
-    var  availableTags = [];
-
-   //var Cliente = $(this).val();
-   var Callback = $(this).attr('callback');
-   var Callback_action = $(this).attr('callback_action');
-   var Rel = $(this).attr('rel');
-
-   $.post('_ajax/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Rel: Rel}, function (data) {
-
-        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-        if (data.trigger) {
-            Trigger(data.trigger);
-
-        }
-        if(data.buscarCliente){
-
-         for (var i = 0; i < data.buscarCliente.length; i++) {
-            
-               availableTags[i] = data.buscarCliente[i]['ID'] + " - " + data.buscarCliente[i]['NOME'];
-
-               $( "#tags" ).autocomplete({
-                  source: availableTags,
-                  select: function (e, i) {
-                // $(campo txt).attr('input','valor a adicionar');
-                    var valor =  $(this).val();
-                    var id = valor.split(' ')[0];
-
-                    console.log(id)
-
-                }
-            });
-         }               //console.log(data.buscarCliente[0]['NOME']);
-        }
-    }, 'json');
-  });*/

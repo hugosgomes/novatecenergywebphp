@@ -96,6 +96,17 @@ tr:nth-child(even) {
       background:transparent;
     }
 
+  select[name="t_num_manometro"]{
+    border:none;
+    color:#000;
+    cursor:default;
+    background-image:none;
+    touch-action:none;
+    pointer-events: none;
+    outline: initial;
+    
+  }
+
 </style>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
