@@ -32,13 +32,17 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
         $atendimentoFinalizado[$i]['Obs'] = ($body[$i]['obs'] == "null" || $body[$i]['obs'] == ""? NULL : $body[$i]['obs']);
         $atendimentoFinalizado[$i]['NomeContato'] = ($body[$i]['nomeContato'] == "null" || $body[$i]['nomeContato'] == ""? NULL : $body[$i]['nomeContato']);
         $atendimentoFinalizado[$i]['TelefoneContato'] = ($body[$i]['telefoneContato'] == "null" || $body[$i]['telefoneContato'] == ""? NULL : $body[$i]['telefoneContato']);
+        $atendimentoFinalizado[$i]['CpfContato'] = ($body[$i]['cpfContato'] == "null" || $body[$i]['cpfContato'] == ""? NULL : $body[$i]['cpfContato']);
         $atendimentoFinalizado[$i]['Gas'] = ($body[$i]['naturalouGlp'] == "null" || $body[$i]['naturalouGlp'] == ""? NULL : $body[$i]['naturalouGlp']);
         $atendimentoFinalizado[$i]['Ramificacao'] = ($body[$i]['aparenteEmbutida'] == "null" || $body[$i]['aparenteEmbutida'] == ""? NULL : $body[$i]['aparenteEmbutida']);
         $atendimentoFinalizado[$i]['Diametro'] = ($body[$i]['diametro'] == "null" || $body[$i]['diametro'] == ""? NULL : $body[$i]['diametro']);
         $atendimentoFinalizado[$i]['Material'] = ($body[$i]['cuFerroOutros'] == "null" || $body[$i]['cuFerroOutros'] == ""? NULL : $body[$i]['cuFerroOutros']);
-        $atendimentoFinalizado[$i]['Latitude'] = ($body[$i]['latitude'] == "null" || $body[$i]['latitude'] == ""? NULL : $body[$i]['latitude']);
-        $atendimentoFinalizado[$i]['Longitude'] = ($body[$i]['longitude'] == "null" || $body[$i]['longitude'] == ""? NULL : $body[$i]['longitude']);
         $atendimentoFinalizado[$i]['Pressao'] = ($body[$i]['bpMpaMpb'] == "null" || $body[$i]['bpMpaMpb'] == ""? NULL : $body[$i]['bpMpaMpb']);
+        $atendimentoFinalizado[$i]['Latitude'] = ($body[$i]['dataHoraAtendimento']['latInicio'] == "null" || $body[$i]['dataHoraAtendimento']['latInicio'] == null ? NULL : $body[$i]['dataHoraAtendimento']['latInicio']);
+        $atendimentoFinalizado[$i]['Longitude'] = ($body[$i]['dataHoraAtendimento']['longInicio'] == "null" || $body[$i]['dataHoraAtendimento']['longInicio'] == null ? NULL : $body[$i]['dataHoraAtendimento']['longInicio']);
+        $atendimentoFinalizado[$i]['LatitudeFinal'] = ($body[$i]['dataHoraAtendimento']['latFinal'] == "null" || $body[$i]['dataHoraAtendimento']['latFinal'] == null ? NULL : $body[$i]['dataHoraAtendimento']['latFinal']);
+        $atendimentoFinalizado[$i]['LongitudeFinal'] = ($body[$i]['dataHoraAtendimento']['longFinal'] == "null" || $body[$i]['dataHoraAtendimento']['longFinal'] == null ? NULL : $body[$i]['dataHoraAtendimento']['longFinal']);
+        
         
         //ATUALIZA DADOS DO CLIENTE
         $atualizaCliente[$i]['EmailNVT'] = ($body[$i]['emailClinte'] == "null" || $body[$i]['emailClinte'] == ""? NULL : $body[$i]['emailClinte']);
@@ -722,12 +726,17 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
             case 'Assinaturatecnico':
                 $Fotos['Tipo'] = 6;
                 break;
-                
+            case 'Ausente':
+                $Fotos['Tipo'] = 7;
+                break;                
         }
         $Create = new Create;
         $Create->ExeCreate("[60_OS_Fotos]", $Fotos);
 
-        if($parsedBody['tipo'] == "Assinatura"){
+
+
+        if($parsedBody['tipo'] == "Assinaturatecnico")
+        {
             $idAtendimento = intval($parsedBody['idAtendimento']);
             $img = (array) $uploadedFiles['image'];
             $Read->FullRead("SELECT Cliente FROM [60_OT] INNER JOIN [60_OS] ON [60_OT].[Id] = [60_OS].[OT] WHERE [60_OS].[Id] = :id","id={$idAtendimento}");
@@ -743,14 +752,16 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
             $Atendimento = $Read->getResult()[0];
             
             $Read->FullRead("SELECT ID FROM [60_Orcamentos] WHERE idOS = :id","id={$idAtendimento}");
-            if($Read->getResult()){
+            if($Read->getResult())
+            {
                 $IdOrcamento = intval($Read->getResult()[0]["ID"]);
                 
 
                 $Read->FullRead("SELECT [60_OS_ServicosAPP].[Qtd] AS Qtd, [60_OS_ServicosAPP].[Valor] AS Valor, [60_OS_ListaServicos].[Descricao] AS nome FROM [60_OS_ServicosAPP] 
                                 INNER JOIN [60_OS_ListaServicos] ON [60_OS_ListaServicos].[Id] = [60_OS_ServicosAPP].[ID_servico]
                                 WHERE [60_OS_ServicosAPP].IDOrcamento = :id","id={$IdOrcamento}");
-                if($Read->getResult()){
+                if($Read->getResult())
+                {
                     foreach ($Read->getResult() as $ORCAMENTOS) {
                         $Orcamentos .= "<tr><td>".$ORCAMENTOS['nome']."</td><td>".$ORCAMENTOS['Qtd']."</td><td>".$ORCAMENTOS['Valor']."</td><td>".$ORCAMENTOS['Valor'] * $ORCAMENTOS['Qtd']."</td></tr>";
                     }
@@ -803,9 +814,9 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
             //DEVE SER ALTERADO QUANDO ESTIVER EM PRODUÇÃO
             //var_dump($Atendimento, $Cliente, $Orcamentos, $Defeitos, $Aparelhos);
 
-            sleep(20);
+            sleep(5);
             $email = enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos, $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico);
-        }           
+        }          
                
 
         //RETORNO AO CLIENT
@@ -1007,8 +1018,13 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $A
                 $ToCliente = "  <p style='font-size: 1.2em;'>Prezado(a) {$Cliente['NomeCliente']}</p>
                     <p>Este e-mail é refente a tentativa de atendimento realizado pela Novatec Energy na data {$DataAtendimento}.</p>
                     <p>Observações identificadas pelo técnico: {$Atendimento['Obs'] }</p>
-                    <p>*****</p>  
-                    ";
+                    <p>*****************************</p>  
+                    <table width='1000' >
+                      <tr>
+                        <td><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/uploads/{$AssinaturaCliente}' width='250' ><br><b>ASSINATURA DO CLIENTE</b></td>                       
+                        <td><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/uploads/{$AssinaturaTecnico}' width='250' ><br><b>ASSINATURA DO TÉCNICO</b></td>   
+                      </tr>                                        
+                    </table>";
                 break;
 
         }
