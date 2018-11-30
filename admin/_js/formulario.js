@@ -150,12 +150,12 @@ function adicionaLinhaTabela_peca(){
         var selectValorOption = $('#o_peca option:selected').val();
         var selectAtributoOption = $('#o_peca option:selected').prop('disabled');
 
-        //IMPEDE O USUÁRIO DE ADICIONAR LINHAS NA TABELA ANTES DE SELECIONAR PEÇA 
+        //IMPEDE QUE USUÁRIO ADICIONE LINHAS NA TABELA ANTES DE SELECIONAR PEÇA 
         if(selectValorOption == 't' || selectAtributoOption == true){
             $('#o_peca').focus();
         }
 
-        //IMPEDE O USUÁRIO DE ADICIONAR VÁRIAS VEZES A MESMA PEÇA
+        //IMPEDE QUE USUÁRIO ADICIONE VÁRIAS VEZES A MESMA PEÇA
         if(selectValorOption != 't' && selectAtributoOption == false){
 
         //DESABILITAR O OPTION QUE JÁ TEVE SEU VALOR ADICIONADO NA TABELA
@@ -305,19 +305,19 @@ function adicionaLinhaTabela_s(){
 function tipoDeCliente(){
     $('.o_tipoCliente').change(function(){
        valor =  $(this).val();
-       if(valor == 'o_tipoClienteCp'){
 
-            //EXIBE SELECT PARA CLIENTE COM PLANO
-            $('#o_cliente_com_plano').show();
-            $('#o_cliente_sem_plano').hide();
+       switch(valor){
+        case 'o_tipoClienteCp':
+          //EXIBE SELECT PARA CLIENTE COM PLANO
+          $('#o_cliente_com_plano').show();
+          $('#o_cliente_sem_plano').hide();
+        break;
 
-       }
-       if(valor == 'o_tipoClienteSp'){
-
-            //EXIBE SELECT PARA CLIENTE SEM PLANO
-            $('#o_cliente_com_plano').hide();
-            $('#o_cliente_sem_plano').show();
-
+        case 'o_tipoClienteSp':
+          //EXIBE SELECT PARA CLIENTE SEM PLANO
+          $('#o_cliente_com_plano').hide();
+          $('#o_cliente_sem_plano').show();
+        break;
        }
     })
 }
