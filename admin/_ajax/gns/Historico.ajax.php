@@ -104,7 +104,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $IdOS = $Oss['IDOS'];
                     $Longitude = $Oss['Longitude'];
                     $Latitude = $Oss['Latitude'];
-                    $finalizaOs = $Oss['TecnicoId'] > 0 && $Oss['Status'] == 1? "<a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''><span class='btn btn_darkblue finalizar-OS' style='height:35px;'>Finalizar OS</span></a>" : '';
+                    $finalizaOs = $Oss['TecnicoId'] != 0 && $Oss['Status'] == 0? "<a style='color:#fff;text-decoration-line:none !important;' href='dashboard.php?wc=gns/formulario&IdOS={$IdOS}&IdTecnico={$tecnicoId}&IdDoCliente={$IdCliente}&Longitude={$Longitude}&Latitude={$Latitude}''><span class='btn btn_darkblue finalizar-OS' style='height:35px;'>Finalizar OS</span></a>" : '';
                     $atualizadopor = $Oss['Atualizadopor'] ? $Oss['Atualizadopor'] : 'Não Associado';
 
                         //$fotos .= "<li style='padding-bottom: 5px;font-size: 12px;'><img src='{$end}'/></li>"
@@ -115,48 +115,57 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $imgs5 = NULL;
                     $imgs6 = NULL;
                     $imgs7 = NULL;
-                    $i = 1;
                     $Read->FullRead("SELECT [60_OS_Fotos].Arquivo AS Foto,[60_OS_Fotos].Tipo FROM [BDNVT].[dbo].[60_OS_Fotos] WHERE [60_OS_Fotos].OS =:id ","id={$IdOS}");
+
                     if($Read->getResult()){
-                        foreach ($Read->getResult() as $img) {  
+                        foreach ($Read->getResult() as $img) {
+
                             extract($Read->getResult());
-                            if($img['Tipo'] == 1){
-                            $imgs .= "
-                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/>
+
+                            switch ($img['Tipo']) {
+                                case '1':
+                                    $imgs .= "<div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/>
                                 </a></div>";
+                                break;
+                                
+                                case '2':
+                                    $imgs2 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                break;
+
+                                case '3':
+                                $imgs3 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                break;
+
+                                case '4':
+                                $imgs4 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                break;
+
+                                case '5':
+                                $imgs5 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                break;
+
+                                case '6':
+                                $imgs6 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                break;
+
+                                case '7':
+                                $imgs7 .= "
+                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='' rel='shadowbox'>
+                                <img class='img'  src='http://192.168.0.101:83/novatec/uploads/{$img['Foto']}'/></a></div>";
+                                break;
                             }
-                            if ($img['Tipo'] == 2) {
-                               $imgs2 .= "
-                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
-                            }
-                            if ($img['Tipo'] == 3) {
-                               $imgs3 .= "
-                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
-                            }
-                            if ($img['Tipo'] == 4) {
-                               $imgs4 .= "
-                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
-                            }
-                            if ($img['Tipo'] == 5) {
-                               $imgs5 .= "
-                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
-                            }
-                            if ($img['Tipo'] == 6) {
-                               $imgs6 .= "
-                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
-                            }
-                            if ($img['Tipo'] == 7) {
-                               $imgs7 .= "
-                                <div style='width:15%;display:inline-block'><a href='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}' target='_blank' class='link' rel='shadowbox'>
-                                <img class='img'  src='http://192.168.0.101:83/Rodrigo/novatec/uploads/{$img['Foto']}'/></a></div>";
-                            }
-                            $i++;
+                            
                         }
                         
                     }

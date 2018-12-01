@@ -81,14 +81,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       'Obs' => isset($PostData['Obs']) ? $PostData['Obs'] : NULL 
     );
 
+    // ATUALIZA STATUS DA OS EM 60_OS
+    $OS = ['Status' => $PostData['o_os_status']];
+    $Update->ExeUpdate("[60_OS]",$OS, "WHERE Id = :idos", "idos={$PostData['IdOS']}");
 
-    $idOsExist = $PostData['IdOS'];
-    $Read->FullRead("SELECT [IdOS] FROM [BDNVT].[dbo].[60_Atendimentos] WHERE [IdOS] = {$idOsExist};");
-    if($Read->getResult() == NULL){
-      $Create->ExeCreate("[60_Atendimentos]",$atendimento);
-    }else{
-      $Update->ExeUpdate("[60_Atendimentos]",$atendimento, "WHERE IdOS = :idos", "idos={$PostData['IdOS']}");
-    }
+    // CRIA NOVA LINHA NA TABELA 60_ATENDIMENTOS
+    $Create->ExeCreate("[60_Atendimentos]",$atendimento);
+
             /////////////////////////////////////////////////////////
 
     for ($i=1; $i <= 10; $i++) {

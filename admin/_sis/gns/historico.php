@@ -108,11 +108,3 @@ endif;
   }
 
 </style>
-<link rel="stylesheet" type="text/css" href="../_cdn/shadowbox/shadowbox.css">
-    <script src="../_cdn/shadowbox/shadowbox.js"></script>
-    <script>
-        Shadowbox.init({
-            handleOrversize:"drag",
-            modal:true
-        });
-    </script>
