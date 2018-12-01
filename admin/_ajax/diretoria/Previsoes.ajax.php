@@ -43,7 +43,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //TOTAL SEM CERTIFICAR DE REDE
             $Read->FullRead("exec [dbo].[50_SomaPrecertificar]","");
             if ($Read->getResult()):
-            	$valor = $Read->getResult()[0]['SomaDeTOTAL'];
+            	$valor = $Read->getResult()[0]['SomaDeTOTAL'] == "" ? 0 : $Read->getResult()[0]['SomaDeTOTAL'];
             	$valor = number_format($valor,2,',','.');
                 $jSON['dataTable_sem_certificar'] .= "<tr>
 				<td><center>R$ $valor</center></td>";
@@ -56,7 +56,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //TOTAL SEM CERTIFICAR DE ADESÃO
             $Read->FullRead("SELECT SUM(VALOROP) AS VALOR FROM Registro WHERE STATUSB = 2","");
             if ($Read->getResult()):
-            	$valor = $Read->getResult()[0]['VALOR'];
+            	$valor = $Read->getResult()[0]['VALOR'] == "" ? 0 : $Read->getResult()[0]['VALOR'];
             	$valor = number_format($valor,2,',','.');
                 $jSON['dataTable_sem_certificar'] .= "
 				<td><center>R$ $valor</center></td>";
@@ -69,7 +69,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //TOTAL CERTIFICADO DE REDE DO MES
             $Read->FullRead("SELECT ISNULL(SUM(ATUAL),0)+ISNULL(SUM(ATUALANTECIPO),0) AS TOTAL from [50_PrecertId] WHERE NF IS NULL AND {$mes} AND {$ano}","");
             if ($Read->getResult()):
-            	$valor = $Read->getResult()[0]['TOTAL'];
+            	$valor = $Read->getResult()[0]['TOTAL'] == "" ? 0 : $Read->getResult()[0]['TOTAL'];
             	$valor = number_format($valor,2,',','.');
                 $jSON['j_faturamento'] .= "<tr>
 				<td>Certificado:</td><td><center>R$ $valor</center></td>";
@@ -83,7 +83,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //TOTAL CERTIFICADO DE ADESÃO DO MES
             $Read->FullRead("SELECT ISNULL(SUM(TOTAL),0) AS TOTAL from [10_PrecertId] WHERE NF IS NULL AND {$mes} AND {$ano}","");
             if ($Read->getResult()):
-            	$valor = $Read->getResult()[0]['TOTAL'];
+            	$valor = $Read->getResult()[0]['TOTAL'] == "" ? 0 : $Read->getResult()[0]['TOTAL'];
             	$valor = number_format($valor,2,',','.');
                 $jSON['j_faturamento'] .= "
 				<td><center>R$ $valor</center></td>";
@@ -97,7 +97,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $Read->FullRead("SELECT ISNULL(SUM(ATUAL),0)+ISNULL(SUM(ATUALANTECIPO),0) AS TOTAL from [50_PrecertId] INNER JOIN Contas ON [50_PrecertId].NF = Contas.Id
 				WHERE {$mes} AND {$ano}","");
             if ($Read->getResult()):
-            	$valor = $Read->getResult()[0]['TOTAL'];
+            	$valor = $Read->getResult()[0]['TOTAL'] == "" ? 0 : $Read->getResult()[0]['TOTAL'];
             	$valor = number_format($valor,2,',','.');
                 $jSON['j_faturamento'] .= "<tr>
 				<td>Faturado:</td><td><center>R$ $valor</center></td>";
@@ -112,7 +112,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $Read->FullRead("SELECT ISNULL(SUM(TOTAL),0) AS TOTAL from [10_PrecertId] INNER JOIN Contas ON [10_PrecertId].NF = Contas.Id
 				WHERE {$mes} AND {$ano}","");
             if ($Read->getResult()):
-            	$valor = $Read->getResult()[0]['TOTAL'];
+            	$valor = $Read->getResult()[0]['TOTAL'] == "" ? 0 : $Read->getResult()[0]['TOTAL'];
             	$valor = number_format($valor,2,',','.');
                 $jSON['j_faturamento'] .= "
 				<td><center>R$ $valor</center></td>";
@@ -126,7 +126,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $Read->FullRead("SELECT ISNULL(SUM(ATUAL),0)+ISNULL(SUM(ATUALANTECIPO),0) AS TOTAL from [50_PrecertId] INNER JOIN Contas ON [50_PrecertId].NF = Contas.Id
 				WHERE Contas.DataMovimento IS NOT NULL AND {$mes} AND {$ano}","");
             if ($Read->getResult()):
-            	$valor = $Read->getResult()[0]['TOTAL'];
+            	$valor = $Read->getResult()[0]['TOTAL'] == "" ? 0 : $Read->getResult()[0]['TOTAL'];
             	$valor = number_format($valor,2,',','.');
                 $jSON['j_faturamento'] .= "<tr>
 				<td>Recebido:</td><td><center>R$ $valor</center></td>";
@@ -141,7 +141,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $Read->FullRead("SELECT ISNULL(SUM(TOTAL),0) AS TOTAL from [10_PrecertId] INNER JOIN Contas ON [10_PrecertId].NF = Contas.Id
 				WHERE Contas.DataMovimento IS NOT NULL AND {$mes} AND {$ano}","");
             if ($Read->getResult()):
-            	$valor = $Read->getResult()[0]['TOTAL'];
+            	$valor = $Read->getResult()[0]['TOTAL'] == "" ? 0 : $Read->getResult()[0]['TOTAL'];
             	$valor = number_format($valor,2,',','.');
                 $jSON['j_faturamento'] .= "
 				<td><center>R$ $valor</center></td>";
@@ -154,7 +154,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //TOTAL EM ABERTO DE TODOS OS MESES DE REDE
             $Read->FullRead("SELECT ISNULL(SUM(ATUAL),0)+ISNULL(SUM(ATUALANTECIPO),0) AS TOTAL from [50_PrecertId] WHERE NF IS NULL","");
             if ($Read->getResult()):
-                $valor = $Read->getResult()[0]['TOTAL'];
+                $valor = $Read->getResult()[0]['TOTAL'] == "" ? 0 : $Read->getResult()[0]['TOTAL'];
                 $valor = number_format($valor,2,',','.');
                 $jSON['j_previsao'] .= "<tr>
                 <td><center>R$ $valor</center></td>";
@@ -168,7 +168,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //TOTAL EM ABERTO DE TODOS OS MESES DE ADESÃO
             $Read->FullRead("SELECT ISNULL(SUM(TOTAL),0) AS TOTAL from [10_PrecertId] WHERE NF IS NULL","");
             if ($Read->getResult()):
-                $valor = $Read->getResult()[0]['TOTAL'];
+                $valor = $Read->getResult()[0]['TOTAL'] == "" ? 0 : $Read->getResult()[0]['TOTAL'];
                 $valor = number_format($valor,2,',','.');
                 $jSON['j_previsao'] .= "
                 <td><center>R$ $valor</center></td>";
