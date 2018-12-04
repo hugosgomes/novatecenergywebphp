@@ -39,6 +39,18 @@ try{
             union
             select NUMLOTEGNF from [12_Lotes]
         )"," ");
+
+
+        $Query->FullQuery("SELECT COUNT(Lote) FROM(
+        SELECT [14_ImportEstadoPortas_SVSH].Lote
+        FROM [14_ImportEstadoPortas_SVSH] LEFT JOIN (
+        SELECT NUMLOTEGNF AS LOTE FROM [11_Lotes] UNION SELECT NUMLOTEGNF AS LOTE FROM [12_Lotes] UNION SELECT NUM_LOTE_GNF AS LOTE FROM [11_ImportaLoteB])A
+        ON [14_ImportEstadoPortas_SVSH].Lote = A.LOTE
+        WHERE (([14_ImportEstadoPortas_SVSH].Tipo)='SV') AND (A.LOTE Is Null)
+        GROUP BY [14_ImportEstadoPortas_SVSH].Lote)A;"," ");
+
+        $rowCount = $Query->getResult();
+
             $novosLotes = $rowCount;
             if($novosLotes > 0){
 

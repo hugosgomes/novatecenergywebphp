@@ -45,7 +45,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         <span class="legend "><b>Receber Os Manualmente:</b></span>
       </div>
       <div class="box box40">
-        <input type="file" id="os_manual" class="wc_loadimage"/>
+        <input type="file" id="os_manual"/>
       </div>
       <div class="box box40">
         <span id="j_importar" class="btn btn_darkblue"><b>Importar</b></span>
