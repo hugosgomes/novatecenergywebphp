@@ -37,7 +37,7 @@ class Email {
         $this->Mail = new PHPMailer;
         $this->Mail->Host = "email-ssl.com.br";
         $this->Mail->Port = 587;
-        $this->Mail->Username = "gns@novatecenergy.com.br";
+        $this->Mail->Username = "noreply@novatecenergy.com.br";
         $this->Mail->Password = "Novatec.10";
         $this->Mail->SMTPAuth = true;
         
@@ -149,8 +149,8 @@ class Email {
 
 
         //REMETENTE E RETORNO
-        $this->Mail->From = "gns@novatecenergy.com.br";
-        $this->Mail->FromName = "gns@novatecenergy.com.br";
+        $this->Mail->From = "noreply@novatecenergy.com.br";
+        $this->Mail->FromName = "noreply@novatecenergy.com.br";
         $this->Mail->AddReplyTo($this->RemetenteEmail, $this->RemetenteNome);
 
         //ASSUNTO, MENSAGEM E DESTINO
