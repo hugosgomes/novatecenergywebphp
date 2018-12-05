@@ -25,6 +25,10 @@ class Upload {
     private $Folder;
     private static $BaseDir;
 
+    /** TESTE */
+
+    //public $d;
+
     /**
      * Verifica e cria o diretório padrão de uploads no sistema!<br>
      * <b>../uploads/</b>
@@ -33,8 +37,15 @@ class Upload {
         self::$BaseDir = ( (string) $BaseDir ? $BaseDir : '../uploads/');
         if (!file_exists(self::$BaseDir) && !is_dir(self::$BaseDir)):
             mkdir(self::$BaseDir, 0777);
-        endif;
+    endif;
+}
+
+    /*public function getD(){
+        return $this->docRH;
     }
+    public function setD($d){
+        $this->d = $d;
+    }*/
 
     /**
      * <b>Enviar Imagem:</b> Basta envelopar um $_FILES de uma imagem e caso queira um nome e uma largura personalizada.
@@ -44,25 +55,54 @@ class Upload {
      * @param INT $Width = Largura da imagem ( 1024 padrão )
      * @param STRING $Folder = Pasta personalizada
      */
-    public function Image(array $Image, $Name = null, $Width = null, $Folder = null) {
+
+    public function UploadRH(array $Image, $Name = null, $Folder = null) {
         $this->File = $Image;
         $this->Ext = mb_strtolower(strrchr($this->File["name"], "."));
         $this->Name = strtolower((string) $Name ? $Name : substr($Image['name'], 0, strrpos($Image['name'], '.')) );
-        $this->Width = ( (int) $Width ? $Width : IMAGE_W );
         $this->Folder = ( (string) $Folder ? $Folder : 'images' );
 
-        //VALID EXTENSION FOR IMAGES
-        $Extension = ['.jpg', '.jpeg', '.png'];
+        $FileAcceptImage = [
+            'image/jpg',
+            'image/jpeg',
+            'image/png',
+            'application/pdf'
+        ];
 
-        if (!in_array($this->Ext, $Extension) || !strstr($this->File["type"], 'image/')):
+        //VALID EXTENSION FOR IMAGES
+
+        $Extension = ['.jpg', '.jpeg', '.png', '.pdf'];
+
+        if (!in_array($this->Ext, $Extension) || !in_array($this->File["type"], $FileAcceptImage)):
             $this->Result = false;
-            $this->Error = "Tipo de imagem não aceito. Extenções aceitas: " . mb_strtoupper(str_replace(".", "", implode(", ", $Extension))) . "!";
-        else:
-            $this->CheckFolder($this->Folder);
-            $this->setFileName();
-            $this->UploadImage();
-        endif;
-    }
+        $this->Error = "Tipo de imagem não aceito. Extenções aceitas: " . mb_strtoupper(str_replace(".", "", implode(", ", $Extension))) . "!";
+    else:
+        $this->CheckFolderRH($this->Folder);
+        $this->setFileNameRH();
+        $this->UploadImageRH();
+    endif;
+}
+/****************SPACE****************/
+
+public function Image(array $Image, $Name = null, $Width = null, $Folder = null) {
+    $this->File = $Image;
+    $this->Ext = mb_strtolower(strrchr($this->File["name"], "."));
+    $this->Name = strtolower((string) $Name ? $Name : substr($Image['name'], 0, strrpos($Image['name'], '.')) );
+    $this->Width = ( (int) $Width ? $Width : IMAGE_W );
+    $this->Folder = ( (string) $Folder ? $Folder : 'images' );
+
+        //VALID EXTENSION FOR IMAGES
+    $Extension = ['.jpg', '.jpeg', '.png'];
+
+    if (!in_array($this->Ext, $Extension) || !strstr($this->File["type"], 'image/')):
+        $this->Result = false;
+    $this->Error = "Tipo de imagem não aceito. Extenções aceitas: " . mb_strtoupper(str_replace(".", "", implode(", ", $Extension))) . "!";
+else:
+    $this->CheckFolder($this->Folder);
+    $this->setFileName();
+    $this->UploadImage();
+endif;
+}
 
     /**
      * <b>Enviar Arquivo:</b> Basta envelopar um $_FILES de um arquivo e caso queira um nome e um tamanho personalizado.
@@ -93,8 +133,7 @@ class Upload {
 
         //VALID EXTENSION FOR FILES
         $Extension = ['.pdf', '.doc', '.docx', '.rar', '.zip', '.xml','.csv'];
-
-        if($this->Ext == ".csv"){
+        if($this->Name == "gns"){
            $this->CheckFolderOS($this->Folder);
             $this->setFileNameOS();
             $this->MoveFile();
@@ -111,11 +150,7 @@ class Upload {
             $this->setFileName();
             $this->MoveFile();
         endif;
-        }
-
-     
-
-       
+        }      
     }
 
     /**
@@ -146,13 +181,13 @@ class Upload {
             $this->Error = "Arquivo muito grande, tamanho máximo permitido de {$MaxFileSize}mb";
         elseif (!in_array($this->Ext, $Extension) || !in_array($this->File['type'], $FileAccept)):
             $this->Result = false;
-            $this->Error = "Tipo de arquivo não aceito. Extenções aceitas: " . mb_strtoupper(str_replace(".", "", implode(", ", $Extension))) . "!";
-        else:
-            $this->CheckFolder($this->Folder);
-            $this->setFileName();
-            $this->MoveFile();
-        endif;
-    }
+        $this->Error = "Tipo de arquivo não aceito. Extenções aceitas: " . mb_strtoupper(str_replace(".", "", implode(", ", $Extension))) . "!";
+    else:
+        $this->CheckFolder($this->Folder);
+        $this->setFileName();
+        $this->MoveFile();
+    endif;
+}
 
     /**
      * <b>Verificar Upload:</b> Executando um getResult é possível verificar se o Upload foi executado ou não. Retorna
@@ -176,6 +211,7 @@ class Upload {
      * **********  PRIVATE METHODS  **********
      * ***************************************
      */
+
 
     // FILE GNV
     private function CheckFolderOS($Folder) {
@@ -203,9 +239,18 @@ $this->Name = strtolower($FileName);
           //unlink($Image);
 }
 
+    private function CheckFolderRH($Folder) {
+
+        list($Achilles, $nome, $tipo) = explode('/', $Folder);
+        $this->CreateFolder("{$Achilles}");
+        $this->CreateFolder("{$Achilles}/{$nome}");
+        $this->CreateFolder("{$Achilles}/{$nome}/{$tipo}/");
+        $this->Send = "{$Achilles}/{$nome}/{$tipo}/";
+    }
+
     //Verifica e cria os diretórios com base em tipo de arquivo, ano e mês!
     private function CheckFolder($Folder) {
-        
+
         $SubFolder = explode('/', $Folder);
         if(count($SubFolder) > 1):
             foreach($SubFolder as $sub):
@@ -224,83 +269,108 @@ $this->Name = strtolower($FileName);
     private function CreateFolder($Folder) {
         if (!file_exists(self::$BaseDir . $Folder) && !is_dir(self::$BaseDir . $Folder)):
             mkdir(self::$BaseDir . $Folder, 0777);
-        endif;
-    }
+    endif;
+}
+
+private function setFileNameRH() {
+  $FileName = Check::Name($this->Name) . strrchr($this->File['name'], '.');
+  if (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".pdf")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".pdf");
+elseif (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".jpg")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".jpg");
+elseif (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".jpeg")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".jpeg");
+elseif (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".png")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".png");
+endif;
+$this->Name = strtolower($FileName);
+          //unlink($Image);
+}
 
     //Verifica e monta o nome dos arquivos tratando a string!
-    private function setFileName() {
-        $FileName = Check::Name($this->Name) . strrchr($this->File['name'], '.');
-        if (file_exists(self::$BaseDir . $this->Send . $FileName)):
-            $FileName = Check::Name($this->Name) . '-' . time() . strrchr($this->File['name'], '.');
-        endif;
-        $this->Name = strtolower($FileName);
-    }
+private function setFileName() {
+    $FileName = Check::Name($this->Name) . strrchr($this->File['name'], '.');
+    if (file_exists(self::$BaseDir . $this->Send . $FileName)):
+        $FileName = Check::Name($this->Name) . '-' . time() . strrchr($this->File['name'], '.');
+    endif;
+    $this->Name = strtolower($FileName);
+}
 
     //Realiza o upload de imagens redimensionando a mesma!
-    private function UploadImage() {
+private function UploadImage() {
+    switch ($this->File['type']):
+        case 'image/jpg':
+        case 'image/jpeg':
+        case 'image/pjpeg':
+        $this->Image = imagecreatefromjpeg($this->File['tmp_name']);
+        break;
+        case 'image/png':
+        case 'image/x-png':
+        $this->Image = imagecreatefrompng($this->File['tmp_name']);
+        break;
+        default :
+        $this->Image = null;
+        break;
+    endswitch;
+
+    if (!$this->Image):
+        $this->Result = false;
+        $this->Error = 'Tipo de arquivo inválido, envie imagens JPG ou PNG!';
+    else:
+        $x = imagesx($this->Image);
+        $y = imagesy($this->Image);
+        $ImageX = ( $this->Width < $x ? $this->Width : $x );
+        $ImageH = ($ImageX * $y) / $x;
+
+        $NewImage = imagecreatetruecolor($ImageX, $ImageH);
+        imagealphablending($NewImage, false);
+        imagesavealpha($NewImage, true);
+        imagecopyresampled($NewImage, $this->Image, 0, 0, 0, 0, $ImageX, $ImageH, $x, $y);
+
         switch ($this->File['type']):
             case 'image/jpg':
             case 'image/jpeg':
             case 'image/pjpeg':
-                $this->Image = imagecreatefromjpeg($this->File['tmp_name']);
-                break;
+            imagejpeg($NewImage, self::$BaseDir . $this->Send . $this->Name);
+            break;
             case 'image/png':
             case 'image/x-png':
-                $this->Image = imagecreatefrompng($this->File['tmp_name']);
-                break;
-            default :
-                $this->Image = null;
-                break;
+            imagepng($NewImage, self::$BaseDir . $this->Send . $this->Name);
+            break;
         endswitch;
 
-        if (!$this->Image):
+        if (!$NewImage):
             $this->Result = false;
             $this->Error = 'Tipo de arquivo inválido, envie imagens JPG ou PNG!';
         else:
-            $x = imagesx($this->Image);
-            $y = imagesy($this->Image);
-            $ImageX = ( $this->Width < $x ? $this->Width : $x );
-            $ImageH = ($ImageX * $y) / $x;
-
-            $NewImage = imagecreatetruecolor($ImageX, $ImageH);
-            imagealphablending($NewImage, false);
-            imagesavealpha($NewImage, true);
-            imagecopyresampled($NewImage, $this->Image, 0, 0, 0, 0, $ImageX, $ImageH, $x, $y);
-
-            switch ($this->File['type']):
-                case 'image/jpg':
-                case 'image/jpeg':
-                case 'image/pjpeg':
-                    imagejpeg($NewImage, self::$BaseDir . $this->Send . $this->Name);
-                    break;
-                case 'image/png':
-                case 'image/x-png':
-                    imagepng($NewImage, self::$BaseDir . $this->Send . $this->Name);
-                    break;
-            endswitch;
-
-            if (!$NewImage):
-                $this->Result = false;
-                $this->Error = 'Tipo de arquivo inválido, envie imagens JPG ou PNG!';
-            else:
-                $this->Result = $this->Send . $this->Name;
-                $this->Error = null;
-            endif;
-
-            imagedestroy($this->Image);
-            imagedestroy($NewImage);
-        endif;
-    }
-
-    //Envia arquivos e mídias
-    private function MoveFile() {
-        if (move_uploaded_file($this->File['tmp_name'], self::$BaseDir . $this->Send . $this->Name)):
             $this->Result = $this->Send . $this->Name;
             $this->Error = null;
-        else:
-            $this->Result = false;
-            $this->Error = 'Erro ao mover o arquivo. Favor tente mais tarde!';
         endif;
-    }
+
+        imagedestroy($this->Image);
+        imagedestroy($NewImage);
+    endif;
+}
+
+    //Envia arquivos e mídias
+private function MoveFile() {
+    if (move_uploaded_file($this->File['tmp_name'], self::$BaseDir . $this->Send . $this->Name)):
+        $this->Result = $this->Send . $this->Name;
+        $this->Error = null;
+    else:
+        $this->Result = false;
+        $this->Error = 'Erro ao mover o arquivo. Favor tente mais tarde!';
+    endif;
+}
+
+private function UploadImageRH() {
+    if (move_uploaded_file($this->File['tmp_name'], self::$BaseDir . $this->Send . $this->Name)):
+        $this->Result = $this->Send . $this->Name;
+        $this->Error = null;
+    else:
+        $this->Result = false;
+        $this->Error = 'Erro ao mover o arquivo. Favor tente mais tarde!';
+    endif;
+}
 
 }

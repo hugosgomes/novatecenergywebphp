@@ -32,13 +32,18 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
         $atendimentoFinalizado[$i]['Obs'] = ($body[$i]['obs'] == "null" || $body[$i]['obs'] == ""? NULL : $body[$i]['obs']);
         $atendimentoFinalizado[$i]['NomeContato'] = ($body[$i]['nomeContato'] == "null" || $body[$i]['nomeContato'] == ""? NULL : $body[$i]['nomeContato']);
         $atendimentoFinalizado[$i]['TelefoneContato'] = ($body[$i]['telefoneContato'] == "null" || $body[$i]['telefoneContato'] == ""? NULL : $body[$i]['telefoneContato']);
+        $atendimentoFinalizado[$i]['CpfContato'] = ($body[$i]['cpfContato'] == "null" || $body[$i]['cpfContato'] == ""? NULL : $body[$i]['cpfContato']);
         $atendimentoFinalizado[$i]['Gas'] = ($body[$i]['naturalouGlp'] == "null" || $body[$i]['naturalouGlp'] == ""? NULL : $body[$i]['naturalouGlp']);
         $atendimentoFinalizado[$i]['Ramificacao'] = ($body[$i]['aparenteEmbutida'] == "null" || $body[$i]['aparenteEmbutida'] == ""? NULL : $body[$i]['aparenteEmbutida']);
         $atendimentoFinalizado[$i]['Diametro'] = ($body[$i]['diametro'] == "null" || $body[$i]['diametro'] == ""? NULL : $body[$i]['diametro']);
         $atendimentoFinalizado[$i]['Material'] = ($body[$i]['cuFerroOutros'] == "null" || $body[$i]['cuFerroOutros'] == ""? NULL : $body[$i]['cuFerroOutros']);
-        $atendimentoFinalizado[$i]['Latitude'] = ($body[$i]['latitude'] == "null" || $body[$i]['latitude'] == ""? NULL : $body[$i]['latitude']);
-        $atendimentoFinalizado[$i]['Longitude'] = ($body[$i]['longitude'] == "null" || $body[$i]['longitude'] == ""? NULL : $body[$i]['longitude']);
         $atendimentoFinalizado[$i]['Pressao'] = ($body[$i]['bpMpaMpb'] == "null" || $body[$i]['bpMpaMpb'] == ""? NULL : $body[$i]['bpMpaMpb']);
+        $atendimentoFinalizado[$i]['Latitude'] = ($body[$i]['dataHoraAtendimento']['latInicio'] == "null" || $body[$i]['dataHoraAtendimento']['latInicio'] == null ? NULL : $body[$i]['dataHoraAtendimento']['latInicio']);
+        $atendimentoFinalizado[$i]['Longitude'] = ($body[$i]['dataHoraAtendimento']['longInicio'] == "null" || $body[$i]['dataHoraAtendimento']['longInicio'] == null ? NULL : $body[$i]['dataHoraAtendimento']['longInicio']);
+        $atendimentoFinalizado[$i]['LatitudeFinal'] = ($body[$i]['dataHoraAtendimento']['latFinal'] == "null" || $body[$i]['dataHoraAtendimento']['latFinal'] == null ? NULL : $body[$i]['dataHoraAtendimento']['latFinal']);
+        $atendimentoFinalizado[$i]['LongitudeFinal'] = ($body[$i]['dataHoraAtendimento']['longFinal'] == "null" || $body[$i]['dataHoraAtendimento']['longFinal'] == null ? NULL : $body[$i]['dataHoraAtendimento']['longFinal']);
+        $atendimentoFinalizado[$i]['EnvioEmail'] = 0;
+        
         
         //ATUALIZA DADOS DO CLIENTE
         $atualizaCliente[$i]['EmailNVT'] = ($body[$i]['emailClinte'] == "null" || $body[$i]['emailClinte'] == ""? NULL : $body[$i]['emailClinte']);
@@ -539,125 +544,144 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
             $orcamento[$i]['NumParcelas'] = intval($body[$i]['orcamento']['NumParcelas']);
             $orcamento[$i]['DataAgendamento'] = ($body[$i]['orcamento']['dataAgendamento'] == "null" || $body[$i]['orcamento']['dataAgendamento'] == ""? NULL : $body[$i]['orcamento']['dataAgendamento']);
             $orcamento[$i]['Valor'] = 0;
-
             $orcamento[$i]['Status'] = intval($body[$i]['orcamento']['Status']);
-
-            $idOrcamentoQuery = 0;
             
-            $TotalAprov = 0;
-            $TotalReprov = 0;
+            $TotalAprov['Valor'] = 0;
+            $TotalReprov['Valor'] = 0;
+            $IdOrcamentoReprov = NULL;
+            $IdOrcamento = NULL;
+            //var_dump($body[$i]['orcamento']['item']);
+            for($o=0; $o < count($body[$i]['orcamento']['item']); $o++){
+                if($body[$i]['orcamento']['item'][$o]['tipo'] == "1"){
+                    if($body[$i]['orcamento']['item'][$o]['aprovado'] == "1"){
+                        $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = :st","idos={$orcamento[$i]['IdOS']}&st={$orcamento[$i]['Status']}");
+                        if(!$Read->getResult()){
+                            $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
+                            $IdOrcamento = $Create->getResult();
 
-            $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = :st","idos={$orcamento[$i]['IdOS']}&st={$orcamento[$i]['Status']}");
-            if(!$Read->getResult()){
-                $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
-                $IdOrcamento = $Create->getResult();
-                $idOrcamentoQuery = $IdOrcamento;
-
-                    if($orcamento[$i]['Status'] == 1){
-                        $ClienteSemOT[$i]['IDCLIENTE'] = intval($body[$i]['idCliente']);
-                        $ClienteSemOT[$i]['IDORCAMENTO'] = $IdOrcamento;
-                        $ClienteSemOT[$i]['USUARIOSISTEMA'] = intval($body[$i]['orcamento']['idTecnico']);
-                        $ClienteSemOT[$i]['DATAAGENDAMENTO'] = $body[$i]['orcamento']['dataAgendamento'];
-                        
-                        $Create->ExeCreate("[60_ClientesSemOT]", $ClienteSemOT[$i]);
-                    }// END $orcamento[$i]['Status'] == 1
-
-                    //var_dump($body[$i]['orcamento']['item']);
-                    for($o=0; $o < count($body[$i]['orcamento']['item']); $o++){
-                        if($body[$i]['orcamento']['item'][$o]['tipo'] == "1"){
-                            if($body[$i]['orcamento']['item'][$o]['aprovado'] == "1"){
-                                $ItemPecas[$o]['IDOrcamento'] = $IdOrcamento;
-                                $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                                $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                                $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                                $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);
-
-                                $SubTotalPc =  $ItemPecas[$o]['Qtd'] * $ItemPecas[$o]['Valor'];
-                                $TotalAprov = $TotalAprov + $SubTotalPc;
-                            }else{//CASO O ITE
-                                $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = 3","idos={$orcamento[$i]['IdOS']}");
-                                $IdOrcamentoReprov = NULL;
-                                if(!$Read->getResult()){
-                                    $orcamento[$i]['Status'] = 3;
-                                    $orcamento[$i]['DataAgendamento'] = NULL;
-                                    $orcamento[$i]['Valor'] = 0;
-                                    $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
-                                    $IdOrcamentoReprov = $Create->getResult();
-                                    $idOrcamentoQuery = $IdOrcamentoReprov;
-
-                                    $ItemPecas[$o]['IDOrcamento'] = $IdOrcamentoReprov;
-                                    $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                                    $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                                    $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                                    $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);     
-
-                                    $SubTotalPc =  $ItemPecas[$o]['Qtd'] * $ItemPecas[$o]['Valor'];
-                                    //$TotalReprov = $TotalReprov + $SubTotalSv;
-
-                                }else{
-                                    $IdOrcamentoReprov = $Read->getResult()[0]['ID'];
-                                    $idOrcamentoQuery = $IdOrcamentoReprov;
-                                    $ItemPecas[$o]['IDOrcamento'] = $IdOrcamentoReprov;
-                                    $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                                    $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                                    $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                                    $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);
-
-                                    $SubTotalPc =  $ItemPecas[$o]['Qtd'] * $ItemPecas[$o]['Valor'];
-                                    $TotalReprov = $TotalReprov + $SubTotalSv;
-                                }
+                            //CRIA LINHA NA TABELA CLIENTES SEM OS/OT
+                            if($orcamento[$i]['Status'] == 1){
+                                $ClienteSemOT[$i]['IDCLIENTE'] = intval($body[$i]['idCliente']);
+                                $ClienteSemOT[$i]['IDORCAMENTO'] = $IdOrcamento;
+                                $ClienteSemOT[$i]['USUARIOSISTEMA'] = intval($body[$i]['orcamento']['idTecnico']);
+                                $ClienteSemOT[$i]['DATAAGENDAMENTO'] = $body[$i]['orcamento']['dataAgendamento'];
+                                
+                                $Create->ExeCreate("[60_ClientesSemOT]", $ClienteSemOT[$i]);
                             }
-                            
-                        }else{//END $body[$i]['orcamento']['item'][$o]['tipo'] == "1"
-                            if($body[$i]['orcamento']['item'][$o]['aprovado'] == "1"){
-                                $ItemServicos[$o]['IDOrcamento'] = $IdOrcamento;
-                                $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                                $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                                $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                                $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
 
-                                $SubTotalSv =  $ItemServicos[$o]['Qtd'] * $ItemServicos[$o]['Valor'];
-                                $TotalAprov = $TotalAprov + $SubTotalSv;
-                            }else{//$body[$i]['orcamento']['item'][$o]['aprovado'] == "1"
-                                $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = 3","idos={$orcamento[$i]['IdOS']}");
-                                $IdOrcamentoReprov = NULL;
-                                if(!$Read->getResult()){
-                                    $orcamento[$i]['Status'] = 3;
-                                    $orcamento[$i]['DataAgendamento'] = NULL;
-                                    $orcamento[$i]['Valor'] = 0;
-                                    $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
-                                    $IdOrcamentoReprov = $Create->getResult();
-                                    $idOrcamentoQuery = $IdOrcamentoReprov;
+                            $ItemPecas[$o]['IDOrcamento'] = $IdOrcamento;
+                            $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                            $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                            $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                            $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);
 
-                                    $ItemServicos[$o]['IDOrcamento'] = $IdOrcamentoReprov;
-                                    $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                                    $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                                    $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                                    $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
+                            $TotalAprov['Valor'] = $TotalAprov['Valor'] + $body[$i]['orcamento']['item'][$o]['total'];
+                        }else{
+                            $ItemPecas[$o]['IDOrcamento'] = $Read->getResult()[0]['ID'];
+                            $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                            $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                            $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                            $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);
 
-                                    $SubTotalSv =  $ItemServicos[$o]['Qtd'] * $ItemServicos[$o]['Valor'];
-                                    $TotalReprov = $TotalReprov + $SubTotalSv;
-
-                                }else{
-                                    $IdOrcamentoReprov = $Read->getResult()[0]['ID'];
-                                    $idOrcamentoQuery = $IdOrcamentoReprov;
-                                    $ItemServicos[$o]['IDOrcamento'] = $IdOrcamentoReprov;
-                                    $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
-                                    $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
-                                    $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
-                                    $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
-
-                                    $SubTotalSv =  $ItemServicos[$o]['Qtd'] * $ItemServicos[$o]['Valor'];
-                                    $TotalReprov = $TotalReprov + $SubTotalSv;
-                                }
-                            }                
+                            $TotalAprov['Valor'] = $TotalAprov['Valor'] + $body[$i]['orcamento']['item'][$o]['total'];
                         }
-                        var_dump(floatval($body[$i]['orcamento']['item'][$o]['total']));
-                        $Query = new Query();
-                        $Query->FullQuery("UPDATE [60_Orcamentos] SET Valor = Valor + " . floatval($body[$i]['orcamento']['item'][$o]['total']) . " WHERE ID = " . $idOrcamentoQuery,"");
-                    }
+                    }else{//CASO O ITE
+                        $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = 3","idos={$orcamento[$i]['IdOS']}");
 
-                }
+                        if(!$Read->getResult()){
+                            $orcamento[$i]['Status'] = 3;
+                            $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
+                            $IdOrcamentoReprov = $Create->getResult();
+
+                            $ItemPecas[$o]['IDOrcamento'] = $IdOrcamentoReprov;
+                            $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                            $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                            $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                            $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);     
+
+                            $TotalReprov['Valor'] = $TotalReprov['Valor'] + $body[$i]['orcamento']['item'][$o]['total'];
+
+                        }else{
+                            $IdOrcamentoReprov = $Read->getResult()[0]['ID'];
+                            $ItemPecas[$o]['IDOrcamento'] = $IdOrcamentoReprov;
+                            $ItemPecas[$o]['ID_Pecas'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                            $ItemPecas[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                            $ItemPecas[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                            $Create->ExeCreate("[60_OS_PecasAPP]", $ItemPecas[$o]);
+
+                            $TotalReprov['Valor'] = $TotalReprov['Valor'] + $body[$i]['orcamento']['item'][$o]['total'];
+                        }
+                    }
+                    
+                }else{//END $body[$i]['orcamento']['item'][$o]['tipo'] == "1"
+                    if($body[$i]['orcamento']['item'][$o]['aprovado'] == "1"){
+                        $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = :st","idos={$orcamento[$i]['IdOS']}&st={$orcamento[$i]['Status']}");
+                        if(!$Read->getResult()){
+                            $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
+                            $IdOrcamento = $Create->getResult();
+
+                            //CRIA LINHA NA TABELA CLIENTES SEM OS/OT
+                            if($orcamento[$i]['Status'] == 1){
+                                $ClienteSemOT[$i]['IDCLIENTE'] = intval($body[$i]['idCliente']);
+                                $ClienteSemOT[$i]['IDORCAMENTO'] = $IdOrcamento;
+                                $ClienteSemOT[$i]['USUARIOSISTEMA'] = intval($body[$i]['orcamento']['idTecnico']);
+                                $ClienteSemOT[$i]['DATAAGENDAMENTO'] = $body[$i]['orcamento']['dataAgendamento'];
+                                
+                                $Create->ExeCreate("[60_ClientesSemOT]", $ClienteSemOT[$i]);
+                            }
+
+                            $ItemServicos[$o]['IDOrcamento'] = $IdOrcamento;
+                            $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                            $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                            $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                            $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
+
+                            $TotalAprov['Valor'] = $TotalAprov['Valor'] + $body[$i]['orcamento']['item'][$o]['total'];
+                        }else{
+                            $ItemServicos[$o]['IDOrcamento'] = $Read->getResult()[0]['ID'];
+                            $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                            $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                            $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                            $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
+
+                            $TotalAprov['Valor'] = $TotalAprov['Valor'] + $body[$i]['orcamento']['item'][$o]['total'];
+                        }
+                    }else{//$body[$i]['orcamento']['item'][$o]['aprovado'] == "1"
+                        $Read->FullRead("SELECT ID, Status FROM [60_Orcamentos] WHERE IdOS = :idos AND Status = 3","idos={$orcamento[$i]['IdOS']}");
+                        
+                        if(!$Read->getResult()){
+                            $orcamento[$i]['Status'] = 3;
+                            $Create->ExeCreate("[60_Orcamentos]", $orcamento[$i]);
+                            $IdOrcamentoReprov = $Create->getResult();
+
+                            $ItemServicos[$o]['IDOrcamento'] = $IdOrcamentoReprov;
+                            $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                            $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                            $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                            $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
+
+                            $TotalReprov['Valor'] = $TotalReprov['Valor'] + $body[$i]['orcamento']['item'][$o]['total'];
+
+                        }else{
+                            $IdOrcamentoReprov = $Read->getResult()[0]['ID'];
+                            $ItemServicos[$o]['IDOrcamento'] = $IdOrcamentoReprov;
+                            $ItemServicos[$o]['ID_servico'] = intval($body[$i]['orcamento']['item'][$o]['id']);
+                            $ItemServicos[$o]['Qtd'] = intval($body[$i]['orcamento']['item'][$o]['qtd']);
+                            $ItemServicos[$o]['Valor'] = floatval($body[$i]['orcamento']['item'][$o]['valor']);
+                            $Create->ExeCreate("[60_OS_ServicosAPP]", $ItemServicos[$o]);
+
+                            $TotalReprov['Valor'] = $TotalReprov['Valor'] + $body[$i]['orcamento']['item'][$o]['total'];
+                        }
+                    }                
+                }                                               
+            }
+            $Update = new Update();
+            if($IdOrcamento != 0){
+                $Update->ExeUpdate("[60_Orcamentos]", $TotalAprov, "WHERE ID = :id", "id={$IdOrcamento}");
+            }
+            if($IdOrcamentoReprov != 0){
+                $Update->ExeUpdate("[60_Orcamentos]", $TotalReprov, "WHERE ID = :id", "id={$IdOrcamentoReprov}");
+            }                 
         }   
     }
         
@@ -679,9 +703,10 @@ endif;
 //POST DE ENVIO DE IMAGENS E CADASTRO NO BANCO
 $app->post('/atendimentos/fotos/', function(Request $request, Response $response) {
     $Read = new Read();
+    $Update = new Update();
     $parsedBody = $request->getParsedBody();
     $files = $request->getUploadedFiles();
-    $retorno['msg'] = true;
+    $retorno['erro'] = true;
       
     $uploadedFile = $files['image'];
     $directory = $this->get('upload_directory');
@@ -703,6 +728,8 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
         //CADASTRO DO CAMINHO DA IMAGEM NO BANCO DE DADOS
         $Fotos['OS'] =  $parsedBody['idAtendimento'];
         $Fotos['Arquivo'] = "images/".date("Y")."/".date("m")."/". $filename;
+
+        $filename = NULL;
         
 
         switch ($parsedBody['tipo']) {
@@ -724,106 +751,143 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
             case 'Assinaturatecnico':
                 $Fotos['Tipo'] = 6;
                 break;
-                
+            case 'Ausente':
+                $Fotos['Tipo'] = 7;
+                break;                
         }
         $Create = new Create;
         $Create->ExeCreate("[60_OS_Fotos]", $Fotos);
 
-        if($parsedBody['tipo'] == "Assinatura"){
-            $idAtendimento = intval($parsedBody['idAtendimento']);
-            $img = (array) $uploadedFiles['image'];
-            $Read->FullRead("SELECT Cliente FROM [60_OT] INNER JOIN [60_OS] ON [60_OT].[Id] = [60_OS].[OT] WHERE [60_OS].[Id] = :id","id={$idAtendimento}");
+        $idAtendimento = intval($parsedBody['idAtendimento']);
+
+        $Read->FullRead("SELECT Id FROM [60_Atendimentos] WHERE IdOS = :id AND EnvioEmail = 0","id={$idAtendimento}");
+        if($Read->getResult()){
+            $Read->FullRead("SELECT Id FROM [60_OS_Fotos] WHERE OS = :id AND Tipo = 4","id={$idAtendimento}");
             if($Read->getResult()){
-                $IdCliente = $Read->getResult()[0]['Cliente'];
-                $Read->FullRead("SELECT * FROM [60_Clientes] WHERE [Id] = :id","id={$IdCliente}");
-                $Cliente = $Read->getResult()[0];
-            }
-            $Read->FullRead("SELECT [60_Atendimentos].*, [60_OS].[NomeOs], [60_OS].[NumOS], [60_OS].[Endereco], [60_OS].[Bairro], [40_Produtos].[PRODUTO] FROM [60_Atendimentos] 
-                        INNER JOIN [60_OS] ON [60_OS].[Id] = [60_Atendimentos].[IdOS]
-                        LEFT JOIN [40_Produtos] ON [40_Produtos].[Id] = [60_Atendimentos].[NumManometro]
-                        WHERE [60_Atendimentos].IdOS = :id","id={$idAtendimento}");
-            $Atendimento = $Read->getResult()[0];
-            
-            $Read->FullRead("SELECT ID FROM [60_Orcamentos] WHERE idOS = :id","id={$idAtendimento}");
-            if($Read->getResult()){
-                $IdOrcamento = intval($Read->getResult()[0]["ID"]);
-                
-
-                $Read->FullRead("SELECT [60_OS_ServicosAPP].[Qtd] AS Qtd, [60_OS_ServicosAPP].[Valor] AS Valor, [60_OS_ListaServicos].[Descricao] AS nome FROM [60_OS_ServicosAPP] 
-                                INNER JOIN [60_OS_ListaServicos] ON [60_OS_ListaServicos].[Id] = [60_OS_ServicosAPP].[ID_servico]
-                                WHERE [60_OS_ServicosAPP].IDOrcamento = :id","id={$IdOrcamento}");
+                $Read->FullRead("SELECT Id FROM [60_OS_Fotos] WHERE OS = :id AND Tipo = 6","id={$idAtendimento}");
                 if($Read->getResult()){
-                    foreach ($Read->getResult() as $ORCAMENTOS) {
-                        $Orcamentos .= "<tr><td>".$ORCAMENTOS['nome']."</td><td>".$ORCAMENTOS['Qtd']."</td><td>".$ORCAMENTOS['Valor']."</td><td>".$ORCAMENTOS['Valor'] * $ORCAMENTOS['Qtd']."</td></tr>";
+                    $img = (array) $uploadedFiles['image'];
+                    $Read->FullRead("SELECT Cliente FROM [60_OT] INNER JOIN [60_OS] ON [60_OT].[Id] = [60_OS].[OT] WHERE [60_OS].[Id] = :id","id={$idAtendimento}");
+                    if($Read->getResult()){
+                        $IdCliente = $Read->getResult()[0]['Cliente'];
+                        $Read->FullRead("SELECT * FROM [60_Clientes] WHERE [Id] = :id","id={$IdCliente}");
+                        $Cliente = $Read->getResult()[0];
                     }
-                }
+                    $Read->FullRead("SELECT [60_Atendimentos].*, [60_OS].[NomeOs], [60_OS].[NumOS], [60_OS].[Endereco], [60_OS].[Bairro], [40_Produtos].[PRODUTO] FROM [60_Atendimentos] 
+                                INNER JOIN [60_OS] ON [60_OS].[Id] = [60_Atendimentos].[IdOS]
+                                LEFT JOIN [40_Produtos] ON [40_Produtos].[Id] = [60_Atendimentos].[NumManometro]
+                                WHERE [60_Atendimentos].IdOS = :id","id={$idAtendimento}");
+                    $Atendimento = $Read->getResult()[0];
 
-                $Read->FullRead("SELECT [60_OS_PecasAPP].[Qtd] AS Qtd, [60_OS_PecasAPP].[Valor] AS Valor, [60_Pecas].[Peca] AS nome FROM [60_OS_PecasAPP] 
-                                INNER JOIN [60_Pecas] ON [60_Pecas].[Id] = [60_OS_PecasAPP].[ID_Pecas]
-                                WHERE [60_OS_PecasAPP].IDOrcamento = :id","id={$IdOrcamento}");
-                if($Read->getResult()){
-                    foreach ($Read->getResult() as $ORCAMENTOS) {
-                        $Orcamentos .= "<tr><td>{$ORCAMENTOS['nome']}</td><td>{$ORCAMENTOS['Qtd']}</td><td>{$ORCAMENTOS['Valor']}</td><td>".$ORCAMENTOS['Valor'] * $ORCAMENTOS['Qtd']."</td></tr>";
+                    $Orcamentos = NULL;
+                    $OrcamentosReprov = NULL;
+                    $EnvioEmail['EnvioEmail'] = NULL;
+                    $Read->FullRead("SELECT ID, Valor, FormaPagamento, NumParcelas, DataAgendamento  FROM [60_Orcamentos] WHERE idOS = :id AND Status = 1","id={$idAtendimento}");
+                    if($Read->getResult())
+                    {
+                        $IdOrcamentoAprov = $Read->getResult()[0]["ID"];
+                        $Valor = round($Read->getResult()[0]["Valor"], 2);  
+                        $NumParcelas = $Read->getResult()[0]["NumParcelas"];
+                        $Parcelas = round(($Valor / $Read->getResult()[0]["NumParcelas"]), 2);
+                        $DataAgend = $Read->getResult()[0]["DataAgendamento"];
+
+
+                        $Read->FullRead("SELECT [60_OS_ServicosAPP].[Qtd] AS Qtd, [60_OS_ServicosAPP].[Valor] AS Valor, [60_OS_ListaServicos].[Descricao] AS nome FROM [60_OS_ServicosAPP] 
+                                        INNER JOIN [60_OS_ListaServicos] ON [60_OS_ListaServicos].[Id] = [60_OS_ServicosAPP].[ID_servico]
+                                        WHERE [60_OS_ServicosAPP].IDOrcamento = :id","id={$IdOrcamentoAprov}");
+                        if($Read->getResult()){
+                            foreach ($Read->getResult() as $ORCAMENTOS) {
+                                $Orcamentos .= "<tr><td>".$ORCAMENTOS['nome']."</td><td>".$ORCAMENTOS['Qtd']."</td><td>".$ORCAMENTOS['Valor']."</td><td>".$ORCAMENTOS['Valor'] * $ORCAMENTOS['Qtd']."</td></tr>";
+                            }
+                        }
+                        $Read->FullRead("SELECT [60_OS_PecasAPP].[Qtd] AS Qtd, [60_OS_PecasAPP].[Valor] AS Valor, [60_Pecas].[Peca] AS nome FROM [60_OS_PecasAPP] 
+                                        INNER JOIN [60_Pecas] ON [60_Pecas].[Id] = [60_OS_PecasAPP].[ID_Pecas]
+                                        WHERE [60_OS_PecasAPP].IDOrcamento = :id","id={$IdOrcamentoAprov}");
+                        if($Read->getResult()){
+                            foreach ($Read->getResult() as $ORCAMENTOS) {
+                                $Orcamentos .= "<tr><td>{$ORCAMENTOS['nome']}</td><td>{$ORCAMENTOS['Qtd']}</td><td>{$ORCAMENTOS['Valor']}</td><td>".$ORCAMENTOS['Valor'] * $ORCAMENTOS['Qtd']."</td></tr>";
+                            }
+                        }
+                        $Orcamentos .= "<tr><td><b>TOTAL:</b> {$Valor}</td><td><b>Nº PARCELAS:</b> {$NumParcelas}</td><td><b>VALOR DAS PECELAS:</b> {$Parcelas}</td></tr>";
+                    }  
+
+                    $Read->FullRead("SELECT ID, Valor, FormaPagamento, NumParcelas, DataAgendamento FROM [60_Orcamentos] WHERE idOS = :id AND Status = 3","id={$idAtendimento}");
+                    if($Read->getResult())
+                    {
+                        $IdOrcamentoRep = $Read->getResult()[0]["ID"];  
+                        $Valor = round($Read->getResult()[0]["Valor"], 2);         
+
+                        $Read->FullRead("SELECT [60_OS_ServicosAPP].[Qtd] AS Qtd, [60_OS_ServicosAPP].[Valor] AS Valor, [60_OS_ListaServicos].[Descricao] AS nome FROM [60_OS_ServicosAPP] 
+                                        INNER JOIN [60_OS_ListaServicos] ON [60_OS_ListaServicos].[Id] = [60_OS_ServicosAPP].[ID_servico]
+                                        WHERE [60_OS_ServicosAPP].IDOrcamento = :id","id={$IdOrcamentoRep}");
+                        if($Read->getResult()){
+                            foreach ($Read->getResult() as $ORCAMENTOSREP) {
+                                $OrcamentosReprov .= "<tr><td>".$ORCAMENTOSREP['nome']."</td><td>".$ORCAMENTOSREP['Qtd']."</td><td>".$ORCAMENTOSREP['Valor']."</td><td>".$ORCAMENTOSREP['Valor'] * $ORCAMENTOSREP['Qtd']."</td></tr>";
+                            }
+                        }
+                        $Read->FullRead("SELECT [60_OS_PecasAPP].[Qtd] AS Qtd, [60_OS_PecasAPP].[Valor] AS Valor, [60_Pecas].[Peca] AS nome FROM [60_OS_PecasAPP] 
+                                        INNER JOIN [60_Pecas] ON [60_Pecas].[Id] = [60_OS_PecasAPP].[ID_Pecas]
+                                        WHERE [60_OS_PecasAPP].IDOrcamento = :id","id={$IdOrcamentoRep}");
+                        if($Read->getResult()){
+                            foreach ($Read->getResult() as $ORCAMENTOSREP) {
+                                $OrcamentosReprov .= "<tr><td>{$ORCAMENTOS['nome']}</td><td>{$ORCAMENTOS['Qtd']}</td><td>{$ORCAMENTOS['Valor']}</td><td>".$ORCAMENTOSREP['Valor'] * $ORCAMENTOSREP['Qtd']."</td></tr>";
+                            }
+                        }
+                        $OrcamentosReprov .= "<tr><td colspan='3'><b>TOTAL</b></td><td>{$Valor}</td></tr>";
+                    }     
+
+                    $Termos = NULL;
+                    $Read->FullRead("SELECT * FROM [60_TermosResponsabilidade] WHERE IDOs = :id","id={$idAtendimento}");
+                    if($Read->getResult()){                
+                        foreach ($Read->getResult() as $TERMOS) {
+                            $Termos .= "<tr><td>".$TERMOS['Situacao']."</td><td>".$TERMOS['Local1']."</td><td>".$TERMOS['Local1']."</td><td>".$TERMOS['Local1']."</td></tr>";
+                        }                
                     }
+                    
+                    $Read->FullRead("SELECT * FROM [60_Defeitos] WHERE idOs = :id","id={$idAtendimento}");
+                    if($Read->getResult()){                
+                        foreach ($Read->getResult() as $DEFEITOS) {
+                            $Defeitos .= "<tr><td>".getItemInspecao($DEFEITOS['ItemInspecao'])."</td><td>".$DEFEITOS['InstalacaoInterna']."</td><td>".$DEFEITOS['Aparelho1']."</td><td>".$DEFEITOS['Aparelho2']."</td><td>".$DEFEITOS['Aparelho3']."</td></tr>";
+                        }                
+                    }
+
+                    $Read->FullRead("SELECT * FROM [60_TesteAparelho] WHERE IdOs = :id","id={$idAtendimento}");
+                    if($Read->getResult()){                
+                        foreach ($Read->getResult() as $APARELHO) {
+                            $Aparelhos .= "<tr><td colspan='2' align='center' valign='middle'><b>Aparelho {$APARELHO['Aparelho']}</b></td></tr><tr><td>Local: {$APARELHO['Local']}</td><td>Tipo: {$APARELHO['Tipo']}</td></tr><tr><td> Marca: {$APARELHO['Marca']}</td><td> Modelo: {$APARELHO['Modelo']}</td></tr><tr><td>Potencia Nominal: {$APARELHO['PotNominal']}</td><td>Tiragem: {$APARELHO['Tiragem']}</td></tr><tr><td>Combustão: {$APARELHO['Combustao']}</td><td>Funcionamento: {$APARELHO['Funcionamento']}</td></tr><tr><td colspan='2'align='center' valign='middle'><b>Higiene da Combustão</b></td></tr><tr><td> Tiragem: {$APARELHO['TiragemHigienteCombustao']}</td><td>COn: {$APARELHO['Con']}</td></tr><tr><td>COAmb: {$APARELHO['CoAmb']}</td><td>Tempo: {$APARELHO['Tempo']}min</td></tr><tr><td> Analisador: {$APARELHO['Analisador']}</td><td>Nº Série: {$APARELHO['NumeroDeSerie']}</td></tr>";
+                        }                
+                    }
+
+                    $AssinaturaCliente = NULL;
+                    $Read->FullRead("SELECT * FROM [60_OS_Fotos] WHERE OS = :id AND Tipo = 4","id={$idAtendimento}");
+                    if($Read->getResult()){               
+                        $AssinaturaCliente = $Read->getResult()[0]['Arquivo'];            
+                    }
+
+                    $AssinaturaTecnico = NULL;
+                    $Read->FullRead("SELECT * FROM [60_OS_Fotos] WHERE OS = :id AND Tipo = 6","id={$idAtendimento}");
+                    if($Read->getResult()){               
+                        $AssinaturaTecnico = $Read->getResult()[0]['Arquivo'];            
+                    }
+                    $EnvioEmail['EnvioEmail'] = 1; 
+                    $Update->ExeUpdate("[60_Atendimentos]", $EnvioEmail, " WHERE IdOS = :id", "id={$idAtendimento}");
+                    $email = enviaEmail($Atendimento, $Cliente, $Orcamentos, $OrcamentosReprov, $Termos, $Defeitos, $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico);                    
                 }
-            }      
-
-            $Termos = NULL;
-            $Read->FullRead("SELECT * FROM [60_TermosResponsabilidade] WHERE IDOs = :id","id={$idAtendimento}");
-            if($Read->getResult()){                
-                foreach ($Read->getResult() as $TERMOS) {
-                    $Termos .= "<tr><td>".$TERMOS['Situacao']."</td><td>".$TERMOS['Local1']."</td><td>".$TERMOS['Local1']."</td><td>".$TERMOS['Local1']."</td></tr>";
-                }                
             }
-            
-            $Read->FullRead("SELECT * FROM [60_Defeitos] WHERE idOs = :id","id={$idAtendimento}");
-            if($Read->getResult()){                
-                foreach ($Read->getResult() as $DEFEITOS) {
-                    $Defeitos .= "<tr><td>".getItemInspecao($DEFEITOS['ItemInspecao'])."</td><td>".$DEFEITOS['InstalacaoInterna']."</td><td>".$DEFEITOS['Aparelho1']."</td><td>".$DEFEITOS['Aparelho2']."</td><td>".$DEFEITOS['Aparelho3']."</td></tr>";
-                }                
-            }
-
-            $Read->FullRead("SELECT * FROM [60_TesteAparelho] WHERE IdOs = :id","id={$idAtendimento}");
-            if($Read->getResult()){                
-                foreach ($Read->getResult() as $APARELHO) {
-                    $Aparelhos .= "<tr><td colspan='2' align='center' valign='middle'><b>Aparelho {$APARELHO['Aparelho']}</b></td></tr><tr><td>Local: {$APARELHO['Local']}</td><td>Tipo: {$APARELHO['Tipo']}</td></tr><tr><td> Marca: {$APARELHO['Marca']}</td><td> Modelo: {$APARELHO['Modelo']}</td></tr><tr><td>Potencia Nominal: {$APARELHO['PotNominal']}</td><td>Tiragem: {$APARELHO['Tiragem']}</td></tr><tr><td>Combustão: {$APARELHO['Combustao']}</td><td>Funcionamento: {$APARELHO['Funcionamento']}</td></tr><tr><td colspan='2'align='center' valign='middle'><b>Higiene da Combustão</b></td></tr><tr><td> Tiragem: {$APARELHO['TiragemHigienteCombustao']}</td><td>COn: {$APARELHO['Con']}</td></tr><tr><td>COAmb: {$APARELHO['CoAmb']}</td><td>Tempo: {$APARELHO['Tempo']}min</td></tr><tr><td> Analisador: {$APARELHO['Analisador']}</td><td>Nº Série: {$APARELHO['NumeroDeSerie']}</td></tr>";
-                }                
-            }
-
-            $AssinaturaCliente = NULL;
-            $Read->FullRead("SELECT * FROM [60_OS_Fotos] WHERE OS = :id AND Tipo = 4","id={$idAtendimento}");
-            if($Read->getResult()){               
-                $AssinaturaCliente = $Read->getResult()[0]['Arquivo'];            
-            }
-
-            $AssinaturaTecnico = NULL;
-            $Read->FullRead("SELECT * FROM [60_OS_Fotos] WHERE OS = :id AND Tipo = 6","id={$idAtendimento}");
-            if($Read->getResult()){               
-                $AssinaturaTecnico = $Read->getResult()[0]['Arquivo'];            
-            }
-
-            //DEVE SER ALTERADO QUANDO ESTIVER EM PRODUÇÃO
-            //var_dump($Atendimento, $Cliente, $Orcamentos, $Defeitos, $Aparelhos);
-
-            sleep(20);
-            $email = enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos, $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico);
-        }           
-               
+        }        
 
         //RETORNO AO CLIENT
-        $retorno['msg'] = true;
-        $retorno['imagem'] = $filename;
-        if ($email){
-            $retorno['email'] = $email;
-        }
+        $retorno['erro'] = false;
+        $retorno['id'] = $parsedBody['id'];
+        $retorno['idAtendimento'] = $parsedBody['idAtendimento'];
         return $response->withJson($retorno);
     }else{
-        $retorno['msg'] = false;
+        $retorno['id'] = $parsedBody['id'];
+        $retorno['idAtendimento'] = $parsedBody['idAtendimento'];
+        $retorno['erro'] = true;
         return $response->withJson($retorno);
     }
-
 });
-
 /**
  * Moves the uploaded file to the upload directory and assigns it a unique name
  * to avoid overwriting an existing uploaded file.
@@ -836,13 +900,12 @@ function moveUploadedFile($directory, UploadedFile $uploadedFile, $idAtendimento
 {
     $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
     $filename = sprintf($idAtendimento . "_" . $tipo . "_" . time().".".$extension);
-
     $uploadedFile->moveTo($directory . "/" . $filename);
 
     return $filename;
 }
 
-function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico){
+function enviaEmail($Atendimento, $Cliente, $Orcamentos, $OrcamentosReprov, $Termos, $Defeitos,  $Aparelhos, $AssinaturaCliente, $AssinaturaTecnico){
     $Email = new Email;
 
 
@@ -910,7 +973,7 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $A
     if($Orcamentos == NULL){
         $Orcamento = NULL;
     }else{
-        $Orcamento =  "<p><b>ORÇAMENTO</b></p>
+        $Orcamento =  "<p><b>ORÇAMENTO APROVADO</b></p>
                     <table border='1' width='1000'>
                       <tr>
                         <td><b>ITEM</b></td>
@@ -928,6 +991,20 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $A
                       </tr>                   
                     </table>";
     }
+    if($OrcamentosReprov == NULL){
+        $OrcamentoReprov = NULL;
+    }else{
+        $OrcamentoReprov =  "<p><b>ORÇAMENTO REPROVADO</b></p>
+                    <table border='1' width='1000'>
+                      <tr>
+                        <td><b>ITEM</b></td>
+                        <td><b>QUANTIDADE</b></td>
+                        <td><b>VALOR UNT.(R$)</b></td>
+                        <td><b>VALOR TOTAL(R$)</b></td>
+                      </tr>
+                        {$OrcamentosReprov}                  
+                    </table>";
+    }
     
 
     switch ($Atendimento['Status']) {
@@ -935,7 +1012,7 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $A
                 $ToCliente = "  <p style='font-size: 1.2em;'>Prezado(a) {$Cliente['NomeCliente']}</p>
                     <p>Este e-mail é refente ao atendimento realizado pela Novatec Energy na data ". $DataAtendimento.".</p>
                     <table width='1000'>
-                      <tr><td width='700'><b>NOVATEC Energy Ltda.</b></td><td rowspan='5'><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/img/logo-email.png' width='250' ></td></tr>
+                      <tr><td width='700'><b>NOVATEC Energy Ltda.</b></td><td rowspan='5'><img src='http://novatecenergy.ddns.net:83/novatec/img/logo-email.png' width='250' ></td></tr>
                       <tr><td>CNPJ: 09.012.806/0001-74</td></tr>
                       <tr><td>Rua Conde de Agrolongo nº 362</td></tr>
                       <tr><td>CEP: 21020-190 Penha - Rio de Janeiro</td></tr>
@@ -980,27 +1057,28 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $A
                     {$TermoDefeitos}                                    
                     {$Defeito}
                     {$Orcamento}
+                    {$OrcamentoReprov}
                     {$TermosResp}        
                     <p><b>OBSERVAÇÕES IDENTIFICADAS PELO TÉCNICO</b></p>             
                     <p>{$Atendimento['Obs']}</p>
                     <p>*****</p>
                     <table width='1000' >
                       <tr>
-                        <td><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/uploads/{$AssinaturaCliente}' width='250' ><br><b>ASSINATURA DO CLIENTE</b></td>                       
-                        <td><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/uploads/{$AssinaturaTecnico}' width='250' ><br><b>ASSINATURA DO TÉCNICO</b></td>   
+                        <td><img src='http://novatecenergy.ddns.net:83/novatec/uploads/{$AssinaturaCliente}' width='250' ><br><b>ASSINATURA DO CLIENTE</b></td>                       
+                        <td><img src='http://novatecenergy.ddns.net:83/novatec/uploads/{$AssinaturaTecnico}' width='250' ><br><b>ASSINATURA DO TÉCNICO</b></td>   
                       </tr>                                        
                     </table>";
                 break;
 
             case 2:
                 $ToCliente = "  <p style='font-size: 1.2em;'>Prezado(a) {$Cliente['NomeCliente']}</p>
-                    <p>Este e-mail é refente ao cancelamento de nosso Atendimento. Data de nosso atendimento {$DataAtendimento}.</p>
+                    <p>Este e-mail é refente ao cancelamento do atendimento, agendado para {$DataAtendimento}.</p>
                     <p>Observações identificadas pelo técnico: {$Atendimento['Obs'] }</p>
                     <p>*****************************</p>
                     <table width='1000' >
                       <tr>
-                        <td><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/uploads/{$AssinaturaCliente}' width='250' ><br><b>ASSINATURA DO CLIENTE</b></td>                       
-                        <td><img src='http://novatecenergy.ddns.net:83/Rodrigo/novatec/uploads/{$AssinaturaTecnico}' width='250' ><br><b>ASSINATURA DO TÉCNICO</b></td>   
+                        <td><img src='http://novatecenergy.ddns.net:83/novatec/uploads/{$AssinaturaCliente}' width='250' ><br><b>ASSINATURA DO CLIENTE</b></td>                       
+                        <td><img src='http://novatecenergy.ddns.net:83/novatec/uploads/{$AssinaturaTecnico}' width='250' ><br><b>ASSINATURA DO TÉCNICO</b></td>   
                       </tr>                                        
                     </table>";
                 break;
@@ -1009,8 +1087,13 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $A
                 $ToCliente = "  <p style='font-size: 1.2em;'>Prezado(a) {$Cliente['NomeCliente']}</p>
                     <p>Este e-mail é refente a tentativa de atendimento realizado pela Novatec Energy na data {$DataAtendimento}.</p>
                     <p>Observações identificadas pelo técnico: {$Atendimento['Obs'] }</p>
-                    <p>*****</p>  
-                    ";
+                    <p>*****************************</p>  
+                    <table width='1000' >
+                      <tr>
+                        <td><img src='http://novatecenergy.ddns.net:83/novatec/uploads/{$AssinaturaCliente}' width='250' ><br><b>ASSINATURA DO CLIENTE</b></td>                       
+                        <td><img src='http://novatecenergy.ddns.net:83/novatec/uploads/{$AssinaturaTecnico}' width='250' ><br><b>ASSINATURA DO TÉCNICO</b></td>   
+                      </tr>                                        
+                    </table>";
                 break;
 
         }
@@ -1021,13 +1104,13 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $Termos, $Defeitos,  $A
     $MailMensage = str_replace("#mail_body#", $ToCliente, $MailContent);
     //DESCOMENTAR ESTA LINHA QUANDO FOR PARA PRODUÇÃO
     //$Email->EnviarMontando("Comprovante de atendimento Novatec Energy. OS: ".$Atendimento['NumOs']." ", $MailMensage, "Novatec Energy", "gns@novatecenergy.com.br", $Cliente['NomeCliente'], $Cliente['EmailGns']);
-    $Email->EnviarMontando("Comprovante de atendimento Novatec Energy. OS: ".$Atendimento['NumOS']." ", $MailMensage, "Novatec Energy", "gns@novatecenergy.com.br", $Cliente['NomeCliente'], "rdias@novatecenergy.com.br");
+    $Email->EnviarMontando("Comprovante de atendimento Novatec Energy. OS: ".$Atendimento['NumOS']." ", $MailMensage, "Novatec Energy", "noreply@novatecenergy.com.br", $Cliente['NomeCliente'], "rdias@novatecenergy.com.br");
 
     $CopyMensage = str_replace("#mail_body#", $ToCliente, $MailContent);
 
     //DESCOMENTAR ESTA LINHA QUANDO FOR PARA PRODUÇÃO
     //$Email->EnviarMontando("Comprovante de envio. OS: ".$Atendimento['NumOs']." ", $CopyMensage, $Cliente['NomeCliente'], $Cliente['EmailGns'], "Novatec Energy", "gns@novatecenergy.com.br");
-    $Email->EnviarMontando("Comprovante de envio. OS: ".$Atendimento['NumOS']." ", $CopyMensage, $Cliente['NomeCliente'], "rdias@novatecenergy.com.br", "Novatec Energy", "gns@novatecenergy.com.br");
+    $Email->EnviarMontando("Comprovante de envio. OS: ".$Atendimento['NumOS']." ", $CopyMensage, $Cliente['NomeCliente'], "rdias@novatecenergy.com.br", "Novatec Energy", "noreply@novatecenergy.com.br");
     
     return $Email;
 }
