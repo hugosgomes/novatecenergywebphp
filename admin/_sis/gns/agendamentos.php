@@ -45,7 +45,11 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         <span class="legend "><b>Receber Os Manualmente:</b></span>
       </div>
       <div class="box box40">
-        <input type="file" id="os_manual"/>
+      <form id="j_form_osManual" method="post" enctype="multipart/form-data">
+       <input type="hidden" name="callback" value="Agendamentos"/>
+       <input type="hidden" name="callback_action" value="importOs_manual"/>
+        <input type="file" id="os_manual" name="os_manual"/>
+      </form>
       </div>
       <div class="box box40">
         <span id="j_importar" class="btn btn_darkblue"><b>Importar</b></span>
