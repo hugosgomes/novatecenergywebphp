@@ -300,22 +300,28 @@ function getStatusOrcamento($Status = null)
     if($Status <> "0"){
 
         $RealtyTransaction = [
-            0 => 'SEM CONTATO',
-            1 => 'VISITA AGENDADA',
+            0 => 'SEM CONTATO',//OK
+            1 => 'VISITA AGENDADA',//OK
             2 => 'EM ANÁLISE',
             3 => 'SERVIÇO AGENDADO',
             4 => 'EXECUTANDO',
-            5 => 'EXECUTADO',
-            6 => 'CANCELADO',
+            5 => 'EXECUTADO',//ERRO
+            6 => 'CANCELADO',//ERRO
             7 => 'RECUSADO'
         ];
     }else{
         $RealtyTransaction = [
-            0 => 'SEM CONTATO',
-            1 => 'VISITA AGENDADA',
-            5 => 'CANCELADO',
-            6 => 'RECUSADO'
+            0 => 'SEM CONTATO',//OK
+            1 => 'VISITA AGENDADA',//OK
+            5 => 'CANCELADO',//ERRO
+            6 => 'RECUSADO'//ERRO
         ];
+        /*$RealtyTransaction = [
+            0 => 'SEM CONTATO',//OK
+            1 => 'VISITA AGENDADA',//OK
+            6 => 'CANCELADO',//ERRO
+            7 => 'RECUSADO'//ERRO
+        ];*/
     }
     return $RealtyTransaction;
 }

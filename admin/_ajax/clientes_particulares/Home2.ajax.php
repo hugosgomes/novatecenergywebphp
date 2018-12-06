@@ -38,7 +38,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     switch ($Case):        
         case 'consulta':
         $criterioEndereco = "";
-        $criterioCliente = "";
+        $ctiterioCliente = "";
         $criterioMes = "";
         $idCliente = "";  
 
@@ -56,24 +56,22 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         $consulta_inicial = $PostData['inicial'];
         $criterioEndereco = $PostData['endereco'] != "t" ? " AND [80_Enderecos].ID = " . $PostData['endereco'] . " ": "";
-        $criterioCliente = $PostData['cliente'] != "t" ? " AND [80_Enderecos].IDCLIENTE = " . $PostData['cliente'] . " ": "";
-        $criterioMes = $PostData['mes'] != "t" ? " AND MONTH(DATAAGENDADA) = " . $PostData['mes'] . " ": "";
-        $criterioAno = $PostData['ano'] != "t" ? " AND YEAR(DATAAGENDADA) = " . $PostData['ano'] . " ": "";
-        $criterioOrdemAnalise = $valueOrdem != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY DATAAGENDADA";
-        $criterioOrdemExecutando = $valueOrdemExecutando != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY DATAAGENDADA";  
-        $criterioOrdemAgendado = $valueOrdemAgendado != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY DATAAGENDADA";
+        $ctiterioCliente = $PostData['cliente'] != "t" ? " AND [80_Enderecos].IDCLIENTE = " . $PostData['cliente'] . " ": "";
+        $criterioMes = $PostData['mes'] != "t" ? " AND MONTH([80_Orcamentos].DATASOLICITACAO) = " . $PostData['mes'] . " ": "";
+
+        $criterioOrdemAnalise = $valueOrdem != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO";
+        $criterioOrdemExecutando = $valueOrdemExecutando != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO";  
+        $criterioOrdemAgendado = $valueOrdemAgendado != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO";     
 
         
         
         $queryColunas = "SELECT [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                        [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].STATUS FROM [80_Orcamentos]
+                        [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, [80_Orcamentos].DATASOLICITACAO, [80_Orcamentos].STATUS FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID
-                        LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO ";       
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID ";       
 
-        $Read->FullRead($queryColunas . " WHERE [80_Orcamentos].STATUS = 0 AND [80_ClientesParticulares].TIPO = 1 " . $criterioEndereco . $criterioCliente .
-                        " GROUP BY [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                        [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS, [80_Orcamentos].DATASOLICITACAO ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        $Read->FullRead($queryColunas . " WHERE [80_Orcamentos].STATUS = 0 AND [80_ClientesParticulares].TIPO = 1 " . $criterioEndereco . $ctiterioCliente .
+                        " ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna1'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -88,9 +86,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 1 AND [80_ClientesParticulares].TIPO = 1" . $criterioEndereco . $criterioCliente .
-                        " GROUP BY [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                        [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS, [80_Orcamentos].DATASOLICITACAO ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 1 AND [80_ClientesParticulares].TIPO = 1" . $criterioEndereco . $ctiterioCliente .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna2'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -105,7 +102,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 2 AND [80_ClientesParticulares].TIPO = 1 GROUP BY [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' + [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS" . $criterioEndereco . $criterioCliente . $criterioOrdemAnalise,"");
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 2 AND [80_ClientesParticulares].TIPO = 1" . $criterioEndereco . $ctiterioCliente . $criterioOrdemAnalise,"");
         if ($Read->getResult()):
             $jSON['addcoluna3'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -119,7 +116,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 3 AND [80_ClientesParticulares].TIPO = 1 GROUP BY [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' + [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS" . $criterioEndereco . $criterioCliente . $criterioOrdemAgendado,"");
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 3 AND [80_ClientesParticulares].TIPO = 1" . $criterioEndereco . $ctiterioCliente . $criterioOrdemAgendado,"");
         if ($Read->getResult()):
             $jSON['addcoluna4'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -133,9 +130,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 4 AND [80_ClientesParticulares].TIPO = 1". $criterioEndereco . $criterioCliente .
-                        " GROUP BY [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                        [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS " . $criterioOrdemExecutando,"");
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 4 AND [80_ClientesParticulares].TIPO = 1". $criterioEndereco . $ctiterioCliente . $criterioOrdemExecutando,"");
         if ($Read->getResult()):
             $jSON['addcoluna5'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -149,9 +144,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 5 AND [80_ClientesParticulares].TIPO = 1". $criterioMes . $criterioAno .
-                        " GROUP BY [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                        [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS ORDER BY DATAAGENDADA","");
+        $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 5 AND [80_ClientesParticulares].TIPO = 1". $criterioMes .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna6'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -165,9 +159,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-        $Read->FullRead($queryColunas. " WHERE ([80_Orcamentos].STATUS = 6 OR [80_Orcamentos].STATUS = 7) AND [80_ClientesParticulares].TIPO = 1". $criterioMes . $criterioAno .
-                        " GROUP BY [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
-                        [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS ORDER BY DATAAGENDADA","");
+        $Read->FullRead($queryColunas. " WHERE ([80_Orcamentos].STATUS = 6 OR [80_Orcamentos].STATUS = 7) AND [80_ClientesParticulares].TIPO = 1". $criterioMes .
+                        "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):
             $jSON['addcoluna7'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
@@ -186,11 +179,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $jSON['addEmAnalise'] = NULL;
         $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 2 "  . $criterioEndereco . $criterioCliente . 
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 2 "  . $criterioEndereco . $ctiterioCliente . 
                         "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = $totais['VALOR'] ? $totais['VALOR'] : 0;
-            $totais['VALOR'] = number_format(!$totais['VALOR']?0:$totais['VALOR'],2,',','.');
+            $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
             $jSON['addEmAnalise'] = "<h2 class='js_h2_emAnalise'><a href='#'  onclick='ordenarOrcamentoAnalise();'><i id='j_ordemEmAnalise' ordemAnalise='". $valueOrdem . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Em Análise <p style='color: white;padding-right: 15px;'>(R$){$totais['VALOR']}</p><br></h2>";
         endforeach;
@@ -200,11 +193,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $jSON['addServicoAgendado'] = NULL;
         $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 3 "  . $criterioEndereco . $criterioCliente . 
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 3 "  . $criterioEndereco . $ctiterioCliente . 
                         "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = $totais['VALOR'] ? $totais['VALOR'] : 0;
-            $totais['VALOR'] = number_format(!$totais['VALOR']?0:$totais['VALOR'],2,',','.');
+            $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
             $jSON['addServicoAgendado'] = "<h2 class='js_h2_agendado' style=' text-align:center;'><a href='#'  onclick='ordenarOrcamentoAgendado();'><i id='j_ordemAgendado' ordemAgendado='". $valueOrdemAgendado . "' class='icon-sort-numberic-desc' style='font-size: 15px;float: right;color: white;'></i></a>Serviço Agendado <p style='color: white;padding-right: 15px;'>(R$){$totais['VALOR']}</p><br></h2>";
         endforeach;
@@ -214,7 +207,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $jSON['addExecutando'] = NULL;
         $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
                         INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 4 "  . $criterioEndereco . $criterioCliente . 
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 4 "  . $criterioEndereco . $ctiterioCliente . 
                         "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format(!$totais['VALOR']?0:$totais['VALOR'],2,',','.');
@@ -224,14 +217,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         //PREENCHER TOTAL EXECUTADO
         $jSON['addExecutado'] = NULL;
-        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM(
-        SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos]
-        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID
-        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-        LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO  WHERE [80_Orcamentos].STATUS = 5 "  . $criterioEndereco . $criterioCliente . $criterioMes . $criterioAno .
-                        "AND [80_ClientesParticulares].TIPO = 1 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
+        $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
+                        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 5 "  . $criterioEndereco . $ctiterioCliente . 
+                        "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):  
-            $totais['VALOR'] = number_format(!$totais['VALOR']?0:$totais['VALOR'],2,',','.');            
+            $totais['VALOR'] = $totais['VALOR'] ? $totais['VALOR'] : 0;          
+            $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
             $jSON['addExecutado'] = "<h2 class='js_h2_executado'><a href='#'><i class='' id='j_ordemExecutado' ordemExecutado='data' callback='Home2' callback_action='consulta' style='font-size: 15px;float: right;color: white;'></i></a>Executado <p style='color: white;'>(R$){$totais['VALOR']}</p></h2>";
         endforeach;
@@ -239,11 +231,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         //PREENCHER TOTAL CANCELADO/RECUSADO
         $jSON['addCanceladoRecusado'] = NULL;
-        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM(
-        SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos]
-        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID
-        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-        LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO  WHERE ([80_Orcamentos].STATUS = 6 OR [80_Orcamentos].STATUS = 7) "  . $criterioEndereco . $criterioCliente . $criterioMes . $criterioAno . "AND [80_ClientesParticulares].TIPO = 1 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
+        $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
+                        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE ([80_Orcamentos].STATUS = 6 OR [80_Orcamentos].STATUS = 7) "  . $criterioEndereco . $ctiterioCliente . 
+                        "AND [80_ClientesParticulares].TIPO = 1","");
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format(!$totais['VALOR']?0:$totais['VALOR'],2,',','.'); 
             $jSON['trigger'] = true;
@@ -307,15 +298,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
 
 
-            //Preenchendo técnicos
-            $Read->FullRead("SELECT IIF(FUNC.ID IS NOT NULL, FUNC.ID, TERC.ID) AS ID, IIF(FUNC.ID IS NOT NULL, FUNC.[NOME COMPLETO], TERC.NOME) AS NOME
-                FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
-                LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
-                WHERE [00_NivelAcesso].MOBILE_CLIENTES_PARTICULARES = 1 ORDER BY NOME","");
+            //Preenchendo técnicos GNS
+            $Read->FullRead("SELECT Funcionários.ID,[NOME COMPLETO] FROM Funcionários
+                            WHERE Funcionários.GNSMOBILE = 1 AND Funcionários.[DATA DE DEMISSÃO] IS NULL
+                            ORDER BY [NOME COMPLETO]","");
             if ($Read->getResult()):
                 $jSON['addTecnicos'] = null;//É necessário desclarar como numo por causa da fraca tipação
                 foreach ($Read->getResult() as $addTecnicos):
-                    $jSON['addTecnicos'] .= "<option value = '{$addTecnicos['ID']}'>{$addTecnicos['NOME']}</option>";
+                    $jSON['addTecnicos'] .= "<option value = '{$addTecnicos['ID']}'>{$addTecnicos['NOME COMPLETO']}</option>";
                 endforeach;
             endif;
 
@@ -387,7 +377,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         break;
         case 'editar':
             //Salvando chamado
-            $Read->FullRead("SELECT ID, CONVERT(NVARCHAR,DATAAGENDADA,103) AS DATAAGENDADA, OBS, TECNICO, VALOR, FORMAPAGAMENTO, NUM_PARCELAS, TIPO_SERVICO FROM [80_Chamados] WHERE ID = :id","id={$PostData['ID']}");
+            $Read->FullRead("SELECT ID, DATAAGENDADA, OBS, TECNICO, VALOR, FORMAPAGAMENTO, NUM_PARCELAS FROM [80_Chamados] WHERE ID = :id","id={$PostData['ID']}");
             if($Read->getResult()):
                 $jSON['editaChamado'] = $Read->getResult()[0];
                 $jSON['addIdChamado'] = "<input type='hidden' name='IDCHAMADO' value='{$Read->getResult()[0]['ID']}'/>";
@@ -425,13 +415,13 @@ function preencherHistorico($PostData){
                     INNER JOIN Funcionários ON [80_Chamados].USUARIO_SISTEMA = Funcionários.ID
                     WHERE [80_Orcamentos].ID = " . $idCliente . " ORDER BY [80_Chamados].DATA_SISTEMA DESC","");
 
-    $btEditar = $Read->getResult() ? "<span rel='{$Read->getResult()[0]['ID']}' callback='Home2' callback_action='editar' class='icon-pencil btn btn_blue' id='j_edit_chamado'>Editar Chamado</span>" : "";
+    $btEditar = $Read->getResult() ? "<span rel='{$Read->getResult()[0]['ID']}' callback='Home' callback_action='editar' class='icon-pencil btn btn_blue' id='j_edit_chamado'>Editar Chamado</span>" : "";
 
     if ($Read->getResult()):
         $obs = null;    
         foreach ($Read->getResult() as $addHistorico):
             $obs = substr($addHistorico['OBS'],0,76);
-            $valor = number_format(!$addHistorico['VALOR']?0:$addHistorico['VALOR'],2,',','.');
+            $valor = number_format($addHistorico['VALOR'] == "" ? 0 : $addHistorico['VALOR'],2,',','.');
             $tipoServico = getStatusOrcamento()[$addHistorico['TIPO_SERVICO']];
             $historico .= "<div class='box_content buttons_chamados {$classe}' style='height: auto;''>
                             <ul>

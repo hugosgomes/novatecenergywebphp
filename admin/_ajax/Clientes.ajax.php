@@ -137,7 +137,20 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 if($IdCli && $IdEnd):
                     $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"], "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]);
                     $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
+                    $IdOrcamento = null;
+                    $Valor = 0;
+                    if($Create->getResult()){
+                        $IdOrcamento = $Create->getResult();
+                        $TipoServico = 0;
+                        $Chamado = array(
+                        'IDORCAMENTO' => $IdOrcamento,
+                        'OBS' => $PostData["OBS"],
+                        'TIPO_SERVICO' => $TipoServico,
+                        "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]
+                        );
+                        $Create->ExeCreate("[80_Chamados]", $Chamado);
 
+                    }
                     $jSON['inpuval'] = "null"; 
                     $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
                     $jSON['success'] = true;  
