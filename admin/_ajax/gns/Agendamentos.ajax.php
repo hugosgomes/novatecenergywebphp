@@ -247,6 +247,29 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                endif;
              endif;
              break;
+             case 'importOs_manual':
+               if (empty($Upload)):
+                  $Upload = new Upload('//192.168.0.101/Robo');
+                endif;
+                 
+                if(isset($_FILES['os_manual'])){
+
+                 if($_FILES['os_manual']['type'] == 'application/vnd.ms-excel'){
+
+                      $Upload->File($_FILES['os_manual'], "gns", '/');
+                      
+                     if ($Upload->getResult()):
+                           $jSON['trigger'] = AjaxErro('Arquivo enviado com sucesso!', E_USER_ERROR);
+                        $Read->FullRead("exec [60_ImportacaoGNS]");
+                    endif;
+                      
+                    }else {
+                      $jSON['trigger'] = AjaxErro('ATENÇÃO: Só é permitido arquivo CSV (Excel)', E_USER_WARNING);
+                    }
+
+                }
+                 
+             break;
     endswitch;
 
     //RETORNA O CALLBACK
