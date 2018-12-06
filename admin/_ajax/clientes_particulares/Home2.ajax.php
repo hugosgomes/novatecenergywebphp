@@ -460,12 +460,19 @@ function getCor($id){
     $data = new DateTime($Result[0]["DATAAGENDADA"]);
     $dataAtual = new DateTime();
 
-    if ($data<=$dataAtual) {
-        return 'buttons_clientes_vermelho';
-    }elseif ($data->format('d/m/Y')==$dataAtual->modify('+1 day')->format('d/m/Y')) {
-        return 'buttons_clientes_amarelo';
-    }else{
-        return 'buttons_clientes_verde';
+    if($Read->getResult()){
+        $Result = $Read->getResult();
+        $data = new DateTime($Result[0]["DATAAGENDADA"]);
+        $dataAtual = new DateTime();
+        //var_dump($Result);
+
+        if ($data<=$dataAtual) {
+            return 'buttons_clientes_vermelho';
+        }elseif ($data->format('d/m/Y')==$dataAtual->modify('+1 day')->format('d/m/Y')) {
+            return 'buttons_clientes_amarelo';
+        }else{
+            return 'buttons_clientes_verde';
+        }
     }
 }
 function before ($tag, $inthat)
