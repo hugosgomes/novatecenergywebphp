@@ -74,7 +74,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         	$jSON['addcoluna1'] = null;//É necessário desclarar como numo por causa da fraca tipação
         	foreach ($Read->getResult() as $enderecos):
         		$jSON['trigger'] = true;
-        		$jSON['addcoluna1'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+        		$jSON['addcoluna1'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
 							        		"<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
 							        		"<span  style='color: #bdbdbd;'></span>".
 							        		"</div></a>".
@@ -92,7 +92,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             foreach ($Read->getResult() as $enderecos):
                 $cor = getCor($enderecos['ID']);
                 $jSON['trigger'] = true;
-                $jSON['addcoluna2'] .= "<div class='box_content {$cor} clientes_sem_contato'>".
+                $jSON['addcoluna2'] .= "<div class='box_content {$cor} clientes_sem_contato' style='text-transform: uppercase;>".
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
@@ -106,7 +106,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['addcoluna3'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
-                $jSON['addcoluna3'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                $jSON['addcoluna3'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;'>".
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
@@ -120,7 +120,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['addcoluna4'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
-                $jSON['addcoluna4'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                $jSON['addcoluna4'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
@@ -135,7 +135,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['addcoluna5'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
-                $jSON['addcoluna5'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                $jSON['addcoluna5'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
@@ -150,7 +150,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['addcoluna6'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
-                $jSON['addcoluna6'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                $jSON['addcoluna6'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".
@@ -165,7 +165,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['addcoluna7'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
-                $jSON['addcoluna7'] .= "<div class='box_content buttons_clientes clientes_sem_contato'>".
+                $jSON['addcoluna7'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
                                             "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
                                             "<span  style='color: #bdbdbd;'></span>".
                                             "</div></a>".

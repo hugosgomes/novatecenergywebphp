@@ -310,18 +310,18 @@ function getStatusOrcamento($Status = null)
             7 => 'RECUSADO'
         ];
     }else{
-        $RealtyTransaction = [
+        /*$RealtyTransaction = [
             0 => 'SEM CONTATO',//OK
             1 => 'VISITA AGENDADA',//OK
             5 => 'CANCELADO',//ERRO
             6 => 'RECUSADO'//ERRO
-        ];
-        /*$RealtyTransaction = [
+        ];*/
+        $RealtyTransaction = [
             0 => 'SEM CONTATO',//OK
             1 => 'VISITA AGENDADA',//OK
             6 => 'CANCELADO',//ERRO
             7 => 'RECUSADO'//ERRO
-        ];*/
+        ];
     }
     return $RealtyTransaction;
 }
