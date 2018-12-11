@@ -543,8 +543,9 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
             $orcamento[$i]['FormaPagamento'] = intval($body[$i]['orcamento']['FormaPagamento']);
             $orcamento[$i]['NumParcelas'] = intval($body[$i]['orcamento']['NumParcelas']);
             $orcamento[$i]['DataAgendamento'] = ($body[$i]['orcamento']['dataAgendamento'] == "null" || $body[$i]['orcamento']['dataAgendamento'] == ""? NULL : $body[$i]['orcamento']['dataAgendamento']);
-            $orcamento[$i]['Valor'] = 0;
             $orcamento[$i]['Status'] = intval($body[$i]['orcamento']['Status']);
+            $orcamento[$i]['Valor'] = 0;
+            
             
             $TotalAprov['Valor'] = 0;
             $TotalReprov['Valor'] = 0;
@@ -560,7 +561,7 @@ $app->post('/atendimentos/finalizados/', function (Request $request, Response $r
                             $IdOrcamento = $Create->getResult();
 
                             //CRIA LINHA NA TABELA CLIENTES SEM OS/OT
-                            if($orcamento[$i]['Status'] == 1){
+                            if($orcamento[$i]['Status'] == 1 || $orcamento[$i]['Status'] == 2){
                                 $ClienteSemOT[$i]['IDCLIENTE'] = intval($body[$i]['idCliente']);
                                 $ClienteSemOT[$i]['IDORCAMENTO'] = $IdOrcamento;
                                 $ClienteSemOT[$i]['USUARIOSISTEMA'] = intval($body[$i]['orcamento']['idTecnico']);

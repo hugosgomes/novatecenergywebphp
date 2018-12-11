@@ -171,6 +171,8 @@ function abreModal(element){
     $(data.statusOrcamento).appendTo('#j_statusOrcamento');
   }
 
+  $('.j_obs').val("");
+
   //TRAVANDO CAMPOS DE ACORDO COM O STATUS QUE CARREGAR NA TELA.
   travaCampos($('#j_statusOrcamento').val());
 
@@ -242,10 +244,48 @@ $('html').on('click', '#wc_pdt_stoc', function () {
     return false;
 });
 
+//SALVAR EDIÇÃO DO CHAMADO
+$('html').on('click','#salvar_edicao',function(){
+    var Callback = 'Home2';
+    var Callback_action = 'salva-edicao';
+    var idOrcamento = $('.cl_dados').attr('id');
+    var IdChamado = $('#j_edit_chamado').attr('rel');
+    var obs = $('.j_obs').val();
+    var dataAgendamento = $('#j_form input[name="DATAAGENDAMENTO"]').val();
+    var tecnico = $('#j_select_tecnicos option:selected').val();
+    var valor = $('#j_form input[name="VALOR"]').val();
+    var formaPagamento = $('#forma-pagamento option:selected').val();
+    var qntParcelas = $('#j_form input[name="QNTPARCELAS"]').val();
+
+    $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {QNTPARCELAS:qntParcelas,FORMAPAGAMENTO:formaPagamento,VALOR:valor,TECNICO:tecnico,DATAAGENDAMENTO:dataAgendamento,OBS:obs,callback: Callback, callback_action: Callback_action, ID: IdChamado,idOrcamento:idOrcamento},function(data){
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if (data.trigger) {
+            Trigger(data.trigger);
+        }
+        if(data.salva_edicao){
+            var obs = $('.j_obs').val();
+            var dataAgendamento = $('#j_form input[name="DATAAGENDAMENTO"]').val("");
+            var tecnico = $('#j_select_tecnicos option:selected').val("");
+            var valor = $('#j_form input[name="VALOR"]').val("");
+            var formaPagamento = $('#forma-pagamento option:selected').val("");
+            var qntParcelas = $('#j_form input[name="QNTPARCELAS"]').val("");
+            $('#wc_pdt_stoc').show();
+            $('#salvar_edicao').hide();
+            $('.close-modal').trigger("click");
+            $('#j_statusOrcamento').prop('disabled',false);
+          
+        }
+    },'json');
+})
+
+//EDITAR CHAMADO
 $('html').on('click', '#j_edit_chamado', function (e) {
   var ID = $(this).attr('rel');
-  var Callback = $(this).attr('callback');
-  var Callback_action = $(this).attr('callback_action');
+  var Callback = "Home2"
+  var Callback_action = "editar";
+
+  $('#wc_pdt_stoc').hide();
+  $('#salvar_edicao').show();
 
   $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ID: ID}, function (data) {
 
@@ -256,10 +296,11 @@ $('html').on('click', '#j_edit_chamado', function (e) {
 
             //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
             if (data.editaChamado) {
+              var valor = Number(data.editaChamado['VALOR']); 
               $('.j_status').val(data.editaChamado['TIPO_SERVICO']);
               $('.j_data').val(data.editaChamado['DATAAGENDADA']);
               $('.j_tecnico').val(data.editaChamado['TECNICO']);
-              $('.j_valor').val(data.editaChamado['VALOR']);
+              $('.j_valor').val(valor.toFixed(2));
               $('.j_forma').val(data.editaChamado['FORMAPAGAMENTO']);
               $('.j_qnt').val(data.editaChamado['NUM_PARCELAS']);
               $('.j_obs').val(data.editaChamado['OBS']);

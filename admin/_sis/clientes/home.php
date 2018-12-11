@@ -221,7 +221,7 @@ endif;
 
         <label class="label" style="width:31%">
           <span class="legend" >FORMA DE PAGAMENTO:</span>
-          <select id="" class="j_forma wc_value" name="FORMAPAGAMENTO" style="font-family: Arial;font-size: 11px;">
+          <select id="forma-pagamento" class="j_forma wc_value" name="FORMAPAGAMENTO" style="font-family: Arial;font-size: 11px;">
             <?php 
             foreach (getFormaPagamento() as $key => $value) {
               echo "<option value='{$key}'>$value</option>";
@@ -245,6 +245,7 @@ endif;
           <!--<span class="btn btn_blue icon-share fl_left" id="j_salva_chamado" onClick="salvarChamado();" callback="Home" callback_action="salvachamado">Cadastrar!</span>-->
 
           <span id="wc_pdt_stoc" name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 0px; margin: 0% 45% 0% 45%;">Salvar</span>
+          <span id="salvar_edicao" name="public" value="2" class="btn btn_darkblue fl_left icon-share" style="display:none;margin-left: 0px; margin: 0% 45% 0% 45%;">Salvar</span>
         </label>
       </div>
     </form>
