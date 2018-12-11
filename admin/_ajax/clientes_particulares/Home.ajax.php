@@ -275,25 +275,27 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, [80_Orcamentos].STATUS,[80_Orcamentos].OBS,[80_Orcamentos].TIPOSERVICO FROM [80_Orcamentos]
                 INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
                 INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID WHERE [80_Orcamentos].ID = " . $idOrcamento,"");
-            //print_r($Read);
+            
             if ($Read->getResult()):                
                 $jSON['addClienteModal'] = null;//É necessário declarar como numo por causa da fraca tipação
                 $jSON['statusOrcamento'] = null;
                 foreach ($Read->getResult() as $dadosModalCliente):
+                    //var_dump($Read->getResult());
                     extract($dadosModalCliente);
-                    $jSON['addClienteModal'] = "<div class='dados_clientes'>".
+                    $jSON['addClienteModal'] .= "<div class='dados_clientes'>".
                                              "<h5>{$NOME}</h5>".
                                              "<ul class='cl_dados' id='{$ID}'>".
                                                "<li style='padding-bottom: 0px;' class='dados_endereco'>{$EMAIL}<span class='m_endereco'></span></li>".
                                                "<li  style='padding-bottom: 0px;'>{$ENDERECO}</li>".
                                                "<li  style='padding-bottom: 0px;'><a href='tel:021980564678' style='color: #004491'>{$TELEFONE}</a></li>".
                                                "<li  style='padding-bottom: 0px;'>Serviço: {$TIPO[$TIPOSERVICO]}</li>".
-                                               "<li  style='padding-bottom: 0px;'>OBS.: {$OBS}</li>".
+                                               "<li  style='padding-bottom: 0px;'>OBS.: ".trim($OBS)."</li>".
                                                "<br>".
                                                "<hr>".
-                                             "</div>";     
-                endforeach;
+                                             "</div>";  
+                //echo json_encode($jSON);
 
+                endforeach;
                 $paramStatus = $PostData['status'];
                 foreach (getStatusOrcamento($paramStatus) as $key => $value) {
                     //EVITANDO QUE O STATUS EXECUTANDO ENTRE NA LISTA DE STATUS 
@@ -317,9 +319,87 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
 
             $jSON['addHistorico'] = preencherHistorico($PostData);
+                                             //var_dump($jSON);   
 
         break;
+        case 'salva-edicao':
+            $ID = $PostData['ID'];
+            //REMOVER PONTO
+            $val = str_replace(".","",$PostData['VALOR']);
+            //REMOVER VIRGULA
+            $valor = str_replace(",",".",$val);
+            //CONSULTAR O STATUS DO CHAMADO
+            $Read->FullRead("SELECT TIPO_SERVICO FROM [80_Chamados] WHERE ID = {$ID}");
+            
+            switch ($Read->getResult()[0]['TIPO_SERVICO']) {
+                case '0'://sem contato
+                    $SalvaEdicaoChamado = array(
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                    );
+                break;
+                
+                case '1'://visita agendada
+                    $SalvaEdicaoChamado = array(
+                        'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
+                        'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
+                        'VALOR' => isset($valor) ? $valor : NULL,
+                        'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL,
+                        'NUM_PARCELAS' => isset($PostData["QNTPARCELAS"]) ? $PostData["QNTPARCELAS"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                        'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],//
+                    );
+                break;
+                case '2'://em análise
+                    $SalvaEdicaoChamado = array(
+                        'VALOR' => isset($valor) ? $valor : NULL,
+                        'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL,
+                        'NUM_PARCELAS' => isset($PostData["QNTPARCELAS"]) ? $PostData["QNTPARCELAS"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                    );
+                break;
+                case '3'://serviço agendado
+                    $SalvaEdicaoChamado = array(
+                        'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
+                        'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                    );
+                break;
+                /*case '4'://executando//
+                    $SalvaEdicaoChamado = array(
+                        'VALOR' => isset($valor) ? $valor : NULL,
+                        'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL,
+                        'NUM_PARCELAS' => isset($PostData["QNTPARCELAS"]) ? $PostData["QNTPARCELAS"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                    );
+                break;*/
+                case '5'://executado
+                    $SalvaEdicaoChamado = array(
+                        'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
+                        'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                    );
+                 break;
+                 case '6'://cancelado
+                    $SalvaEdicaoChamado = array(
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                    );
+                 break;
+                 case '7'://recusado
+                    $SalvaEdicaoChamado = array(
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                    );
+                 break;
+            }
 
+            $Update->ExeUpdate("[80_Chamados]",$SalvaEdicaoChamado, "WHERE ID = :id", "id={$PostData['ID']}");
+            if($Update->getResult()){
+                $jSON['trigger'] = AjaxErro('Chamado atualizado com sucesso');
+                $jSON['salva_edicao'] = AjaxErro('Chamado atualizado com sucesso');
+            }else{
+                $jSON['trigger'] = AjaxErro('Erro na edição do chamado');
+            }
+            
+        break;
         case 'salvachamado':
             //Salvando chamado   
             if(isset($PostData["VALOR"])):
@@ -337,6 +417,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL,
                 'NUM_PARCELAS' => isset($PostData["QNTPARCELAS"]) ? $PostData["QNTPARCELAS"] : NULL
             );
+
 
             $Resultado = NULL;
             if(isset($PostData['IDCHAMADO'])):                
@@ -423,13 +504,13 @@ function preencherHistorico($PostData){
 
 
     $btEditar = $Read->getResult() ? "<span rel='{$Read->getResult()[0]['ID']}' callback='Home' callback_action='editar' class='icon-pencil btn btn_blue' id='j_edit_chamado'>Editar Chamado</span>" : "";
-
+    //var_dump($Read->getResult());
     if ($Read->getResult()):
         $obs = null;
         $jSON['addHistorico'] = null;//É necessário desclarar como numo por causa da fraca tipação
         foreach ($Read->getResult() as $addHistorico):
-            $obs = substr($addHistorico['OBS'],0,76);
-            $valor = number_format($addHistorico['VALOR'] == "" ? 0 : $addHistorico['VALOR'],2,',','.');
+            $obs = $addHistorico['OBS'];
+            $valor = number_format($addHistorico['VALOR'] == "" || $addHistorico['VALOR'] == NULL ? 0 : $addHistorico['VALOR'],2,',','.');
             $tipoServico = getStatusOrcamento()[$addHistorico['TIPO_SERVICO']];
             $historico .= "<div class='box_content buttons_chamados {$classe}' style='height: auto;''>
                             <ul>

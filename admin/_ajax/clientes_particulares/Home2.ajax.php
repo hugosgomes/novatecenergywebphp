@@ -248,7 +248,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $Read->FullRead("SELECT [80_Enderecos].ID, [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
                             [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF AS ENDERECO FROM [80_Enderecos]
                             INNER JOIN [80_ClientesParticulares] ON [80_Enderecos].IDCLIENTE = [80_ClientesParticulares].ID
-                            WHERE [80_ClientesParticulares].TIPO = 1","");
+                            WHERE [80_ClientesParticulares].TIPO = 1 ORDER BY [80_Enderecos].LOGRADOURO ASC","");
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
                 $jSON['addComboEndereco'] .= "<option value='{$enderecos['ID']}' class='j_option_endereco'>{$enderecos['ENDERECO']}</option>";
@@ -256,7 +256,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             //PREENCHER COMBO DE ENREDEÇO
             $jSON['addComboCliente'] = "<option value='t' class='j_option_cliente'>>> TODOS <<</option>";
-            $Read->FullRead("SELECT ID,NOME FROM [80_ClientesParticulares] WHERE TIPO = 1","");
+            $Read->FullRead("SELECT ID,NOME FROM [80_ClientesParticulares] WHERE TIPO = 1 ORDER BY NOME ASC","");
             foreach ($Read->getResult() as $clientes):
                 $jSON['trigger'] = true;
                 $jSON['addComboCliente'] .= "<option value='{$clientes['ID']}' class='j_option_cliente'>{$clientes['NOME']}</option>";
@@ -311,6 +311,90 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             $jSON['addHistorico'] = preencherHistorico($PostData);
 
+        break;
+
+        case 'salva-edicao':
+            $ID = $PostData['ID'];
+            $PostData['VALOR'] = isset($PostData['VALOR']) ? $PostData['VALOR'] : 0;
+            //REMOVER PONTO
+            $val = str_replace(".","",$PostData['VALOR']);
+            //REMOVER VIRGULA
+            $valor = str_replace(",",".",$val);
+
+            //CONSULTAR O STATUS DO CHAMADO
+            $Read->FullRead("SELECT TIPO_SERVICO FROM [80_Chamados] WHERE ID = {$ID}");
+            
+            switch ($Read->getResult()[0]['TIPO_SERVICO']) {
+                case '0'://sem contato
+                    $SalvaEdicaoChamado = array(
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                    );
+                break;
+                
+                case '1'://visita agendada
+                    $SalvaEdicaoChamado = array(
+                        'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
+                        'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                        'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],//
+                    );
+                break;
+                case '2'://em análise
+                    $SalvaEdicaoChamado = array(
+                        'VALOR' => isset($valor) ? $valor : NULL,
+                        'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL,
+                        'NUM_PARCELAS' => isset($PostData["QNTPARCELAS"]) ? $PostData["QNTPARCELAS"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                        'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
+                    );
+                break;
+                case '3'://serviço agendado
+                    $SalvaEdicaoChamado = array(
+                        'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL,
+                        'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                        'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],//
+                    );
+                break;
+                case '4'://executando//
+                    $SalvaEdicaoChamado = array(
+                        'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL,
+                        'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                        'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
+                    );
+                break;
+
+                case '5'://executado
+                    $SalvaEdicaoChamado = array(
+                        'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
+                        'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                        'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
+                    );
+                 break;
+                 case '6'://cancelado
+                    $SalvaEdicaoChamado = array(
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                        'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
+                    );
+                 break;
+                 case '7'://recusado
+                    $SalvaEdicaoChamado = array(
+                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
+                        'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
+                    );
+                 break;
+            }
+
+            $Update->ExeUpdate("[80_Chamados]",$SalvaEdicaoChamado, "WHERE ID = :id", "id={$PostData['ID']}");
+            if($Update->getResult()){
+                $jSON['trigger'] = AjaxErro('Chamado atualizado com sucesso');
+                $jSON['salva_edicao'] = AjaxErro('Chamado atualizado com sucesso');
+            }else{
+                $jSON['trigger'] = AjaxErro('Erro na edição do chamado');
+            }
+            
         break;
 
         case 'salvachamado':
@@ -377,7 +461,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         break;
         case 'editar':
             //Salvando chamado
-            $Read->FullRead("SELECT ID, DATAAGENDADA, OBS, TECNICO, VALOR, FORMAPAGAMENTO, NUM_PARCELAS FROM [80_Chamados] WHERE ID = :id","id={$PostData['ID']}");
+            $Read->FullRead("SELECT ID, CONVERT(NVARCHAR,DATAAGENDADA,103) AS DATAAGENDADA, OBS, TECNICO, VALOR, FORMAPAGAMENTO, NUM_PARCELAS FROM [80_Chamados] WHERE ID = :id","id={$PostData['ID']}");
             if($Read->getResult()):
                 $jSON['editaChamado'] = $Read->getResult()[0];
                 $jSON['addIdChamado'] = "<input type='hidden' name='IDCHAMADO' value='{$Read->getResult()[0]['ID']}'/>";
