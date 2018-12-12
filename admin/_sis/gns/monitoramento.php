@@ -106,7 +106,7 @@ endif;
     <td><div class='nao-atendido'></div></td><td>&ensp;Não Atendido&ensp;</td>
    <!-- <td><div class='associado'></div></td><td>&ensp;Associado&ensp;</td>-->
     <td><div class='Atendido'></div></td><td>&ensp;Atendido</td>
-    </tr></table></div>";
+    </tr></table></div>
   </header>
   <div class="box_content">
     <div id="map" style="height: 72%;"></div>

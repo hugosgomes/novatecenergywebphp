@@ -33,10 +33,15 @@
 	}
 
 	.workcontrol_upload .workcontrol_loadmodal{
-display: none;
+		display: none;
 	}
 	.dashboard_content .custom_app{
 		display: none;
+	}
+	
+
+	.stscss{
+		background: #87f3c8;
 	}
 
 }
