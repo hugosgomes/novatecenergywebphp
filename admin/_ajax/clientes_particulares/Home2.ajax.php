@@ -494,7 +494,7 @@ function preencherHistorico($PostData){
     $status = 'Aberto';
 
     $Read->FullRead("SELECT [80_Chamados].ID, [80_Chamados].OBS, CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,103) + ' ' + CONVERT(VARCHAR,[80_Chamados].DATA_SISTEMA,108) AS DATA, Funcionários.[NOME COMPLETO],   
-                    [80_Chamados].TIPO_SERVICO, CONVERT(VARCHAR,[80_Chamados].DATAAGENDADA,103) AS DATAAGENDADA, [80_Chamados].VALOR, [80_Orcamentos].NUM_PARCELAS FROM [80_Orcamentos]
+                    [80_Chamados].TIPO_SERVICO, CONVERT(VARCHAR,[80_Chamados].DATAAGENDADA,103) AS DATAAGENDADA, [80_Chamados].VALOR, [80_Chamados].NUM_PARCELAS FROM [80_Orcamentos]
                     INNER JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO
                     INNER JOIN Funcionários ON [80_Chamados].USUARIO_SISTEMA = Funcionários.ID
                     WHERE [80_Orcamentos].ID = " . $idCliente . " ORDER BY [80_Chamados].DATA_SISTEMA DESC","");
@@ -548,7 +548,6 @@ function getCor($id){
         $Result = $Read->getResult();
         $data = new DateTime($Result[0]["DATAAGENDADA"]);
         $dataAtual = new DateTime();
-        //var_dump($Result);
 
         if ($data<=$dataAtual) {
             return 'buttons_clientes_vermelho';
