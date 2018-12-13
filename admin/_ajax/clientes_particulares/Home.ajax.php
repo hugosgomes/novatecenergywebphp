@@ -69,7 +69,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $Read->FullRead($queryColunas . " WHERE [80_Orcamentos].STATUS = 0 AND [80_ClientesParticulares].TIPO = 2 " . $criterioEndereco . $criterioCliente .
                         " GROUP BY [80_Enderecos].LOGRADOURO + ', ' + [80_Enderecos].NUMERO + ', ' + [80_Enderecos].COMPLEMENTO + ' - ' + [80_Enderecos].BAIRRO + ',' +
                         [80_Enderecos].CIDADE + ',' + [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS, [80_Orcamentos].DATASOLICITACAO ORDER BY [80_Orcamentos].DATASOLICITACAO","");
-
+        //var_dump($Read);
         if ($Read->getResult()):
         	$jSON['addcoluna1'] = null;//É necessário desclarar como numo por causa da fraca tipação
         	foreach ($Read->getResult() as $enderecos):
@@ -280,7 +280,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['addClienteModal'] = null;//É necessário declarar como numo por causa da fraca tipação
                 $jSON['statusOrcamento'] = null;
                 foreach ($Read->getResult() as $dadosModalCliente):
-                    //var_dump($Read->getResult());
+                    
                     extract($dadosModalCliente);
                     $jSON['addClienteModal'] .= "<div class='dados_clientes'>".
                                              "<h5>{$NOME}</h5>".
@@ -293,7 +293,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                                "<br>".
                                                "<hr>".
                                              "</div>";  
-                //echo json_encode($jSON);
+                
 
                 endforeach;
                 $paramStatus = $PostData['status'];
@@ -319,7 +319,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
 
             $jSON['addHistorico'] = preencherHistorico($PostData);
-                                             //var_dump($jSON);   
+                                               
 
         break;
         case 'salva-edicao':
@@ -364,14 +364,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
                     );
                 break;
-                /*case '4'://executando//
-                    $SalvaEdicaoChamado = array(
-                        'VALOR' => isset($valor) ? $valor : NULL,
-                        'FORMAPAGAMENTO' => isset($PostData["FORMAPAGAMENTO"]) ? $PostData["FORMAPAGAMENTO"] : NULL,
-                        'NUM_PARCELAS' => isset($PostData["QNTPARCELAS"]) ? $PostData["QNTPARCELAS"] : NULL,
-                        'OBS' => isset($PostData["OBS"]) ? $PostData['OBS'] : NULL,
-                    );
-                break;*/
                 case '5'://executado
                     $SalvaEdicaoChamado = array(
                         'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,

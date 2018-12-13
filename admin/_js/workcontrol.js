@@ -1305,6 +1305,7 @@ function Trigger(Message) {
     });
     $('body').before("<div class='trigger_modal'>" + Message + "</div>");
     $('.trigger_ajax').fadeIn();
+    setTimeout(function(){$('.trigger_modal').hide();},3000);
 }
 
 function TriggerClose() {

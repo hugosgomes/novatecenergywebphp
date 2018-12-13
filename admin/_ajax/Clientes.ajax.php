@@ -86,7 +86,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $PostData["CPF"] = $AUXCPF;
                     endif;
 
-                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
+                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRA DO CNPJ
                     if (!empty($PostData['CNPJ'])):                    
                         $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
                         $CNPJ3 = str_replace("/", "", $CNPJ2);

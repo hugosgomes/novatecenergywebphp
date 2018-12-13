@@ -356,7 +356,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],//
                     );
                 break;
-                case '4'://executando//
+                case '4'://executando
                     $SalvaEdicaoChamado = array(
                         'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL,
                         'TECNICO' => isset($PostData["TECNICO"]) ? $PostData["TECNICO"] : NULL,
@@ -461,7 +461,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         break;
         case 'editar':
             //Salvando chamado
-            $Read->FullRead("SELECT ID, CONVERT(NVARCHAR,DATAAGENDADA,103) AS DATAAGENDADA, OBS, TECNICO, VALOR, FORMAPAGAMENTO, NUM_PARCELAS FROM [80_Chamados] WHERE ID = :id","id={$PostData['ID']}");
+            $Read->FullRead("SELECT ID, CONVERT(NVARCHAR,DATAAGENDADA,103) AS DATAAGENDADA, OBS, TECNICO, VALOR, FORMAPAGAMENTO, NUM_PARCELAS,TIPO_SERVICO FROM [80_Chamados] WHERE ID = :id","id={$PostData['ID']}");
             if($Read->getResult()):
                 $jSON['editaChamado'] = $Read->getResult()[0];
                 $jSON['addIdChamado'] = "<input type='hidden' name='IDCHAMADO' value='{$Read->getResult()[0]['ID']}'/>";

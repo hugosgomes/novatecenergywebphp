@@ -147,6 +147,9 @@ function abreModal(element){
   var id = element.getAttribute('id');
   var status = element.getAttribute('status');
 
+  //HABILITA O SELECT DE STATUS DE ORÇAMANTO
+  $('#j_statusOrcamento').prop('disabled',false);
+
   $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idOrcamento: id, status: status}, function (data) {  
 
   if(data.addClienteModal){
@@ -172,6 +175,8 @@ function abreModal(element){
   }
 
   $('.j_obs').val("");
+  $('#wc_pdt_stoc').show();
+  $('#salvar_edicao').hide();
 
   //TRAVANDO CAMPOS DE ACORDO COM O STATUS QUE CARREGAR NA TELA.
   travaCampos($('#j_statusOrcamento').val());
@@ -261,6 +266,8 @@ $('html').on('click','#salvar_edicao',function(){
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if (data.trigger) {
             Trigger(data.trigger);
+            //ATUALIZA A EXIBIÇÃO NA PÁGINA
+            mostraDados('Home','consulta',0);
         }
         if(data.salva_edicao){
             var obs = $('.j_obs').val();
