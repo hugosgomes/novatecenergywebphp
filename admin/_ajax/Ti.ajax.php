@@ -49,19 +49,32 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $PostData['GNS'] = (!isset($PostData['GNS']) ?  $PostData['GNS'] = "0" : $PostData['GNS'] = 1);
         $PostData['CLIENTES_PARTICULARES'] = (!isset($PostData['CLIENTES_PARTICULARES']) ? $PostData['CLIENTES_PARTICULARES'] = "0" : $PostData['CLIENTES_PARTICULARES'] = 1);
         $PostData['FERRAMENTAS'] = (!isset($PostData['FERRAMENTAS']) ?  $PostData['FERRAMENTAS'] = "0" : $PostData['FERRAMENTAS'] = 1);
+        $PostData['DIRETORIA'] = (!isset($PostData['DIRETORIA']) ?  $PostData['DIRETORIA'] = "0" : $PostData['DIRETORIA'] = 1);
+        $PostData['RH'] = (!isset($PostData['RH']) ?  $PostData['RH'] = "0" : $PostData['RH'] = 1);
 
+           
           $Read->FullRead("SELECT * FROM [00_NivelAcesso] WHERE IDFUNCIONARIO = :idfunc","idfunc={$PostData['ID']}");
-       
             if($Read->getResult()):
                 $ID = $PostData['ID'];
               unset($PostData['ID']);
                 $Update->ExeUpdate("[00_NivelAcesso]", $PostData, "WHERE IDFUNCIONARIO = :id", "id={$ID}");
-                $jSON['trigger'] = AjaxErro("Permissão de Funcionário Atualizada!"); 
+                $jSON['trigger'] = AjaxErro("Permissão de Funcionário Atualizada!");
+                 
             else:
                 $ID = $PostData['ID'];
-              unset($PostData['ID']);
-             $Create->ExeCreate("[00_NivelAcesso]",$PostData);
+              
+                $CriaAcesso = array(
+                'IDFUNCIONARIO' => $ID,
+                'GNS' => $PostData['GNS'],
+                'CLIENTES_PARTICULARES' => $PostData['CLIENTES_PARTICULARES'],
+                'TI' => $PostData['TI'],
+                'FERRAMENTAS' => $PostData['FERRAMENTAS'],
+                'DIRETORIA' => $PostData['DIRETORIA'],
+                'RH' => $PostData['RH'],
+                );
+             $Create->ExeCreate("[00_NivelAcesso]",$CriaAcesso);
              $jSON['trigger'] = AjaxErro("Permissão de Funcionário Criada!"); 
+             
             endif;
             break;
 
@@ -73,11 +86,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     <div id='permissoesUsuario' style='font-size: 15px;'>
                     <input type='hidden' name='ID' value='{$Read->getResult()[0]['IDFUNCIONARIO']}'/>
                     <input style='width: 5%;' id='modulos' type='checkbox' />Selecionar Todos<br><br>
-                    <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1' ".($Read->getResult()[0]['GNS'] == 1 ? 'checked':'').">GNS <br>
                     <input style='width: 5%;' class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1' ".($Read->getResult()[0]['CLIENTES_PARTICULARES'] == 1 ? 'checked':'').">Clientes Particulares <br>
+                    <input style='width: 5%;' class='' name='DIRETORIA' type='checkbox' value='1' ".($Read->getResult()[0]['DIRETORIA'] == 1 ? 'checked':'').">Diretoria <br>
+                    <input style='width: 5%;' class='' name='FERRAMENTAS' type='checkbox' value='1' ".($Read->getResult()[0]['FERRAMENTAS'] == 1 ? 'checked':'')." >FERRAMENTAS </br>
+                    <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1' ".($Read->getResult()[0]['GNS'] == 1 ? 'checked':'').">GNS <br>
                     <input style='width: 5%;' class='' name='TI' type='checkbox' value='1' ".($Read->getResult()[0]['TI'] == 1 ? 'checked':'')." >TI </br>
-                    <input style='width: 5%;' class='' name='FERRAMENTAS' type='checkbox' value='1' ".($Read->getResult()[0]['FERRAMENTAS'] == 1 ? 'checked':'')." >FERRAMENTAS </br></div>";
-                    
+                    <input style='width: 5%;' class='' name='RH' type='checkbox' value='1' ".($Read->getResult()[0]['RH'] == 1 ? 'checked':'').">RH <br></div>";
+
+                    $jSON['Permissao'] = true;
+
                     $Read->FullRead("SELECT * FROM [Funcionários] WHERE ID = :id","id={$PostData['ID']}");
                     if($Read->getResult()):
                     $jSON['dadosUsuario'] = "
@@ -106,11 +123,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         <div id='permissoesUsuario' style='font-size: 15px;'>
                         <input type='hidden' name='ID' value='{$Read->getResult()[0]['ID']}'/>
                         <input style='width: 5%;' id='modulos' type='checkbox' />Selecionar Todos<br><br>
-                        <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1'/>GNS <br>
-                        <input style='width: 5%;' class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1' />Clientes Particulares<br> 
-                        <input style='width: 5%;' class='' name='TI' type='checkbox' value='1' />TI </br>
-                        <input style='width: 5%;' class='' name='FERRAMENTAS' type='checkbox' value='1' />FERRAMENTAS </br>
-                        </div>";   
+                        <input style='width: 5%;' class='' name='CLIENTES_PARTICULARES' type='checkbox' value='1'>Clientes Particulares <br>
+                        <input style='width: 5%;' class='' name='DIRETORIA' type='checkbox' value='1'>Diretoria <br>
+                        <input style='width: 5%;' class='' name='FERRAMENTAS' type='checkbox' value='1'>FERRAMENTAS </br>
+                        <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1'>GNS <br>
+                        <input style='width: 5%;' class='' name='TI' type='checkbox' value='1'>TI </br>
+                        <input style='width: 5%;' class='' name='RH' type='checkbox' value='1'>RH <br></div>"; 
+
+                        $jSON['Permissao'] = false;  
 
                         $jSON['trigger'] = AjaxErro("Usuário sem permissões. Ao cadastrar, o mesmo passará a usar o sistema com as devidas permissões escolhidas."); 
                     endif;               

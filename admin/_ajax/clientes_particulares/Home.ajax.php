@@ -233,10 +233,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         //PREENCHER TOTAL RECUSADO FILTRO ENDEREÇO E CLIENTE
         $jSON['addRecusado'] = NULL;
-        $Read->FullRead("SELECT SUM([80_Orcamentos].VALOR) AS VALOR FROM [80_Orcamentos]
-                        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-                        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID  WHERE [80_Orcamentos].STATUS = 7 "  . $criterioEndereco . $criterioCliente . 
-                        "AND [80_ClientesParticulares].TIPO = 2","");
+        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM(
+        SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos]
+        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID
+        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
+        LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO  WHERE [80_Orcamentos].STATUS = 7 "  . $criterioEndereco . $criterioCliente . $criterioMes . $criterioAno .
+                        "AND [80_ClientesParticulares].TIPO = 2 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
         foreach ($Read->getResult() as $totais):        
             $totais['VALOR'] = number_format(!$totais['VALOR']?0:$totais['VALOR'],2,',','.');
             $jSON['trigger'] = true;
