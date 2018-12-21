@@ -34,11 +34,10 @@ endif;
      <div class="label_50" >
       <label class="label">
         <form method="" action="">
-          <span class="legend">Buscar Endereço:</span>
-          <select id="endereco" style="font-family: Arial;font-size: 11px;" class="j_select_endereco" callback="Home2" callback_action="consulta">
-            <option value="t" class="j_option_endereco">>> TODOS <<</option>
-          </select>
-        </form>
+        <div class="ui-widget">
+          <input id="endereco" type="hidden" class="j_select_endereco j_option_endereco" callback="Home2" callback_action="consulta" value="t">
+          <input id="visivel-end" style="font-family: Arial;font-size: 11px;" placeholder=">> BUSCAR ENDEREÇO <<">
+        </div>
       </label>
 
     </div>
@@ -48,12 +47,10 @@ endif;
   <form>
    <div class="label_50" >
     <label class="label">
-      <form method="" action="">
-        <span class="legend">Buscar Cliente:</span>
-        <select id="cliente" style="font-family: Arial;font-size: 11px;" class="j_select_cliente" callback="Home2" callback_action="consulta">
-          <option value="t" class='j_option_cliente'>>> TODOS <<</option>
-        </select>
-      </form>
+      <div class="ui-widget">
+        <input id="cliente" type="hidden" class="j_select_cliente" callback="Home2" callback_action="consulta" value="t">
+        <input id="visivel" style="font-family: Arial;font-size: 11px;" placeholder=">> BUSCAR CLIENTE <<">
+      </div>
     </label>
   </div>
 </form>

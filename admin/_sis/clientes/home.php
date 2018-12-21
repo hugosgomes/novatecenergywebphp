@@ -47,11 +47,10 @@ endif;
     <form>
      <div class="label_50" >
       <label class="label" >
-        <form method="" action=""> 
-          <select id="endereco" style="font-family: Arial;font-size: 11px;" class="j_select_endereco form_personalize" callback="Home" callback_action="consulta">
-            <option value="t" class="j_option_endereco">>> BUSCAR ENDEREÇO <<</option>
-          </select>
-        </form>
+        <div class="ui-widget">
+          <input id="endereco" type="hidden" class="j_select_endereco j_option_endereco" callback="Home" callback_action="consulta" value="t">
+          <input id="visivel-end" style="font-family: Arial;font-size: 11px;" placeholder=">> BUSCAR ENDEREÇO <<">
+        </div>
       </label>
     </div>
   </form>
@@ -60,11 +59,12 @@ endif;
   <form>
    <div class="label_50" >
     <label class="label">
-      <form method="" action="">
-        <select id="cliente" style="font-family: Arial;font-size: 11px;" class="j_select_cliente" callback="Home" callback_action="consulta">
-          <option value="t" class='j_option_cliente'>>> BUSCAR CLIENTE <<</option>
-        </select>
-      </form>
+      
+        <div class="ui-widget">
+          <input id="cliente" type="hidden" class="j_select_cliente" callback="Home" callback_action="consulta" value="t">
+          <input id="visivel" style="font-family: Arial;font-size: 11px;" placeholder=">> BUSCAR CLIENTE <<">
+        </div>
+      
     </label>
   </div>
 </form>
@@ -277,4 +277,5 @@ endif;
 <!-- mascara para cobrir o site -->  
 <div id="mascara"></div>
 </div>
+
 <script src="_js/clientes_particulares.js"></script>

@@ -96,15 +96,27 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
         }else{
           $('.j_coluna_7 .clientes_sem_contato').remove();
         }
-        
-        if (data.addComboEndereco) {            
-            $('.j_option_endereco').remove();
-            $(data.addComboEndereco).appendTo('.j_select_endereco');
-        }  
 
+        //INPUT ENDEREÇOS AUTOCOMPLETE
+        if (data.addComboEndereco) {
+          arrayEnd = [];
+          
+          var end = data.addComboEndereco.split('*');
+          for (var i = 0; i < end.length; i++) {
+           arrayEnd.push(end[i]);
+          }
+          searchNome(arrayEnd,'#visivel-end','#endereco');
+        } 
+
+        //INPUT CLIENTES AUTOCOMPLETE
         if (data.addComboCliente) {
-            $('.j_option_cliente').remove();
-            $(data.addComboCliente).appendTo('.j_select_cliente');
+          arrayNome = [];
+          
+          var cliente = data.addComboCliente.split('*');
+          for (var i = 0; i < cliente.length; i++) {
+           arrayNome.push(cliente[i]);
+          }
+          searchNome(arrayNome,'#visivel','#cliente');
         }
 
         if (data.addEmAnalise) {
@@ -453,3 +465,37 @@ function iniciaPagina(){
     $('#j_ano').append('<option value='+(dataAtual.getFullYear()+1)+'>' + (dataAtual.getFullYear()+1) + '</option>');
     $('#j_ano').selected = dataAtual.getFullYear();
 }
+
+
+// AUTOCOMPLETE JQUERY UI
+
+function searchNome(arrNome,InpV,InpI) {
+
+  //CALLBACK PERSONALIZADO PARA CORRESPONDER APENAS AO INÍCIO DOS TERMOS
+  $(InpV).autocomplete({
+    source: function(request, response) {
+          var matcher = new RegExp( "[^\D]" + $.ui.autocomplete.escapeRegex(request.term), "i" );
+          response($.grep(arrNome, function(item){
+              return matcher.test(item);
+          }) );
+        }
+  });
+
+
+  //SELECIONA O VALOR QUE ACABOU DE SER INSERIDO NO INPUT
+  $(document).on('change',InpV,function(){
+
+    let nome = $(this).val();
+
+    //DIVIDE A STRING EM DUAS PARTES E USA A SEGUNDA
+    arrayN = nome.split(' ');
+
+    //COLOCA O SEGUNDO VALOR NO ATRIBUTO DO INPUT
+    $(InpI).val(arrayN[0]);
+
+    //CHAMA EVENTO DE CLICK NO DOCUMENT
+    $(InpI).change();
+    
+  })
+} 
+
