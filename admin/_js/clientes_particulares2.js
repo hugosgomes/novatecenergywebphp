@@ -13,6 +13,38 @@ $('.j_select_cliente').change(function(){
           mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
+//CONSULTA DEFAULT
+  $(document).on('input',"#visivel-end",function(){
+
+    let input = $(this).val();
+    if(input.length == 0){
+      let end = $('#endereco').val();
+      let cli = $('#cliente').val();
+        
+          $("#endereco").val("t");
+          $("#cliente").val("t");
+          $("#visivel").val("");
+          mostraDados($("#endereco").attr('callback'),$("#endereco").attr('callback_action'),1);
+        }
+    
+  });
+
+  //CONSULTA DEFAULT
+  $(document).on('input',"#visivel",function(){
+
+    let input = $(this).val();
+    if(input.length == 0){
+      let end = $('#endereco').val();
+      let cli = $('#cliente').val();
+    
+          $("#endereco").val("t");
+          $("#cliente").val("t");
+          $("#visivel-end").val("");
+          mostraDados($("#cliente").attr('callback'),$("#cliente").attr('callback_action'),1);
+        }
+    
+  });
+
 $('#mes,#j_ano').change(function(){
           mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
@@ -481,8 +513,7 @@ function searchNome(arrNome,InpV,InpI) {
         }
   });
 
-
-  //SELECIONA O VALOR QUE ACABOU DE SER INSERIDO NO INPUT
+  //SELECIONA POR TERMO ESPECÍFICO
   $(document).on('change',InpV,function(){
 
     let nome = $(this).val();
@@ -493,8 +524,10 @@ function searchNome(arrNome,InpV,InpI) {
     //COLOCA O SEGUNDO VALOR NO ATRIBUTO DO INPUT
     $(InpI).val(arrayN[0]);
 
-    //CHAMA EVENTO DE CLICK NO DOCUMENT
+    //CHAMA O EVENTO DE CHANGE NO INPUT
     $(InpI).change();
     
   })
-}
+
+  
+} 
