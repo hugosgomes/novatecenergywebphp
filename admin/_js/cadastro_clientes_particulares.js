@@ -19,6 +19,7 @@
                     $('.wc_cnpj').val(data.cliente['CNPJ']);
                     $('.wc_nome').val(data.cliente['NOME']);
                     $('.wc_telefone').val(data.cliente['TELEFONE']);
+                    $('.wc_telefone2').val(data.cliente['TELEFONE2']);
                     $('.wc_endereco').val(data.cliente['ENDERECO']);
                     $('.wc_email').val(data.cliente['EMAIL']);
                     $('.wc_tipo').val(data.cliente['TIPO']);

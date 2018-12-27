@@ -324,3 +324,7 @@ select {
   .ui-widget input::placeholder{
     text-align:center !important;
   }
+
+  .ui-widget{
+    font-size: .9em;
+  }
