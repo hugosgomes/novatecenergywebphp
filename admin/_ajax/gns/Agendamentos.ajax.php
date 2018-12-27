@@ -171,26 +171,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $jSON['addtable'] = null;
                   foreach ($Read->getResult() as $OS):
                       extract($OS);
-                      switch($Status): //MOSTRA O STATUS DO CHAMADO CASO O MESMO SEJA DIFERENTE DE '0'
-                          case 0:
-                            $sts = "<td class='no-print'><span style='padding-right: 5px;margin-left: 15%;margin-right: 30%;margin-top: 10%;' rel='agendamentos' callback='Agendamentos'callback_action='delete' class='j_del_tecnico icon-cross btn btn_red' id='{$IDOS}'></span></td>";
-                          break;
-                          case 1:
-                            $sts = "<td class='no-print'><span style='padding: 1px; background: #87f3c8; text-transform: uppercase; margin-top: 25%; display: block; margin-top: 10%'>Atendido</span></td>";
-                          break;
-                          case 2:
-                            $sts = "<td class='no-print'><span style='padding: 1px; background: #f38787; text-transform: uppercase; margin-top: 25%; display: block; margin-top: 10%'>Cancelado</span></td>";
-                          break;
-                          case 3:
-                            $sts = "<td class='no-print'><span style='padding: 1px; background: #f3c987; text-transform: uppercase; margin-top: 25%; display: block; margin-top: 10%'>Ausente</span></td>";
-                          break;
-                          case 4:
-                            $sts = "<td class='no-print'><span style='padding: 1px; background: #87f3e9; text-transform: uppercase; text-align:center; display: block; margin-top: 10%'>Reagendado NVT</span></td>";
-                          break;
-                          case 5:
-                            $sts = "<td class='no-print'><span style='padding: 1px; background: #87b7f3; text-transform: uppercase; text-align: center; display: block; margin-top: 10%'>Reagendado GNS</span></td>";
-                          break;
-                        endswitch;
+                      
+                        //MOSTRA O STATUS DO CHAMADO CASO O MESMO SEJA DIFERENTE DE '0'
+                        if ($Status == 0):
+                          $sts = "<td class='no-print'><span style='padding-right: 5px;margin-left: 15%;margin-right: 30%;margin-top: 10%;' rel='agendamentos' callback='Agendamentos'callback_action='delete' class='j_del_tecnico icon-cross btn btn_red' id='{$IDOS}'></span></td>";
+                        else:
+                          $sts = "<td class='no-print'><span style='padding-right: 5px;margin-left: 15%;margin-right: 30%;margin-top: 10%;'><img src='_img\check.png'></span></td>";
+                        endif;
+
                       $jSON['trigger'] = true;
                       $jSON['success'] = true;
                       $jSON['addtable'] .= "

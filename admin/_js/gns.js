@@ -42,6 +42,8 @@ $('#Tecnico').change(function(){
     }, 'json');
 });
 
+
+
     //ADICIONA O.S PARA O TÉCNICO
     $('html').on('click', '.j_add_tecnico', function (e) {
         var Incrementador = $(this).attr('num');

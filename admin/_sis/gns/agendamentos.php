@@ -68,8 +68,11 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           $Amanha = $Amanha->format('Ymd');
           echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}' class='btn btn_green'>Agendamentos HOJE</a></div>";
           echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Amanha}' class='btn btn_yellow'>Agendamentos AMANHÃ</a></div>";
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos da SEMANA</a></div>";
-          ?>          
+          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos FUTUROS</a></div> <br>";
+          echo "<div class='box box40'><input type='text' id='Agend' name='Agend' placeholder='&raquo;&raquo;&ensp;SELECIONE DATA' class='jwc_datepicker' style='width: 163px;'></div>";
+          echo "<div class='box box40'><a title='Filtrar Data' class='btn btn_blue'>PESQUISAR</a></div>";
+          ?>
+
         </header>
         <div class="box_content">
 
@@ -140,7 +143,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
             $url = $Hoje;
           } else if($url == "wc=gns/agendamentos&day=".$Amanha){
             $url = $Amanha;
-          }else {
+          } else {
             $url = $Hoje .'&s=1';
           }
 
@@ -151,7 +154,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
               [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
               inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
               inner join [60_OS] on [60_OT].Id = [60_OS].OT
-              WHERE DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE()) AND [60_OS].Tecnico = 0"," ");
+              WHERE [60_OS].DataAgendamento >= CONVERT(DATE, GETDATE(), 103) AND [60_OS].Tecnico = 0"," ");
           else:
             $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
               [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
@@ -264,10 +267,18 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
   }
 };
 
+/*PEGA A DATA DO DATEPICKER E CRIA A URL PARA MOSTRAR OS's NO MAPA*/
+$('html').on('click', '.btn_blue', function (e) {
+  var agend = $('#Agend').val();
+
+  var date = agend.split("/").reverse().join("");
+  
+  window.location.assign("dashboard.php?wc=gns/agendamentos&day="+ date);
+});
+
 </script>
 
 <!--Chamada da API do Google Maps-->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvvTXNMC_SZgxgGcyNFxoZszqsGQ0FOg0&callback=initMap"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="_js/gns.js"></script>
-
