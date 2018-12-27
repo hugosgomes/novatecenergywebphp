@@ -48,7 +48,7 @@ endif;
                 </label>
             </div> 
 
-            <div class="permissoesUsuarios"></div>            
+                       
             
             <form class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="callback" value="Ti"/>
@@ -62,6 +62,7 @@ endif;
                </div>
                <img class="form_load none fl_left" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
                <button name="public" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 5px;">Atualizar Usuário!</button>
+               <button name="criaPermissao" value="1" class="btn btn_darkblue fl_left icon-share" style="margin-left: 5px;display:none">Criar Permissão!</button>
                <div class="clear"></div>
            </form>
        </div>
