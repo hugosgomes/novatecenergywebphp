@@ -27,6 +27,14 @@ $(function(){
                  });
                 }
 
+                if(data.Permissao){
+                    $('button[name="public"]').show();
+                    $('button[name="criaPermissao"]').hide();
+                }else{
+                    $('button[name="public"]').hide();
+                    $('button[name="criaPermissao"]').show();
+                }
+
             }, 'json');
     });
 });

@@ -70,7 +70,7 @@ endif;
         var Callback = 'Agendamentos';
         var Callback_action = 'consultar_Os';
         var Id = '<?php echo "{$Id}";?>';
-        $.post('_ajax/gns/'+ Callback +'.ajax.php', {callback: Callback, callback_action: Callback_action, Id: Id, Latitude: lat, Longitude: lng}, function (data) {
+        $.post('admin/_ajax/gns/'+ Callback +'.ajax.php', {callback: Callback, callback_action: Callback_action, Id: Id, Latitude: lat, Longitude: lng}, function (data) {
 
            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
              if (data.trigger) {

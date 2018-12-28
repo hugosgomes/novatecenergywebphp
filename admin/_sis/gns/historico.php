@@ -44,24 +44,26 @@ endif;
           <div class="tabela-responsivel">
           <table id="dataTable"class="cell-border compact stripe table" callback="Historico" callback_action="Carregar">
             <thead>
-              <tr style="font-size: 12px;">
+       <tr style="font-size: 12px;">
                 <th>Data Agendamento</th>
                 <th>Número Cliente</th>
                 <th>Nome Cliente</th>
-                <th>Telefone</th>
-                <th>Endereço</th>
-
-                <th>Bairro</th>
-                <th>CEP</th>
-                <th>Município</th>
                 
                 <th>Telefone</th>
                 <th>Telefone</th>
-                <th>Zona</th>
-
-                <th>SubZona</th>
-                <th>CPF/CNPJ</th>
+                <th>Telefone</th>
                 <th>Telefone Zeus</th>
+                
+                <th>Endereço</th>
+                <th>Bairro</th>
+                <th>Município</th> 
+                <th>CEP</th>
+                          
+                
+                <th>Zona</th>
+                <th>SubZona</th>
+        
+                <th>CPF/CNPJ</th>
                 <th>E-Mail GNS</th>
 
               </tr>

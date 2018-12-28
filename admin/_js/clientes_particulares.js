@@ -6,15 +6,47 @@ $(document).ready(function(){
 
 
 $('.j_select_endereco').change(function(){
-          mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
+      mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
 $('.j_select_cliente').change(function(){
-          mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
+      mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
+//CONSULTA DEFAULT
+  $(document).on('input',"#visivel-end",function(){
+
+    let input = $(this).val();
+    if(input.length == 0){
+      let end = $('#endereco').val();
+      let cli = $('#cliente').val();
+        
+          $("#endereco").val("t");
+          $("#cliente").val("t");
+          $("#visivel").val("");
+          mostraDados($("#endereco").attr('callback'),$("#endereco").attr('callback_action'),1);
+        }
+    
+  });
+
+  //CONSULTA DEFAULT
+  $(document).on('input',"#visivel",function(){
+
+    let input = $(this).val();
+    if(input.length == 0){
+      let end = $('#endereco').val();
+      let cli = $('#cliente').val();
+    
+          $("#endereco").val("t");
+          $("#cliente").val("t");
+          $("#visivel-end").val("");
+          mostraDados($("#cliente").attr('callback'),$("#cliente").attr('callback_action'),1);
+        }
+    
+  });
+
 $('#mes,#j_ano').change(function(){
-          mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
+      mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
 function ordenarOrcamentoAnalise(){
@@ -96,15 +128,27 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
         }else{
           $('.j_coluna_7 .clientes_sem_contato').remove();
         }
-        
-        if (data.addComboEndereco) {            
-            $('.j_option_endereco').remove();
-            $(data.addComboEndereco).appendTo('.j_select_endereco');
-        }  
 
+        //INPUT ENDEREÇOS AUTOCOMPLETE
+        if (data.addComboEndereco) {
+          arrayEnd = [];
+          
+          var end = data.addComboEndereco.split('*');
+          for (var i = 0; i < end.length; i++) {
+           arrayEnd.push(end[i]);
+          }
+          searchNome(arrayEnd,'#visivel-end','#endereco');
+        } 
+
+        //INPUT CLIENTES AUTOCOMPLETE
         if (data.addComboCliente) {
-            $('.j_option_cliente').remove();
-            $(data.addComboCliente).appendTo('.j_select_cliente');
+          arrayNome = [];
+          
+          var cliente = data.addComboCliente.split('*');
+          for (var i = 0; i < cliente.length; i++) {
+           arrayNome.push(cliente[i]);
+          }
+          searchNome(arrayNome,'#visivel','#cliente');
         }
 
         if (data.addEmAnalise) {
@@ -142,6 +186,9 @@ function abreModal(element){
   var id = element.getAttribute('id');
   var status = element.getAttribute('status');
 
+  //HABILITA O SELECT DE STATUS DE ORÇAMANTO
+  $('#j_statusOrcamento').prop('disabled',false);
+
   $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idOrcamento: id, status: status}, function (data) {  
 
   if(data.addClienteModal){
@@ -165,6 +212,10 @@ function abreModal(element){
     $('#j_statusOrcamento option').remove();
     $(data.statusOrcamento).appendTo('#j_statusOrcamento');
   }
+
+  $('.j_obs').val("");
+  $('#wc_pdt_stoc').show();
+  $('#salvar_edicao').hide();
 
   //TRAVANDO CAMPOS DE ACORDO COM O STATUS QUE CARREGAR NA TELA.
   travaCampos($('#j_statusOrcamento').val());
@@ -214,6 +265,7 @@ $('#wc_pdt_stoc').on('click', function (e) {
         success: function (data) {
             if (data.trigger) {
                 Trigger(data.trigger);
+                
             }
 
             //DATA CLEAR INPUT
@@ -240,10 +292,48 @@ $('#wc_pdt_stoc').on('click', function (e) {
     return false;
 });
 
+
+$('html').on('click','#salvar_edicao',function(){
+    var Callback = 'Home';
+    var Callback_action = 'salva-edicao';
+    var idOrcamento = $('.cl_dados').attr('id');
+    var IdChamado = $('#j_edit_chamado').attr('rel');
+    var obs = $('.j_obs').val();
+    var dataAgendamento = $('.j_form input[name="DATAAGENDAMENTO"]').val();
+    var tecnico = $('#j_select_tecnicos option:selected').val();
+    var valor = $('.j_form input[name="VALOR"]').val();
+    var formaPagamento = $('#forma-pagamento option:selected').val();
+    var qntParcelas = $('.j_form input[name="QNTPARCELAS"]').val();
+
+    $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {QNTPARCELAS:qntParcelas,FORMAPAGAMENTO:formaPagamento,VALOR:valor,TECNICO:tecnico,DATAAGENDAMENTO:dataAgendamento,OBS:obs,callback: Callback, callback_action: Callback_action, ID: IdChamado,idOrcamento:idOrcamento},function(data){
+        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        if (data.trigger) {
+            Trigger(data.trigger);
+            //ATUALIZA A EXIBIÇÃO NA PÁGINA
+            mostraDados('Home','consulta',0);
+        }
+        if(data.salva_edicao){
+          var obs = $('.j_obs').val(" ");
+          var dataAgendamento = $('#j_form input[name="DATAAGENDAMENTO"]').val(" ");
+          var tecnico = $('#j_select_tecnicos option:selected').val("");
+          var valor = $('#j_form input[name="VALOR"]').val(" ");
+          var formaPagamento = $('#forma-pagamento option:selected').val(" ");
+          var qntParcelas = $('#j_form input[name="QNTPARCELAS"]').val(" ");
+          $('#wc_pdt_stoc').show();
+          $('#salvar_edicao').hide();
+          $('.close-modal').trigger("click");
+          $('#j_statusOrcamento').prop('disabled',false);
+        }
+    },'json');
+})
+
 $('html').on('click', '#j_edit_chamado', function (e) {
   var ID = $(this).attr('rel');
   var Callback = $(this).attr('callback');
   var Callback_action = $(this).attr('callback_action');
+
+  $('#wc_pdt_stoc').hide();
+  $('#salvar_edicao').show();
 
   $.post('_ajax/clientes_particulares/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ID: ID}, function (data) {
 
@@ -254,10 +344,13 @@ $('html').on('click', '#j_edit_chamado', function (e) {
 
             //ADICIONA OS DADOS DA O.S PARA APRESENTAR NA TABELA
             if (data.editaChamado) {
+                //PERMITIR APENAS 2 DIGITOS APÓS A VIRGULA
+                var valor = Number(data.editaChamado['VALOR']);
+
                 $('.j_status').val(data.editaChamado['TIPO_SERVICO']);
                 $('.j_data').val(data.editaChamado['DATAAGENDADA']);
                 $('.j_tecnico').val(data.editaChamado['TECNICO']);
-                $('.j_valor').val(data.editaChamado['VALOR']);
+                $('.j_valor').val(numeroParaMoeda(valor, 2, ',', '.'));
                 $('.j_forma').val(data.editaChamado['FORMAPAGAMENTO']);
                 $('.j_qnt').val(data.editaChamado['NUM_PARCELAS']);
                 $('.j_obs').val(data.editaChamado['OBS']);
@@ -272,6 +365,20 @@ $('html').on('click', '#j_edit_chamado', function (e) {
         e.preventDefault();
         e.stopPropagation();
 });
+
+/*
+* n = numero a converter
+* c = numero de casas decimais
+* d = separador decimal
+* t = separador milhar
+*/
+
+//CONVERTAR NÚMERO NO FORMATO MOEDA
+function numeroParaMoeda(n, c, d, t)
+{
+  c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+  return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+}
 
 //MUDANÇA DE MÊS
 function filtro_mes(el) {
@@ -390,3 +497,41 @@ function iniciaPagina(){
     $('#j_ano').append('<option value='+(dataAtual.getFullYear()+1)+'>' + (dataAtual.getFullYear()+1) + '</option>');
     $('#j_ano').selected = dataAtual.getFullYear();
 }
+
+
+// AUTOCOMPLETE JQUERY UI
+
+function searchNome(arrNome,InpV,InpI) {
+
+  //CALLBACK PERSONALIZADO PARA CORRESPONDER APENAS AO INÍCIO DOS TERMOS
+  $(InpV).autocomplete({
+    source: function(request, response) {
+          var matcher = new RegExp( "[^\D]" + $.ui.autocomplete.escapeRegex(request.term), "i" );
+          response($.grep(arrNome, function(item){
+              return matcher.test(item);
+          }) );
+        }
+  });
+
+  //SELECIONA POR TERMO ESPECÍFICO
+  $(document).on('change',InpV,function(){
+
+    let nome = $(this).val();
+
+    //DIVIDE A STRING EM DUAS PARTES E USA A SEGUNDA
+    arrayN = nome.split(' ');
+
+    //COLOCA O SEGUNDO VALOR NO ATRIBUTO DO INPUT
+    $(InpI).val(arrayN[0]);
+
+    //CHAMA O EVENTO DE CHANGE NO INPUT
+    $(InpI).change();
+    $('html').trigger('focusout');
+    
+  })
+
+  
+} 
+
+
+

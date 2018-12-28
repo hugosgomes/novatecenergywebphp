@@ -42,6 +42,8 @@ $('#Tecnico').change(function(){
     }, 'json');
 });
 
+
+
     //ADICIONA O.S PARA O TÉCNICO
     $('html').on('click', '.j_add_tecnico', function (e) {
         var Incrementador = $(this).attr('num');
@@ -585,7 +587,46 @@ $('html').on('click', '#j_btn_cancelar', function (e) {
 });
 
 $('html').on('click', '#j_importar', function (e) {
-    alert($('#os_manual').val());
+    //alert($('#os_manual').val());
+    var form = $("#j_form_osManual");
+    var callback = form.find('input[name="callback"]').val();
+    var callback_action = form.find('input[name="callback_action"]').val();
+    //var id = form.find('input[name="ID"]').val();
+
+    if (typeof tinyMCE !== 'undefined') {
+        tinyMCE.triggerSave();
+    }
+
+    form.ajaxSubmit({
+        url: '_ajax/gns/' + callback + '.ajax.php',
+        dataType: 'json',
+        beforeSubmit: function () {
+            $('.workcontrol_pdt_size').fadeIn('fast');
+            $('input[name="os_manual"]').val("");
+
+        },
+        uploadProgress: function (evento, posicao, total, completo) {
+            var porcento = completo + '%';
+            $('.workcontrol_upload_progrees').text(porcento);
+
+            if (completo <= '80') {
+                $('.workcontrol_upload').fadeIn().css('display', 'flex');
+            }
+            if (completo >= '99') {
+                $('.workcontrol_upload').fadeOut('slow', function () {
+                    $('.workcontrol_upload_progrees').text('0%');
+                });
+            }
+            //PREVENT TO RESUBMIT IMAGES GALLERY
+            form.find('input[name="os_manual"]').replaceWith($('input[name="os_manual"]').clone());
+        },
+        success: function (data) {
+            if (data.trigger) {
+                Trigger(data.trigger);
+            }          
+ 
+        }
+    });
 });
 
 

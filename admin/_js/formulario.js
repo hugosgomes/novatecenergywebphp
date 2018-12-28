@@ -38,11 +38,11 @@ $('.o_os_status').change(function(){
   if(status != 3){
     $('#imagens-os-ass-t').show().find('input[name="asstecnico_fotos_arquivos[]"]').prop('disabled',false);
     $('#imagens-os-ass-c').show().find('input[name="asscliente_fotos_arquivos[]"]').prop('disabled',false);
-    $('#imagens-os-local').hide().find('input[name="local_fotos_arquivos[]"]').val("").prop('disabled',true);;
+    $('#imagens-os-local').hide().find('input[name="local_fotos_arquivos[]"]').val("").prop('disabled',true);
   }else if(status == 3){
-    $('#imagens-os-ass-t').show().find('input[name="asstecnico_fotos_arquivos[]"]').prop('disabled',false);;
-    $('#imagens-os-ass-c').show().find('input[name="asscliente_fotos_arquivos[]"]').prop('disabled',false);;
-    $('#imagens-os-local').show().find('input[name="local_fotos_arquivos[]"]').prop('disabled',false);;
+    $('#imagens-os-ass-t').show().find('input[name="asstecnico_fotos_arquivos[]"]').prop('disabled',false);
+    $('#imagens-os-ass-c').show().find('input[name="asscliente_fotos_arquivos[]"]').prop('disabled',false);
+    $('#imagens-os-local').show().find('input[name="local_fotos_arquivos[]"]').prop('disabled',false);
   }
 })
 

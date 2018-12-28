@@ -192,7 +192,7 @@ textarea, input, select{
             <div class="label_100">
                 <label class="label">
                     <span class="legend">Tipo:</span>
-                    <!-- <input class="wc_value" style="font-size: 1.4em;" type="text" name="TIPO" placeholder="Tipo de Serviço" required/>-->
+                    
                     <?php $campos = getWctipoServico()?>
                     <select name="TIPOSERVICO" class="wc_value" style="font-size: 1.0em;" type="text" required>
                         <option selected disabled value="">Selecione o tipo de serviço:</option>
@@ -282,10 +282,16 @@ textarea, input, select{
                 <input class="formPhone wc_telefone wc_value" style="font-size: 1.0em;" type="tel" name="TELEFONE" placeholder="Telefone" required/>
             </label>
             <label class="label">
+                <span class="legend">Telefone2:</span>
+                <input class="formPhone wc_telefone2 wc_value" style="font-size: 1.0em;" type="tel" name="TELEFONE2" placeholder="Telefone2" required/>
+            </label>
+        </div>
+         <div class="label_100">
+            <label class="label">
                 <span class="legend">E-mail:</span>
                 <input class="wc_email wc_value" style="font-size: 1.0em;" type="email" name="EMAIL" placeholder="E-mail" required/>
-            </label>                    
-        </div>
+            </label>
+        </div>                    
         <div class="label_100">
             <label class="label">
                 <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>

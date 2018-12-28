@@ -69,6 +69,10 @@ endif;
     <script src="_js/maskinput.js"></script>
     <script src="_js/workplugins.js"></script>
 
+    <!-- AUTOCOMPLETE JQUERYUI -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script src="../_cdn/highcharts.js"></script>
     <script src="../_cdn/datepicker/datepicker.min.js"></script>
     <script src="../_cdn/datepicker/datepicker.pt-BR.js"></script>
@@ -90,6 +94,7 @@ endif;
             modal:true
         });
     </script>
+
 
 </head>
 <body class="dashboard_main" id="body">
@@ -255,6 +260,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion√
                 <?php
             endif;
 
+
               //MENU DO RH
             if ($_SESSION['userLogin'] && ($Permissao['RH'] == 1)):
                 ?>
@@ -269,7 +275,9 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion√
             endif;
 
 
- //MENU DE USU√ÅRIOS
+
+            //MENU DE USU√ÅRIOS
+
             if ($_SESSION['userLogin'] && ($Permissao['FERRAMENTAS'] == 1)):
                 ?>
                 <li class="dashboard_nav_menu_li"><a class="icon-cog" title="Usu√°rios" href="#">Ferramentas</a>

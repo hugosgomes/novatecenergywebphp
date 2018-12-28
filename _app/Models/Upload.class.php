@@ -70,6 +70,7 @@ class Upload {
         ];
 
         //VALID EXTENSION FOR IMAGES
+
         $Extension = ['.jpg', '.jpeg', '.png', '.pdf'];
 
         if (!in_array($this->Ext, $Extension) || !in_array($this->File["type"], $FileAcceptImage)):
@@ -126,24 +127,31 @@ endif;
             'application/x-zip-compressed',
             'application/octet-stream',
             'application/zip', 
-            'text/xml'
+            'text/xml',
+            'application/vnd.ms-excel'
         ];
 
         //VALID EXTENSION FOR FILES
-        $Extension = ['.pdf', '.doc', '.docx', '.rar', '.zip', '.xml'];
+        $Extension = ['.pdf', '.doc', '.docx', '.rar', '.zip', '.xml','.csv'];
+        if($this->Name == "gns"){
+           $this->CheckFolderOS($this->Folder);
+            $this->setFileNameOS();
+            $this->MoveFile();
 
-        if (!in_array($this->Ext, $Extension) || !in_array($this->File['type'], $FileAccept)):
+        }else {
+               if (!in_array($this->Ext, $Extension) || !in_array($this->File['type'], $FileAccept)):
             $this->Result = false;
-        $this->Error = "Tipo de arquivo não aceito. Extenções aceitas: " . mb_strtoupper(str_replace(".", "", implode(", ", $Extension))) . "!";
-    elseif ($this->File['size'] > ($MaxFileSize * (1024 * 1024))):
-        $this->Result = false;
-        $this->Error = "Arquivo muito grande, tamanho máximo permitido de {$MaxFileSize}mb";
-    else:
-        $this->CheckFolder($this->Folder);
-        $this->setFileName();
-        $this->MoveFile();
-    endif;
-}
+            $this->Error = "Tipo de arquivo não aceito. Extenções aceitas: " . mb_strtoupper(str_replace(".", "", implode(", ", $Extension))) . "!";
+        elseif ($this->File['size'] > ($MaxFileSize * (1024 * 1024))):
+            $this->Result = false;
+            $this->Error = "Arquivo muito grande, tamanho máximo permitido de {$MaxFileSize}mb";
+        else:
+            $this->CheckFolder($this->Folder);
+            $this->setFileName();
+            $this->MoveFile();
+        endif;
+        }      
+    }
 
     /**
      * <b>Enviar Mídia:</b> Basta envelopar um $_FILES de uma mídia e caso queira um nome e um tamanho personalizado.
@@ -203,6 +211,33 @@ endif;
      * **********  PRIVATE METHODS  **********
      * ***************************************
      */
+
+
+    // FILE GNV
+    private function CheckFolderOS($Folder) {
+              
+        list($ImportOs) = explode('/', $Folder);
+        $this->CreateFolder("{$ImportOs}");
+        $this->Send = "{$ImportOs}/";
+    }
+
+    // setFileNameFILE GNV
+private function setFileNameOS() {
+  $FileName = Check::Name($this->Name) . strrchr($this->File['name'], '.');
+  if (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".pdf")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".pdf");
+elseif (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".jpg")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".jpg");
+elseif (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".jpeg")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".jpeg");
+elseif (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".png")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".png");
+elseif (file_exists(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".csv")):
+    unlink(self::$BaseDir . $this->Send . Check::Name($this->Name) . ".csv");
+endif;
+$this->Name = strtolower($FileName);
+          //unlink($Image);
+}
 
     private function CheckFolderRH($Folder) {
 

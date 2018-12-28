@@ -11,6 +11,7 @@ endif;
 
 usleep(50000);
 
+
 //DEFINE O CALLBACK E RECUPERA O POST
 $jSON = null;
 $CallBack = 'Agendamentos';
@@ -100,7 +101,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           $jSON['success'] = true;                        
                           $jSON['deltable'] = $OSId;
 
-                          $Read->FullRead("SELECT  NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
+                          $Read->FullRead("SELECT  NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, 
                             [60_OS].Tecnico, [60_OS].turno as TURNO,
                             [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
                             inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
@@ -109,7 +110,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           foreach ($Read->getResult() as $marker): 
                             extract($marker);
                           $data = date("d/m/Y", strtotime($DataAgendamento));
-                            $jSON['infowindow'] = "<div class='info-window'><h3 class='m_bottom'>{$OSServico}</h3><div class='info-content'><p>OS: <b>{$NumOS}</b></p><p>Cliente: <b>{$NomeCliente}</b></p><p>Serviço: <b>{$NomeOs}</b></p><p>Data: <b>{$data}</b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='{$Id}'>Add</span></div></div>";
+                            $jSON['infowindow'] = "<div class='info-window'><h3 class='m_bottom'>{$OSServico}</h3><div class='info-content'><p>OS: <b>{$NumOS}</b></p><p>Cliente: <b>{$NomeCliente}</b></p><p>Serviço: <b>{$NomeOs}</b></p><p>Endereço: <b>{$Endereco}, {$Bairro}</b></p><p>Data: <b>{$data}</b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='{$Id}'>Add</span></div></div>";
                             $jSON['latitude'] = $Latitude;
                             $jSON['longitude'] = $Longitude;
                           endforeach;
@@ -170,6 +171,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $jSON['addtable'] = null;
                   foreach ($Read->getResult() as $OS):
                       extract($OS);
+                      
+                        //MOSTRA O STATUS DO CHAMADO CASO O MESMO SEJA DIFERENTE DE '0'
+                        if ($Status == 0):
+                          $sts = "<td class='no-print'><span style='padding-right: 5px;margin-left: 15%;margin-right: 30%;margin-top: 10%;' rel='agendamentos' callback='Agendamentos'callback_action='delete' class='j_del_tecnico icon-cross btn btn_red' id='{$IDOS}'></span></td>";
+                        else:
+                          $sts = "<td class='no-print'><span style='padding-right: 5px;margin-left: 15%;margin-right: 30%;margin-top: 10%;'><img src='_img\check.png'></span></td>";
+                        endif;
+
                       $jSON['trigger'] = true;
                       $jSON['success'] = true;
                       $jSON['addtable'] .= "
@@ -179,9 +188,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       <td>{$NomeOS}</td>
                       <td>{$Endereco} {$Bairro} {$Municipio}</td>
                       <td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td>
-                      <td>". strstr($Tecnico, ' ', true)."</td>
-                      <td style='text-align: center;'>{$TURNO}</td>
-                      <td class='no-print'><span style='padding-right: 5px;margin-left: 20%;margin-right: 30%;margin-top: 10%;' rel='agendamentos' callback='Agendamentos' callback_action='delete' class='j_del_tecnico icon-cross btn btn_red' id='{$IDOS}'></span></td></tr>";
+                      <td style='text-align: center; vertical-align: middle'>". strstr($Tecnico, ' ', true)."</td>
+                      <td style='text-align: center; vertical-align: middle'>{$TURNO}</td>".
+                      $sts
+                      ."</tr>";
                       $jSON['idOS'] = $IDOS;
                   endforeach;                   
               else:
@@ -246,6 +256,29 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                endif;
              endif;
+             break;
+             case 'importOs_manual':
+               if (empty($Upload)):
+                  $Upload = new Upload('//192.168.0.101/Robo');
+                endif;
+                 
+                if(isset($_FILES['os_manual'])){
+
+                 if($_FILES['os_manual']['type'] == 'application/vnd.ms-excel'){
+
+                      $Upload->File($_FILES['os_manual'], "gns", '/');
+                      
+                     if ($Upload->getResult()):
+                           $jSON['trigger'] = AjaxErro('Arquivo enviado com sucesso!', E_USER_ERROR);
+                        $Read->FullRead("exec [60_ImportacaoGNS]");
+                    endif;
+                      
+                    }else {
+                      $jSON['trigger'] = AjaxErro('ATENÇÃO: Só é permitido arquivo CSV (Excel)', E_USER_WARNING);
+                    }
+
+                }
+                 
              break;
     endswitch;
 

@@ -86,7 +86,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $PostData["CPF"] = $AUXCPF;
                     endif;
 
-                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRO DO CNPJ
+                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRA DO CNPJ
                     if (!empty($PostData['CNPJ'])):                    
                         $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
                         $CNPJ3 = str_replace("/", "", $CNPJ2);
@@ -137,7 +137,20 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 if($IdCli && $IdEnd):
                     $ORCAMENTO = array("IDCLIENTE"=>$IdCli,"IDENDERECO"=>$IdEnd,"TIPOSERVICO"=>$PostData["TIPOSERVICO"],"STATUS"=> 0, "OBS"=>$PostData["OBS"], "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]);
                     $Create->ExeCreate("[80_Orcamentos]", $ORCAMENTO);
+                    $IdOrcamento = null;
+                    $Valor = 0;
+                    if($Create->getResult()){
+                        $IdOrcamento = $Create->getResult();
+                        $TipoServico = 0;
+                        $Chamado = array(
+                        'IDORCAMENTO' => $IdOrcamento,
+                        'OBS' => $PostData["OBS"],
+                        'TIPO_SERVICO' => $TipoServico,
+                        "USUARIO_SISTEMA"=> $_SESSION['userLogin']["ID"]
+                        );
+                        $Create->ExeCreate("[80_Chamados]", $Chamado);
 
+                    }
                     $jSON['inpuval'] = "null"; 
                     $jSON['trigger'] = AjaxErro("Orçamento adicionado com sucesso!");
                     $jSON['success'] = true;  
@@ -271,7 +284,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 //CASO O CLIENTE NÃO TENHA CPF E CNPJ
                 if(empty($PostData['CPF']) && empty($PostData['CNPJ'])):
-                    $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"]);
+                    $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"TELEFONE2"=>$PostData["TELEFONE2"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"]);
                     $Update->ExeUpdate("[80_ClientesParticulares]", $CLIENTE, "WHERE ID= :id", "id={$PostData['ID']}");
                     if ($Update->getResult()):
                         $jSON['trigger'] = AjaxErro("Cliente alterado com sucesso");
@@ -290,12 +303,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $AUXCPF = str_replace("-", "", $CPF2);
                     $PostData["CPF"] = $AUXCPF;
 
-                    //PESQUISA DE EXISTE O CPF INFORMADO
+                    //PESQUISA SE EXISTE O CPF INFORMADO
                     $Read->FullRead("SELECT ID FROM [80_ClientesParticulares] WHERE CPF = :cpf","cpf={$PostData['CPF']}");
                     if(!$Read->getResult()):   
                         //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
                         $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CPF"=>$PostData["CPF"]);
-                        $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
+                        
+                        $Update->ExeUpdate("[80_ClientesParticulares]", $CLIENTE, "WHERE ID= :id", "id={$PostData['ID']}");
                         $jSON['trigger'] = AjaxErro("Cliente alterado com sucesso"); 
                         $jSON['redirect'] = 'dashboard.php?wc=clientes/cadastro';                    
                     else:
@@ -315,7 +329,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     if(!$Read->getResult()):   
                         //MONTA ARRAY CLIENTE PARA INSERIR NO BANCO                   
                         $CLIENTE = array("NOME"=>$PostData["NOME"],"TELEFONE"=>$PostData["TELEFONE"],"EMAIL"=>$PostData["EMAIL"],"TIPO"=>$PostData["TIPO"], "CNPJ"=>$PostData["CNPJ"]);
-                        $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
+                        
+                        $Update->ExeUpdate("[80_ClientesParticulares]", $CLIENTE, "WHERE ID= :id", "id={$PostData['ID']}");
                         $jSON['trigger'] = AjaxErro("Cliente alterado com sucesso");
                         $jSON['redirect'] = 'dashboard.php?wc=clientes/cadastro';
                     else:

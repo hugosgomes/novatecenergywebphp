@@ -56,23 +56,23 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $historico):
                      $historico_NumCliente = str_replace(".0", "", $historico['NumCliente']);
-                	$jSON['historico'] .= "<tr role='row' class='odd pointer j_table' value='{$historico['Id']}' callback='Historico' callback_action='CarregarHistorico'>
+                    $jSON['historico'] .= "<tr role='row' class='odd pointer j_table' value='{$historico['Id']}' callback='Historico' callback_action='CarregarHistorico'>
                                                  <td style='text-align: center;'>{$historico['DataAgendamento']}</td>
                                                  <td style='text-align: center;'>{$historico_NumCliente}</td>
                                                  <td>{$historico['NomeCliente']}</td>
                                                  <td style='text-align: center;'>{$historico['Telefone1']}</td>
-                                                 <td>{$historico['Endereco']}</td>
-                                                 <td style='text-align: center;'>{$historico['Bairro']}</td>
-                                                 <td style='text-align: center;'>{$historico['Cep']}</td>
-                                                 <td style='text-align: center;'>{$historico['Municipio']}</td>
                                                  <td style='text-align: center;'>{$historico['Telefone2']}</td>
                                                  <td style='text-align: center;'>{$historico['Telefone3']}</td>
+                                                 <td style='text-align: center;'>{$historico['TelefoneZeus']}</td>
+                                                 <td>{$historico['Endereco']}</td>
+                                                 <td style='text-align: center;'>{$historico['Bairro']}</td>
+                                                 <td style='text-align: center;'>{$historico['Municipio']}</td>
+                                                 <td style='text-align: center;'>{$historico['Cep']}</td>
                                                  <td style='text-align: center;'>{$historico['Zona']}</td>
                                                  <td style='text-align: center;'>{$historico['SubZona']}</td>
                                                  <td style='text-align: center;'>{$historico['CPFCNPJ']}</td>
-                                                 <td style='text-align: center;'>{$historico['TelefoneZeus']}</td>
                                                  <td style='text-align: center;'>{$historico['EmailGns']}</td>
-                						   </tr>";
+                                           </tr>";
                 endforeach;                   
             else:
                 $jSON['historico'] = null;
