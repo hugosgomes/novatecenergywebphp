@@ -255,6 +255,20 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                 <?php
             endif;
 
+              //MENU DO RH
+            if ($_SESSION['userLogin'] && ($Permissao['RH'] == 1)):
+                ?>
+                <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'rh/') ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-accessibility" title="Usuários" href="#">RH</a>
+                    <ul class="dashboard_nav_menu_sub">
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/envioDocumentacao' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Dashboard" href="dashboard.php?wc=rh/exibirDocumentacao">&raquo; Dashboard</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/envioDocumentacao' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Envio de Documentacao" href="dashboard.php?wc=rh/envioDocumentacao">&raquo; Envio de Documentação</a></li>
+
+                    </ul>
+                </li>
+                <?php
+            endif;
+
+
  //MENU DE USUÁRIOS
             if ($_SESSION['userLogin'] && ($Permissao['FERRAMENTAS'] == 1)):
                 ?>
