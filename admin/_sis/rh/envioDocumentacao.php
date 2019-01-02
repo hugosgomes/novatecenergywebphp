@@ -119,6 +119,7 @@ $IdFUNC = filter_input(INPUT_GET, 'ID', FILTER_DEFAULT);
          <th>Data Doc.</th>
          <th>Achilles</th>
          <th>Download</th>
+         <th>Visualizar</th>
        </thead>
        <tbody id="j_table_ConsultaDoc">
        </tbody>

@@ -128,8 +128,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $teste = str_replace("\\", "/", $pegarDiretorio);
             $dataTeste = pathinfo($iddata);
             $basename = pathinfo($pegarDiretorio);
-            $caminhoPadrao = "//192.168.0.101:83/"."{$basename['basename']}"."/novatec/uploads/Achiles/{$value1['id']}/";
-            $caminhoDiretorio = "//192.168.0.101/"."{$teste}"."/novatec/uploads/Achiles/{$value1['id']}/";
+            $caminhoPadrao = "//192.168.0.101:83"."/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+            $caminhoDiretorio = "//192.168.0.101/xampp/htdocs"."/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
                     //SE A VALIDADE PASSAR DA DATA DO DIA ATUAL MOSTRA A COR VERMELHA
 
@@ -348,7 +348,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $variavelData = "Não validado."; 
                 }
 
-                $jSON['tipo'] .= "<tr> <td> $NOMEDOC </td> <td><center> $variavelData </center></td> <td> <center> $diretorionull </center> </td> <td><center>$stat</center></td></tr>";
+                $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td></tr>";
               }
             }
             break;
@@ -638,14 +638,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             if ($datavalidade <> "") {
                               $d_gbCreate["DataValidade"] = $datavalidade;
                               $Create->ExeCreate('[30_Documentacao]', $d_gbCreate);
-                               $jSON['trigger'] = AjaxErro('Arquivos anexados com sucesso!');
+                              $jSON['trigger'] = AjaxErro('Arquivos anexados com sucesso!');
                             }
                           }
                           else{
-                            $datavalRh = $datavalidade;
-                            $datavalRH = ['DataValidade' => $datavalRh];
-                            $Update->ExeUpdate("[30_Documentacao]",$datavalRH, "WHERE IdFuncionario = :idfunc", "idfunc={$PostData['idfuncionario']}");
-                            $jSON['trigger'] = AjaxErro('Arquivos atualizados com sucesso!');
+                            if ($datavalidade <> "") {
+                              $dataValRh = $datavalidade;
+                              $dataValRH = ['DataValidade' => $dataValRh];
+                              $Update->ExeUpdate("[30_Documentacao]",$dataValRH, "WHERE IdTipoDocumento = :idtipodoc", "idtipodoc={$IdTipoDocumento}");
+                              $jSON['trigger'] = AjaxErro('Arquivos atualizados com sucesso!');
+                            }
                           }
                         }
 
@@ -673,6 +675,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $mudarvariavel = "";
                   $value1 = null;
                   $diretorionull = null;
+                  $visualizardoc = null;
                   $valor = null;
                 //$variavelData = null;
                   if ($idfuncionario) {
@@ -714,8 +717,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $teste = str_replace("\\", "/", $pegarDiretorio);
                         $dataTeste = pathinfo($iddata);
                         $basename = pathinfo($pegarDiretorio);
-                        $caminhoPadrao = "//192.168.0.101:83/"."{$basename['basename']}"."/novatec/uploads/Achiles/{$value1['id']}/";
-                        $caminhoDiretorio = "//192.168.0.101/"."{$teste}"."/novatec/uploads/Achiles/{$value1['id']}/";
+                        $caminhoPadrao = "//192.168.0.101:83/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                        $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
+                        //http://novatecenergy.ddns.net:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/'
+                        //"//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/";
 
                     //SE A VALIDADE PASSAR DA DATA DO DIA ATUAL MOSTRA A COR VERMELHA
 
@@ -725,11 +730,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           $variavelData = '<b><font color="red">'.$dataBr; 
                         }
 
-                      /*if ($dataBr == "31/12/1969") {
-                        $variavelData = "";
-                      }*/
-
-                      $data = new DateTime($dia_atual);
+                        $data = new DateTime($dia_atual);
                   $data1 = new DateTime($dataBr1); //DATA DOS DOCUMENTOS
                   $data2 = new DateTime($dia_atual); //DATA ATUAL
                   $data->add(new DateInterval('P31D')); //DATA ATUAL MAIS UM MÊS
@@ -737,8 +738,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   if ($data1 > $data2 AND $data1 <= $data) {
                     $variavelData = '<b><font color="orange">'.$dataBr;
                   }
-                    //var_dump($value1['data']);
-                  //var_dump($value1['stat']);
+
                   switch ($variavelSwitch) {
 
                     case "Certificado Empresarial de Informação de Riscos Laborais - Distribuição de Gás":
@@ -916,16 +916,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 //$capiroto = $caminhoPadrao.$valor."/".$nomeT.".".$agoraVai;
 
-                if ($idtipo == "") {
-                  $capiroto = $caminhoPadrao.$valor."/".$nomeT.".".$agoraVai;
-                  $diretorionull = "<a href='{$capiroto}' download><span class='btn btn_darkblue'> Download </span> </a>";
-                } elseif ($idtipo == NULL) {
+                //CONDIÇÃO PARA APARECER NA TELA, SE O VALOR DO NOME DO DOCUMENTO VIER NULO DO BANCO DE DADOS, NÃO IRÁ APARECER NADA.
+                if ($idtipo == NULL) {
                   $diretorionull = $mudarvariavel;
-                  $variavelData = "";
-                  $stat = "";
+                  $variavelData = $mudarvariavel;
+                  $stat = $mudarvariavel;
+                  $visualizardoc = $mudarvariavel;
                 }else{
                   $capiroto = $caminhoPadrao.$valor."/".$nomeT.".".$agoraVai;
-                  $diretorionull = "<a href='{$capiroto}' download><span class='btn btn_darkblue'> Download </span> </a>";
+                  $diretorionull = "<a href='{$capiroto}' download><span class='btn btn_darkblue'>Download</span></a>";
+                  $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$capiroto}'></a>";
                 }
 
                 $variavelDataExtract = pathinfo($variavelData);
@@ -933,8 +933,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 if ($variavelDataExtract['basename'] == "1969") {
                   $variavelData = "Não validado."; 
                 }
-
-                $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td></tr>";
+                $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td><td><center>$visualizardoc</center></td></tr>";
               }
             }
             break;
@@ -1004,8 +1003,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $teste = str_replace("\\", "/", $pegarDiretorio);
                   $dataTeste = pathinfo($iddata);
                   $basename = pathinfo($pegarDiretorio);
-                  $caminhoPadrao = "//192.168.0.101:83/"."{$basename['basename']}"."/novatec/uploads/Achiles/{$value1['id']}/";
-                  $caminhoDiretorio = "//192.168.0.101/"."{$teste}"."/novatec/uploads/Achiles/{$value1['id']}/";
+                  $caminhoPadrao = "//192.168.0.101:83"."/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                  $caminhoDiretorio = "//192.168.0.101/xampp/htdocs"."/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
                     //SE A VALIDADE PASSAR DA DATA DO DIA ATUAL MOSTRA A COR VERMELHA
 
