@@ -95,7 +95,7 @@ endif;
         });
     </script>
 
-    <!-- css TI -->
+    <!-- CSS TI -->
     <link href='_css/ti.css' rel='stylesheet' type='text/css'>
 
 </head>

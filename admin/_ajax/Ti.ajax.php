@@ -173,7 +173,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 
                 }
 
-                    if($TecGNS){
+                    if($TecGNS):
                         $i = 0;
                         $t = count($TecGNS);
                         $jSON["TEC"] = null;
@@ -204,7 +204,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                         </tr>";
                         }
 
-                    }
+                    endif;
                     
             endif;
         break;

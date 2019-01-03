@@ -153,7 +153,7 @@ textarea, input, select{
             <div class="label_50">
                 <label class="label">
                     <span class="legend">CEP:</span>
-                    <input class="wc_getCep wc_cep wc_value" style="font-size: 1.0em;" type="text" name="CEP" placeholder="Digite o CEP " required/>
+                    <input class="formCep wc_getCep wc_cep wc_value" style="font-size: 1.0em;" type="text" name="CEP" placeholder="Digite o CEP " required/>
                 </label>
                 <label class="label">
                     <span class="legend">Logradouro:</span>
@@ -183,7 +183,7 @@ textarea, input, select{
                 </label>
                 <label class="label">
                     <span class="legend">UF:</span>
-                    <input class="wc_uf wc_value" style="font-size: 1.0em;" type="text" name="UF" placeholder="UF" required/>
+                    <input class="formUf wc_uf wc_value" style="font-size: 1.0em;" type="text" name="UF" placeholder="UF" required/>
                 </label>
                 <div class="clear"></div>
             </div>
@@ -302,8 +302,4 @@ textarea, input, select{
     </form>
     </div>
 </div>
-
-<!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
 <script src="_js/cadastro_clientes_particulares.js"></script>
