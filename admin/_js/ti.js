@@ -91,3 +91,16 @@ $('html, body').on('click', '.j_desativar_conta', function (e) {
     }, 'json');
 
 });
+
+// MONITORAR OS's E TÉCNICOS
+$(document).ready(function(){
+    let Callback = $('.monitoramento').attr('callback');
+    let Callback_action = $('.monitoramento').attr('callback-Action');
+
+    $.post(`_ajax/${Callback}.ajax.php`,{callback:Callback,callback_action:Callback_action},function(data){
+        if(data.trigger){
+            $(".lista-tecn .lista-tec1").remove();
+            $(data.TEC).appendTo(".lista-tecn");
+        }
+    },'json');
+});

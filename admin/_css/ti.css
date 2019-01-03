@@ -1,0 +1,18 @@
+
+/* tabela monitoramento GNS */
+.monitoramento {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+
+.monitoramento td, .monitoramento th {
+    border: 1px solid #dddddd;
+    padding: 8px;
+}
+
+.monitoramento>tbody tr:nth-child(even) {
+    background-color:  #ddd;
+}

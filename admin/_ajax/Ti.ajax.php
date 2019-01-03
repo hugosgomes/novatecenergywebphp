@@ -156,6 +156,59 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
             break;
 
+        case 'monitoramento':
+            $Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
+                FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
+                LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
+                WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL ORDER BY NOME"," ");
+            if($Read->getResult()):
+                
+                $value = null;
+                $TecGNS = [];
+                foreach ($Read->getResult() as $value) {
+
+                    extract($value);
+                    array_push($TecGNS, array("ID"=>$ID,"NOME"=>$NOME));
+
+                
+                }
+
+                    if($TecGNS){
+                        $i = 0;
+                        $t = count($TecGNS);
+                        $jSON["TEC"] = null;
+                        for ($i = 0;$i < $t; $i++) {
+                           
+                            //QTD OS's ATRIBUIDAS A CADA TÉCNICO
+                            $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE convert(varchar(10), DataAgendamento, 102) = convert(varchar(10), getdate(), 102) AND Tecnico = {$TecGNS[$i]["ID"]}"," ");
+                           
+                            $TecGNS[$i]["ATRIBUIDO"] = $Read->getResult()[0]["QUANTIDADE"];
+
+                            //QTD OS'S ATENDIDAS POR CADA TÉCNICO
+                            $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS != 0 AND convert(varchar(10), DataAgendamento, 102) 
+                        = convert(varchar(10), getdate(), 102) AND Tecnico =  {$TecGNS[$i]["ID"]}","");
+
+                            $TecGNS[$i]["ATENDIDO"] = $Read->getResult()[0]["QUANTIDADE"];
+
+                        //CALCULA PORCENTAGEM DE OS'S ATENDIDAS POR CADA TÉCNICO
+                        $porcento = $TecGNS[$i]["ATENDIDO"] != 0 ? ($TecGNS[$i]["ATENDIDO"]) * 100 / $TecGNS[$i]["ATRIBUIDO"] : 0;
+                        $percent = number_format($porcento,2);
+                        $cor = $percent > 50 ? "green" : "red";
+
+                        $jSON['trigger'] = true;  
+                        $jSON["TEC"] .= "<tr>
+                                            <td>{$TecGNS[$i]["NOME"]}</td>
+                                            <td style='text-align:center'>{$TecGNS[$i]["ATRIBUIDO"]}</td>
+                                            <td style='text-align:center'>{$TecGNS[$i]["ATENDIDO"]}</td>
+                                            <td style='text-align:center;color:{$cor}'>{$percent}%</td>
+                                        </tr>";
+                        }
+
+                    }
+                    
+            endif;
+        break;
+
     endswitch;
 
     //RETORNA O CALLBACK

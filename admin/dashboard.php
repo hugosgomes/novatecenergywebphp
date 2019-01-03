@@ -95,6 +95,8 @@ endif;
         });
     </script>
 
+    <!-- css TI -->
+    <link href='_css/ti.css' rel='stylesheet' type='text/css'>
 
 </head>
 <body class="dashboard_main" id="body">
@@ -255,6 +257,8 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                     <ul class="dashboard_nav_menu_sub">
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/controleUsuarios' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=ti/controleUsuarios">&raquo; Controle de Usuários</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/convertercsv' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Procedimentos Automatizados" href="dashboard.php?wc=ti/convertercsv">&raquo; Procedimentos Automatizados</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'ti/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Monitoramento" href="dashboard.php?wc=ti/monitoramento">&raquo; Monitoramento</a></li>
+
                     </ul>
                 </li>
                 <?php
@@ -279,6 +283,7 @@ CONVERT(VARCHAR(10), [60_OS].DataAgendamento, 103) AS DataAgendamento, [Funcion�
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/dashboard' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/dashboard">&raquo; Dashboard</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/graficos' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/graficos">&raquo; Gráficos</a></li>
                         <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/previsoes' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Controle de Usuários" href="dashboard.php?wc=diretoria/previsoes">&raquo; Previsões</a></li>
+                        <li class="dashboard_nav_menu_sub_li <?= $getViewInput == 'diretoria/monitoramento' ? 'dashboard_nav_menu_active' : ''; ?>"><a title="Monitoramento" href="dashboard.php?wc=diretoria/monitoramento">&raquo; Monitoramento APP GNS</a></li>
                     </ul>
                 </li>
                 <?php
