@@ -27,6 +27,12 @@ $IdFUNC = filter_input(INPUT_GET, 'ID', FILTER_DEFAULT);
   </div>
 </header>
 <div class="dashboard_content custom_app" >
+  <div class="box box33"></div>
+  <div class="box box33"></div>
+  <div class="box box33">
+    <span style="font-family: Arial; font-size: 11px; margin-left: 175px;"> LEGENDA PARA NOME DOS <b><u>DOCUMENTOS</u></b> </span> <br>
+    <span style="font-family: Arial; font-size: 14px; margin-left: 175px;"><font color="red"><b>**</b></font></span> <span style="font-family: Arial; font-size: 12px;"><b>Documentos com data de vencimento</span>
+  </div>
   <!--BOTÕES SUPERIORES-->
   <article class="box box100 no-print">   
    <form class="j_enviarDocumento tab_create" id="j_enviarDocumento" method="post" enctype="multipart/form-data">
@@ -42,7 +48,7 @@ $IdFUNC = filter_input(INPUT_GET, 'ID', FILTER_DEFAULT);
           <span><input class="funcionarios" id="2" type="radio" name="1" value="2" style="width:15%">Demitidos</span>
           <?php 
           echo "<input type='hidden' name='IdFUNC' value='{$IdFUNC}' class='IdFUNC'>";
-           ?>
+          ?>
         </div>
         <div class="box box50">
           <div></div>
@@ -115,18 +121,19 @@ $IdFUNC = filter_input(INPUT_GET, 'ID', FILTER_DEFAULT);
     <div id="idarquivos" class="tabela-responsivel" style="height: 52.3%;">
       <table class="table table-bordered" >
         <thead>
-         <th class="arquivos_existentes" style="width: 55%;"><center>Documentos</center></th>
-         <th>Data Doc.</th>
-         <th>Achilles</th>
-         <th>Download</th>
-         <th>Visualizar</th>
-       </thead>
-       <tbody id="j_table_ConsultaDoc">
-       </tbody>
-     </table>
-   </div>    
+          <tr>
+           <th class="arquivos_existentes" style="width: 55%;"><center>Documentos</center></th>
+           <th>Data Doc.</th>
+           <th>Achilles</th>
+           <th>Download</th>
+           <th>Vis.</th>
+         </thead>
+         <tbody id="j_table_ConsultaDoc">
+         </tbody>
+       </table>
+     </div>    
+   </div>
  </div>
-</div>
 </div>
 </form>
 </article>
