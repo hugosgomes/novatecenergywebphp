@@ -13,7 +13,7 @@ $('.j_select_cliente').change(function(){
       mostraDados($(this).attr('callback'),$(this).attr('callback_action'),1);
 });
 
-//CONSULTA DEFAULT
+//CONSULTA DEFAULT ENDEREÇO
   $(document).on('input',"#visivel-end",function(){
 
     let input = $(this).val();
@@ -29,7 +29,7 @@ $('.j_select_cliente').change(function(){
     
   });
 
-  //CONSULTA DEFAULT
+  //CONSULTA DEFAULT CLIENTE
   $(document).on('input',"#visivel",function(){
 
     let input = $(this).val();

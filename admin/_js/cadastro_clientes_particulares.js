@@ -162,3 +162,21 @@
     }, 'json');
 
 });
+
+
+//LIMITAR LENGTH UF PARA DOIS CARACTERS  
+function limitChar(seletor){
+
+    $(document).on('input',seletor, function(){
+
+        let inputComp = $(this).val().length;
+        let inputVal = $(this).val();
+
+        if(inputComp > 2){
+
+           $(this).val(inputVal.slice(0,-1)); 
+        }
+    });    
+}
+
+limitChar('.wc_uf');
