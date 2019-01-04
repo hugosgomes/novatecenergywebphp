@@ -56,6 +56,7 @@ $(document).on('change', '#arquivos', function(event){
     '<option value="29" class="datacomvalidade">Reg. de treinamento dos colaboradores em Prevenção contra incêndios</option>'+
     '<option value="30" class="datacomvalidade">Oficina de Liderança de Segurança e Saúde</option>'+
     '<td><input type="date" id="validadeDoc'+n+'" name="validade'+n+'" class="validadeDoc" /></td>'+
+    '<td><span id="mensagebox'+n+'" value="'+n+'" class="mensagebox"></span></td>'+
     '</select></td>'+
     '</tr>';
     $(arquivosPreview).appendTo("#j_table_EnvioDoc");
@@ -235,4 +236,49 @@ $(document).ready(function(){
   });
 
  },'json');
+});
+
+$(document).on('change', '.selectdocs', function(){
+    var getval = $(this).val();
+
+    switch(getval){
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '10':
+      $('.mensagebox td').remove();
+      $(this).parent().parent().find('.mensagebox').html("<center><font color='red'><b>Data de emissão</font></center>");
+      break;
+
+      case '8':
+      case '9':
+      case '11':
+      case '12':
+      case '13':
+      case '14':
+      case '15':
+      case '16':
+      case '17':
+      case '18':
+      case '19':
+      case '20':
+      case '21':
+      case '22':
+      case '23':
+      case '24':
+      case '25':
+      case '26':
+      case '27':
+      case '28':
+      case '29':
+      case '30':
+      $('.mensagebox td').remove();
+      $(this).parent().parent().find('.mensagebox').html("<center><font color='red'><b>Data de validade</font></center>");
+      break;
+    }
 });

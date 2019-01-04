@@ -130,7 +130,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $teste = str_replace("\\", "/", $pegarDiretorio);
                         $dataTeste = pathinfo($iddata);
                         $basename = pathinfo($pegarDiretorio);
-                        $caminhoPadrao = "//192.168.0.101:83/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                        $caminhoPadrao = "//192.168.0.101:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
                         $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/Pedro/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
                         //http://novatecenergy.ddns.net:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/'
                         //"//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/";
@@ -347,9 +347,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 if ($variavelDataExtract['basename'] == "1969") {
                   $variavelData = "Não validado."; 
-                }
-                if ($value['categoria'] == 3) {
-                  $NOMEDOC = $NOMEDOC."<font color='red'><b>**</b></font>";
                 }
 
                 $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td><td><center>$visualizardoc</center></td></tr>";
@@ -752,7 +749,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $teste = str_replace("\\", "/", $pegarDiretorio);
                         $dataTeste = pathinfo($iddata);
                         $basename = pathinfo($pegarDiretorio);
-                        $caminhoPadrao = "//192.168.0.101:83/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                        $caminhoPadrao = "//192.168.0.101:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
                         $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/Pedro/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
                         //http://novatecenergy.ddns.net:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/'
                         //"//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/";
@@ -969,9 +966,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 if ($variavelDataExtract['basename'] == "1969") {
                   $variavelData = "Não validado."; 
-                }
-                if ($value['categoria'] == 3) {
-                  $NOMEDOC = $NOMEDOC."<font color='red'><b>**</b></font>";
                 }
 
                 $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td><td><center>$visualizardoc</center></td></tr>";
@@ -1046,7 +1040,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $teste = str_replace("\\", "/", $pegarDiretorio);
                         $dataTeste = pathinfo($iddata);
                         $basename = pathinfo($pegarDiretorio);
-                        $caminhoPadrao = "//192.168.0.101:83/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                        $caminhoPadrao = "//192.168.0.101:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
                         $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/Pedro/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
                         //http://novatecenergy.ddns.net:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/'
                         //"//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/";
@@ -1245,8 +1239,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 }//IF LÁ DO IDTIPO PERTO DO FOREACH
 
-                //$capiroto = $caminhoPadrao.$valor."/".$nomeT.".".$agoraVai;
-
                 //CONDIÇÃO PARA APARECER NA TELA, SE O VALOR DO NOME DO DOCUMENTO VIER NULO DO BANCO DE DADOS, NÃO IRÁ APARECER NADA.
                 if ($idtipo == NULL) {
                   $diretorionull = $mudarvariavel;
@@ -1264,9 +1256,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 if ($variavelDataExtract['basename'] == "1969") {
                   $variavelData = "Não validado."; 
                 }
-                if ($value['categoria'] == 3) {
-                  $NOMEDOC = $NOMEDOC."<font color='red'><b>**</b></font>";
-                }
 
                 $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td><td><center>$visualizardoc</center></td></tr>";
               }
@@ -1278,7 +1267,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
           if ($jSON):
             echo json_encode($jSON);
           else:
-            $jSON['trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Desculpe. Mas uma ação do sistema não respondeu corretamente. Ao persistir, contate o desenvolvedor!', E_USER_ERROR);
+            //$jSON['trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Desculpe. Mas uma ação do sistema não respondeu corretamente. Ao persistir, contate o desenvolvedor!', E_USER_ERROR);
             echo json_encode($jSON);
           endif;
         else:
