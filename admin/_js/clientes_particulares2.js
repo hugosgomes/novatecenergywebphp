@@ -505,6 +505,8 @@ function searchNome(arrNome,InpV,InpI) {
 
   //CALLBACK PERSONALIZADO PARA CORRESPONDER APENAS AO INÍCIO DOS TERMOS
   $(InpV).autocomplete({
+    
+    autoFocus:true,
     source: function(request, response) {
           var matcher = new RegExp( "[^\D]" + $.ui.autocomplete.escapeRegex(request.term), "i" );
           response($.grep(arrNome, function(item){
