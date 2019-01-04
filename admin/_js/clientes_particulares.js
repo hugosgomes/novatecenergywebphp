@@ -73,7 +73,7 @@ function mostraDados(Callback, Callback_action, inicial, ordem = null){
 
        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
-            Trigger(data.trigger);            
+            Trigger(data.trigger);        
         }   
 
         if(data.teste){
@@ -505,6 +505,8 @@ function searchNome(arrNome,InpV,InpI) {
 
   //CALLBACK PERSONALIZADO PARA CORRESPONDER APENAS AO INÍCIO DOS TERMOS
   $(InpV).autocomplete({
+    
+    autoFocus:true,
     source: function(request, response) {
           var matcher = new RegExp( "[^\D]" + $.ui.autocomplete.escapeRegex(request.term), "i" );
           response($.grep(arrNome, function(item){
@@ -526,7 +528,6 @@ function searchNome(arrNome,InpV,InpI) {
 
     //CHAMA O EVENTO DE CHANGE NO INPUT
     $(InpI).change();
-    $('html').trigger('focusout');
     
   })
 
