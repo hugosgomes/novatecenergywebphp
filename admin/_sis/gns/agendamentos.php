@@ -38,14 +38,15 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         <?php $Read->FullRead("SELECT ID FROM [60_ClientesSemOT] WHERE IDOS IS NULL", " ");?>
         <a title="OS Sem Endereço" href="dashboard.php?wc=gns/clienteOT" class="btn btn_darkblue flt_lefts">(<?php echo count($Read->getResult());?>) - Clientes Sem OT / OS</a>        
       </div>
-      <div class="box box50" style="width:31%;">
-
-      </div>
-      <div class="box box50" style="width:20%;padding-top: 15px; text-align: right;">
-        <span class="legend "><b>Executar Robô de Importar Os:</b></span>
-      </div>
-      <div class="box box40">
+   
         <?php 
+        if (!$DashboardLogin || !$_SESSION['userLogin'] || ($Permissao['GNS'] == 0) || ($Permissao['AUTORIZA_ROBO'] == 0)):
+      else:
+        echo "<div class='box box50' style='width:20%;padding-top: 15px; text-align: right;'>";
+        echo "<span class='legend'><b>Executar Robô de Importar Os:</b></span>";
+        echo "<center><h6 style='color: #176bc1;'>*Horários permitidos: 07:00 às 09:00 / 17:00 / 20:00 às 23:00!</h6></center>";
+        echo "</div>";
+        echo "<div class='box box40'>";
         $hora = date('H:i:s');
         $h = date('H');
         $hrsLivres = array ("07", "08", "09", "17", "20", "21", "22", "23");
@@ -55,10 +56,10 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         }else {
           echo "<a class='btn btn_default' style='cursor: no-drop;'><b>Indisponível</b></a>";
         }
+        echo "</div>";
+      endif;
+      ?>
 
-        ?>
-
-      </div>
     </div>      
   </article>
 
