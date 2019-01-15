@@ -42,139 +42,144 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 
       </div>
       <div class="box box50" style="width:20%;padding-top: 15px; text-align: right;">
-        <span class="legend "><b>Receber Os Manualmente:</b></span>
+        <span class="legend "><b>Executar Robô de Importar Os:</b></span>
       </div>
       <div class="box box40">
-      <form id="j_form_osManual" method="post" enctype="multipart/form-data">
-       <input type="hidden" name="callback" value="Agendamentos"/>
-       <input type="hidden" name="callback_action" value="importOs_manual"/>
-        <input type="file" id="os_manual" name="os_manual"/>
-      </form>
-      </div>
-      <div class="box box40">
-        <span id="j_importar" class="btn btn_darkblue"><b>Importar</b></span>
+        <?php 
+        $hora = date('H:i:s');
+        $h = date('H');
+        $hrsLivres = array ("07", "08", "09", "17", "20", "21", "22", "23");
+
+        if (in_array($h, $hrsLivres)) { 
+          echo " <a href='../ImportOs.php' class='btn btn_darkblue'><b>Executar</b></a>";
+        }else {
+          echo "<a class='btn btn_default' style='cursor: no-drop;'><b>Indisponível</b></a>";
+        }
+
+        ?>
+
       </div>
     </div>      
   </article>
 
 
-    <article class="box box100">    
-      <article class="box box50">
-        <header class="no-print">
-          <?php
-          $Data = new DateTime();
-          $Hoje = $Data->format('Ymd');
-          $Amanha = $Data->modify('+1 day');
-          $Amanha = $Amanha->format('Ymd');
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}' class='btn btn_green'>Agendamentos HOJE</a></div>";
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Amanha}' class='btn btn_yellow'>Agendamentos AMANHÃ</a></div>";
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos FUTUROS</a></div> <br>";
-          echo "<div class='box box40'><input type='text' id='Agend' name='Agend' placeholder='&raquo;&raquo;&ensp;SELECIONE DATA' class='jwc_datepicker' style='width: 163px;'></div>";
-          echo "<div class='box box40'><a title='Filtrar Data' class='btn btn_blue'>PESQUISAR</a></div>";
-          ?>
+  <article class="box box100">    
+    <article class="box box50">
+      <header class="no-print">
+        <?php
+        $Data = new DateTime();
+        $Hoje = $Data->format('Ymd');
+        $Amanha = $Data->modify('+1 day');
+        $Amanha = $Amanha->format('Ymd');
+        echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}' class='btn btn_green'>Agendamentos HOJE</a></div>";
+        echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Amanha}' class='btn btn_yellow'>Agendamentos AMANHÃ</a></div>";
+        echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos FUTUROS</a></div> <br>";
+        echo "<div class='box box40'><input type='text' id='Agend' name='Agend' placeholder='&raquo;&raquo;&ensp;SELECIONE DATA' class='jwc_datepicker' style='width: 163px;'></div>";
+        echo "<div class='box box40'><a title='Filtrar Data' class='btn btn_blue'>PESQUISAR</a></div>";
+        ?>
 
-        </header>
-        <div class="box_content">
+      </header>
+      <div class="box_content">
 
-          <!--SELECT DO TÉCNICO-->
-          <div class="label_50 no-print">
-              <label class="label">
-              <span class="legend"><b>Técnico:</b></span>
-              <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>" style="outline: none;">
-                <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>             
-                <?php
-                $Setor = 2;
-                $Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
+        <!--SELECT DO TÉCNICO-->
+        <div class="label_50 no-print">
+          <label class="label">
+            <span class="legend"><b>Técnico:</b></span>
+            <select id="Tecnico" name="tecnico" callback="Agendamentos" callback_action="consulta" rel="<?= $Day ?>" semana="<?= $Semana ?>" style="outline: none;">
+              <option value="t">&raquo;&raquo;&ensp;TODOS OS TÉCNICOS</option>             
+              <?php
+              $Setor = 2;
+              $Read->FullRead("SELECT [00_NivelAcesso].ID, CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS NOME
                 FROM [00_NivelAcesso] LEFT JOIN Funcionários FUNC ON [00_NivelAcesso].IDFUNCIONARIO = FUNC.ID
                 LEFT JOIN FuncionariosTerceirizados TERC ON [00_NivelAcesso].IDTERCEIRIZADO = TERC.ID
                 WHERE MOBILE_GNS = 1 AND FUNC.[DATA DE DEMISSÃO] IS NULL ORDER BY NOME"," ");
-                if ($Read->getResult()):
-                  foreach ($Read->getResult() as $FUNC):
-                    echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME']}</option>";
-                  endforeach;
-                endif;
-                ?>
-              </select>
-            </label>
-                  <div class="label_25 no-print">
+              if ($Read->getResult()):
+                foreach ($Read->getResult() as $FUNC):
+                  echo "<option value='{$FUNC['ID']}'>{$FUNC['NOME']}</option>";
+                endforeach;
+              endif;
+              ?>
+            </select>
+          </label>
+          <div class="label_25 no-print">
             <label class="label">
               <br>
               <a class="btn btn_darkblue no-print m_left" onclick="print()" style="height: 35px;padding-top: 10px;"><i class="icon-printer"></i>&ensp;Imprimir</a>
             </label>  
           </div>
-          </div>
-
-
-          <?php
-
-          $LatLng->FullRead("SELECT Id, Endereco, Bairro, Municipio, Cep FROM [60_OS] WHERE Latitude IS NUll AND Longitude IS NULL", " ");
-
-          ?>
-          <article class='box box100' style="padding: 0px;">
-           <!--<h3 class="m_tp m_bottom">OS's Vinculadas</h3>-->
-            <div class="tabela-responsivel no-print"  style="overflow-x: hidden;height: 50%;">
-              <table id="dataTable"class="cell-border compact stripe table">
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>OS</th>
-                    <th>Nome OS</th>
-                    <th>Endereço</th>
-                    <th>Data</th>
-                    <th>Técnico</th>
-                    <th>Período</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody style="font-size: 11px;">
-                  <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>            
-                </tbody>
-              </table>
-            </div>
-          </article>
         </div>
-      </article>
-      <article class="box box50 teste">
-        <header class="no-print">
-          <?php
 
-          $url = $_SERVER['QUERY_STRING'];
-          if($url == "wc=gns/agendamentos&day=".$Hoje){
-            $url = $Hoje;
-          } else if($url == "wc=gns/agendamentos&day=".$Amanha){
-            $url = $Amanha;
-          } else {
-            $url = $Hoje .'&s=1';
-          }
 
-          if($Semana == '1'):
-            $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
-              NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
-              [60_OS].Tecnico, [60_OS].turno as TURNO,
-              [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
-              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-              WHERE [60_OS].DataAgendamento >= CONVERT(DATE, GETDATE(), 103) AND [60_OS].Tecnico = 0"," ");
-          else:
-            $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
-              [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
-              [60_OS].Tecnico, [60_OS].turno as TURNO,
-              [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
-              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-              inner join [60_OS] on [60_OT].Id = [60_OS].OT
-              AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :day","day={$Day}");
-          endif;
+        <?php
 
-          echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b>&ensp;<span class='qtd_OS'>".count($Read->getResult())."</span></span>";
-          ?>           
-        </header>
-        <div class="box_content" id="mapa">
-          <div id="map" class="no-print" style="height: 59.3%;"></div>
+        $LatLng->FullRead("SELECT Id, Endereco, Bairro, Municipio, Cep FROM [60_OS] WHERE Latitude IS NUll AND Longitude IS NULL", " ");
+
+        ?>
+        <article class='box box100' style="padding: 0px;">
+         <!--<h3 class="m_tp m_bottom">OS's Vinculadas</h3>-->
+         <div class="tabela-responsivel no-print"  style="overflow-x: hidden;height: 50%;">
+          <table id="dataTable"class="cell-border compact stripe table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>OS</th>
+                <th>Nome OS</th>
+                <th>Endereço</th>
+                <th>Data</th>
+                <th>Técnico</th>
+                <th>Período</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody style="font-size: 11px;">
+              <tr class="j_tecnico"><td>Selecione o Técnico</td></tr>            
+            </tbody>
+          </table>
         </div>
       </article>
     </div>
-
   </article>
+  <article class="box box50 teste">
+    <header class="no-print">
+      <?php
+
+      $url = $_SERVER['QUERY_STRING'];
+      if($url == "wc=gns/agendamentos&day=".$Hoje){
+        $url = $Hoje;
+      } else if($url == "wc=gns/agendamentos&day=".$Amanha){
+        $url = $Amanha;
+      } else {
+        $url = $Hoje .'&s=1';
+      }
+
+      if($Semana == '1'):
+        $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
+          NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
+          [60_OS].Tecnico, [60_OS].turno as TURNO,
+          [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
+          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+          inner join [60_OS] on [60_OT].Id = [60_OS].OT
+          WHERE [60_OS].DataAgendamento >= CONVERT(DATE, GETDATE(), 103) AND [60_OS].Tecnico = 0"," ");
+      else:
+        $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
+          [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
+          [60_OS].Tecnico, [60_OS].turno as TURNO,
+          [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
+          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+          inner join [60_OS] on [60_OT].Id = [60_OS].OT
+          AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :day","day={$Day}");
+      endif;
+
+      echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b>&ensp;<span class='qtd_OS'>".count($Read->getResult())."</span></span>";
+      ?>           
+    </header>
+    <div class="box_content" id="mapa">
+      <div id="map" class="no-print" style="height: 59.3%;"></div>
+    </div>
+  </article>
+</div>
+
+</article>
 </div>
 
 <!--Faz as requisições na API do Google Maps-->
@@ -207,10 +212,10 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         $.post('_ajax/gns/'+ Callback +'.ajax.php', {callback: Callback, callback_action: Callback_action, Id: Id, Latitude: lat, Longitude: lng}, function (data) {
 
            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-             if (data.trigger) {
-                   Trigger(data.trigger);                
-                 }
-            }, 'json');
+           if (data.trigger) {
+             Trigger(data.trigger);                
+           }
+         }, 'json');
       });        
 
     <?php endforeach ?>
