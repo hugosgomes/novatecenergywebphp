@@ -16,54 +16,59 @@ $(document).on('change', '#arquivos', function(event){
     }
 
     var arquivosPreview =  '<tr class="j_table_EnvioDoc" id="'+ n +'" nome="'+f.name+'">'+
-    '<td style="width: 5%;"><center><img src="'+ src +'" style="width: 50%;"/> <br><span style="overflow: hidden;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">'+f.name.replace(/.\w+$/, "")+'</span></center></td>'+
+    '<td style="width: 5%;"><center><img src="'+ src +'" style="width: 30%; height=20%;"/> <br><span style="overflow: hidden;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">'+f.name.replace(/.\w+$/, "")+'</span></center></td>'+
     '<td><select id="tipos'+n+'" name="tipoArquivo'+n+'" class="selectdocs">'+
     '<option selected disabled>Selecione o Documento</option>'+
     '<option value="z" disabled> Documentos Básicos </option>'+
     '<option value="y" disabled> <!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<! </option>'+
-    '<option value="0" class="dataemissao">Cert. Inf. Riscos - Distribuição Gás</option>'+
-    '<option value="1" class="dataemissao">Cert. Inf. Riscos - Recursos e Serviços</option>'+
-    '<option value="2" class="dataemissao">Ent. EPIs</option>'+
-    '<option value="3" class="dataemissao">Cert. Emp. Formação</option>'+
-    '<option value="4" class="datacomvalidade">Cart. Nacion. Habilitação</option>'+
-    '<option value="5" class="dataemissao">Cart. ASSINADA</option>'+
-    '<option value="6" class="dataemissao">Termo Rescisão Contrato (TRCT)</option>'+
-    '<option value="7" class="dataemissao">Guia Recolhimento Federal</option>'+
-    '<option value="8" class="datacomvalidade">Folha de Ponto. Empregado</option>'+
-    '<option value="9" class="datacomvalidade">Aviso de Férias</option>'+
-    '<option value="10" class="dataemissao">Contrato de Trabalho</option>'+
-    '<option value="11" class="datacomvalidade">Ates. Ocupacional - ASO</option>'+
-    '<option value="12" class="datacomvalidade">Regi. Responsável Técnico Empresa</option>'+
+    '<option value="1">Cert. Inf. Riscos - Distribuição Gás</option>'+
+    '<option value="2">Cert. Inf. Riscos - Recursos e Serviços</option>'+
+    '<option value="3">Ent. EPIs</option>'+
+    '<option value="4">Cert. Emp. Formação</option>'+
+    '<option value="5">Cart. Nacion. Habilitação</option>'+
+    '<option value="6">Cart. ASSINADA</option>'+
+    '<option value="7">Termo Rescisão Contrato (TRCT)</option>'+
+    '<option value="8">Guia Recolhimento Federal</option>'+
+    '<option value="9">Folha de Ponto. Empregado</option>'+
+    '<option value="10">Aviso de Férias</option>'+
+    '<option value="11">Contrato de Trabalho</option>'+
+    '<option value="12">Ates. Ocupacional - ASO</option>'+
+    '<option value="13">Regi. Responsável Técnico Empresa</option>'+
     '<option value="y" disabled> <!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<! </option>'+
-    '<option value="x" disabled> Outros Documentos </option>'+
+    '<option value="x" disabled> Documentos Específicos </option>'+
     '<option value="y" disabled> <!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<! </option>'+
-    '<option value="13" class="datacomvalidade">Certificação de JO</option>'+
-    '<option value="14" class="datacomvalidade">Certificação de Desenhista de Campo</option>'+
-    '<option value="15" class="datacomvalidade">Certificação/Qualificação de Soldadores de Aço</option>'+
-    '<option value="16" class="datacomvalidade">Certificação de Inspetores de Solda de Aço</option>'+
-    '<option value="17" class="datacomvalidade">Certificação de Soldadores de PE</option>'+
-    '<option value="18" class="datacomvalidade">Certificação de Inspetores de Alta</option>'+
-    '<option value="19" class="datacomvalidade">Navegador de NMD</option>'+
-    '<option value="20" class="datacomvalidade">Operador NMD</option>'+
-    '<option value="21" class="datacomvalidade">Título de Certificado de Operador de Medidor</option>'+
-    '<option value="22" class="datacomvalidade">Titulo de Certificado de Inspetor de Vistoria e Alta</option>'+
-    '<option value="23" class="datacomvalidade">Título de Certificado de Instalador Predial de Tubulações de gás</option>'+
-    '<option value="24" class="datacomvalidade">Trabalhos em Altura</option>'+
-    '<option value="25" class="datacomvalidade">Reg. de cpc. específica para vigia e trabalhadores de entrada em espaço confinado</option>'+
-    '<option value="26" class="datacomvalidade">Reg. de cpc. específica para Supervisores de Entrada em espaços confinados</option>'+
-    '<option value="27" class="datacomvalidade">Seguridade na Manipulação de Produtos Químicos</option>'+
-    '<option value="28" class="datacomvalidade">Motorista de Transporte de Produtos Perigosos</option>'+
-    '<option value="29" class="datacomvalidade">Reg. de treinamento dos colaboradores em Prevenção contra incêndios</option>'+
-    '<option value="30" class="datacomvalidade">Oficina de Liderança de Segurança e Saúde</option>'+
+    '<option value="14">Certificação de JO</option>'+
+    '<option value="15">Certificação de Desenhista de Campo</option>'+
+    '<option value="16">Certificação/Qualificação de Soldadores de Aço</option>'+
+    '<option value="17">Certificação de Inspetores de Solda de Aço</option>'+
+    '<option value="18">Certificação de Soldadores de PE</option>'+
+    '<option value="19">Certificação de Inspetores de Alta</option>'+
+    '<option value="20">Navegador de NMD</option>'+
+    '<option value="21">Operador NMD</option>'+
+    '<option value="22">Título de Certificado de Operador de Medidor</option>'+
+    '<option value="23">Titulo de Certificado de Inspetor de Vistoria e Alta</option>'+
+    '<option value="24">Título de Certificado de Instalador Predial de Tubulações de gás</option>'+
+    '<option value="25">Trabalhos em Altura</option>'+
+    '<option value="26">Reg. de cpc. específica para vigia e trabalhadores de entrada em espaço confinado</option>'+
+    '<option value="27">Reg. de cpc. específica para Supervisores de Entrada em espaços confinados</option>'+
+    '<option value="28">Seguridade na Manipulação de Produtos Químicos</option>'+
+    '<option value="29">Motorista de Transporte de Produtos Perigosos</option>'+
+    '<option value="30">Reg. de treinamento dos colaboradores em Prevenção contra incêndios</option>'+
+    '<option value="31">Oficina de Liderança de Segurança e Saúde</option>'+
+    '<option value="y" disabled> <!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<! </option>'+
+    '<option value="z" disabled> Outros Documentos </option>'+
+    '<option value="y" disabled> <!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<!<! </option>'+
+    '<option value="32"> Outros </option>'+
     '<td><input type="date" id="validadeDoc'+n+'" name="validade'+n+'" class="validadeDoc" /></td>'+
+    '<td><span id="mensagebox'+n+'" value="'+n+'" class="mensagebox"></span></td>'+
     '</select></td>'+
     '</tr>';
     $(arquivosPreview).appendTo("#j_table_EnvioDoc");
         // if `n` is less than `len` , 
         // call `readFile` with incremented `n` as parameter
-        if (n < len -1) readFile(++n);
+        if (n < len) readFile(++n);
       };
-      reader.readAsDataURL(f); // `f` : current `File` object
+        reader.readAsDataURL(f); // `f` : current `File` object
     }(i)); // `i` : `n` within immediately invoked function expression
 });
 
@@ -79,6 +84,10 @@ $('html').on('click', '#j_btn_salvar', function (e) {
   if (typeof tinyMCE !== 'undefined') {
     tinyMCE.triggerSave();
   }
+
+  $('.nomepasta').each(function(index, value){
+    var get = $(this).val();
+  });
 
   $('.validadeDoc').each(function (index, value){
     var link = $(this).val();
@@ -110,6 +119,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
         form.find('input[name="documentosRH[]"]').replaceWith($('input[name="documentosRH[]"]').clone());
       },
       success: function (data) {
+
         //SALVA
         $('#j_btn_salvar').val('true');
 
@@ -134,7 +144,6 @@ $(document).on('change', '#funcionario', function(){
   var funcionarioid = $('#funcionario option:selected').val();
   var callback = 'Rh';
   var callback_action = 'selecionarFuncionarioAtivo';
-
       //console.log(funcionarioid);
       $.post('_ajax/' + callback + '.ajax.php', {callback, callback_action, funcionarioid}, function (t) {
 
@@ -146,13 +155,18 @@ $(document).on('change', '#funcionario', function(){
 
         //REMOVE TODAS AS LINHAS DA TABELA
         $('#j_table_ConsultaDoc tr').remove();
+        $('#j_table_outrosdocs tr').remove();
+        $('#j_table_ConsultaDocOutros tr').remove();
+        $('#spanid tr').remove();
 
         //MENSAGEM DE ARQUIVO
         //Trigger(t.trigger);
 
         //ADICIONA LINHAS NA TABELA
         $(t.tipo).appendTo("#j_table_ConsultaDoc");
-
+        $(t.tipo1).appendTo("#spanid");
+        $(t.tipo2).appendTo("#j_thead_outrosdocs");
+        $(t.tipo3).appendTo("#j_table_ConsultaDocOutros");
 
       },'json');
 
@@ -214,11 +228,15 @@ $(document).ready(function(){
     var pegarValor = $(this).val();
 
     if (pegarValor == 1) {
+      $(e.nome).appendTo(".funcionario"); 
       $('#funcionario').show();
       $('#funcionarioD').hide();
       $('#arquivos').val("");
       $('#j_table_EnvioDoc tr').remove();
       $('#j_table_ConsultaDoc tr').remove();
+      $('#j_table_outrosdocs tr').remove();
+      $('#j_table_ConsultaDocOutros tr').remove();
+      $('#spanid tr').remove();
       $('#funcionario select').prop('disabled', false);
       $('#funcionarioD select').prop('disabled', true);
       $('#funcionarioD select').prop('selectedIndex', 0);
@@ -228,6 +246,9 @@ $(document).ready(function(){
       $('#arquivos').val("");
       $('#j_table_EnvioDoc tr').remove();
       $('#j_table_ConsultaDoc tr').remove();
+      $('#j_table_outrosdocs tr').remove();
+      $('#j_table_ConsultaDocOutros tr').remove();
+      $('#spanid tr').remove();
       $('#funcionario select').prop('disabled', true);
       $('#funcionarioD select').prop('disabled', false);
       $('#funcionario select').prop('selectedIndex', 0);
@@ -235,4 +256,54 @@ $(document).ready(function(){
   });
 
  },'json');
+});
+
+var percorrer = 0;
+$(document).on('change', '.selectdocs', function(){
+  var getval = $(this).val();
+
+  switch(getval){
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '11':
+    $('.mensagebox td').remove();
+    $(this).parent().parent().find('.mensagebox').html("<center><font color='red'><b>Data de emissão</font></center>");
+    break;
+
+    case '9':
+    case '10':
+    case '12':
+    case '13':
+    case '14':
+    case '15':
+    case '16':
+    case '17':
+    case '18':
+    case '19':
+    case '20':
+    case '21':
+    case '22':
+    case '23':
+    case '24':
+    case '25':
+    case '26':
+    case '27':
+    case '28':
+    case '29':
+    case '30':
+    case '31':
+    $('.mensagebox td').remove();
+    $(this).parent().parent().find('.mensagebox').html("<center><font color='red'><b>Data de validade</font></center>");
+    break;
+
+    case '32':
+    $(this).parent().parent().find('.mensagebox').html("<input type='text' id='teste' class='nomepasta' name='nomepasta"+(percorrer)+"'></input>");
+    break;
+  }
 });

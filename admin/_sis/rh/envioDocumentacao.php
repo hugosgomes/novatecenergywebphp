@@ -27,12 +27,6 @@ $IdFUNC = filter_input(INPUT_GET, 'ID', FILTER_DEFAULT);
   </div>
 </header>
 <div class="dashboard_content custom_app" >
-  <div class="box box33"></div>
-  <div class="box box33"></div>
-  <div class="box box33">
-    <span style="font-family: Arial; font-size: 11px; margin-left: 175px;"> LEGENDA PARA NOME DOS <b><u>DOCUMENTOS</u></b> </span> <br>
-    <span style="font-family: Arial; font-size: 14px; margin-left: 175px;"><font color="red"><b>**</b></font></span> <span style="font-family: Arial; font-size: 12px;"><b>Documentos com data de vencimento</span>
-  </div>
   <!--BOTÕES SUPERIORES-->
   <article class="box box100 no-print">   
    <form class="j_enviarDocumento tab_create" id="j_enviarDocumento" method="post" enctype="multipart/form-data">
@@ -91,9 +85,10 @@ $IdFUNC = filter_input(INPUT_GET, 'ID', FILTER_DEFAULT);
       <div id="idarquivos" class="tabela-responsivel" style="height: 45%;">
         <table class="table table-bordered" >
           <thead>
-            <th>Arquivo</th>
-            <th>Tipo de Arquivo</th>
-            <th>Data Documento</th>
+            <th style="width: 5%;">Arquivo</th>
+            <th style="width: 20%">Tipo de Arquivo</th>
+            <th style="width: 5%;">Dt. Doc.</th>
+            <th style="width: 15%;">Inf. Doc.</th>
           </thead>
           <tbody id="j_table_EnvioDoc">
           </tbody>
@@ -127,13 +122,22 @@ $IdFUNC = filter_input(INPUT_GET, 'ID', FILTER_DEFAULT);
            <th>Achilles</th>
            <th>Download</th>
            <th>Vis.</th>
-         </thead>
-         <tbody id="j_table_ConsultaDoc">
-         </tbody>
-       </table>
-     </div>    
-   </div>
- </div>
+         </tr>
+       </thead>
+       <tbody id="j_table_ConsultaDoc">
+       </tbody>
+     </table>
+     <!-- SPACE -->
+     <table class="table table-bordered2" id="spanid"></table>
+     <table class="table table-bordered2" id="j_table_outrosdocs">
+      <thead id="j_thead_outrosdocs">
+      </thead>
+        <tbody id="j_table_ConsultaDocOutros">
+        </tbody>
+    </table>
+  </div>    
+</div>
+</div>
 </div>
 </form>
 </article>
