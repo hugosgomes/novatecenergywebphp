@@ -12,6 +12,10 @@ if (empty($LatLng)):
   $LatLng = new Read;
 endif;
 
+if (empty($Create)):
+  $Create = new Create;
+endif;
+
 $Day = filter_input(INPUT_GET, 'day', FILTER_VALIDATE_INT);
 $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
 ?>
