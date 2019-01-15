@@ -24,7 +24,13 @@ $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE convert(varcha
 
 $TotalV = $Read->getResult()[0]["QUANTIDADE"];
 
+//TOTAL DE OS'S ATENDIDAS
+$Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS <> 0 AND convert(varchar(10), DataAgendamento, 102) = convert(varchar(10), getdate(), 102) AND Tecnico <> 0"," ");
+
+$TotalA = $Read->getResult()[0]["QUANTIDADE"];
+
 ?>
+
 
 <header class="dashboard_header">
     <div class="dashboard_header_title">
@@ -48,7 +54,7 @@ $TotalV = $Read->getResult()[0]["QUANTIDADE"];
               <tr>
                 <td><b>Total Siebel</b></td>
                 <td style="text-align: center;">0</td>
-                <td rowspan="3" colspan="2"></td>
+                <td rowspan="4" colspan="2"></td>
               </tr>
               <tr>
                 <td><b>Total Robô</b></td>
@@ -58,6 +64,11 @@ $TotalV = $Read->getResult()[0]["QUANTIDADE"];
               <tr>
                 <td><b>Total Vinculadas</b></td>
                 <td style="text-align: center;"><?=$TotalV;?></td>
+                
+              </tr>
+              <tr>
+                <td><b>Total Atendidas</b></td>
+                <td style="text-align: center;"><?=$TotalA;?></td>
                 
               </tr>
               <tr>
