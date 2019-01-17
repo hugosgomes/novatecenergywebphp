@@ -1,3 +1,4 @@
+var percorrer = 0;
 $(document).on('change', '#arquivos', function(event){
   var files = this.files; 
   var i = 0;
@@ -66,7 +67,7 @@ $(document).on('change', '#arquivos', function(event){
     $(arquivosPreview).appendTo("#j_table_EnvioDoc");
         // if `n` is less than `len` , 
         // call `readFile` with incremented `n` as parameter
-        if (n < len) readFile(++n);
+        if (n < len -1) readFile(++n);
       };
         reader.readAsDataURL(f); // `f` : current `File` object
     }(i)); // `i` : `n` within immediately invoked function expression
@@ -135,6 +136,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
         //console.log(datavalidade);
 
         Trigger(data.trigger);
+        percorrer = 0;
       }  
     });
 
@@ -258,16 +260,15 @@ $(document).ready(function(){
  },'json');
 });
 
-var percorrer = 0;
+
 $(document).on('change', '.selectdocs', function(){
   var getval = $(this).val();
-
+  
   switch(getval){
     case '1':
     case '2':
     case '3':
     case '4':
-    case '5':
     case '6':
     case '7':
     case '8':
@@ -276,6 +277,7 @@ $(document).on('change', '.selectdocs', function(){
     $(this).parent().parent().find('.mensagebox').html("<center><font color='red'><b>Data de emissão</font></center>");
     break;
 
+    case '5':
     case '9':
     case '10':
     case '12':
@@ -303,7 +305,22 @@ $(document).on('change', '.selectdocs', function(){
     break;
 
     case '32':
-    $(this).parent().parent().find('.mensagebox').html("<input type='text' id='teste' class='nomepasta' name='nomepasta"+(percorrer)+"'></input>");
+    $(this).parent().parent().find('.mensagebox').html("<input type='text' id='teste' class='nomepasta' name='nomepasta"+(percorrer++)+"'></input>");
     break;
   }
+});
+
+
+$(document).on('click', '#delete', function(){
+  var getclick = $(this).parent().parent().parent().attr('id');
+  var func = $('#funcionario option:selected').val();
+  var callback = 'Rh';
+  var callback_action = 'delete';
+  $('#arquivos').val("");
+  $('#j_table_EnvioDoc tr').remove();
+  $(this).parent().parent().parent().remove();
+
+
+  $.post('_ajax/' + callback + '.ajax.php', {callback, callback_action, getclick, func}, function (click) {
+  });
 });
