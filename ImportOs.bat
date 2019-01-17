@@ -1,0 +1,1 @@
+schtasks /run /s VM01 /u cmailard /p coxinha.1995 /tn UiPath\ImportOs_Siebel
