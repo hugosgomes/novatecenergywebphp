@@ -98,7 +98,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       $visualizardoc = null;
       $valor = null;
       $outrosdoc = null;
-                //$variavelData = null;
+      $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
 
       if ($idfuncionario) {
         foreach ($idfuncionario as $value) {
@@ -139,11 +139,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $teste = str_replace("\\", "/", $pegarDiretorio);
             $dataTeste = pathinfo($iddata);
             $basename = pathinfo($pegarDiretorio);
-                      $caminhoPadrao = "//192.168.0.101:83/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
-                      $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
-                      //http://novatecenergy.ddns.net:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/'
-                      //"//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/";
-
+            $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+            $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
                     //SE A VALIDADE PASSAR DA DATA DO DIA ATUAL MOSTRA A COR VERMELHA
 
                       if ($variavelDataM > $dia_atual AND $value1['typedate'] == 1) {
@@ -360,6 +357,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
             $Read->FullRead("SELECT IdFuncionario AS idd ,Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ", "IDFUNQ={$PostData['pegarIdFUNC']}");
             $outrosdocumentos = $Read->getResult();
+            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
 
             if ($outrosdocumentos) {
               foreach ($outrosdocumentos as $doc) {
@@ -368,8 +366,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $DATE = $doc['data'];
                 $datareplace = str_replace("-", "/", $DATE);
                 $datareal = date('d/m/Y', strtotime($datareplace));
-                    $caminhoPadrao = "//192.168.0.101:83/Pedro/novatec/uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
-                    $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/Pedro/novatec/uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
+                $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
                     $versao1 = $caminhoDiretorio."32/";
                     /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
@@ -792,8 +790,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 $SL = $PostData['funcionarioid'];
 
-                /*$Read->FullRead("SELECT IdFuncionario AS id, Tipo, Caminho AS caminho, Status AS stat, DataValidade AS data FROM [30_Documentacao] D1 WHERE DataCadastro = (SELECT MAX(D2.DataCadastro) FROM [30_Documentacao] D2 WHERE D2.Tipo = D1.Tipo AND D2.IdFuncionario = D1.IdFuncionario) AND IdFuncionario = :IDFUNC", "IDFUNC={$PostData['funcionarioid']}");*/
-
                 $Read->FullRead("SELECT [30_TipoDocumentacao].ID AS IDOC, [30_TipoDocumentacao].NOME AS NOMEDOC, [30_TipoDocumentacao].CATEGORIA AS categoria FROM [30_TipoCargosB]
                   INNER JOIN [30_TipoDocumentacao] ON [30_TipoDocumentacao].Id = [30_TipoCargosB].IdTipoDoc
                   WHERE IdCargosB = (SELECT [30_CargosB].ID FROM [30_CargosB]
@@ -813,6 +809,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $visualizardoc = null;
                 $valor = null;
                 $outrosdoc = null;
+                $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
                 //$variavelData = null;
 
                 if ($idfuncionario) {
@@ -854,10 +851,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       $teste = str_replace("\\", "/", $pegarDiretorio);
                       $dataTeste = pathinfo($iddata);
                       $basename = pathinfo($pegarDiretorio);
-                      $caminhoPadrao = "//192.168.0.101:83/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
-                      $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
-                      //http://novatecenergy.ddns.net:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/'
-                      //"//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/";
+                      $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                      $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
                     //SE A VALIDADE PASSAR DA DATA DO DIA ATUAL MOSTRA A COR VERMELHA
 
@@ -1073,18 +1068,20 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td><td><center>$visualizardoc</center></td></tr>";
               }
             }
-            $Read->FullRead("SELECT IdFuncionario AS idd ,Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ", "IDFUNQ={$PostData['funcionarioid']}");
+            $Read->FullRead("SELECT IdFuncionario AS idd , Id as DOCID, Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ", "IDFUNQ={$PostData['funcionarioid']}");
             $outrosdocumentos = $Read->getResult();
+            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
 
             if ($outrosdocumentos) {
               foreach ($outrosdocumentos as $doc) {
                 extract($doc);
                 $TYPEDOCS = $doc['TYPEDOCS'];
                 $DATE = $doc['data'];
+                $DATEDOC = $doc['DOCID'];
                 $datareplace = str_replace("-", "/", $DATE);
                 $datareal = date('d/m/Y', strtotime($datareplace));
-                    $caminhoPadrao = "//192.168.0.101:83/Pedro/novatec/uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
-                    $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/Pedro/novatec/uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
+                $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO COM 83
+                $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
                     $versao1 = $caminhoDiretorio."32/";
                     /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
@@ -1104,10 +1101,48 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $docview = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$outraspastas}' rel='shadowbox'></a>";
 
                     $jSON['tipo1'] = "<tr><td style='padding: 11px;border: 1px solid #ffffff;background: #fefefe;'></td></tr>";
-                    $jSON['tipo2'] =  "<tr><th>Documentos</th><th>Data Doc.</th><th style='width: 15%;'>Download</th><th style='width: 5%;'>Vis.</th></tr>";
-                    $jSON['tipo3'] .= "<tr><td><center>$TYPEDOCS</center></td><td><center>$datareal</center></td><td><center>$dirOutros</center></td><td><center>$docview</center></td></tr>";
+                    $jSON['tipo2'] =  "<tr><th>Documentos</th><th>Data Doc.</th><th style='width: 15%;'>Download</th><th style='width: 5%;'>Vis.</th><th style='width: 5%;'>Excluir</th></tr>";
+                    $jSON['tipo3'] .= "<tr id='{$DATEDOC}' class='trdoc'><td><center>$TYPEDOCS</center></td><td><center>$datareal</center></td><td><center>$dirOutros</center></td><td><center>$docview</center></td><td><center><span id='delete' class='btn btn_red icon-cross' style='width: 85%;'></span></center></td></tr>";
                   }
                 }
+                break;
+
+
+
+                case 'delete':
+                $deleteclick = $PostData['getclick'];
+
+                $Read->FullRead("SELECT Id AS tableid ,IdFuncionario AS idd , Id as DOCID, Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ AND Id = :TABLEID", "IDFUNQ={$PostData['func']}&TABLEID={$PostData['getclick']}");
+                $outrosdocumentos = $Read->getResult();
+                $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
+
+                foreach ($outrosdocumentos as $doc) {
+                  extract($doc);
+                  $TYPEDOCS = $doc['TYPEDOCS'];
+                  $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO COM 83
+                  $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
+
+                  $versao1 = $caminhoDiretorio."32/";
+                  /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
+                  $path = $versao1;
+                  $diretorio = dir($path);
+                  while ($arquivo = $diretorio -> read()) {
+                    $dirArquivo = $path.$arquivo;
+                  }
+                  $diretorio -> close();
+                  /* ACABA AQUI */
+
+                  $getPath = pathinfo($dirArquivo);
+                  $getExt = $getPath['extension'];
+
+                  $outraspastas = $caminhoDiretorio."32/".$TYPEDOCS.".".$getExt;
+
+                  if ($deleteclick){
+                    $Delete->ExeDelete("[30_Documentacao]", "WHERE Id = :idoutrosdoc", "idoutrosdoc={$deleteclick}");
+                    unlink($outraspastas);
+                  }
+                }
+
                 break;
 
 
@@ -1141,7 +1176,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $visualizardoc = null;
                 $valor = null;
                 $outrosdoc = null;
-                //$variavelData = null;
+                $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
 
                 if ($idfuncionario) {
                   foreach ($idfuncionario as $value) {
@@ -1182,10 +1217,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       $teste = str_replace("\\", "/", $pegarDiretorio);
                       $dataTeste = pathinfo($iddata);
                       $basename = pathinfo($pegarDiretorio);
-                      $caminhoPadrao = "//192.168.0.101:83/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
-                      $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
-                      //http://novatecenergy.ddns.net:83/Pedro/novatec/uploads/Achiles/{$value1['id']}/'
-                      //"//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/{$value1['id']}/";
+                      $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                      $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
                     //SE A VALIDADE PASSAR DA DATA DO DIA ATUAL MOSTRA A COR VERMELHA
 
@@ -1403,6 +1436,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
             $Read->FullRead("SELECT IdFuncionario AS idd ,Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ", "IDFUNQ={$PostData['funcionarioDid']}");
             $outrosdocumentos = $Read->getResult();
+            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
 
             if ($outrosdocumentos) {
               foreach ($outrosdocumentos as $doc) {
@@ -1411,8 +1445,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $DATE = $doc['data'];
                 $datareplace = str_replace("-", "/", $DATE);
                 $datareal = date('d/m/Y', strtotime($datareplace));
-                    $caminhoPadrao = "//192.168.0.101:83/Pedro/novatec/uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
-                    $caminhoDiretorio = "//192.168.0.101/xampp/htdocs/Pedro/novatec/uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
+                $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
+                $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
                     $versao1 = $caminhoDiretorio."32/";
                     /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/

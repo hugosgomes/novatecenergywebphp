@@ -51,7 +51,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     $Read->FullRead("SELECT COUNT(DISTINCT IdFuncionario) AS nome FROM [30_Documentacao]
       INNER JOIN [Funcionários] ON [Funcionários].ID = [30_Documentacao].IdFuncionario
-      WHERE DataValidade <= CONVERT(DATE,GETDATE()) AND [DATA DE DEMISSÃO] IS NULL", " ");
+      WHERE DataValidade <= CONVERT(DATE,GETDATE()) AND [DATA DE DEMISSÃO] IS NULL AND [30_Documentacao].Status != 3 AND [30_Documentacao].TipoData = 1", " ");
     $variavelSelect = $Read->getResult();
 
       $jSON['nome'] = NULL;//ANTES DO FOREACH VOCÊ DEVE DECLARAR COMO NULL
@@ -67,7 +67,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
       $Read->FullRead("SELECT COUNT(DISTINCT IdFuncionario) AS nome FROM [30_Documentacao]
         INNER JOIN [Funcionários] ON [Funcionários].ID = [30_Documentacao].IdFuncionario
-        WHERE DataValidade > CONVERT(DATE,GETDATE()) AND DataValidade <= CONVERT(DATE, DateAdd(month, +1,GETDATE())) AND [DATA DE DEMISSÃO] IS NULL", " ");
+        WHERE DataValidade > CONVERT(DATE,GETDATE()) AND DataValidade <= CONVERT(DATE, DateAdd(month, +1,GETDATE())) AND [DATA DE DEMISSÃO] IS NULL AND [30_Documentacao].Status != 3 AND [30_Documentacao].TipoData = 1", " ");
       $variavelSelect = $Read->getResult();
 
       $jSON['nome1'] = NULL;//ANTES DO FOREACH VOCÊ DEVE DECLARAR COMO NULL
@@ -84,7 +84,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       $Read->FullRead("SELECT COUNT(DISTINCT [NOME COMPLETO]) AS nome FROM Funcionários
         INNER JOIN [30_Documentacao] ON [30_Documentacao].IdFuncionario <> [Funcionários].ID
         LEFT JOIN [30_TipoDocumentacao] ON [30_TipoDocumentacao].ID = [30_Documentacao].IdTipoDocumento
-        WHERE [DATA DE DEMISSÃO] IS NULL AND [30_TipoDocumentacao].ID <> 32", " ");
+        WHERE [DATA DE DEMISSÃO] IS NULL AND [30_TipoDocumentacao].ID != 32", " ");
       $variavelSelect = $Read->getResult();
 
       $jSON['nome2'] = NULL;//ANTES DO FOREACH VOCÊ DEVE DECLARAR COMO NULL
@@ -119,7 +119,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
       $Read->FullRead("SELECT DISTINCT F.ID AS id ,F.[NOME COMPLETO] AS nome FROM Funcionários AS F 
         INNER JOIN [30_Documentacao] AS D ON F.[ID] = D.[IdFuncionario] 
-        WHERE D.DataValidade <= CONVERT(DATE,GETDATE()) AND [DATA DE DEMISSÃO] IS NULL
+        WHERE D.DataValidade <= CONVERT(DATE,GETDATE()) AND [DATA DE DEMISSÃO] IS NULL AND TipoData = 1
         ORDER BY F.[NOME COMPLETO]", " ");
       if ($Read->getResult()):
         foreach ($Read->getResult() as $FUNC):
@@ -135,7 +135,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
       $Read->FullRead("SELECT DISTINCT F.ID AS id ,F.[NOME COMPLETO] AS nome FROM Funcionários AS F 
         INNER JOIN [30_Documentacao] AS D ON F.[ID] = D.[IdFuncionario] 
-        WHERE DataValidade > CONVERT(DATE,GETDATE()) AND DataValidade <= CONVERT(DATE, DateAdd(month, +1,GETDATE())) AND [DATA DE DEMISSÃO] IS NULL
+        WHERE DataValidade > CONVERT(DATE,GETDATE()) AND DataValidade <= CONVERT(DATE, DateAdd(month, +1,GETDATE())) AND [DATA DE DEMISSÃO] IS NULL AND TipoData = 1
         ORDER BY F.[NOME COMPLETO]", " ");
       if ($Read->getResult()):
         foreach ($Read->getResult() as $FUNC):
