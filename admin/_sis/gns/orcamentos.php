@@ -3,6 +3,9 @@ if (!$DashboardLogin || !$_SESSION['userLogin'] || ($Permissao['GNS'] == 0)):
   die('<div style="text-align: center; margin: 5% 0; color: #C54550; font-size: 1.6em; font-weight: 400; background: #fff; float: left; width: 100%; padding: 30px 0;"><b>ACESSO NEGADO:</b> Você não esta logado<br>ou não tem permissão para acessar essa página!</div>');
 endif;
 
+$idOrcamento = filter_input(INPUT_GET, 'idOrcamento', FILTER_DEFAULT);
+$idClienteOrc = filter_input(INPUT_GET, 'idClienteOrc', FILTER_DEFAULT);
+
 // AUTO INSTANCE OBJECT READ
 if (empty($Read)):
   $Read = new Read;
@@ -32,6 +35,8 @@ endif;
   </p>
 </div>
 </header>
+<input type="hidden" id="id_orc" value="<?php echo $idOrcamento ?>">
+<input type="hidden" id="id_cli" value="<?php echo $idClienteOrc ?>">
 <div class="dashboard_content custom_app">
 <article class="box box100">
   <div style="padding-bottom: 0px; padding-top: 0px;" class="box_content">
