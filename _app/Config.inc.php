@@ -6,12 +6,12 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:83'):
     define('SIS_DB_HOST', 'NVTSERVERSQL'); //Link do banco de dados no localhost
     define('SIS_DB_USER', 'NVT'); //Usuário do banco de dados no localhost
     define('SIS_DB_PASS', '1'); //Senha  do banco de dados no localhost
-    define('SIS_DB_DBSA', 'BDNVT'); //Nome  do banco de dados no localhost
+    define('SIS_DB_DBSA', 'TESTE'); //Nome  do banco de dados no localhost
 else:
     define('SIS_DB_HOST', 'NVTSERVERSQL'); //Link do banco de dados no servidor
     define('SIS_DB_USER', 'NVT'); //Usuário do banco de dados no servidor
     define('SIS_DB_PASS', '1'); //Senha  do banco de dados no servidor
-    define('SIS_DB_DBSA', 'BDNVT'); //Nome  do banco de dados no servidor
+    define('SIS_DB_DBSA', 'TESTE'); //Nome  do banco de dados no servidor
 endif;
 /*
  * CACHE E CONFIG
@@ -379,6 +379,18 @@ function getNovoStatusOs($Transaction = null){
     endif;
 }
 
+function getStatusContato($Transaction = null){
+    $RealtyTransaction = [
+        0 => 'Retornar Depois',
+        1 => 'Contato Feito',
+    ];
+    
+    if ($Transaction!=null):
+        return $RealtyTransaction[$Transaction];
+    else:
+        return $RealtyTransaction;
+    endif;
+}
 
 function getStatusOrcamentoGNS($Transaction = null){
     $RealtyTransaction = [

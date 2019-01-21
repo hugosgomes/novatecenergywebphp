@@ -35,6 +35,19 @@ $('#Tecnico').change(function(){
             $(data.addOrcamentolist).appendTo('.orcamento-list');
         }
 
+        if (data.addMedialist) {
+            $("#media-list").remove();            
+            $(data.addMedialist).appendTo('.media-list');
+        }else{
+            $("#media-list").remove();
+        }
+        if (data.addlistOciosidade) {
+            $(".ociosidade-list tr").remove();            
+            $(data.addlistOciosidade).appendTo('.ociosidade-list');
+        }else{
+            $(".ociosidade-list").remove();
+        }
+
         if (data.qtdOs) {
             $(".qtdOs").html("Quantidade de OS:<b> "+data.qtdOs+" </b>"); 
         }
@@ -83,6 +96,7 @@ $('#Tecnico').change(function(){
 
                 var QtdOs = parseInt($('.qtd_OS').text());
                 $('.qtd_OS').text(QtdOs - 1);
+                
 
             }
 
@@ -149,6 +163,7 @@ $('#Tecnico').change(function(){
 
             var QtdOs = parseInt($('.qtd_OS').text());
             $('.qtd_OS').text(QtdOs + 1);
+            
            
            }
 
@@ -291,9 +306,6 @@ $('#Tecnico').change(function(){
 
     //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $(document).on('click', '.pointer', function (e) {
-        
-      //document.getElementById("tabelaPecasServicos").style.display = "block";
-      //document.getElementById("detalhes").style.display = "block";
 
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
@@ -492,11 +504,24 @@ $('html').on('click', '#j_btn_editar', function (e) {
     var Callback_action = $(this).attr('callback_action');
     var idOrcamento = $(this).attr('idOrcamento');
 
-    $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idOrcamento}, function (data) {
+    $.post(`_ajax/gns/${Callback}.ajax.php`, {callback: Callback, callback_action: Callback_action, idOrcamento}, function (data) {
 
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
             Trigger(data.trigger);
+        }
+
+        if(data.addContatos){
+            $(".orcamentoGNS tbody tr").remove();
+            $(data.addContatos).appendTo(".orcamentoGNS tbody");
+        }
+
+        if(data.addIdOS){
+            $(".orcamentoGNS").attr("idos",data.addIdOS);
+        }
+
+        if(data.addIdOrca){
+            $(".orcamentoGNS").attr("idor",data.addIdOrca);
         }
 
         if(data.addTecnicos){
@@ -581,17 +606,35 @@ $('html').on('click', '#j_btn_salvar', function (e) {
 
 });
 
+$(document).on('click','#j_btn_salvar_contato',function(){
+
+    let callback = "Orcamentos";
+    let callback_action = "salvar_contato";
+    let status = $(".status_contato option:selected").val();
+    let Obs = $(".obs_contato").val();
+    let IdOs = $(".orcamentoGNS").attr("idos");
+    let IdOrc = $(".orcamentoGNS").attr("idor");
+    
+    $.post(`_ajax/gns/${callback}.ajax.php`,{callback,callback_action,status,Obs,IdOs,IdOrc},function(data){
+
+        if (data.trigger) {
+            Trigger(data.trigger);
+            $('#j_btn_editar').trigger('click');
+        }
+
+
+    }, 'json');
+})
+
 
 $('html').on('click', '#j_btn_cancelar', function (e) {
     $('#j_modal, .blocker').hide();
 });
 
 $('html').on('click', '#j_importar', function (e) {
-    //alert($('#os_manual').val());
     var form = $("#j_form_osManual");
     var callback = form.find('input[name="callback"]').val();
     var callback_action = form.find('input[name="callback_action"]').val();
-    //var id = form.find('input[name="ID"]').val();
 
     if (typeof tinyMCE !== 'undefined') {
         tinyMCE.triggerSave();
@@ -637,5 +680,6 @@ function numeroParaMoeda(n, c, d, t)
 }
 
 
-
-
+$( function() {
+    $( "#tabs" ).tabs();
+} );
