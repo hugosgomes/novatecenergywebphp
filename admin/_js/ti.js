@@ -93,7 +93,7 @@ $('html, body').on('click', '.j_desativar_conta', function (e) {
 });
 
 // MONITORAR OS's E TÉCNICOS
-$(document).ready(function(){
+function monitoramentoGNS(){
     let Callback = $('.monitoramento').attr('callback');
     let Callback_action = $('.monitoramento').attr('callback-Action');
 
@@ -103,4 +103,35 @@ $(document).ready(function(){
             $(data.TEC).appendTo(".lista-tecn");
         }
     },'json');
+}
+
+// UPDATE ORÇAMENTOS CLIENTES PARTICULARES
+function consultaUpdate(){
+    let Callback = "Ti";
+    let Callback_action = "updateClienteP";
+
+    $.post(`_ajax/${Callback}.ajax.php`,{callback:Callback,callback_action:Callback_action},function(data){
+        if(data.orcamentos){
+            $(".update_clientes tr").remove();
+            $(data.orcamentos).appendTo(".update_clientes");
+        }
+    },'json');
+}
+
+$(document).on('click','.update button',function(){
+    $(this).css('background',"red");
+    let ID = $(this).attr('id');
+    let DATA_SISTEMA = $(this).parent().parent().find("td:nth-child(2)").text();
+    let Callback = "Ti";
+    let Callback_action = "update";
+    $.post(`_ajax/${Callback}.ajax.php`,{callback:Callback,callback_action:Callback_action,ID,DATA_SISTEMA},function(data){
+        if(data.trigger){
+            Trigger(data.trigger);
+        }
+    },'json');
+})
+
+$(document).ready(function(){
+    monitoramentoGNS();
+    consultaUpdate()
 });

@@ -140,7 +140,48 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;               
                 endif;
             break;
+        case "updateClienteP":
+            $orcamentos = [];
+            $Read->FullRead("SELECT [80_Orcamentos].ID FROM [80_Orcamentos]","");
+            if($Read->getResult()):
+                $value = null;
+                $i = 0;
+                    
+                foreach ($Read->getResult() as $value){
+                    extract($value);
+                    array_push($orcamentos, array("ID"=>$ID));
 
+                }
+                if($orcamentos):
+                    $i = 0;
+                    $t = count($orcamentos);
+                    $jSON["orcamentos"] = null;
+                   for($i = 0; $i < $t; $i++) {
+                        $Read->FullRead("SELECT MAX([80_Chamados].DATA_SISTEMA) AS DATA_SISTEMA FROM [TESTE].[dbo].[80_Chamados] WHERE IDORCAMENTO = {$orcamentos[$i]["ID"]}","");
+
+                        $orcamentos[$i]["DATA_SISTEMA"] = $Read->getResult()[0]["DATA_SISTEMA"];
+
+                        $jSON["orcamentos"] .= "<tr style='text-align:center'>
+                                                <td>{$orcamentos[$i]["ID"]}</td>
+                                                <td>{$orcamentos[$i]["DATA_SISTEMA"]}</td>
+                                                <td class='update'><button id='{$orcamentos[$i]["ID"]}'>Update</button></td>
+                                            </tr>"; 
+                   }
+                endif;
+            endif;
+        break;
+        case "update":
+            if($PostData["ID"] != null && $PostData["DATA_SISTEMA"] != null):
+
+                $PostData["DATA_SISTEMA"] = str_replace("-","",$PostData["DATA_SISTEMA"]);
+                $ID = $PostData["ID"];
+                $DATA_SISTEMA = ["DATA_SISTEMA"=>$PostData["DATA_SISTEMA"]];
+                $Update->ExeUpdate("[80_Orcamentos]", $DATA_SISTEMA, "WHERE ID = :id", "id={$ID}");
+                if($Update->getResult()):
+                    $jSON["trigger"] = AjaxErro("<b class='icon-checkmark'>Data Sistema atualizada com sucesso!</b>");
+                endif;
+            endif;
+        break;
         case 'resetarSenha':
             $SENHA['SENHA'] = hash('sha1', "1234");
             $Update->ExeUpdate("[Funcionários]", $SENHA, "WHERE ID= :id", "id={$PostData['ID']}");
