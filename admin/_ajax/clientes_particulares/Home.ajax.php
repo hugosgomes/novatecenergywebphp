@@ -143,7 +143,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                                         "</div>";
             endforeach;
         endif;
-
+ 
         $Read->FullRead($queryColunas. " WHERE [80_Orcamentos].STATUS = 6 AND [80_ClientesParticulares].TIPO = 2". $criterioEndereco . $criterioCliente . $criterioMes .
                         "ORDER BY [80_Orcamentos].DATASOLICITACAO","");
         if ($Read->getResult()):

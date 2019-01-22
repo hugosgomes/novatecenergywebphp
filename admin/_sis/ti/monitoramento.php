@@ -101,3 +101,4 @@ $cor = $percent > 50 ? "green" : "red";
 
 <script src="_js/ti.js"></script>
 
+ 
