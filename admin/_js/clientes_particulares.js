@@ -287,6 +287,9 @@ $('#wc_pdt_stoc').on('click', function (e) {
             }
 
             $('#j_statusOrcamento').attr('disabled', false);
+
+            //FECHAR MODAL APÓS GERAR NOVO CHAMADO
+            $('.close-modal').trigger("click");
         }
     });
     return false;
@@ -505,7 +508,7 @@ function searchNome(arrNome,InpV,InpI) {
 
   //CALLBACK PERSONALIZADO PARA CORRESPONDER APENAS AO INÍCIO DOS TERMOS
   $(InpV).autocomplete({
-    
+    delay:200,
     autoFocus:true,
     source: function(request, response) {
           var matcher = new RegExp( "[^\D]" + $.ui.autocomplete.escapeRegex(request.term), "i" );

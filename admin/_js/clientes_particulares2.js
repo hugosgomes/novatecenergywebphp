@@ -268,6 +268,8 @@ $('html').on('click', '#wc_pdt_stoc', function () {
         success: function (data) {
             if (data.trigger) {
                 Trigger(data.trigger);
+                //FECHAR MODAL APÓS GERAR NOVO CHAMADO
+                $('.close-modal').trigger("click");
             }
 
             //DATA CLEAR INPUT
@@ -286,7 +288,8 @@ $('html').on('click', '#wc_pdt_stoc', function () {
               $(data.addHistorico).appendTo('#j_historico');
             }else{
               $('#j_historico div').remove();
-            }             
+            } 
+
         }
     });
     return false;
@@ -505,7 +508,7 @@ function searchNome(arrNome,InpV,InpI) {
 
   //CALLBACK PERSONALIZADO PARA CORRESPONDER APENAS AO INÍCIO DOS TERMOS
   $(InpV).autocomplete({
-    
+    delay:200,
     autoFocus:true,
     source: function(request, response) {
           var matcher = new RegExp( "[^\D]" + $.ui.autocomplete.escapeRegex(request.term), "i" );

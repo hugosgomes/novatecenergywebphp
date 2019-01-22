@@ -97,6 +97,8 @@ endif;
 
     <!-- CSS TI -->
     <link href='_css/ti.css' rel='stylesheet' type='text/css'>
+    <!-- CSS Orçamentos GNS -->
+    <link rel="stylesheet" href="_css/orcamentosgns.css" />
 
 </head>
 <body class="dashboard_main" id="body">

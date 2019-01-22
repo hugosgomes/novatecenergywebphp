@@ -136,7 +136,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       extract($detalhes);
                         $valor = number_format($Valor,2,',','.');
                         $status = getStatusOrcamentoGNS($detalhes['Status']);
-                        $jSON['addDetalhes'] = $Status == 3  ? "<li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>Editar</a></center></li>
+                        $jSON['addDetalhes'] = $Status == 3  ? "
                               <br>
                               <li><span>Data Entrada: </span>{$detalhes['DataEnt']}</li>
                               <li><span>Técnico Entrada: </span>{$detalhes['TecnicoEnt']}</li>
@@ -144,7 +144,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                               <li><span>Data Execução: </span>{$detalhes['DataExe']}</li>
                               <li><span>Técnico Execução: </span>{$detalhes['TecnicoExe']}</li>
                               <li><span>Status: </span>$status</li>
-                              <li><span>Valor:</span> (R$)  $valor</li>" : "<br>
+                              <li><span>Valor:</span> (R$)  $valor</li>
+                              <li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>CONTATOS</a></center></li>" : "<br>
                               <li><span>Data Entrada: </span>{$detalhes['DataEnt']}</li>
                               <li><span>Técnico Entrada: </span>{$detalhes['TecnicoEnt']}</li>
                               <li><span>Data Agendamento: </span>{$detalhes['DataAgend']}</li>
@@ -263,6 +264,33 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         break;
 
         case 'editar':
+            $Read->FullRead("SELECT DataContato,Status,Obs,IdOS,IdOrcamento FROM [60_ContatosOrcamento] WHERE IdOrcamento = {$PostData['idOrcamento']}", "");
+            if($Read->getResult()){
+              $jSON['addContatos'] = null;
+              $value = null;
+              $time = [];
+              foreach ($Read->getResult() as $value) {
+
+                extract($value);
+                //RECEBE HORA E DATA
+                $time = $DataContato;
+                list($data,$hora) = explode(" ", $time);
+                //CONVERTE STATUS EM TEXTO
+                $status = $Status == 0 ? "Retornar Depois" : "Contato Feito";
+                //RETORNO AJAX
+                  $jSON['addContatos'] .= "
+                  <tr>
+                    <td>".date("d/m/Y",strtotime($data))."</td>
+                    <td>".date("H:i",strtotime($hora))."</td>
+                    <td>{$status}</td>
+                    <td>{$Obs}</td>
+                  </tr>
+                ";
+              }
+              $jSON['addIdOrca'] = $PostData["idOrcamento"];
+              $jSON["addIdOS"] = $IdOS;
+            }
+            if($PostData['idOrcamento']):
             $jSON['addTecnicos'] = null;
             $jSON['addStatus'] = null;
             $jSON['addId'] = $PostData['idOrcamento'];
@@ -286,12 +314,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             //DADOS PARA PREENCHER OS CAMPOS DO MODAL COM AS INFORMAÇÕES ATUAIS DO ORÇAMENTO
             $Read->FullRead("SELECT * FROM [60_Orcamentos] WHERE ID = " . $PostData['idOrcamento'],"");
-            //var_dump("SELECT * FROM [80_Orcamentos] WHERE ID = " . $PostData['idOrcamento']);
+            
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $key => $value):
                     $jSON[$key] = $value;
                 endforeach;
             endif;
+          endif;
         break;
 
         case 'atualizar':
@@ -320,10 +349,30 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 unset($PostData['Idcliente']);
                 unset($PostData['usuario']);
                 $Update->ExeUpdate("[60_Orcamentos]", $PostData, "WHERE [60_Orcamentos].ID = :id", "id={$id}");
-                $jSON['trigger'] = AjaxErro('<b class="icon-warning">Orçamento Atualizado Com Êxito!</b>', E_USER_ERROR);
+                $jSON['trigger'] = AjaxErro('<b class="icon-checkmark">Orçamento Atualizado Com Êxito!</b>', E_USER_ERROR);
                 $jSON['ID'] = $id;
             endif;
             
+        break;
+        case 'salvar_contato':
+          if($PostData['status'] != "t"){
+            if($PostData['Obs'] != null){
+
+            $salvar_contato = array(
+              'Status' => $PostData['status'],
+              'Obs' => $PostData['Obs'],
+              'IdOS' => $PostData['IdOs'],
+              'IdOrcamento' => $PostData['IdOrc']
+            );
+
+            $Create->Execreate("[60_ContatosOrcamento]",$salvar_contato);
+            $jSON["trigger"] = AjaxErro('<b class="icon-checkmark">Contato registrado com exito!</b>', E_USER_ERROR);
+            }else{
+              $jSON["trigger"] = AjaxErro('<b class="icon-warning">Preencher campo Observação!</b>', E_USER_ERROR);
+            }
+          }else{
+            $jSON["trigger"] = AjaxErro('<b class="icon-warning">Selecionar Status contato!</b>', E_USER_ERROR);
+          }
         break;
     endswitch;
 

@@ -379,6 +379,18 @@ function getNovoStatusOs($Transaction = null){
     endif;
 }
 
+function getStatusContato($Transaction = null){
+    $RealtyTransaction = [
+        0 => 'Retornar Depois',
+        1 => 'Contato Feito',
+    ];
+    
+    if ($Transaction!=null):
+        return $RealtyTransaction[$Transaction];
+    else:
+        return $RealtyTransaction;
+    endif;
+}
 
 function getStatusOrcamentoGNS($Transaction = null){
     $RealtyTransaction = [
