@@ -30,7 +30,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
   </p>
 </div>
 </header>
-<div class="dashboard_content custom_app">
+<div class="dashboard_content custom_app"> 
   <!--BOTÕES SUPERIORES-->
   <article class="box box100 no-print">   
     <div class="box_content">

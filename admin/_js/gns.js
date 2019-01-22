@@ -36,7 +36,7 @@ $('#Tecnico').change(function(){
         }
 
         if (data.qtdOs) {
-            $(".qtdOs").html("Quantidade de OS:<b> "+data.qtdOs+" </b>"); 
+            $(".qtdOs").html("Quantidade de OS:<b> "+data.qtdOs+" </b>");  
         }
                   
     }, 'json');

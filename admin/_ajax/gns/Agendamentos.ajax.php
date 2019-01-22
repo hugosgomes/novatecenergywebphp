@@ -50,7 +50,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             unset($PostData['os_id']);
 
                 if(!$PostData['Tecnico']):
-                    $jSON['triggerErro'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING);
+                    $jSON['triggerErro'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING); 
                 else:
                     if($PostData['Tecnico'] == 't'):
                         $jSON['triggerErro'] = AjaxErro("DIRECIONE PARA APENAS UM TÉCNICO. A SELEÇÃO TODOS ESTÁ MARCADA!", E_USER_WARNING);
