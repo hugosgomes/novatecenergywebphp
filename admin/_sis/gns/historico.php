@@ -40,7 +40,7 @@ endif;
             <option value="2">CANCELADO</option>
             <option value="3">AUSENTE</option>
             <option value="4">REAGEND NVT</option>
-            <option value="5">REAGEND GNS</option> 
+            <option value="5">REAGEND GNS</option>
           </select>
       </div>
     </article>

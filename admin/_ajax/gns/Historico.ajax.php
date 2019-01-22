@@ -30,7 +30,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):        
         case 'Carregar':
-        $jSON['historico'] = null; 
+        $jSON['historico'] = null;
         $jSON['selectClientes'] = null;
 
         $where = $PostData['nomeCliente'] != '' ? " AND [60_Clientes].NomeCliente LIKE '%{$PostData['nomeCliente']}%'" : "";
