@@ -8,6 +8,11 @@ if (empty($Read)):
     $Read = new Read;
 endif;
 
+//TOTAL DE OS'S Siebel
+$Read->FullRead("SELECT TOP(1) TotalOs AS QUANTIDADE  FROM [60_OS_Diaria] ORDER BY ID DESC", "");
+
+$TotalS = $Read->getResult()[0]["QUANTIDADE"];
+
 //TOTAL DE OS'S TRAZIDAS PELO ROBÔ
 $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
               NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
@@ -24,7 +29,18 @@ $Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE convert(varcha
 
 $TotalV = $Read->getResult()[0]["QUANTIDADE"];
 
+//TOTAL DE OS'S ATENDIDAS
+$Read->FullRead("SELECT COUNT(*) AS QUANTIDADE FROM [60_OS] WHERE STATUS <> 0 AND convert(varchar(10), DataAgendamento, 102) = convert(varchar(10), getdate(), 102) AND Tecnico <> 0"," ");
+
+$TotalA = $Read->getResult()[0]["QUANTIDADE"];
+
+//PORCENTAGEM
+$porcento = $TotalV != 0 || $TotalA  ? ($TotalA * 100) / $TotalV : 0;
+$percent = number_format($porcento,2);
+$cor = $percent > 50 ? "green" : "red";
+
 ?>
+
 
 <header class="dashboard_header">
     <div class="dashboard_header_title">
@@ -47,8 +63,9 @@ $TotalV = $Read->getResult()[0]["QUANTIDADE"];
               </tr>
               <tr>
                 <td><b>Total Siebel</b></td>
-                <td style="text-align: center;">0</td>
-                <td rowspan="3" colspan="2"></td>
+                <td style="text-align: center;"><?=$TotalS;?></td>
+                <td rowspan="2" colspan="1"></td>
+                <td rowspan="2" colspan="1"></td>
               </tr>
               <tr>
                 <td><b>Total Robô</b></td>
@@ -58,6 +75,12 @@ $TotalV = $Read->getResult()[0]["QUANTIDADE"];
               <tr>
                 <td><b>Total Vinculadas</b></td>
                 <td style="text-align: center;"><?=$TotalV;?></td>
+                <td rowspan="2" colspan="1" style="text-align: center;color:<?=$cor;?>"><?=$percent;?> %</td>
+                <td rowspan="2" colspan="1"></td>
+              </tr>
+              <tr>
+                <td><b>Total Atendidas</b></td>
+                <td style="text-align: center;"><?=$TotalA;?></td>
                 
               </tr>
               <tr>
@@ -78,3 +101,4 @@ $TotalV = $Read->getResult()[0]["QUANTIDADE"];
 
 <script src="_js/ti.js"></script>
 
+ 

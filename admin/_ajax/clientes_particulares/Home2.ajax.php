@@ -370,7 +370,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
                     );
                 break;
-
+ 
                 case '5'://executado
                     $SalvaEdicaoChamado = array(
                         'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,

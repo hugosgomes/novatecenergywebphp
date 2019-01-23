@@ -47,6 +47,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         case 'manager':
         $PostData['TI'] = (!isset($PostData['TI']) ? $PostData['TI'] = "0" : $PostData['TI'] = 1);
         $PostData['GNS'] = (!isset($PostData['GNS']) ?  $PostData['GNS'] = "0" : $PostData['GNS'] = 1);
+        $PostData['MOBILE_GNS'] = (!isset($PostData['MOBILE_GNS']) ?  $PostData['MOBILE_GNS'] = "0" : $PostData['MOBILE_GNS'] = 1);
         $PostData['CLIENTES_PARTICULARES'] = (!isset($PostData['CLIENTES_PARTICULARES']) ? $PostData['CLIENTES_PARTICULARES'] = "0" : $PostData['CLIENTES_PARTICULARES'] = 1);
         $PostData['FERRAMENTAS'] = (!isset($PostData['FERRAMENTAS']) ?  $PostData['FERRAMENTAS'] = "0" : $PostData['FERRAMENTAS'] = 1);
         $PostData['DIRETORIA'] = (!isset($PostData['DIRETORIA']) ?  $PostData['DIRETORIA'] = "0" : $PostData['DIRETORIA'] = 1);
@@ -58,7 +59,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $ID = $PostData['ID'];
               unset($PostData['ID']);
                 $Update->ExeUpdate("[00_NivelAcesso]", $PostData, "WHERE IDFUNCIONARIO = :id", "id={$ID}");
-                $jSON['trigger'] = AjaxErro("Permissão de Funcionário Atualizada!");
+                $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>Permissão de Funcionário Atualizada!<b>");
                  
             else:
                 $ID = $PostData['ID'];
@@ -66,6 +67,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $CriaAcesso = array(
                 'IDFUNCIONARIO' => $ID,
                 'GNS' => $PostData['GNS'],
+                'MOBILE_GNS' => $PostData['MOBILE_GNS'],
                 'CLIENTES_PARTICULARES' => $PostData['CLIENTES_PARTICULARES'],
                 'TI' => $PostData['TI'],
                 'FERRAMENTAS' => $PostData['FERRAMENTAS'],
@@ -73,7 +75,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 'RH' => $PostData['RH'],
                 );
              $Create->ExeCreate("[00_NivelAcesso]",$CriaAcesso);
-             $jSON['trigger'] = AjaxErro("Permissão de Funcionário Criada!"); 
+             $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>Permissão de Funcionário Criada!</b>"); 
              
             endif;
             break;
@@ -90,6 +92,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     <input style='width: 5%;' class='' name='DIRETORIA' type='checkbox' value='1' ".($Read->getResult()[0]['DIRETORIA'] == 1 ? 'checked':'').">Diretoria <br>
                     <input style='width: 5%;' class='' name='FERRAMENTAS' type='checkbox' value='1' ".($Read->getResult()[0]['FERRAMENTAS'] == 1 ? 'checked':'')." >FERRAMENTAS </br>
                     <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1' ".($Read->getResult()[0]['GNS'] == 1 ? 'checked':'').">GNS <br>
+                    <input style='width: 5%;' class='' name='MOBILE_GNS' type='checkbox' value='1' ".($Read->getResult()[0]['MOBILE_GNS'] == 1 ? 'checked':'').">MOBILE GNS <br>
                     <input style='width: 5%;' class='' name='TI' type='checkbox' value='1' ".($Read->getResult()[0]['TI'] == 1 ? 'checked':'')." >TI </br>
                     <input style='width: 5%;' class='' name='RH' type='checkbox' value='1' ".($Read->getResult()[0]['RH'] == 1 ? 'checked':'').">RH <br></div>";
 
@@ -127,12 +130,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         <input style='width: 5%;' class='' name='DIRETORIA' type='checkbox' value='1'>Diretoria <br>
                         <input style='width: 5%;' class='' name='FERRAMENTAS' type='checkbox' value='1'>FERRAMENTAS </br>
                         <input style='width: 5%;' class='' name='GNS' type='checkbox' value='1'>GNS <br>
+                        <input style='width: 5%;' class='' name='MOBILE_GNS' type='checkbox' value='1'>MOBILE GNS <br>
                         <input style='width: 5%;' class='' name='TI' type='checkbox' value='1'>TI </br>
                         <input style='width: 5%;' class='' name='RH' type='checkbox' value='1'>RH <br></div>"; 
 
                         $jSON['Permissao'] = false;  
 
-                        $jSON['trigger'] = AjaxErro("Usuário sem permissões. Ao cadastrar, o mesmo passará a usar o sistema com as devidas permissões escolhidas."); 
+                        $jSON['trigger'] = AjaxErro("<b class='icon-warning'>Usuário sem permissões. Ao cadastrar, o mesmo passará a usar o sistema com as devidas permissões escolhidas.</b>"); 
                     endif;               
                 endif;
             break;
@@ -141,18 +145,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $SENHA['SENHA'] = hash('sha1', "1234");
             $Update->ExeUpdate("[Funcionários]", $SENHA, "WHERE ID= :id", "id={$PostData['ID']}");
             if($Update->getResult()):
-                $jSON['trigger'] = AjaxErro("Senha resetada com sucesso!");
+                $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>Senha resetada com sucesso!</b>");
             else:
-                $jSON['trigger'] = AjaxErro("Erro ao tentar resetar a senha do usuário!");
+                $jSON['trigger'] = AjaxErro("<b class='icon-warning'>Erro ao tentar resetar a senha do usuário!</b>");
             endif;
             break;
 
             case 'desativarConta':
             $Delete->ExeDelete("[00_NivelAcesso]", "WHERE IDFUNCIONARIO = :id", "id={$PostData['ID']}");
              if($Delete->getResult()):
-                $jSON['trigger'] = AjaxErro("Conta desativada com sucesso!", E_USER_WARNING);
+                $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>Conta desativada com sucesso!<b>", E_USER_WARNING);
             else:
-                $jSON['trigger'] = AjaxErro("Erro ao tentar desativar conta", E_USER_WARNING);
+                $jSON['trigger'] = AjaxErro("<b class='icon-warning'>Erro ao tentar desativar conta<b>", E_USER_WARNING);
             endif;
             break;
 
@@ -191,7 +195,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             $TecGNS[$i]["ATENDIDO"] = $Read->getResult()[0]["QUANTIDADE"];
 
                         //CALCULA PORCENTAGEM DE OS'S ATENDIDAS POR CADA TÉCNICO
-                        $porcento = $TecGNS[$i]["ATENDIDO"] != 0 ? ($TecGNS[$i]["ATENDIDO"]) * 100 / $TecGNS[$i]["ATRIBUIDO"] : 0;
+                        $porcento = $TecGNS[$i]["ATENDIDO"] != 0 ? ($TecGNS[$i]["ATENDIDO"] * 100) / $TecGNS[$i]["ATRIBUIDO"] : 0;
                         $percent = number_format($porcento,2);
                         $cor = $percent > 50 ? "green" : "red";
 
