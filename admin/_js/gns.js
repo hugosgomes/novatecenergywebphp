@@ -697,41 +697,25 @@ $('html').on('click', '#j_importar', function (e) {
 });
 
 /*------------------EXPORT PARA EXCEL------------------*/
-exportExcel = function ()
-{
-    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
-    var textRange; var j=0;
-    tab = document.getElementById('dataTable'); //ID DA TABELA
+//PESQUISA VINCULA OT AO CLIENTE
+    $('html').on('click', '#exportar', function (e) {
+        var Callback = $(this).attr('callback');
+        var Callback_action = $(this).attr('callback_action');        
+        var Tecnico = $("#Tecnico option:selected").val();
+        var Dia = $(this).attr('rel');
+        var S = $(this).attr('semana');
 
-    for(j = 0 ; j < tab.rows.length ; j++) 
-    {     
-        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
-        //tab_text=tab_text+"</tr>";
-    }
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
 
-    tab_text= tab_text+"</table>";
-    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//REMOVE LINKS DA TABELA
-    tab_text= tab_text.replace(/<img[^>]*>/gi,""); //REMOVE IMAGENS DA TABELA
-    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); //REMOVE INPUTS
+            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+            if (data.excel) {
+                window.open("http://192.168.0.101:83/rodrigo/novatec/download/ExportarGNS.xlsx");                
+            }
+        }, 'json');
 
-    var ua = window.navigator.userAgent;
-    var msie = ua.indexOf("MSIE "); 
-
-    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      //SE INTERNET EXPLORER
-    {
-        txtArea1.document.open("txt/html","replace");
-        txtArea1.document.write(tab_text);
-        txtArea1.document.close();
-        txtArea1.focus(); 
-        sa=txtArea1.document.execCommand("SaveAs",true,"Agendamentos.xls");
-    }  
-    else                 //OUTROS NAVEGADORES
-        sa = window.open('data:application/vnd.ms-excel; charset=UTF-8,%EF%BB%BF' + encodeURIComponent(tab_text));  
-
-    return (sa);
-};
-/*------------------FIM EXPORT PARA EXCEL------------------*/
-
+        e.preventDefault();
+        e.stopPropagation();
+    });
 
 function numeroParaMoeda(n, c, d, t)
 {

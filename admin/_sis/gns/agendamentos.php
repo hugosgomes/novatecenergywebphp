@@ -71,11 +71,11 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
           $Hoje = $Data->format('Ymd');
           $Amanha = $Data->modify('+1 day');
           $Amanha = $Amanha->format('Ymd');
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}' class='btn btn_green'>Agendamentos HOJE</a></div>";
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Amanha}' class='btn btn_yellow'>Agendamentos AMANHÃ</a></div>";
-          echo "<div class='box box40'><a title='Recarregar Comentários' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos FUTUROS</a></div> <br>";
+          echo "<div class='box box40'><a title='Agendamentos Hoje' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}' class='btn btn_green'>Agendamentos HOJE</a></div>";
+          echo "<div class='box box40'><a title='Agendamentos Amanhã' href='dashboard.php?wc=gns/agendamentos&day={$Amanha}' class='btn btn_yellow'>Agendamentos AMANHÃ</a></div>";
+          echo "<div class='box box40'><a title='Agendamentos Semana' href='dashboard.php?wc=gns/agendamentos&day={$Hoje}&s=1' class='btn btn_red'>Agendamentos FUTUROS</a></div> <br>";
           echo "<div class='box box40'><input type='text' id='Agend' name='Agend' placeholder='&raquo;&raquo;&ensp;SELECIONE DATA' class='jwc_datepicker' style='width: 163px;'></div>";
-          echo "<div class='box box40'><a title='Filtrar Data' class='btn btn_blue'>PESQUISAR</a></div>";
+          echo "<div class='box box40'><a title='Filtrar Data' class='btn btn_blue icon-search' style='height: 37px;padding-top: 10px;'>Pesquisar</a></div>";
           ?>
 
         </header>
@@ -106,8 +106,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
               <br>
               
               <a class="btn btn_darkblue no-print m_left" onclick="print()" style="height: 35px;padding-top: 10px;"><i class="icon-printer"></i>&ensp;Imprimir</a>
-              <!--<a class="btn btn_green no-print m_left" onclick="clickExcel($semana, $Tecnico)" style="height: 35px;padding-top: 10px;" ><i class="icon-file-excel"></i>&ensp;Excel</a>-->
-
+              <span title='Exportar para Excel' class='btn btn_green icon-file-excel' id="exportar" rel="<?= $Day ?>" semana="<?= $Semana ?>" callback="Agendamentos" callback_action="exportar_excel" style="height: 35px;padding-top: 10px;">Exportar</span>
             </label>  
           </div>
           </div>
