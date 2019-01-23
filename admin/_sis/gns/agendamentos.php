@@ -156,25 +156,35 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         $url = $Hoje .'&s=1';
       }
 
-      if($Semana == '1'):
-        $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
-          NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
-          [60_OS].Tecnico, [60_OS].turno as TURNO,
-          [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
-          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-          inner join [60_OS] on [60_OT].Id = [60_OS].OT
-          WHERE [60_OS].DataAgendamento >= CONVERT(DATE, GETDATE(), 103) AND [60_OS].Tecnico = 0"," ");
-      else:
-        $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
-          [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
-          [60_OS].Tecnico, [60_OS].turno as TURNO,
-          [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
-          inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-          inner join [60_OS] on [60_OT].Id = [60_OS].OT
-          AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :day","day={$Day}");
-      endif;
+      $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
+              [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
+              [60_OS].Tecnico, [60_OS].turno as TURNO,
+              [60_OS].Latitude, [60_OS].Longitude, [60_OT].ObsOT, [60_OT].NumOT FROM [60_Clientes]
+              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+              inner join [60_OS] on [60_OT].Id = [60_OS].OT
+              AND [60_OS].Tecnico <> 0 AND [DataAgendamento] = :day","day={$Day}");
 
-      echo "<span class='flt_right m_left'><b>Quantidade de OS Sem vincular:</b>&ensp;<span class='qtd_OS'>".count($Read->getResult())."</span></span>";
+          echo "<span class='flt_right m_left'><b>OS Vinculadas:</b>&ensp;<span class='qtd_OS_Vin'>". count($Read->getResult()) ."</span></span>";
+
+          if($Semana == '1'):
+            $Read->FullRead("SELECT DatePart(Week,GETDATE()) as SEMANA,
+              NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].ENDERECO,
+              [60_OS].Tecnico, [60_OS].turno as TURNO,
+              [60_OS].Latitude, [60_OS].Longitude, [60_OT].ObsOT, [60_OT].NumOT FROM [60_Clientes]
+              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+              inner join [60_OS] on [60_OT].Id = [60_OS].OT
+              WHERE [60_OS].DataAgendamento >= CONVERT(DATE, GETDATE(), 103) AND [60_OS].Tecnico = 0"," ");
+          else:
+            $Read->FullRead("SELECT NomeCliente, [60_OS].Id, [60_OS].[OSServico],[60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, 
+              [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio,
+              [60_OS].Tecnico, [60_OS].turno as TURNO,
+              [60_OS].Latitude, [60_OS].Longitude, [60_OT].ObsOT, [60_OT].NumOT FROM [60_Clientes]
+              inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+              inner join [60_OS] on [60_OT].Id = [60_OS].OT
+              AND [60_OS].Tecnico = 0 AND [DataAgendamento] = :day","day={$Day}");
+          endif;
+
+          echo "<span class='flt_right m_left'><b>OS Sem Vincular:</b>&ensp;<span class='qtd_OS'>". count($Read->getResult()) ."</span></span>";
       ?>           
     </header>
     <div class="box_content" id="mapa">
@@ -246,7 +256,7 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
    
    <?php  for ($i = 0; $i < $qtd_OS; $i++) { ?>
 
-    locations[<?php echo $i; ?>] = ['<div class="info-window"><div class="info-content"><p>OS: <b><?php echo $Read->getResult()[$i]["NumOS"]; ?></b></p><p>Cliente: <b><?php echo $Read->getResult()[$i]["NomeCliente"]; ?></b></p><p>Serviço: <b><?php echo $Read->getResult()[$i]["NomeOs"]; ?></b></p><p>Data: <b><?php echo date("d/m/Y", strtotime($Read->getResult()[$i]["DataAgendamento"])); ?></b></p><span rel="single_message" callback="Agendamentos" callback_action="addTecnico" class="j_add_tecnico icon-plus btn btn_darkblue" id="<?php echo $Read->getResult()[$i]["Id"];?>" num="<?php echo $i;?>" total="<?php echo $qtd_OS; ?>">Add</span></div></div>', <?php echo $Read->getResult()[$i]['Latitude']; ?>, <?php echo $Read->getResult()[$i]['Longitude']; ?>, <?php echo $Read->getResult()[$i]["Id"];?>]
+    locations[<?php echo $i; ?>] = ['<div class="info-window"><div class="info-content"><p>Cliente: <b><?php echo $Read->getResult()[$i]["NomeCliente"]; ?></b></p><p>OT: <b><?php echo $Read->getResult()[$i]["NumOT"]; ?></b></p><p>OS: <b><?php echo $Read->getResult()[$i]["NumOS"]; ?><br/></b> Serviço: <b><?php echo $Read->getResult()[$i]["NomeOs"]; ?></b></p><p>Data: <b><?php echo date("d/m/Y", strtotime($Read->getResult()[$i]["DataAgendamento"])); ?></b></p><p>Período: <b><?php echo $Read->getResult()[$i]["TURNO"]; ?></b></p><p>Obs: <b><?php echo $Read->getResult()[$i]["ObsOT"]; ?></b></p><span rel="single_message" callback="Agendamentos" callback_action="addTecnico" class="j_add_tecnico icon-plus btn btn_darkblue" id="<?php echo $Read->getResult()[$i]["Id"];?>" num="<?php echo $i;?>" total="<?php echo $qtd_OS; ?>">Add</span></div></div>', <?php echo $Read->getResult()[$i]['Latitude']; ?>, <?php echo $Read->getResult()[$i]['Longitude']; ?>, <?php echo $Read->getResult()[$i]["Id"];?>]
 
   <?php }?>
 

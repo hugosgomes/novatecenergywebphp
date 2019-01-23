@@ -3,6 +3,20 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Slim\Http\UploadedFile;
 
+$app->post('/localizacao/', function (Request $request, Response $response, array $args) {
+    $Update = new Update();
+
+    $body = $request->getParsedBody(); 
+    
+    $Localizacao['IDTECNICO'] = intval($body['id']);
+    $Localizacao['LATITUDE'] = $body['lat'];
+    $Localizacao['LONGITUDE'] = $body['lon'];
+    $Localizacao['DATAHORA'] = date("d/m/Y H:i");
+
+    $Update->ExeUpdate("[60_Localizacao]", $Localizacao, "WHERE IDTECNICO = :id", "id={$body['id']}");
+});
+
+
 
 $app->post('/atendimentos/finalizados/', function (Request $request, Response $response, array $args) {
     $Create = new Create();

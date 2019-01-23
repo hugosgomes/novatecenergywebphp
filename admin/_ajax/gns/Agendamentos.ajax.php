@@ -180,6 +180,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       $sts
                       ."</tr>";
                       $jSON['idOS'] = $IDOS;
+                      $jSON['osTec'] = $os_tec;
                   endforeach;                   
               else:
                   $jSON['trigger'] = true;

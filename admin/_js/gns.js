@@ -51,6 +51,9 @@ $('#Tecnico').change(function(){
         if (data.qtdOs) {
             $(".qtdOs").html("Quantidade de OS:<b> "+data.qtdOs+" </b>"); 
         }
+        if (data.osTec){
+            $("#num_os").html(data.osTec + " Vinculadas");
+        }
                   
     }, 'json');
 });
