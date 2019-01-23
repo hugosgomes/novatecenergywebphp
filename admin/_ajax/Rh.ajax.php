@@ -53,6 +53,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     case 'selectfuncionarios':
 
+    $jSON['teste'] = NULL;
+    $dir = "//192.168.0.101/xampp/htdocs/novatec/uploads/Achiles/";
+    $files = count(array_slice(scandir($dir), 2));
+
+    $jSON['teste'] = AjaxErro("{$files}"." funcionários cadastrados até o momento.");
+
+
     $Read->FullRead("SELECT [Funcionários].ID AS id,[NOME COMPLETO] AS nome FROM Funcionários WHERE [DATA DE DEMISSÃO] IS NULL ORDER BY [NOME COMPLETO]"," ");
     $variavelSelect = $Read->getResult();
 
@@ -143,15 +150,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$value1['id']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
                     //SE A VALIDADE PASSAR DA DATA DO DIA ATUAL MOSTRA A COR VERMELHA
 
-                      if ($variavelDataM > $dia_atual AND $value1['typedate'] == 1) {
-                        $variavelData = '<b><font color="green">'.$dataBr;
-                      } elseif ($variavelDataM <= $dia_atual AND $value1['typedate'] == 1) {
-                        $variavelData = '<b><font color="red">'.$dataBr; 
-                      } elseif ($value1['typedate'] == 0) {
-                        $variavelData = $dataBr;
-                      }
+            if ($variavelDataM > $dia_atual AND $value1['typedate'] == 1) {
+              $variavelData = '<b><font color="green">'.$dataBr;
+            } elseif ($variavelDataM <= $dia_atual AND $value1['typedate'] == 1) {
+              $variavelData = '<b><font color="red">'.$dataBr; 
+            } elseif ($value1['typedate'] == 0) {
+              $variavelData = $dataBr;
+            }
 
-                      $data = new DateTime($dia_atual);
+            $data = new DateTime($dia_atual);
                   $data1 = new DateTime($dataBr1); //DATA DOS DOCUMENTOS
                   $data2 = new DateTime($dia_atual); //DATA ATUAL
                   $data->add(new DateInterval('P31D')); //DATA ATUAL MAIS UM MÊS
@@ -369,77 +376,79 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
                 $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
-                    $versao1 = $caminhoDiretorio."32/";
-                    /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
-                    $path = $versao1;
-                    $diretorio = dir($path);
-                    while ($arquivo = $diretorio -> read()) {
-                      $dirArquivo = $path.$arquivo;
-                    }
-                    $diretorio -> close();
-                    /* ACABA AQUI */
-
-                    $getPath = pathinfo($dirArquivo);
-                    $getExt = $getPath['extension'];
-
-                    $outraspastas = $caminhoPadrao."32/".$TYPEDOCS.".".$getExt;
-                    $dirOutros = "<a href='{$outraspastas}' download><span class='btn btn_darkblue'>Download</span></a>";
-                    $docview = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$outraspastas}' rel='shadowbox'></a>";
-
-                    $jSON['tipo1'] = "<tr><td style='padding: 11px;border: 1px solid #ffffff;background: #fefefe;'></td></tr>";
-                    $jSON['tipo2'] =  "<tr><th>Documentos</th><th>Data Doc.</th><th style='width: 15%;'>Download</th><th style='width: 5%;'>Vis.</th></tr>";
-                    $jSON['tipo3'] .= "<tr><td><center>$TYPEDOCS</center></td><td><center>$datareal</center></td><td><center>$dirOutros</center></td><td><center>$docview</center></td></tr>";
-                  }
+                $versao1 = $caminhoDiretorio."32/";
+                /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
+                $path = $versao1;
+                $diretorio = dir($path);
+                while ($arquivo = $diretorio -> read()) {
+                  $dirArquivo = $path.$arquivo;
                 }
-                break;
+                $diretorio -> close();
+                /* ACABA AQUI */
 
-                case 'enviar_documentos':
+                $getPath = pathinfo($dirArquivo);
+                $getExt = $getPath['extension'];
 
-                $variavel = null;
-                $get = null;
-                $status = 1;
+                $outraspastas = $caminhoPadrao."32/".$TYPEDOCS.".".$getExt;
+                $dirOutros = "<a href='{$outraspastas}' download><span class='btn btn_darkblue'>Download</span></a>";
+                $docview = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$outraspastas}' rel='shadowbox'></a>";
 
-                if (isset($PostData['idfuncionario'])) {
-                  $variavel = $PostData['idfuncionario'];
-                }elseif (isset($PostData['idfuncionarioD'])) {
-                  $variavel = $PostData['idfuncionarioD'];
-                }
+                $jSON['tipo1'] = "<tr><td style='padding: 11px;border: 1px solid #ffffff;background: #fefefe;'></td></tr>";
+                $jSON['tipo2'] =  "<tr><th>Documentos</th><th>Data Doc.</th><th style='width: 15%;'>Download</th><th style='width: 5%;'>Vis.</th></tr>";
+                $jSON['tipo3'] .= "<tr><td><center>$TYPEDOCS</center></td><td><center>$datareal</center></td><td><center>$dirOutros</center></td><td><center>$docview</center></td></tr>";
+              }
+            }
+            break;
+
+            case 'enviar_documentos':
+
+            $variavel = null;
+            $get = null;
+            $status = 1;
+            $fileSize = null;
+
+            if (isset($PostData['idfuncionario'])) {
+              $variavel = $PostData['idfuncionario'];
+            }elseif (isset($PostData['idfuncionarioD'])) {
+              $variavel = $PostData['idfuncionarioD'];
+            }
 
             //$Read->FullRead("SELECT [NOME COMPLETO] AS nome FROM Funcionários WHERE ID = :IDFUNC","IDFUNC={$variavel}");
 
              // FOTOS DEFEITOS                
-                if (empty($Upload)):
-                  $Upload = new Upload('../../uploads/');
-                endif;
+            if (empty($Upload)):
+              $Upload = new Upload('../../uploads/');
+            endif;
 
-                if(isset($_FILES['documentosRH'])):
+            if(isset($_FILES['documentosRH'])):
 
-                  $d_title = "DocumentoRh";
-                  $d_arquivos = array($_FILES['documentosRH']['size']);
-                  $d_GalleryId = $variavel;
-                  $d_Image = (!empty($_FILES['documentosRH']) ? $_FILES['documentosRH'] : NULL);
-                  $d_Size = (!empty($_FILES['documentosRH']['size']) ? array_sum($d_arquivos) : NULL);
-                  $d_GalleryName = Check::Name($d_title);
+              $d_title = "DocumentoRh";
+              $d_arquivos = array($_FILES['documentosRH']['size']);
+              $d_GalleryId = $variavel;
+              $d_Image = (!empty($_FILES['documentosRH']) ? $_FILES['documentosRH'] : NULL);
+              $d_Size = (!empty($_FILES['documentosRH']['size']) ? array_sum($d_arquivos) : NULL);
+              $d_GalleryName = Check::Name($d_title);
 
-                  if (!empty($d_Image)):
-                    $d_File = $d_Image;
-                    $d_gbFile = array();
-                    $d_gbCount = count($d_File['type']);
-                    $d_gbKeys = array_keys($d_File);
-                    $d_gbLoop = 0;
-                    $contador = 0;
+              if (!empty($d_Image)):
+                $d_File = $d_Image;
+                $d_gbFile = array();
+                $d_gbCount = count($d_File['type']);
+                $d_gbKeys = array_keys($d_File);
+                $d_gbLoop = 0;
+                $contador = 0;
 
-                    for ($gb = 0; $gb < $d_gbCount; $gb++):
-                      foreach ($d_gbKeys as $Keys):
-                        $d_gbFiles[$gb][$Keys] = $d_File[$Keys][$gb];
-                      endforeach;
-                    endfor;
+                for ($gb = 0; $gb < $d_gbCount; $gb++):
+                  foreach ($d_gbKeys as $Keys):
+                    $d_gbFiles[$gb][$Keys] = $d_File[$Keys][$gb];
+                  endforeach;
+                endfor;
 
-                    foreach ($d_gbFiles as $d_UploadFile):
-                     $value = null;
+                foreach ($d_gbFiles as $d_UploadFile):
+                  $value = null;
                          $d = ($_FILES['documentosRH']['name'][$d_gbLoop]); // Nome do ARQUIVO sendo enviado
                          $datavalidade = ($PostData['validade'. $d_gbLoop]);
                          $p = ($PostData['tipoArquivo'. $d_gbLoop]); // Tipo do ARQUIVO no SELECT (EPIs, Outros)...
+                         $fileSize = $_FILES['documentosRH']['size'][$d_gbLoop]; // PEGA O TAMANHO DO ARQUIVO SENDO ENVIADO
                          $y = pathinfo($d);
                          $d_gbLoop ++;
 
@@ -746,14 +755,14 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           WHERE [Funcionários].ID = :IDFUNC AND [30_TipoDocumentacao].ID = :DOCUMENT)", "IDFUNC={$variavel}&DOCUMENT={$p}");
                         $arquivosfunc = $Read->getResult();
 
-                        if ($datavalidade <> "") {
-                         $Upload->UploadRH($d_UploadFile, $nomeArquivo, "Achiles/{$variavel}/{$p}");
+                        $caminhoAchilles = "/Achiles/{$variavel}/{$p}/{$nomeArquivo}";
+
+                        if ($y['extension'] <> "pdf" OR $y['extension'] <> "jpg" OR $y['extension'] <> "jpeg" OR $y['extension'] <> "png") {
+                         $jSON['trigger'] = AjaxErro('Extensão de arquivo inválida. Formatos aceitos: .pdf, .jpg, .jpeg ou .png');
                        }
 
-                       $caminhoAchilles = "/Achiles/{$variavel}/{$p}/{$nomeArquivo}";
-
-                       if ($y['extension'] <> "pdf" OR $y['extension'] <> "jpg" OR $y['extension'] <> "jpeg" OR $y['extension'] <> "png") {
-                         $jSON['trigger'] = AjaxErro('Extensão de arquivo inválida. Formatos aceitos: .pdf, .jpg, .jpeg ou .png');
+                       if ($datavalidade <> "" AND $fileSize<4000001) {
+                         $Upload->UploadRH($d_UploadFile, $nomeArquivo, "Achiles/{$variavel}/{$p}");
                        }
 
                        if ($Upload->getResult()){
@@ -763,19 +772,19 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $resultadoRH = $Read->getResult();
 
                         if (empty($resultadoRH)) {
-                          if ($datavalidade <> "" AND $arquivosfunc <> NULL) {
+                          if ($datavalidade <> "" AND $arquivosfunc <> NULL AND $fileSize<4000001) {
                             $d_gbCreate["DataValidade"] = $datavalidade;
                             $Create->ExeCreate('[30_Documentacao]', $d_gbCreate);
                             $jSON['trigger'] = AjaxErro('Arquivos anexados com sucesso!');
                           }else{
-                            $jSON['trigger'] = AjaxErro('Tipo de documento inserido não requisitado. Por favor, reveja o TIPO DE DOCUMENTO.');
+                            $jSON['trigger'] = AjaxErro('Tipo de documento inserido não requisitado OU tamanho de arquivo excedido. Por favor, reveja o TIPO DE DOCUMENTO.');
                           }
                         }
                         else{
                           if ($datavalidade <> "") {
                             $dataValRh = $datavalidade;
                             $dataValRH = ['DataValidade' => $dataValRh];
-                            $Update->ExeUpdate("[30_Documentacao]",$dataValRH, "WHERE IdTipoDocumento = :idtipodoc", "idtipodoc={$IdTipoDocumento}");
+                            $Update->ExeUpdate("[30_Documentacao]",$dataValRH, "WHERE IdTipoDocumento = :idtipodoc AND IdFuncionario = :idfunc", "idtipodoc={$IdTipoDocumento}&idfunc={$variavel}");
                             $jSON['trigger'] = AjaxErro('Arquivos atualizados com sucesso!');
                           }
                         }
@@ -1045,9 +1054,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                   $getPath = pathinfo($dirArquivo);
                   $getExt = $getPath['extension'];
+
                 }//IF LÁ DO IDTIPO PERTO DO FOREACH
 
                 //CONDIÇÃO PARA APARECER NA TELA, SE O VALOR DO NOME DO DOCUMENTO VIER NULO DO BANCO DE DADOS, NÃO IRÁ APARECER NADA.
+
                 if ($idtipo == NULL) {
                   $diretorionull = $mudarvariavel;
                   $variavelData = $mudarvariavel;
@@ -1056,7 +1067,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 }else{
                   $dirFinal = $caminhoPadrao.$valor."/".$nomeT.".".$getExt;
                   $diretorionull = "<a href='{$dirFinal}' download><span class='btn btn_darkblue'>Download</span></a>";
-                  $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}' rel='shadowbox'></a>";
+                  if ($getExt == "pdf") {
+                    $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}'></a>";
+                  }else{
+                    $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}' rel='shadowbox'></a>";
+                  }
                 }
 
                 $variavelDataExtract = pathinfo($variavelData);
@@ -1064,6 +1079,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 if ($variavelDataExtract['basename'] == "1969") {
                   $variavelData = "Não validado."; 
                 }
+
 
                 $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td><td><center>$visualizardoc</center></td></tr>";
               }
@@ -1083,42 +1099,42 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO COM 83
                 $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
-                    $versao1 = $caminhoDiretorio."32/";
-                    /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
-                    $path = $versao1;
-                    $diretorio = dir($path);
-                    while ($arquivo = $diretorio -> read()) {
-                      $dirArquivo = $path.$arquivo;
-                    }
-                    $diretorio -> close();
-                    /* ACABA AQUI */
-
-                    $getPath = pathinfo($dirArquivo);
-                    $getExt = $getPath['extension'];
-
-                    $outraspastas = $caminhoPadrao."32/".$TYPEDOCS.".".$getExt;
-                    $dirOutros = "<a href='{$outraspastas}' download><span class='btn btn_darkblue'>Download</span></a>";
-                    $docview = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$outraspastas}' rel='shadowbox'></a>";
-
-                    $jSON['tipo1'] = "<tr><td style='padding: 11px;border: 1px solid #ffffff;background: #fefefe;'></td></tr>";
-                    $jSON['tipo2'] =  "<tr><th>Documentos</th><th>Data Doc.</th><th style='width: 15%;'>Download</th><th style='width: 5%;'>Vis.</th><th style='width: 5%;'>Excluir</th></tr>";
-                    $jSON['tipo3'] .= "<tr id='{$DATEDOC}' class='trdoc'><td><center>$TYPEDOCS</center></td><td><center>$datareal</center></td><td><center>$dirOutros</center></td><td><center>$docview</center></td><td><center><span id='delete' class='btn btn_red icon-cross' style='width: 85%;'></span></center></td></tr>";
-                  }
+                $versao1 = $caminhoDiretorio."32/";
+                /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
+                $path = $versao1;
+                $diretorio = dir($path);
+                while ($arquivo = $diretorio -> read()) {
+                  $dirArquivo = $path.$arquivo;
                 }
-                break;
+                $diretorio -> close();
+                /* ACABA AQUI */
+
+                $getPath = pathinfo($dirArquivo);
+                $getExt = $getPath['extension'];
+
+                $outraspastas = $caminhoPadrao."32/".$TYPEDOCS.".".$getExt;
+                $dirOutros = "<a href='{$outraspastas}' download><span class='btn btn_darkblue'>Download</span></a>";
+                $docview = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$outraspastas}' rel='shadowbox'></a>";
+
+                $jSON['tipo1'] = "<tr><td style='padding: 11px;border: 1px solid #ffffff;background: #fefefe;'></td></tr>";
+                $jSON['tipo2'] =  "<tr><th>Documentos</th><th>Data Doc.</th><th style='width: 15%;'>Download</th><th style='width: 5%;'>Vis.</th><th style='width: 5%;'>Excluir</th></tr>";
+                $jSON['tipo3'] .= "<tr id='{$DATEDOC}' class='trdoc'><td><center>$TYPEDOCS</center></td><td><center>$datareal</center></td><td><center>$dirOutros</center></td><td><center>$docview</center></td><td><center><span id='delete' class='btn btn_red icon-cross' style='width: 85%;'></span></center></td></tr>";
+              }
+            }
+            break;
 
 
 
-                case 'delete':
-                $deleteclick = $PostData['getclick'];
+            case 'delete':
+            $deleteclick = $PostData['getclick'];
 
-                $Read->FullRead("SELECT Id AS tableid ,IdFuncionario AS idd , Id as DOCID, Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ AND Id = :TABLEID", "IDFUNQ={$PostData['func']}&TABLEID={$PostData['getclick']}");
-                $outrosdocumentos = $Read->getResult();
-                $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
+            $Read->FullRead("SELECT Id AS tableid ,IdFuncionario AS idd , Id as DOCID, Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ AND Id = :TABLEID", "IDFUNQ={$PostData['func']}&TABLEID={$PostData['getclick']}");
+            $outrosdocumentos = $Read->getResult();
+            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
 
-                foreach ($outrosdocumentos as $doc) {
-                  extract($doc);
-                  $TYPEDOCS = $doc['TYPEDOCS'];
+            foreach ($outrosdocumentos as $doc) {
+              extract($doc);
+              $TYPEDOCS = $doc['TYPEDOCS'];
                   $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO COM 83
                   $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
@@ -1448,40 +1464,40 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
                 $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
-                    $versao1 = $caminhoDiretorio."32/";
-                    /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
-                    $path = $versao1;
-                    $diretorio = dir($path);
-                    while ($arquivo = $diretorio -> read()) {
-                      $dirArquivo = $path.$arquivo;
-                    }
-                    $diretorio -> close();
-                    /* ACABA AQUI */
-
-                    $getPath = pathinfo($dirArquivo);
-                    $getExt = $getPath['extension'];
-
-                    $outraspastas = $caminhoPadrao."32/".$TYPEDOCS.".".$getExt;
-                    $dirOutros = "<a href='{$outraspastas}' download><span class='btn btn_darkblue'>Download</span></a>";
-                    $docview = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$outraspastas}' rel='shadowbox'></a>";
-
-                    $jSON['tipo1'] = "<tr><td style='padding: 11px;border: 1px solid #ffffff;background: #fefefe;'></td></tr>";
-                    $jSON['tipo2'] =  "<tr><th>Documentos</th><th>Data Doc.</th><th style='width: 15%;'>Download</th><th style='width: 5%;'>Vis.</th></tr>";
-                    $jSON['tipo3'] .= "<tr><td><center>$TYPEDOCS</center></td><td><center>$datareal</center></td><td><center>$dirOutros</center></td><td><center>$docview</center></td></tr>";
-                  }
+                $versao1 = $caminhoDiretorio."32/";
+                /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
+                $path = $versao1;
+                $diretorio = dir($path);
+                while ($arquivo = $diretorio -> read()) {
+                  $dirArquivo = $path.$arquivo;
                 }
-                break;
-                break;
-              endswitch;
+                $diretorio -> close();
+                /* ACABA AQUI */
+
+                $getPath = pathinfo($dirArquivo);
+                $getExt = $getPath['extension'];
+
+                $outraspastas = $caminhoPadrao."32/".$TYPEDOCS.".".$getExt;
+                $dirOutros = "<a href='{$outraspastas}' download><span class='btn btn_darkblue'>Download</span></a>";
+                $docview = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$outraspastas}' rel='shadowbox'></a>";
+
+                $jSON['tipo1'] = "<tr><td style='padding: 11px;border: 1px solid #ffffff;background: #fefefe;'></td></tr>";
+                $jSON['tipo2'] =  "<tr><th>Documentos</th><th>Data Doc.</th><th style='width: 15%;'>Download</th><th style='width: 5%;'>Vis.</th></tr>";
+                $jSON['tipo3'] .= "<tr><td><center>$TYPEDOCS</center></td><td><center>$datareal</center></td><td><center>$dirOutros</center></td><td><center>$docview</center></td></tr>";
+              }
+            }
+            break;
+            break;
+          endswitch;
 
 //RETORNA O CALLBACK
-              if ($jSON):
-                echo json_encode($jSON);
-              else:
+          if ($jSON):
+            echo json_encode($jSON);
+          else:
             //$jSON['trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Desculpe. Mas uma ação do sistema não respondeu corretamente. Ao persistir, contate o desenvolvedor!', E_USER_ERROR);
-                echo json_encode($jSON);
-              endif;
-            else:
+            echo json_encode($jSON);
+          endif;
+        else:
     //ACESSO DIRETO
-              die('<br><br><br><center><h1>Acesso Restrito!</h1></center>');
-            endif;
+          die('<br><br><br><center><h1>Acesso Restrito!</h1></center>');
+        endif;

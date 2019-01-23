@@ -1,7 +1,8 @@
 var percorrer = 0;
+var n = 0;
+var i = 0;
 $(document).on('change', '#arquivos', function(event){
-  var files = this.files; 
-  var i = 0;
+  var files = this.files;
   len = files.length;
   
   (function readFile(n) {
@@ -94,7 +95,6 @@ $('html').on('click', '#j_btn_salvar', function (e) {
     var link = $(this).val();
 
     if (link === "") {
-      //alert("Não foi possivel realizar a operação. Por favor, verifique se os campos de DATA DOCUMENTO estão preenchidos corretamente.");
       Trigger("<span style='padding: 20px 20px; position: relative; width: 100%; color: white; font-size: 1em; font-weight: 500; background-color: #e81f1f; top: 85;'> <b>Data de documento inserida está vazia! </span>");
     }
   });
@@ -219,6 +219,7 @@ $(document).ready(function(){
     $('#1').prop('checked', true);
     $(e.nome).appendTo(".funcionario"); 
     $(e.nomeD).appendTo(".funcionarioD");
+    Trigger(e.teste);
 
     if (pegarIdFUNC) {
      $('#funcionario select').val(pegarIdFUNC);
