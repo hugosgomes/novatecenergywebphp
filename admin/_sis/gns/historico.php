@@ -33,15 +33,6 @@ endif;
         <input type="text" id="j_selectMunicipio" placeholder="MUNÍCÍPIO" style="width: 300px;">
         <input type="text" id="j_selectCep" placeholder="CEP" style="width: 150px; margin-top: 5px;">
         <input type="text" id="j_selectCpf" placeholder="CPF/CNPJ" style="width: 150px; margin-top: 5px;">
-        <select id="j_selectStatus" placeholder="STATUS" style="width: 150px; margin-top: 5px;">
-            <option value="t">TODOS OS STATUS</option>
-            <option value="0" selected="true">ASSOCIADO</option>
-            <option value="1">ATENDIDO</option>
-            <option value="2">CANCELADO</option>
-            <option value="3">AUSENTE</option>
-            <option value="4">REAGEND NVT</option>
-            <option value="5">REAGEND GNS</option>
-          </select>
       </div>
     </article>
 
@@ -54,7 +45,7 @@ endif;
           <table id="dataTable"class="cell-border compact stripe table" callback="Historico" callback_action="Carregar">
             <thead>
        <tr style="font-size: 12px;">
-                <!--<th>Status</th>-->
+                <th>Data Agendamento</th>
                 <th>Número Cliente</th>
                 <th>Nome Cliente</th>
                 
@@ -87,19 +78,9 @@ endif;
 
     <article class="box box30">
       <header>
-        <h3 style="text-align: center;">Dados do Cliente</h3>
+        <h3 style="text-align: center;">Histórico de OS's</h3>
       </header> 
       <div class="box_content">
-        <ul id = "j_dadosCli">
-          <span>****SELECIONE UM CLIENTE****</span>
-        </ul>
-      </div>
-    
-      <header>
-        <h3 style="text-align: center;">Histórico de OT's</h3>
-      </header> 
-      <div class="box_content">
-        <ul id = "j_numot">
         <ul id = "j_historicosOs">
           <hr><hr>
           <span>****SELECIONE UM CLIENTE****</span>

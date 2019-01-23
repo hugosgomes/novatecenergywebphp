@@ -1,7 +1,11 @@
 <?php
 
 session_start();
+require '../../../vendor/autoload.php';
 require '../../../_app/Config.inc.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+    use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 if (empty($_SESSION['userLogin'])):
     $jSON['trigger'] = AjaxErro('<b class="icon-warning">OPSS:</b> Você não tem permissão para essa ação ou não está logado como administrador!', E_USER_ERROR);
@@ -19,6 +23,7 @@ $PostData = filter_input_array(INPUT_POST, FILTER_DEFAULT);//Criar um array com 
 
 //VALIDA AÇÃO
 if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallBack):
+
     //PREPARA OS DADOS
     $Case = $PostData['callback_action'];
     unset($PostData['callback'], $PostData['callback_action']);
@@ -43,6 +48,15 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $Delete = new Delete;
     endif;
 
+    $ConsultaBase = "SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO, [60_OT].ObsOT,
+                    [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
+                    inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
+                    inner join [60_OS] on [60_OT].Id = [60_OS].OT
+                    INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
+                    LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
+                    LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID ";
+
+
     //SELECIONA AÇÃO
     switch ($Case):
         case 'addTecnico':
@@ -61,14 +75,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             $jSON['success'] = true;
                             $Update->ExeUpdate("[60_OS]", $PostData, "WHERE [60_OS].Id = :id", "id={$OSId}");
                             if($Update->getResult()):
-                                $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                                  [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
-                                  inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                                  inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                                  INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
-                                  LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
-                                  LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
-                                              WHERE [60_OS].Id = :id","id={$OSId}");
+                                $Read->FullRead($ConsultaBase. " WHERE [60_OS].Id = :id","id={$OSId}");
                                 $jSON['addtable'] = "<tr class='j_tecnico' id='{$Read->getResult()[0]['IDOS']}'><td>{$Read->getResult()[0]['NomeCliente']}</td><td>{$Read->getResult()[0]['NumOS']}</td><td>{$Read->getResult()[0]['NomeOS']}</td><td>{$Read->getResult()[0]['Endereco']} {$Read->getResult()[0]['Bairro']} {$Read->getResult()[0]['Municipio']}</td><td>". date('d/m/Y', strtotime($Read->getResult()[0]['DataAgendamento'])) ."</td><td>". strstr($Read->getResult()[0]['Tecnico'], ' ', true)."</td><td>{$Read->getResult()[0]['TURNO']}</td><td class='no-print'><span rel='agendamentos' callback='Agendamentos' callback_action='delete' style='padding-right: 5px;margin-left: 20%;margin-right: 30%;margin-top: 10%;' class='j_del_tecnico icon-cross btn btn_red' id='{$Read->getResult()[0]['IDOS']}'></span></td></td></tr>";
                                  $jSON['idOS'] = $Read->getResult()[0]['IDOS'];
                             else:
@@ -88,6 +95,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $Tecnico['Tecnico'] = "0";
 
 
+
+
                 if(!$PostData['Tecnico']):
                     $jSON['trigger'] = AjaxErro("SELECIONE PRIMEIRO UM TÉCNICO!", E_USER_WARNING);
                 else:
@@ -99,10 +108,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           $jSON['success'] = true;                        
                           $jSON['deltable'] = $OSId;
 
-                          $Read->FullRead("SELECT  NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, 
-                            [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, 
+                          $Read->FullRead("SELECT  NomeCliente, [60_OS].Id, [60_OS].[OSServico], [60_OS].NomeOs,[60_OS].NumOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, 
                             [60_OS].Tecnico, [60_OS].turno as TURNO,
-                            [60_OT].NumOT, [60_OT].ObsOT,
                             [60_OS].Latitude, [60_OS].Longitude FROM [60_Clientes]
                             inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
                             inner join [60_OS] on [60_OT].Id = [60_OS].OT
@@ -110,7 +117,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           foreach ($Read->getResult() as $marker): 
                             extract($marker);
                           $data = date("d/m/Y", strtotime($DataAgendamento));
-                            $jSON['infowindow'] = "<div class='info-window'><h3 class='m_bottom'>{$OSServico}</h3><div class='info-content'><p>Cliente: <b>{$NomeCliente}</b></p><p>OT: <b>{$NumOT}</b></p><p>OS: <b>{$NumOS}</b><br/>Serviço: <b>{$NomeOs}</b></p><p>Data: <b>{$data}</b></p><p>Período: <b>{$TURNO}</b></p><p>Ob: <b>{$ObsOT}</b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='{$Id}'>Add</span></div></div>";
+                            $jSON['infowindow'] = "<div class='info-window'><h3 class='m_bottom'>{$OSServico}</h3><div class='info-content'><p>OS: <b>{$NumOS}</b></p><p>Cliente: <b>{$NomeCliente}</b></p><p>Serviço: <b>{$NomeOs}</b></p><p>Endereço: <b>{$Endereco}, {$Bairro}</b></p><p>Data: <b>{$data}</b></p><span rel='single_message' callback='Agendamentos' callback_action='addTecnico' class='j_add_tecnico icon-plus btn btn_darkblue' id='{$Id}'>Add</span></div></div>";
                             $jSON['latitude'] = $Latitude;
                             $jSON['longitude'] = $Longitude;
                           endforeach;
@@ -125,68 +132,37 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             break;
 
         case 'consulta':
-              //VERIFICA DE O FOI SELECIONADO TODOS OS TÉCNICOS
-              $os_tec = null;
+              //VERIFICA DE O FOI SELECIONADO TODOS OS TÉCNICOS              
               if($PostData['semana'] == 1):
                 if($PostData['Tecnico'] == 't'):
-                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                      [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
-                      inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                      inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                      INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
-                      LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
-                      LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
-                                          WHERE [60_OS].Tecnico <> 0 AND DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE()) AND [60_OS].DataAgendamento >= CONVERT(VARCHAR(10), GETDATE(), 103)",NULL);
+                    $Read->FullRead($ConsultaBase ." WHERE [60_OS].Tecnico <> 0 AND DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE()) AND [60_OS].DataAgendamento >= CONVERT(VARCHAR(10), GETDATE(), 103)",NULL);
                     
                     //$os_tec = count($Read->getResult());
                 else:
-                    $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                      [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
-                      inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                      inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                      INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
-                      LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
-                      LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
-                                          WHERE [60_OS].Tecnico = :tecnico AND [60_OS].DataAgendamento >= CONVERT(VARCHAR(10), GETDATE(), 103) AND DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())","tecnico={$PostData['Tecnico']}");
+                    $Read->FullRead($ConsultaBase ." WHERE [60_OS].Tecnico = :tecnico AND [60_OS].DataAgendamento >= CONVERT(VARCHAR(10), GETDATE(), 103) AND DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())","tecnico={$PostData['Tecnico']}");
                     
                     $os_tec = count($Read->getResult());
                 endif;
               else:
                 if($PostData['Tecnico'] == 't'):
-                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                    [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
-                    inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                    inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                    INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
-                    LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
-                    LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
-                                            WHERE [60_OS].[DataAgendamento] = :dia","dia={$PostData['dia']}");
+                  $Read->FullRead($ConsultaBase ." WHERE [60_OS].[DataAgendamento] = :dia","dia={$PostData['dia']}");
                     
                     $os_tec = count($Read->getResult());
                 else:
-                  $Read->FullRead("SELECT NomeCliente, [60_OS].Id IDOS, [60_OS].[OSServico],[60_OS].NumOS, [60_OS].NomeOS, [60_OS].Status, [60_OS].DataAgendamento, [60_OS].Endereco, [60_OS].Bairro, [60_OS].Municipio, [60_OS].turno as TURNO,
-                    [60_OS].Latitude, [60_OS].Longitude, IIF([Funcionários].[NOME COMPLETO] IS NOT NULL, [Funcionários].[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS Tecnico, [00_NivelAcesso].[ID] AS IdTecnico FROM [60_Clientes]
-                    inner join [60_OT] on [60_Clientes].Id = [60_OT].Cliente
-                    inner join [60_OS] on [60_OT].Id = [60_OS].OT
-                    INNER JOIN [00_NivelAcesso] ON [60_OS].Tecnico = [00_NivelAcesso].ID
-                    LEFT JOIN  Funcionários ON [00_NivelAcesso].IDFUNCIONARIO = Funcionários.ID
-                    LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID  
-                                            WHERE [60_OS].Tecnico = :tecnico AND [60_OS].[DataAgendamento] = :dia","tecnico={$PostData['Tecnico']}&dia={$PostData['dia']}");
+                  $Read->FullRead($ConsultaBase ." WHERE [60_OS].Tecnico = :tecnico AND [60_OS].[DataAgendamento] = :dia","tecnico={$PostData['Tecnico']}&dia={$PostData['dia']}");
                     
                     $os_tec = count($Read->getResult());
                 endif;
               endif;
-
               if ($Read->getResult()):
                   $jSON['addtable'] = null;
                   foreach ($Read->getResult() as $OS):
                       extract($OS);
                       
+                        //MOSTRA O STATUS DO CHAMADO CASO O MESMO SEJA DIFERENTE DE '0'
                         if ($Status == 0):
-                          //SE O STATUS FOR '0', PERMITE RETIRAR A OS DO TÉCNICO
                           $sts = "<td class='no-print'><span style='padding-right: 5px;margin-left: 15%;margin-right: 30%;margin-top: 10%;' rel='agendamentos' callback='Agendamentos'callback_action='delete' class='j_del_tecnico icon-cross btn btn_red' id='{$IDOS}'></span></td>";
                         else:
-                          //SE O STATUS FOR DIFERENTE DE '0', NÃO PERMITE RETIRAR A OS DO TÉCNICO
                           $sts = "<td class='no-print'><span style='padding-right: 5px;margin-left: 15%;margin-right: 30%;margin-top: 10%;'><img src='_img\check.png'></span></td>";
                         endif;
 
@@ -200,12 +176,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                       <td>{$Endereco} {$Bairro} {$Municipio}</td>
                       <td>". date('d/m/Y', strtotime($DataAgendamento)) ."</td>
                       <td style='text-align: center; vertical-align: middle'>". strstr($Tecnico, ' ', true)."</td>
-                      <td style='text-align: center; vertical-align: middle'>{$TURNO}</td>".$sts
+                      <td style='text-align: center; vertical-align: middle'>{$TURNO}</td>".
+                      $sts
                       ."</tr>";
                       $jSON['idOS'] = $IDOS;
-                      $jSON['osTec'] = $os_tec;
-                  endforeach;
-
+                  endforeach;                   
               else:
                   $jSON['trigger'] = true;
                   $jSON['success'] = true;
@@ -225,8 +200,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
          case 'os_s_end':
 
-         $Read->FullRead("SELECT Id, Endereco, Bairro, Municipio, Cep, Latitude, Longitude, ObsEmpreiteira FROM [60_OS] WHERE Latitude IS NULL AND Longitude IS NULL"," ");
+         $Read->FullRead("SELECT Id, Endereco, Bairro, Municipio, Cep, Latitude, Longitude FROM [60_OS] WHERE Latitude IS NULL AND Longitude IS NULL"," ");
 
+             
               if ($Read->getResult()):
 
                   $jSON['OS_sem_end'] = null;
@@ -290,6 +266,99 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 }
                  
+             break;
+             case 'exportar_excel':
+                //PREPARANDO PARA CRIAÇÃO DO EXCEL    
+                $spreadsheet = new Spreadsheet();
+                $sheet = $spreadsheet->getActiveSheet();
+                $sheet->setCellValue('A1', 'Cliente');
+                $sheet->setCellValue('B1', 'OS');
+                $sheet->setCellValue('C1', 'Nome OS');
+                $sheet->setCellValue('D1', 'Endereço');
+                $sheet->setCellValue('E1', 'Data');
+                $sheet->setCellValue('F1', 'Técnico');
+                $sheet->setCellValue('G1', 'Período');
+                $sheet->setCellValue('H1', 'Obs');
+
+                if($PostData['semana'] == 1):
+                if($PostData['Tecnico'] == 't'):
+                    $Read->FullRead($ConsultaBase ." WHERE [60_OS].Tecnico <> 0 AND DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE()) AND [60_OS].DataAgendamento >= CONVERT(VARCHAR(10), GETDATE(), 103)",NULL);
+                    
+                    if ($Read->getResult()) {
+                      $count = 2;
+                      for ($i=0; $i < count($Read->getResult()); $i++) { 
+                        $sheet->setCellValue("A{$count}", $Read->getResult()[$i]['NomeCliente']);
+                        $sheet->setCellValue("B{$count}", $Read->getResult()[$i]['NumOS']);
+                        $sheet->setCellValue("C{$count}", $Read->getResult()[$i]['NomeOS']);
+                        $sheet->setCellValue("D{$count}", $Read->getResult()[$i]['Endereco']. " - " . $Read->getResult()[$i]['Bairro']. " - ". $Read->getResult()[$i]['Municipio']);
+                        $sheet->setCellValue("E{$count}",  date('d/m/Y', strtotime($Read->getResult()[$i]['DataAgendamento'])));
+                        $sheet->setCellValue("F{$count}", $Read->getResult()[$i]['Tecnico']);
+                        $sheet->setCellValue("G{$count}", $Read->getResult()[$i]['TURNO']);
+                        $sheet->setCellValue("H{$count}", $Read->getResult()[$i]['ObsOT']);
+                        $count++;
+                      }
+
+                    };
+                else:
+                    $Read->FullRead($ConsultaBase ." WHERE [60_OS].Tecnico = :tecnico AND [60_OS].DataAgendamento >= CONVERT(VARCHAR(10), GETDATE(), 103) AND DatePart(Week,[60_OS].DataAgendamento) = DatePart(Week,GETDATE()) AND year([60_OS].DataAgendamento) = year(GETDATE())","tecnico={$PostData['Tecnico']}");
+
+                    if ($Read->getResult()) {
+                      $count = 2;
+                      for ($i=0; $i < count($Read->getResult()); $i++) { 
+                        $sheet->setCellValue("A{$count}", $Read->getResult()[$i]['NomeCliente']);
+                        $sheet->setCellValue("B{$count}", $Read->getResult()[$i]['NumOS']);
+                        $sheet->setCellValue("C{$count}", $Read->getResult()[$i]['NomeOS']);
+                        $sheet->setCellValue("D{$count}", $Read->getResult()[$i]['Endereco']. " - " . $Read->getResult()[$i]['Bairro']. " - ". $Read->getResult()[$i]['Municipio']);
+                        $sheet->setCellValue("E{$count}",  date('d/m/Y', strtotime($Read->getResult()[$i]['DataAgendamento'])));
+                        $sheet->setCellValue("F{$count}", $Read->getResult()[$i]['Tecnico']);
+                        $sheet->setCellValue("G{$count}", $Read->getResult()[$i]['TURNO']);
+                        $sheet->setCellValue("H{$count}", $Read->getResult()[$i]['ObsOT']);
+                        $count++;
+                      }
+                    };
+                    
+                endif;
+              else:
+                if($PostData['Tecnico'] == 't'):
+                  $Read->FullRead($ConsultaBase ." WHERE [60_OS].[DataAgendamento] = :dia","dia={$PostData['dia']}");
+                  
+                    if ($Read->getResult()) {
+                      $count = 2;
+                      for ($i=0; $i < count($Read->getResult()); $i++) { 
+                        $sheet->setCellValue("A{$count}", $Read->getResult()[$i]['NomeCliente']);
+                        $sheet->setCellValue("B{$count}", $Read->getResult()[$i]['NumOS']);
+                        $sheet->setCellValue("C{$count}", $Read->getResult()[$i]['NomeOS']);
+                        $sheet->setCellValue("D{$count}", $Read->getResult()[$i]['Endereco']. " - " . $Read->getResult()[$i]['Bairro']. " - ". $Read->getResult()[$i]['Municipio']);
+                        $sheet->setCellValue("E{$count}",  date('d/m/Y', strtotime($Read->getResult()[$i]['DataAgendamento'])));
+                        $sheet->setCellValue("F{$count}", $Read->getResult()[$i]['Tecnico']);
+                        $sheet->setCellValue("G{$count}", $Read->getResult()[$i]['TURNO']);
+                        $sheet->setCellValue("H{$count}", $Read->getResult()[$i]['ObsOT']);
+                        $count++;
+                      }
+                    };
+                else:
+                  $Read->FullRead($ConsultaBase ." WHERE [60_OS].Tecnico = :tecnico AND [60_OS].[DataAgendamento] = :dia","tecnico={$PostData['Tecnico']}&dia={$PostData['dia']}");
+
+                  if ($Read->getResult()) {
+                    $count = 2;
+                      for ($i=0; $i < count($Read->getResult()); $i++) { 
+                        $sheet->setCellValue("A{$count}", $Read->getResult()[$i]['NomeCliente']);
+                        $sheet->setCellValue("B{$count}", $Read->getResult()[$i]['NumOS']);
+                        $sheet->setCellValue("C{$count}", $Read->getResult()[$i]['NomeOS']);
+                        $sheet->setCellValue("D{$count}", $Read->getResult()[$i]['Endereco']. " - " . $Read->getResult()[$i]['Bairro']. " - ". $Read->getResult()[$i]['Municipio']);
+                        $sheet->setCellValue("E{$count}",  date('d/m/Y', strtotime($Read->getResult()[$i]['DataAgendamento'])));
+                        $sheet->setCellValue("F{$count}", $Read->getResult()[$i]['Tecnico']);
+                        $sheet->setCellValue("G{$count}", $Read->getResult()[$i]['TURNO']);
+                        $sheet->setCellValue("H{$count}", $Read->getResult()[$i]['ObsOT']);
+                        $count++;
+                      }
+                    };
+                    
+                endif;
+              endif;
+                $writer = new Xlsx($spreadsheet);
+                $writer->save('../../../download/ExportarGNS.xlsx');
+                $jSON['excel'] = true;
              break;
     endswitch;
 

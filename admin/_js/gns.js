@@ -24,11 +24,6 @@ $('#Tecnico').change(function(){
             $(data.addtable).appendTo('.dataTable');
         }
 
-        if (data.os_tecnico){
-            $("#os_tecnico").remove();
-            $("#os_tecnico").appendTo('.os_tecnico');
-        }
-
         //ADICIONA OS VALORES CORRESPONDENTES NA LISTA NA TELA DE MONITORAMENTO
         if (data.addlist) {
             $("#dataList").remove();            
@@ -40,12 +35,21 @@ $('#Tecnico').change(function(){
             $(data.addOrcamentolist).appendTo('.orcamento-list');
         }
 
-        if (data.qtdOs) {
-            $(".qtdOs").html("Quantidade de OS:<b> "+data.qtdOs+" </b>"); 
+        if (data.addMedialist) {
+            $("#media-list").remove();            
+            $(data.addMedialist).appendTo('.media-list');
+        }else{
+            $("#media-list").remove();
+        }
+        if (data.addlistOciosidade) {
+            $(".ociosidade-list tr").remove();            
+            $(data.addlistOciosidade).appendTo('.ociosidade-list');
+        }else{
+            $(".ociosidade-list").remove();
         }
 
-        if (data.osTec){
-            $("#num_os").html(data.osTec + " Vinculadas");
+        if (data.qtdOs) {
+            $(".qtdOs").html("Quantidade de OS:<b> "+data.qtdOs+" </b>"); 
         }
                   
     }, 'json');
@@ -85,7 +89,6 @@ $('#Tecnico').change(function(){
                 $('#dataTable #semOS').fadeOut('fast');
                 $(data.addtable).appendTo('.dataTable');
 
-
                 markers[OSId].setMap(null);
 
                 var Tecnico = $("#Tecnico option:selected").text();
@@ -93,10 +96,8 @@ $('#Tecnico').change(function(){
 
                 var QtdOs = parseInt($('.qtd_OS').text());
                 $('.qtd_OS').text(QtdOs - 1);
-
-                var QtdOS_Vin = parseInt($('.qtd_OS_Vin').text());
-                $('.qtd_OS_Vin').text(QtdOS_Vin + 1);
                 
+
             }
 
 
@@ -162,10 +163,8 @@ $('#Tecnico').change(function(){
 
             var QtdOs = parseInt($('.qtd_OS').text());
             $('.qtd_OS').text(QtdOs + 1);
-
-            var QtdOS_Vin = parseInt($('.qtd_OS_Vin').text());
-            $('.qtd_OS_Vin').text(QtdOS_Vin - 1);
-
+            
+           
            }
 
             //DINAMIC CONTENT
@@ -232,7 +231,7 @@ $('#Tecnico').change(function(){
             if (data.ot) {
                // $('.j_ot, .table *').remove();
                 $('.tabela_atribuirOtOs').fadeOut();
-                $(this).closest('tr').remove();
+               $(this).closest('tr').remove();
                 $('#'+ data.ot).fadeOut(400);
                 carregarTabela();
             }
@@ -285,9 +284,8 @@ $('#Tecnico').change(function(){
         var municipioCliente = $('#j_selectMunicipio').val();
         var cepCliente = $('#j_selectCep').val();
         var cpfCliente = $('#j_selectCpf').val();
-        var statusAtend = $('#j_selectStatus').val();
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, nomeCliente, dataCliente, numCliente, enderecoCliente, bairroCliente, municipioCliente, cepCliente, cpfCliente, statusAtend}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, nomeCliente, dataCliente, numCliente, enderecoCliente, bairroCliente, municipioCliente, cepCliente, cpfCliente}, function (data) {
 
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
@@ -305,11 +303,9 @@ $('#Tecnico').change(function(){
         
     }
 
+
     //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $(document).on('click', '.pointer', function (e) {
-        
-      //document.getElementById("tabelaPecasServicos").style.display = "block";
-      //document.getElementById("detalhes").style.display = "block";
 
         var Callback = $(this).attr('callback');
         var Callback_action = $(this).attr('callback_action');
@@ -329,18 +325,6 @@ $('#Tecnico').change(function(){
             if (data.historicoOs) {
                 $('#j_historicosOs *').remove();
                 $(data.historicoOs).appendTo('#j_historicosOs');             
-            }
-
-            //RETORNOS CORRESPONDENTES A TELA DE HISTÓRICO DE CLIENTES - DADOS DO CLIENTE
-            if (data.dadosCli) {
-                $('#j_dadosCli *').remove();
-                $(data.dadosCli).appendTo('#j_dadosCli');             
-            }
-
-            //RETORNOS CORRESPONDENTES A TELA DE HISTÓRICO DE CLIENTES - NÚMERO DA OT
-            if (data.numot) {
-                $('#j_numot *').remove();
-                $(data.numot).appendTo('#j_numot');             
             }
 
             //RETORNOS CORRESPONDENTES A TELA DE DETALHES DE ORÇAMENTOS
@@ -376,7 +360,7 @@ $('#Tecnico').change(function(){
     });
 
 
-    $('#j_selectClientes, #j_selectNum, #j_selectData, #j_selectEndereco, #j_selectBairro, #j_selectMunicipio, #j_selectCep, #j_selectCpf, #j_selectStatus').change(carregaDados);
+    $('#j_selectClientes, #j_selectNum, #j_selectData, #j_selectEndereco, #j_selectBairro, #j_selectMunicipio, #j_selectCep, #j_selectCpf').change(carregaDados);
     $("#j_selectData").datepicker({
       onSelect: function(dateText) {
         carregaDados();
@@ -401,6 +385,9 @@ $('#Tecnico').change(function(){
                     $(".j_table_S_END").remove();
                     $(data.OS_sem_end).appendTo('#j_table_S_END');
                 }
+
+
+
 
             }, 'json');
 
@@ -469,7 +456,6 @@ $('#Tecnico').change(function(){
     $('#j_statusOrcamento').append('<option value="4">RECUPERADO</option>');
 
     carregaTabelaOrcamento();
-    dadosOrcamento();
 
 }
 
@@ -512,61 +498,30 @@ function carregaTabelaOrcamento(){
     }, 'json');
 }
 
-function dadosOrcamento(){
-       var callback = "Orcamentos";
-       var callback_action = "detalhes";
-       var IdCliente = $('#id_cli').val();
-       var idOrcamento = $('#id_orc').val();
-
-       $.post(`_ajax/gns/${callback}.ajax.php`, {callback,callback_action,IdCliente, idOrcamento}, function (data){
-
-           //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-           if (data.trigger) {
-               Trigger(data.trigger);
-           }
-
-           //RETORNOS CORRESPONDENTES A TELA DE DETALHES DE ORÇAMENTOS
-           if (data.addDetalhes) {
-               $('.j_detalhes *').remove();
-               $(data.addDetalhes).appendTo('.j_detalhes');
-           }
-
-           if(data.Servico){
-               if(data.Peca){
-                 var teste = parseInt(data.Peca) + parseInt(data.Servico);
-                 $('.itens').remove();
-                 $("<span class='itens'><b>Valor:</b>(R$) " + teste + "</span>").appendTo('#itens');
-              }
-           }
-
-           if(data.addServicos){
-               if(data.addPecas){
-                   $("#j_AddPecasServicos *").remove();
-                   $(data.addPecas).appendTo('#j_AddPecasServicos');
-                   $(data.addServicos).appendTo('#j_AddPecasServicos');
-               }
-           }
-
-           if(data.addOrcamentos){
-               $("#j_Orcamentos *").remove();
-               $(data.addOrcamentos).appendTo('#j_Orcamentos');
-           }
-
-
-       }, 'json');
-   }
-
 
 $('html').on('click', '#j_btn_editar', function (e) {
     var Callback = $(this).attr('callback');
     var Callback_action = $(this).attr('callback_action');
     var idOrcamento = $(this).attr('idOrcamento');
 
-    $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, idOrcamento}, function (data) {
+    $.post(`_ajax/gns/${Callback}.ajax.php`, {callback: Callback, callback_action: Callback_action, idOrcamento}, function (data) {
 
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
             Trigger(data.trigger);
+        }
+
+        if(data.addContatos){
+            $(".orcamentoGNS tbody tr").remove();
+            $(data.addContatos).appendTo(".orcamentoGNS tbody");
+        }
+
+        if(data.addIdOS){
+            $(".orcamentoGNS").attr("idos",data.addIdOS);
+        }
+
+        if(data.addIdOrca){
+            $(".orcamentoGNS").attr("idor",data.addIdOrca);
         }
 
         if(data.addTecnicos){
@@ -590,6 +545,7 @@ $('html').on('click', '#j_btn_editar', function (e) {
             $('#j_status').val(data[0]['Status']);
             $('#j_obs').val(data[0]['Obs']);
             $('#j_valor').val(numeroParaMoeda(data[0]['Valor'],2,',','.'));
+
 
             select = $('#j_status').find('option:selected').val();
             $('#j_status option[value="1"],#j_status option[value="2"]').remove();
@@ -650,6 +606,26 @@ $('html').on('click', '#j_btn_salvar', function (e) {
 
 });
 
+$(document).on('click','#j_btn_salvar_contato',function(){
+
+    let callback = "Orcamentos";
+    let callback_action = "salvar_contato";
+    let status = $(".status_contato option:selected").val();
+    let Obs = $(".obs_contato").val();
+    let IdOs = $(".orcamentoGNS").attr("idos");
+    let IdOrc = $(".orcamentoGNS").attr("idor");
+    
+    $.post(`_ajax/gns/${callback}.ajax.php`,{callback,callback_action,status,Obs,IdOs,IdOrc},function(data){
+
+        if (data.trigger) {
+            Trigger(data.trigger);
+            $('#j_btn_editar').trigger('click');
+        }
+
+
+    }, 'json');
+})
+
 
 $('html').on('click', '#j_btn_cancelar', function (e) {
     $('#j_modal, .blocker').hide();
@@ -697,41 +673,25 @@ $('html').on('click', '#j_importar', function (e) {
 });
 
 /*------------------EXPORT PARA EXCEL------------------*/
-exportExcel = function ()
-{
-    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
-    var textRange; var j=0;
-    tab = document.getElementById('dataTable'); //ID DA TABELA
+//PESQUISA VINCULA OT AO CLIENTE
+    $('html').on('click', '#exportar', function (e) {
+        var Callback = $(this).attr('callback');
+        var Callback_action = $(this).attr('callback_action');        
+        var Tecnico = $("#Tecnico option:selected").val();
+        var Dia = $(this).attr('rel');
+        var S = $(this).attr('semana');
 
-    for(j = 0 ; j < tab.rows.length ; j++) 
-    {     
-        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
-        //tab_text=tab_text+"</tr>";
-    }
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
 
-    tab_text= tab_text+"</table>";
-    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//REMOVE LINKS DA TABELA
-    tab_text= tab_text.replace(/<img[^>]*>/gi,""); //REMOVE IMAGENS DA TABELA
-    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); //REMOVE INPUTS
+            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+            if (data.excel) {
+                window.open("http://192.168.0.101:83/rodrigo/novatec/download/ExportarGNS.xlsx");                
+            }
+        }, 'json');
 
-    var ua = window.navigator.userAgent;
-    var msie = ua.indexOf("MSIE "); 
-
-    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      //SE INTERNET EXPLORER
-    {
-        txtArea1.document.open("txt/html","replace");
-        txtArea1.document.write(tab_text);
-        txtArea1.document.close();
-        txtArea1.focus(); 
-        sa=txtArea1.document.execCommand("SaveAs",true,"Agendamentos.xls");
-    }  
-    else                 //OUTROS NAVEGADORES
-        sa = window.open('data:application/vnd.ms-excel; charset=UTF-8,%EF%BB%BF' + encodeURIComponent(tab_text));  
-
-    return (sa);
-};
-/*------------------FIM EXPORT PARA EXCEL------------------*/
-
+        e.preventDefault();
+        e.stopPropagation();
+    });
 
 function numeroParaMoeda(n, c, d, t)
 {
@@ -740,5 +700,6 @@ function numeroParaMoeda(n, c, d, t)
 }
 
 
-
-
+$( function() {
+    $( "#tabs" ).tabs();
+} );
