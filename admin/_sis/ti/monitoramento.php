@@ -95,21 +95,6 @@ $cor = $percent > 50 ? "green" : "red";
           </tbody>
       </table>
     </div>
-    <div class="box box50">
-      <table class="monitoramento">
-        <thead>
-          <tr>
-            <th>Id orçamento</th>
-            <th>data orçamento</th>
-            <th>update</th>
-          </tr>
-        </thead>
-        <tbody class="update_clientes">
-          <tr>
-          </tr>
-        </tbody>
-      </table>
-    </div>
 
     
 </div>

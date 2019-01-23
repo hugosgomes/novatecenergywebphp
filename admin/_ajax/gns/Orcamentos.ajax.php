@@ -130,7 +130,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             LEFT JOIN  FuncionariosTerceirizados ON [00_NivelAcesso].IDTERCEIRIZADO = FuncionariosTerceirizados.ID
             LEFT JOIN  Funcionários  Func1 ON NivelAcesso.IDFUNCIONARIO = Func1.ID
             LEFT JOIN  FuncionariosTerceirizados Func2 ON NivelAcesso.IDTERCEIRIZADO = Func2.ID WHERE [60_Orcamentos].ID = " . $PostData['idOrcamento'],"");
-            //var_dump($Read->getResult());
             if (!empty($Read->getResult())):
                     foreach ($Read->getResult() as $detalhes):
                       extract($detalhes);
