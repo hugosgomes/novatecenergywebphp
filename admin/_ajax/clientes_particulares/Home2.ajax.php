@@ -59,10 +59,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $consulta_inicial = $PostData['inicial'];
         $criterioEndereco = $PostData['endereco'] != "t" ? " AND [80_Enderecos].ID = " . $PostData['endereco'] . " ": "";
         $ctiterioCliente = $PostData['cliente'] != "t" ? " AND [80_Enderecos].IDCLIENTE = " . $PostData['cliente'] . " ": "";
-        $criterioMes = $PostData['mes'] != "t" ? " AND MONTH([80_Orcamentos].DATASOLICITACAO) = " . $PostData['mes'] . " ": "";
-        $criterioAno = $PostData['ano'] != "t" ? " AND YEAR(DATAAGENDADA) = " . $PostData['ano'] . " ": "";
-        $criterioMesFiltro = $PostData['mes'] != "t" ? " AND DATEPART(MONTH, [80_Chamados].DATA_SISTEMA) = " . $PostData['mes'] . " ": "";
-        $criterioAnoFiltro = $PostData['ano'] != "t" ? " AND DATEPART(YEAR,[80_Chamados].DATA_SISTEMA) = " . $PostData['ano'] . " ": "";
+        $criterioMes = $PostData['mes'] != "t" ? " AND (MONTH(DATAAGENDADA) = " . $PostData['mes'] . ") ": "";
+        $criterioAno = $PostData['ano'] != "t" ? " AND (YEAR(DATAAGENDADA) = " . $PostData['ano'] . ") ": "";
+        $criterioMesFiltro = $PostData['mes'] != "t" ? " AND (MONTH([80_Orcamentos].DATA_SISTEMA) = " . $PostData['mes'] . ") ": "";
+        $criterioAnoFiltro = $PostData['ano'] != "t" ? " AND (YEAR([80_Orcamentos].DATA_SISTEMA) = " . $PostData['ano'] . ") ": "";
         $criterioOrdemAnalise = $valueOrdem != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO";
         $criterioOrdemExecutando = $valueOrdemExecutando != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO";  
         $criterioOrdemAgendado = $valueOrdemAgendado != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO";     
@@ -148,95 +148,48 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endforeach;
         endif;
 
-            // CONSULTA DEFAULT OU FILTRO POR MÊS E ANO
-           $Read->FullRead("SELECT DISTINCT [80_Orcamentos].DATASOLICITACAO, [80_Enderecos].LOGRADOURO +', ' +[80_Enderecos].NUMERO+', ' +[80_Enderecos].COMPLEMENTO+'-' 
-+[80_Enderecos].BAIRRO+', ' +[80_Enderecos].CIDADE+', ' +[80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, [80_Orcamentos].STATUS, (SELECT MAX([80_Chamados].DATA_SISTEMA)) AS DATA_SISTEMA
-FROM [80_Orcamentos]
-INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID
-INNER JOIN [80_Chamados] ON [80_Chamados].IDORCAMENTO = [80_Orcamentos].ID
-WHERE [80_Orcamentos].STATUS = 5 AND [80_ClientesParticulares].TIPO = 1 ". $criterioEndereco . $ctiterioCliente . $criterioMesFiltro . $criterioAnoFiltro . "
-GROUP BY [80_Orcamentos].DATASOLICITACAO, [80_Enderecos].LOGRADOURO ,[80_Enderecos].NUMERO , [80_Enderecos].COMPLEMENTO , [80_Enderecos].BAIRRO ,
-[80_Enderecos].CIDADE , [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS
-ORDER BY [80_Orcamentos].DATASOLICITACAO",""); 
+            // CONSULTA DEFAULT OU FILTRO POR MÊS E ANO STATUS 5
+           $Read->FullRead("SELECT DISTINCT [80_Orcamentos].DATA_SISTEMA, [80_Enderecos].LOGRADOURO +', 
+' +[80_Enderecos].NUMERO+', ' +[80_Enderecos].COMPLEMENTO+'-' + [80_Enderecos].BAIRRO+', ' +[80_Enderecos].CIDADE+', ' +[80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, 
+[80_Orcamentos].STATUS FROM [80_Orcamentos] 
+INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID 
+INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID 
+INNER JOIN [80_Chamados] ON [80_Chamados].IDORCAMENTO = [80_Orcamentos].ID WHERE ([80_Orcamentos].STATUS = 5) 
+AND [80_ClientesParticulares].TIPO = 1 ". $criterioEndereco . $ctiterioCliente . $criterioMesFiltro . $criterioAnoFiltro .""); 
         
         if ($Read->getResult()):
             $jSON['addcoluna6'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
                 $jSON['addcoluna6'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
-                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
-                                            "<span  style='color: #bdbdbd;'></span>".
-                                            "</div></a>".
-                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
-                                        "</div>";
+                                        "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                        "<span  style='color: #bdbdbd;'></span>".
+                                        "</div></a>".
+                                        "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                    "</div>";
             endforeach;
         endif;
 
         // CONSULTA DEFAULT OU FILTRO POR MÊS E ANO
-           $Read->FullRead("SELECT DISTINCT [80_Orcamentos].DATASOLICITACAO, [80_Enderecos].LOGRADOURO +', ' +[80_Enderecos].NUMERO+', ' +[80_Enderecos].COMPLEMENTO+'-' 
-+[80_Enderecos].BAIRRO+', ' +[80_Enderecos].CIDADE+', ' +[80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, [80_Orcamentos].STATUS, (SELECT MAX([80_Chamados].DATA_SISTEMA)) AS DATA_SISTEMA
-FROM [80_Orcamentos]
-INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID
-INNER JOIN [80_Chamados] ON [80_Chamados].IDORCAMENTO = [80_Orcamentos].ID
-WHERE [80_Orcamentos].STATUS = 6 OR [80_Orcamentos].STATUS = 7 AND [80_ClientesParticulares].TIPO = 1 ". $criterioEndereco . $ctiterioCliente . $criterioMesFiltro . $criterioAnoFiltro . "
-GROUP BY [80_Orcamentos].DATASOLICITACAO, [80_Enderecos].LOGRADOURO ,[80_Enderecos].NUMERO , [80_Enderecos].COMPLEMENTO , [80_Enderecos].BAIRRO ,
-[80_Enderecos].CIDADE , [80_Enderecos].UF, [80_Orcamentos].ID, [80_Orcamentos].STATUS
-ORDER BY [80_Orcamentos].DATASOLICITACAO","");
+           $Read->FullRead("SELECT DISTINCT [80_Orcamentos].DATA_SISTEMA, [80_Enderecos].LOGRADOURO +', 
+' +[80_Enderecos].NUMERO+', ' +[80_Enderecos].COMPLEMENTO+'-' + [80_Enderecos].BAIRRO+', ' +[80_Enderecos].CIDADE+', ' +[80_Enderecos].UF AS ENDERECO, [80_Orcamentos].ID, 
+[80_Orcamentos].STATUS FROM [80_Orcamentos] 
+INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID 
+INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID 
+INNER JOIN [80_Chamados] ON [80_Chamados].IDORCAMENTO = [80_Orcamentos].ID WHERE ([80_Orcamentos].STATUS = 6 OR [80_Orcamentos].STATUS = 7) 
+AND [80_ClientesParticulares].TIPO = 1 ". $criterioEndereco . $ctiterioCliente . $criterioMesFiltro . $criterioAnoFiltro ."");
            
         if ($Read->getResult()):
             
             $jSON['addcoluna7'] = null;//É necessário desclarar como numo por causa da fraca tipação
             foreach ($Read->getResult() as $enderecos):
                 $jSON['trigger'] = true;
-                //default
-                if($PostData['mes'] == "t" && $PostData['ano'] == "t"):
-                    $jSON['addcoluna7'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
-                                                "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
-                                                "<span  style='color: #bdbdbd;'></span>".
-                                                "</div></a>".
-                                                "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
-                                            "</div>";
-                else:
-
-                    $mes = date('m',strtotime($enderecos["DATA_SISTEMA"]));
-                    $ano = date('Y',strtotime($enderecos["DATA_SISTEMA"]));
-                    //mês e ano
-                    if($PostData['mes'] != "t" && $PostData['ano'] != "t"):
-                    
-                        if($PostData['mes'] == $mes && $PostData['ano'] == $ano):
-                            $jSON['addcoluna7'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
-                                                        "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
-                                                        "<span  style='color: #bdbdbd;'></span>".
-                                                        "</div></a>".
-                                                        "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
-                                                    "</div>";
-                        endif;
-                    endif;
-                    //mês
-                    if($PostData['mes'] != "t" && $PostData['ano'] == "t"):
-                        if($PostData['mes'] == $mes):
-                            $jSON['addcoluna7'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
-                                                        "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
-                                                        "<span  style='color: #bdbdbd;'></span>".
-                                                        "</div></a>".
-                                                        "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
-                                                    "</div>";
-                        endif;
-                    endif;
-                    //ano
-                    if($PostData['mes'] == "t" && $PostData['ano'] != "t"):
-                        if($PostData['ano'] == $ano):
-                            $jSON['addcoluna7'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
-                                                        "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
-                                                        "<span  style='color: #bdbdbd;'></span>".
-                                                        "</div></a>".
-                                                        "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
-                                                    "</div>";
-                        endif;
-                    endif;
-                endif;
+                $jSON['addcoluna7'] .= "<div class='box_content buttons_clientes clientes_sem_contato' style='text-transform: uppercase;>".
+                                            "<a href='#'><div class='panel_header' style='padding: 0px;border: none;'>".
+                                            "<span  style='color: #bdbdbd;'></span>".
+                                            "</div></a>".
+                                            "<ul><li class='endereco_txt'><a class='link' href='#ex1' rel='modal:open' id = {$enderecos['ID']} callback='Home2' callback_action='consulta_modal' status='{$enderecos['STATUS']}' onclick='abreModal(this);'><span><b>{$enderecos['ENDERECO']}</b></span></a></li></ul>".
+                                        "</div>";
             endforeach;
         endif;
 
@@ -284,12 +237,10 @@ ORDER BY [80_Orcamentos].DATASOLICITACAO","");
 
         //PREENCHER TOTAL EXECUTADO
         $jSON['addExecutado'] = NULL;
-        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM(
-        SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos]
-        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID
-        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-        LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO  WHERE [80_Orcamentos].STATUS = 5 "  . $criterioEndereco . $ctiterioCliente . $criterioMes . $criterioAno .
-                        "AND [80_ClientesParticulares].TIPO = 1 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
+        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM( SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos] 
+INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID 
+INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID 
+LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO WHERE [80_Orcamentos].STATUS = 5 "  . $criterioEndereco . $ctiterioCliente . $criterioAno . $criterioMes . "AND [80_ClientesParticulares].TIPO = 1 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
         foreach ($Read->getResult() as $totais):  
             $totais['VALOR'] = $totais['VALOR'] ? $totais['VALOR'] : 0;          
             $totais['VALOR'] = number_format($totais['VALOR'],2,',','.');
@@ -300,12 +251,12 @@ ORDER BY [80_Orcamentos].DATASOLICITACAO","");
 
         //PREENCHER TOTAL CANCELADO/RECUSADO
         $jSON['addCanceladoRecusado'] = NULL;
-        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM(
-        SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos]
-        INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID
-        INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID
-        LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO  WHERE ([80_Orcamentos].STATUS = 6 OR [80_Orcamentos].STATUS = 7) "  . $criterioEndereco . $ctiterioCliente . $criterioMes . $criterioAno .
-                        "AND [80_ClientesParticulares].TIPO = 1 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
+        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM( SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos] 
+INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID 
+INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID 
+LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO WHERE ([80_Orcamentos].STATUS = 6 
+OR [80_Orcamentos].STATUS = 7) "  . $criterioEndereco . $ctiterioCliente . $criterioAno . $criterioMes . "AND [80_ClientesParticulares].TIPO = 1 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
+        
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = number_format(!$totais['VALOR']?0:$totais['VALOR'],2,',','.'); 
             $jSON['trigger'] = true;
