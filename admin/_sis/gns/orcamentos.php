@@ -186,7 +186,7 @@ endif;
         <hr style="height: 4px; background-color: black;">
         </br>
         </br>
-        <div class="box box50">
+        <div class="box box30">
           <label class="label">
             <span><b>Status: </b></span>
             <select class="status_contato">
@@ -200,15 +200,8 @@ endif;
             </select>
           </label>
         </div>
-        <div class="box box50">
-          <label class="label box box50">
-            <span><b>Telefone 1: </b></span>
-            <p><a href=""></a></p>
-          </label>
-          <label class="label box box50">
-            <span><b>Telefone 2: </b></span>
-            <p><a href=""></a></p>
-          </label>
+        <div class="box box70 telefones">
+          <label><!-- código telefones cliente --></label>
         </div>
         <br/>
         <label class="label" style="width:100%">

@@ -307,11 +307,11 @@ $('#Tecnico').change(function(){
     //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $(document).on('click', '.pointer', function (e) {
 
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');
-        var idCliente = $(this).attr('value');
-        var idOrcamento = $(this).attr('idOrcamento');
-        var IdCliente = $(this).attr('Idcliente');
+        let Callback = $(this).attr('callback');
+        let Callback_action = $(this).attr('callback_action');
+        let idCliente = $(this).attr('value');
+        let idOrcamento = $(this).attr('idOrcamento');
+        let IdCliente = $(this).attr('Idcliente');
 
         $('#j_idCliente').val(IdCliente);
         $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action,idCliente: idCliente,IdCliente, idOrcamento}, function (data) {
@@ -500,11 +500,12 @@ function carregaTabelaOrcamento(){
 
 
 $('html').on('click', '#j_btn_editar', function (e) {
-    var Callback = $(this).attr('callback');
-    var Callback_action = $(this).attr('callback_action');
-    var idOrcamento = $(this).attr('idOrcamento');
+    let Callback = $(this).attr('callback');
+    let Callback_action = $(this).attr('callback_action');
+    let idOrcamento = $(this).attr('idOrcamento');
+    let Idos = $(this).attr('idos');
 
-    $.post(`_ajax/gns/${Callback}.ajax.php`, {callback: Callback, callback_action: Callback_action, idOrcamento}, function (data) {
+    $.post(`_ajax/gns/${Callback}.ajax.php`, {callback: Callback, callback_action: Callback_action, idOrcamento, Idos}, function (data) {
 
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
@@ -514,6 +515,11 @@ $('html').on('click', '#j_btn_editar', function (e) {
         if(data.addContatos){
             $(".orcamentoGNS tbody tr").remove();
             $(data.addContatos).appendTo(".orcamentoGNS tbody");
+        }
+
+        if(data.addTelCliente){
+            $(".telefones label").remove();
+            $(data.addTelCliente).appendTo(".telefones");
         }
 
         if(data.addIdOS){
@@ -551,6 +557,10 @@ $('html').on('click', '#j_btn_editar', function (e) {
             $('#j_status option[value="1"],#j_status option[value="2"]').remove();
             $('#j_status option[value="3"]').prop('disabled',true);
             $('#j_status option[value="4"]').prop('selected',true);
+
+            // LIMPAR CAMPOS
+            $(".obs_contato").val("");
+            $(".status_contato option[value='t']").prop('selected',true);
 
         }
     }, 'json');

@@ -120,7 +120,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             //INFORMAÇÕES DETALHADAS
             $Read->FullRead("SELECT CONVERT(NVARCHAR,[60_Orcamentos].DataEnt,103) AS DataEnt, IIF(Func1.ID is not null, Func1.[NOME COMPLETO], Func2.NOME) AS TecnicoEnt, 
             IIF(Funcionários.ID is not null, Funcionários.[NOME COMPLETO], FuncionariosTerceirizados.NOME) AS TecnicoExe,
-            CONVERT(NVARCHAR,[60_Orcamentos].DataExe,103) AS DataExe, [60_Orcamentos].Status, [60_Orcamentos].Valor,CONVERT(NVARCHAR,[60_Orcamentos].DataAgendamento,103) AS DataAgend FROM [60_Orcamentos]
+            CONVERT(NVARCHAR,[60_Orcamentos].DataExe,103) AS DataExe, [60_Orcamentos].Status, [60_Orcamentos].Valor,CONVERT(NVARCHAR,[60_Orcamentos].DataAgendamento,103) AS DataAgend, IdOS FROM [60_Orcamentos]
             LEFT JOIN [00_NivelAcesso] ON [60_Orcamentos].TecExe = [00_NivelAcesso].ID
             INNER JOIN [00_NivelAcesso]  NivelAcesso ON [60_Orcamentos].TecnicoEnt = NivelAcesso.ID
             INNER JOIN [60_OS] ON [60_Orcamentos].IdOS = [60_OS].Id
@@ -144,7 +144,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                               <li><span>Técnico Execução: </span>{$detalhes['TecnicoExe']}</li>
                               <li><span>Status: </span>$status</li>
                               <li><span>Valor:</span> (R$)  $valor</li>
-                              <li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}'>CONTATOS</a></center></li>" : "<br>
+                              <li><center><a id='j_btn_editar' class='btn btn_darkblue icon-share'  href='#j_modal' rel='modal:open' callback='Orcamentos' callback_action='editar' idOrcamento='{$PostData['idOrcamento']}' IdOs='{$IdOS}'>CONTATOS</a></center></li>" : "<br>
                               <li><span>Data Entrada: </span>{$detalhes['DataEnt']}</li>
                               <li><span>Técnico Entrada: </span>{$detalhes['TecnicoEnt']}</li>
                               <li><span>Data Agendamento: </span>{$detalhes['DataAgend']}</li>
@@ -222,7 +222,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                          $jSON['Peca'] = "0";
                 endif;
 
-                //TABELA orçamento
+                //TABELA ORÇAMENTO
                 $jSON['addOrcamentos'] = null;
                    $Read->FullRead("SELECT [60_Orcamentos].Valor,[60_Orcamentos].ID,[NumParcelas] AS parcelas,[60_OS_ServicosAPP].Qtd AS QtdServico,[60_OS_ServicosAPP].Valor AS ValorServico,[60_OS_PecasAPP].Qtd AS QTDPecas,[60_OS_PecasAPP].Valor AS ValorPecas FROM [60_Orcamentos]
                 LEFT JOIN [60_OS_ServicosAPP] ON [60_Orcamentos].ID = [60_OS_ServicosAPP].IDOrcamento
@@ -263,12 +263,33 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         break;
 
         case 'editar':
+
+          // CONSULTAR TELEFONES DO CLIENTE
+            $Read->FullRead("SELECT [Telefone1],[Telefone2],[Telefone3] FROM [BDNVT].[dbo].[60_Clientes] LEFT JOIN [60_OT] ON [60_Clientes].Id = [60_OT].Cliente LEFT JOIN [60_OS] ON [60_OT].Id = [60_OS].OT LEFT JOIN [60_Orcamentos] ON [60_OS].Id = [60_Orcamentos].IdOS WHERE [60_Orcamentos].IdOS = {$PostData["Idos"]}", "");
+            if($Read->getResult()):
+
+              $tel = null;
+              $jSON["addTelCliente"] = null;
+
+              foreach ($Read->getResult() as $tel):
+                extract($tel);
+
+                $Tel1 = $Telefone1 != null ? "<label class='label box box33'><span><b>Telefone 1: </b></span><p><a href='tel:0{$Telefone1}'>{$Telefone1}</a></p></label>" : "";
+                $Tel2 = $Telefone2 != null ? "<label class='label box box33'><span><b>Telefone 2: </b></span><p><a href='tel:0{$Telefone2}'>{$Telefone2}</a></p></label>" : "";
+                $Tel3 = $Telefone3 != null ? "<label class='label box box33'><span><b>Telefone 3: </b></span><p><a href='tel:0{$Telefone3}'>{$Telefone3}</a></p></label>" : "";
+
+                $jSON["addTelCliente"] = $Tel1.$Tel2.$Tel3;
+
+              endforeach;
+            endif;
+
+          // CONSULTA LISTA DE CONTATOS
             $Read->FullRead("SELECT DataContato,Status,Obs,IdOS,IdOrcamento FROM [60_ContatosOrcamento] WHERE IdOrcamento = {$PostData['idOrcamento']}", "");
-            if($Read->getResult()){
+            if($Read->getResult()):
               $jSON['addContatos'] = null;
               $value = null;
               $time = [];
-              foreach ($Read->getResult() as $value) {
+              foreach ($Read->getResult() as $value):
 
                 extract($value);
                 //RECEBE HORA E DATA
@@ -285,10 +306,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     <td>{$Obs}</td>
                   </tr>
                 ";
-              }
+              endforeach;
               $jSON['addIdOrca'] = $PostData["idOrcamento"];
               $jSON["addIdOS"] = $IdOS;
-            }
+            endif;
+
             if($PostData['idOrcamento']):
             $jSON['addTecnicos'] = null;
             $jSON['addStatus'] = null;

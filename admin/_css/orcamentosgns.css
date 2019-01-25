@@ -33,3 +33,8 @@
 .orcamentoGns>tbody tr:nth-child(even) {
     background-color:  #dddddd61;
 }
+
+.label a{
+	text-decoration: underline;
+	margin-left: 0;
+}
