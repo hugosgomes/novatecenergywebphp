@@ -204,7 +204,6 @@ $('#Tecnico').change(function(){
             }
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.deltable) {
-               // $('#'+ data.deltable).fadeOut(400);
                $('#dataTable2 #'+ data.deltable).fadeOut(400);
                $('#dataTable #'+ data.deltable).fadeOut(400);
            }
@@ -232,7 +231,6 @@ $('#Tecnico').change(function(){
 
             //ADICIONA OS DADOS DA OS PARA APRESENTAR NA TABELA
             if (data.ot) {
-               // $('.j_ot, .table *').remove();
                 $('.tabela_atribuirOtOs').fadeOut();
                $(this).closest('tr').remove();
                 $('#'+ data.ot).fadeOut(400);
@@ -266,7 +264,6 @@ $('#Tecnico').change(function(){
             }
             if (data.redirect) {
                 window.location.href = data.redirect;
-                //window.location.reload();
             }
         }, 'json');
 
@@ -462,7 +459,44 @@ $('#Tecnico').change(function(){
 
 }
 
-$('#j_ano, #j_mes, #j_statusOrcamento').change(carregaTabelaOrcamento);
+function contato(){
+
+    let status = $('#j_statusOrcamento option:selected').val();
+    if(status != 3){
+        $('#j_statusContatos').prop('disabled',true);
+    }else{
+        $('#j_statusContatos').prop('disabled',false);
+    }
+}
+
+function selecionaTodos(){
+
+    let recuperaTodos = $('input[name="recupera-todos"').prop('checked');
+    if(recuperaTodos == true){
+        $('.linhas td:nth-child(5) input').each(function(){
+            $(this).prop('checked',true);
+        })
+    }else{
+        $('.linhas td:nth-child(5) input').each(function(){
+            $(this).prop('checked',false);
+        })
+    }
+}
+
+$(document).on('click','#tabs-2 h3',function(){
+    console.log($('.linhas').length);
+})
+
+$(document).on('click','input[name="recupera-todos"]',function(){
+    selecionaTodos();
+})
+
+$('#j_statusOrcamento').on('change',function(){
+    contato();
+})
+
+
+$('#j_ano, #j_mes, #j_statusOrcamento, #j_statusContatos').change(carregaTabelaOrcamento);
 
 function carregaTabelaOrcamento(){
     var Callback = $('#dataTable').attr('callback');
@@ -470,8 +504,9 @@ function carregaTabelaOrcamento(){
     var Ano = $('#j_ano').val();
     var Mes = $('#j_mes').val();
     var Status = $('#j_statusOrcamento').val();
+    var StatusContato = $('#j_statusContatos option:selected').val();
 
-    $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, ano: Ano, mes: Mes, Status}, function (data) {
+    $.post(`_ajax/gns/${Callback}.ajax.php`, {callback: Callback, callback_action: Callback_action, ano: Ano, mes: Mes, Status, StatusContato}, function (data) {
 
         //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
@@ -545,7 +580,18 @@ $('html').on('click', '#j_btn_editar', function (e) {
             $(data.addStatus).appendTo("#j_status");
         }
 
+        if(data.addSerRecusa){
+            if(data.addPecasRecusa){
+
+                $(".recuperar-orcamento tbody tr").remove();
+                $(data.addSelecionaItens).appendTo(".recuperar-orcamento tbody");
+                $(data.addSerRecusa).appendTo(".recuperar-orcamento tbody");
+                $(data.addPecasRecusa).appendTo(".recuperar-orcamento tbody");
+            }
+        }
+
         if(data.addId){
+
             $("#j_id").val(data.addId);
             $("#j_dataEntrada").text(dataAtualFormatada(data[0]['DataEnt']));
             $('#j_tecnicoEntrada').val(data[0]['TecnicoEnt']);

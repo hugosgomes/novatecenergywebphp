@@ -18,7 +18,7 @@
 }
 
 /* tabela monitoramento GNS */
-.orcamentoGns {
+.orcamentoGns,.recuperar-orcamento {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -26,11 +26,11 @@
 
 
 
-.orcamentoGns td, .orcamentoGns th {
+.orcamentoGns td,.recuperar-orcamento td, .orcamentoGns th, .recuperar-orcamento th {
     padding: 8px;
 }
 
-.orcamentoGns>tbody tr:nth-child(even) {
+.orcamentoGns>tbody tr:nth-child(even),.recuperar-orcamento>tbody tr:nth-child(even) {
     background-color:  #dddddd61;
 }
 
