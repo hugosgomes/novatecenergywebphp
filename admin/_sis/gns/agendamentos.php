@@ -53,12 +53,16 @@ $Semana = filter_input(INPUT_GET, 's', FILTER_VALIDATE_INT);
         echo "<div class='box box40'>";
         $hora = date('H:i:s');
         $h = date('H');
+        $m = date('i');
         $hrsLivres = array ("07", "08", "09", "17", "20", "21", "22", "23");
+        $hrsMinLivres = array ("45");
 
-        if (in_array($h, $hrsLivres)) { 
+      if(($h == $hrsLivres[2] || $h == $hrsLivres[3]) && $m < $hrsMinLivres[0]){
+          echo "<a href='../ImportOs.php' class='btn btn_darkblue'><b>Executar</b></a>";
+        }elseif (in_array($h, $hrsLivres) && $h != $hrsLivres[2] && $h != $hrsLivres[3]){
           echo " <a href='../ImportOs.php' class='btn btn_darkblue'><b>Executar</b></a>";
         }else {
-          echo "<a class='btn btn_default' style='cursor: no-drop;'><b>Indisponível</b></a>";
+           echo "<a class='btn btn_default' style='cursor: no-drop;'><b>Indisponível</b></a>";
         }
         echo "</div>";
       endif;
