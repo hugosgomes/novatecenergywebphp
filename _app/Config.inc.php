@@ -381,8 +381,9 @@ function getNovoStatusOs($Transaction = null){
 
 function getStatusContato($Transaction = null){
     $RealtyTransaction = [
-        0 => 'Retornar Depois',
-        1 => 'Contato Feito',
+        0 => 'RETORNAR DEPOIS',
+        1 => 'CONTATO FEITO',
+        2 => 'SEM CONTATO'
     ];
     
     if ($Transaction!=null):
