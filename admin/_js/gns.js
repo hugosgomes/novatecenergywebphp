@@ -8,7 +8,7 @@ $('#Tecnico').change(function(){
     var S = $(this).attr('semana');
 
     $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
-
+        $('.spinner').hide();
         if(data.locations){
             initMap(data.locations);
         }
@@ -684,27 +684,6 @@ $('html').on('click', '#j_importar', function (e) {
         }
     });
 });
-
-/*------------------EXPORT PARA EXCEL------------------*/
-//PESQUISA VINCULA OT AO CLIENTE
-    $('html').on('click', '#exportar', function (e) {
-        var Callback = $(this).attr('callback');
-        var Callback_action = $(this).attr('callback_action');        
-        var Tecnico = $("#Tecnico option:selected").val();
-        var Dia = $(this).attr('rel');
-        var S = $(this).attr('semana');
-
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, Tecnico: Tecnico, dia: Dia, semana: S}, function (data) {
-
-            //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
-            if (data.excel) {
-                window.open("http://192.168.0.101:83/rodrigo/novatec/download/ExportarGNS.xlsx");                
-            }
-        }, 'json');
-
-        e.preventDefault();
-        e.stopPropagation();
-    });
 
 function numeroParaMoeda(n, c, d, t)
 {

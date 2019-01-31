@@ -44,6 +44,9 @@ endif;
                 ?>
         </select>
       </label>
+      <center>
+		    <img class="spinner" style="margin-left: 10px; margin-top: 2px; block-size: 10%;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load_spinner.gif"/>
+      </center>
 
       <?php      
 
@@ -61,6 +64,7 @@ endif;
       <article class="box media-list" style="width:100%; padding-top: 35px;">
         <!-- código médias -->
       </article>
+      
       <article class="box" style="width:100%; padding-top: 35px;overflow:auto;height:auto;max-height:390px">
         <table style="overflow:auto;height:100px">
           <thead>
@@ -74,7 +78,11 @@ endif;
           <tr><td><!-- código médias --></td></tr> 
         </tbody>
         </table>
+        
       </article>
+      <center>
+		    <img class="spinner" style="margin-left: 10px; margin-top: 2px; block-size: 10%;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load_spinner.gif"/>
+      </center>
 
     <div class="clear"></div>
   </div>
@@ -103,49 +111,65 @@ endif;
 <script>
 
 function initMap(locations) {
-  let myLatLng = {lat: -22.9068467, lng: -43.1728965};
-  let map = new google.maps.Map(document.getElementById('map'), {
+  var myLatLng = {lat: -22.9068467, lng: -43.1728965};
+  var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 8,
     center: myLatLng
   });
-  let image1 = './_img/marcador.png';
-  let image2 = './_img/marcador2.png';
+  var image1 = './_img/marcador.png';
+  var image2 = './_img/marcador2.png';
+  var image4 = './_img/marcador4.png';
 
   if(locations){
     locations.forEach(function(element, index, array){
-      let latitude = parseFloat(locations[index]['Latitude']);
-      let longitude = parseFloat(locations[index]['Longitude']);
-      let image = locations[index]['Status'] == 0 ? image1 : image2;
-      let dataOs = new Date();
-      let dataFormatada = dataOs.getDate()+"/"+dataOs.getMonth()+"/"+dataOs.getFullYear();
-      let marker = new google.maps.Marker({
+      if (!locations[index]['IDCARRO']) {
+        var latitude = parseFloat(locations[index]['Latitude']);
+        var longitude = parseFloat(locations[index]['Longitude']);
+        var image = locations[index]['Status'] == 0 ? image1 : image2;
+
+        var dataOs = new Date();
+        var dataFormatada = dataOs.getDate()+"/"+dataOs.getMonth()+"/"+dataOs.getFullYear();
+        var marker = new google.maps.Marker({
         map: map,
         icon: image,
         animation: google.maps.Animation.DROP,
         position: {lat: latitude, lng: longitude},     
         title: ''});
 
-
-      //VERIFICA SE CADA TELEFONE EXISTE E SÓ EXIBE NO WINDOW CASO EXISTA
-       let tel1 = locations[index]['Telefone1'] ? `<p>1º Tel. Cliente: <b><a href="tel:0${locations[index]['Telefone1']}">${locations[index]['Telefone1']}</a></b></p>` : "";
-       let tel2 = locations[index]['Telefone2'] ? `<p>2º Tel. Cliente: <b><a href="tel:0${locations[index]['Telefone2']}">${locations[index]['Telefone2']}</a></b></p>` : "";
-       let tel3 = locations[index]['Telefone3'] ? `<p>3º Tel. Cliente: <b><a href="tel:0${locations[index]['Telefone3']}">${locations[index]['Telefone3']}</a></b></p>` : "";
+        //VERIFICA SE CADA TELEFONE EXISTE E SÓ EXIBE NO WINDOW CASO EXISTA
+       var tel1 = locations[index]['Telefone1'] ? `<p>1º Tel. Cliente: <b><a href="tel:0${locations[index]['Telefone1']}">${locations[index]['Telefone1']}</a></b></p>` : "";
+       var tel2 = locations[index]['Telefone2'] ? `<p>2º Tel. Cliente: <b><a href="tel:0${locations[index]['Telefone2']}">${locations[index]['Telefone2']}</a></b></p>` : "";
+       var tel3 = locations[index]['Telefone3'] ? `<p>3º Tel. Cliente: <b><a href="tel:0${locations[index]['Telefone3']}">${locations[index]['Telefone3']}</a></b></p>` : "";
 
        //VERIFICA E SÓ EXIBE SE PERÍODO EXISTIR
-       let periodo = locations[index]['PeriodoAgendamento'] ? `<p>Período: <b>${locations[index]['PeriodoAgendamento']}</b></p>` : "";
+       var periodo = locations[index]['PeriodoAgendamento'] ? `<p>Período: <b>${locations[index]['PeriodoAgendamento']}</b></p>` : "";
 
        //VERIFICA E SÓ EXIBE SE OBS EXISTIR
-       let Obs = locations[index]['ObsOT'] ? `<p>OBS: <b>${locations[index]['ObsOT']}</b></p>` : ""; 
+       var Obs = locations[index]['ObsOT'] ? `<p>OBS: <b>${locations[index]['ObsOT']}</b></p>` : ""; 
 
-      //INFORMAÇÕES EXIBIDAS NO WINDOW
-      let contentString = `<div class='info-content'><p>OT: <b>${locations[index]['NumOT']}</b></p><p>OS: <b>${locations[index]['NumOS']}</b></p><p class='m_bottom'>Serviço: <b>${locations[index]['NomeOs']}</b></p>${periodo}${Obs}${tel1}${tel2}${tel3}`;
+       //INFORMAÇÕES EXIBIDAS NO WINDOW
+       var contentString = `<div class='info-content'><p>OT: <b>${locations[index]['NumOT']}</b></p><p>OS: <b>${locations[index]['NumOS']}</b></p><p class='m_bottom'>Serviço: <b>${locations[index]['NomeOs']}</b></p>${periodo}${Obs}${tel1}${tel2}${tel3}`;
 
-      let infowindow = new google.maps.InfoWindow({
+      }else{
+        var latitude = parseFloat(locations[index]['LATITUDE']);
+        var longitude = parseFloat(locations[index]['LONGITUDE']);
+        var image = image4;
+
+        var marker = new google.maps.Marker({
+        map: map,
+        icon: image,
+        animation: google.maps.Animation.DROP,
+        position: {lat: latitude, lng: longitude},     
+        title: ''});
+
+        var contentString = `<div class='info-content'><p>TÉCNICO: <b>${locations[index]['NOME']}</b></p><p>CARRO: <b>${locations[index]['CARRO']}</b></p><p class='m_bottom'>ÚLTIMA ATUALIZAÇÃO: <b>${locations[index]['DATAHORA']}</b></p>`;        
+      }
+      
+      var infowindow = new google.maps.InfoWindow({
         content: contentString,
         maxWidth: 600
       });
       marker.addListener('click', function () {
-
         //FECHA TODAS AS JANELAS ABERTAS
         $('.gm-ui-hover-effect').trigger('click');
 
@@ -162,6 +186,7 @@ function initMap(locations) {
 }
 
 $(document).ready(function(){
+  $('.spinner').show();
   $('#Tecnico').val('t');
   $('#Tecnico').change();
 });

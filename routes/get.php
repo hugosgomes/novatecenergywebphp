@@ -8,7 +8,7 @@ $app = new \Slim\App($config);
 $app->get('/tecnicos/', function (Request $request, Response $response, array $args) {
     $Read = new Read;
     $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS nome, SUB.PRODUTO AS manometro,
-                        [00_NivelAcesso].ID AS id, SUB.IDPROD AS idManometro,
+                        [00_NivelAcesso].ID AS id, SUB.IDPROD AS idManometro, [00_NivelAcesso].FOTO AS foto,
                         CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.SENHA ELSE TERC.SENHA END AS senha,
                         CASE WHEN FUNC.ID IS NOT NULL THEN 'FUNCIONÁRIO' ELSE 'TERCEIRIZADO' END AS tipoFunc FROM [40_Interna_ID]
                         LEFT JOIN Funcionários FUNC ON [40_Interna_ID].USUARIO_PORTADOR = FUNC.ID
