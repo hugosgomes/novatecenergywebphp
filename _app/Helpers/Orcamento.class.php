@@ -1,11 +1,12 @@
 <?php
 
 class Orcamento{
-	public $Id;
-	private $IdOs;
-	private $Status;
-	private $Valor;
-	private $Obs;
+	protected $Id;
+	protected $IdOs;
+	protected $Status;
+	protected $Valor;
+	protected $Obs;
+	protected $FormaPgt;
 
 	// TRANSFORMA VALORES VINDOS DO BANCO EM NOMES DE STATUS
 	public function getStatus($Status){
@@ -56,5 +57,20 @@ class Orcamento{
 
         return $this->Valor = $Valor;
 	}
+
+	// MÉTODO PARA LISTAR FORMA DE PAGAMENTO
+	function getFormaPagamento(){
+
+	    $FormaPgt = [
+
+	        0 => 'CARTÃO DE CRÉDITO',
+	        1 => 'DEPÓSITO/TRANSFERÊNCIA',
+	        2 => 'Á VISTA'
+	    ];
+
+	    return $this->FormaPgt = $FormaPgt;
+	   
+	}
+
 
 }
