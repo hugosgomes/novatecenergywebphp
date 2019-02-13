@@ -16,6 +16,10 @@ $(document).ready(function(){
 			$(e.nome2).appendTo("#painel3");
 		}
 
+		if (e.nomeLog) {
+			$(e.nomeLog).appendTo("#painel_log");
+		}
+
 
 	},'json');
 
@@ -67,6 +71,22 @@ $('html').on('click', '#3', function(e){
 
 	},'json');
 
+
+});
+
+
+$('html').on('click', '#4', function(e){
+	var callback = 'DashboardRh';
+	var callback_action = 'clicarfuncionarios';
+
+	$.post('_ajax/' + callback + '.ajax.php', {callback, callback_action}, function (e) {
+
+		if (e.nomeLog) {
+			$('#j_table_DocumentosLog tr').remove();
+			$(e.nomeLog).appendTo("#j_table_DocumentosLog");
+		}
+
+	},'json');
 
 });
 

@@ -48,6 +48,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     $Check = new Check;
   endif;
 
+  if (empty($Doc)):
+    $Doc = new Doc;
+  endif;
+
     //SELECIONA AÇÃO
   switch ($Case):
 
@@ -167,166 +171,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $variavelData = '<b><font color="orange">'.$dataBr;
                   }
 
-                  switch ($variavelSwitch) {
+                  $docType = $Doc->exibir($variavelSwitch);
 
-                    case "Certificado Empresarial de Informação de Riscos Laborais - Distribuição de Gás":
-                    $nomeT = "certificado-empresarial-de-informacao-de-riscos-laborais-distribuicao-de-gas";
-                    $valor = 1;
-                    break;
-
-                    case "Certificado Empresarial de Informação de Riscos Laborais - Recursos e Serviços":
-                    $nomeT = "cert-inf-riscos-recursos-e-servicos";
-                    $valor = 2;
-                    break;
-
-                    case "Entrega de EPIs":
-                    $valor = 3;
-                    $nomeT = "entrega-de-epis";
-                    break;
-
-                    case "Certificado Empresarial de Formação":
-                    $valor = 4;
-                    $nomeT = "certificado-empresarial-de-formacao";
-                    break;
-
-                    case "Carteira Nacional de Habilitação":
-                    $valor = 5;
-                    $nomeT = "carteira-nacional-de-habilitacao";
-                    break;
-
-                    case "Carteira de Trabalho ASSINADA, Inclusive página que consta o cargo/função":
-                    $valor = 6;
-                    $nomeT = "carteira-de-trabalho-assinada-inclusive-pagina-que-consta-o-cargo-funcao";
-                    break;
-
-                    case "Termo de Rescisão do Contrato de Trabalho (TRCT)":
-                    $valor = 7;
-                    $nomeT = "termo-de-rescisao-do-contrato-de-trabalho-trct";
-                    break;
-
-                    case "Guia de Recolhimento da Receita Federal":
-                    $valor = 8;
-                    $nomeT = "guia-de-recolhimento-da-receita-federal";
-                    break;
-
-                    case "Folha de Ponto assinada pelo empregado":
-                    $valor = 9;
-                    $nomeT = "folha-de-ponto-assinada-pelo-empregado";
-                    break;
-
-                    case "Aviso de Férias assinado e comprovante de pagamento do terço constitucional":
-                    $valor = 10;
-                    $nomeT = "aviso-de-ferias-assinado-e-comprovante-de-pagamento-do-terco-constitucional";
-                    break;
-
-                    case "Contrato de Trabalho":
-                    $valor = 11;
-                    $nomeT = "contrato-de-trabalho";
-                    break;
-
-                    case "Atestado de Saúde Ocupacional - ASO (admissional, periódico e demissional)":
-                    $valor = 12;
-                    $nomeT = "atestado-de-saude-ocupacional-aso-admissional-periodico-e-demissional";
-                    break;
-
-                    case "Registro Técnico do Responsável Técnico da empresa - Pessoa Física":
-                    $nomeT = "registro-tecnico-do-responsavel-tecnico-da-empresa-pessoa-fisica";
-                    $valor = 13;
-                    break;
-
-                    case "Certificação de JO":
-                    $valor = 14;
-                    $nomeT = "certificacao-de-jo";
-                    break;
-
-                    case "Certificação de Desenhista de campo":
-                    $valor = 15;
-                    $nomeT = "certificacao-de-desenhista-de-campo";
-                    break;
-
-                    case "Certificação/Qualificação de Soldadores de Aço":
-                    $valor = 16;
-                    $nomeT = "certificacao-qualificacao-de-soldadores-de-aco";
-                    break;
-
-                    case "Certificação de Inspetores de Solda de Aço":
-                    $valor = 17;
-                    $nomeT = "certificacao-de-inspetores-de-solda-de-aco";
-                    break;
-
-                    case "Certificação de Soldadores de PE":
-                    $valor = 18;
-                    $nomeT = "certificacao-de-soldadores-de-pe";
-                    break;
-
-                    case "Certificação de Inspetores de Alta":
-                    $valor = 19;
-                    $nomeT = "certificacao-de-inspetores-de-alta";
-                    break;
-
-                    case "Navegador de MND":
-                    $valor = 20;
-                    $nomeT = "navegador-de-mnd";
-                    break;
-
-                    case "Operador MND":
-                    $valor = 21;
-                    $nomeT = "operador-mnd";
-                    break;
-
-                    case "Título de Certificado de Operador de Medidor":
-                    $valor = 22;
-                    $nomeT = "titulo-de-certificado-de-operador-de-medidor";
-                    break;
-
-                    case "Titulo de Certificado de Inspetor de Vistoria e Alta":
-                    $valor = 23;
-                    $nomeT = "titulo-de-certificado-de-inspetor-de-vistoria-e-alta";
-                    break;
-
-                    case "Título de Certificado de Instalador Predial de Tubulações de gás":
-                    $valor = 24;
-                    $nomeT = "titulo-de-certificado-de-instalador-predial-de-tubulacoes-de-gas";
-                    break;
-
-                    case "Trabalhos em Altura":
-                    $valor = 25;
-                    $nomeT = "trabalhos-em-altura";
-                    break;
-
-                    case "Registro de capacitação específica para vigia e trabalhadores de entrada em espaço confinado":
-                    $valor = 26;
-                    $nomeT = "registro-de-capacitacao-especifica-para-vigia-e-trabalhadores-de-entrada-em-espaco-confinado";
-                    break;
-
-                    case "Registro de capacitação específica para Supervisores de Entrada em espaços confinados":
-                    $valor = 27;
-                    $nomeT = "registro-de-capacitacao-especifica-para-supervisores-de-entrada-em-espacos-confinados";
-                    break;
-
-                    case "Seguridade na Manipulação de Produtos Químicos":
-                    $valor = 28;
-                    $nomeT = "seguridade-na-manipulacao-de-produtos-quimicos";
-                    break;
-
-                    case "Motorista de Transporte de Produtos Perigosos":
-                    $valor = 29;
-                    $nomeT = "motorista-de-transporte-de-produtos-perigosos";
-                    break;
-
-                    case "Registro de treinamento dos colaboradores em Prevenção contra incêndios":
-                    $valor = 30;
-                    $nomeT = "registro-de-treinamento-dos-colaboradores-em-prevencao-contra-incendios";
-                    break;
-
-                    case "Oficina de Liderança de Segurança e Saúde":
-                    $valor = 31;
-                    $nomeT = "oficina-de-lideranca-de-seguranca-e-saude";
-                    break;
-
-                  }
-
-                  $versao1 = $caminhoDiretorio.$valor."/";
+                  $versao1 = $caminhoDiretorio.$docType[1]."/";
 
                   /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
                   $path = $versao1;
@@ -348,7 +195,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $stat = $mudarvariavel;
                   $visualizardoc = $mudarvariavel;
                 }else{
-                  $dirFinal = $caminhoPadrao.$valor."/".$nomeT.".".$getExt;
+                  $dirFinal = $caminhoPadrao.$docType[1]."/".$docType[0].".".$getExt;
                   $diretorionull = "<a href='{$dirFinal}' download><span class='btn btn_darkblue'>Download</span></a>";
                   $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}' rel='shadowbox'></a>";
                 }
@@ -585,7 +432,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           case 15:
                           $pasta = "Outros";
                           $nomeArquivo = "certificacao-de-desenhista-de-campo";
-                          $nomeAchilles = "Certificacão de Desenhista de campo";
+                          $nomeAchilles = "Certificação de Desenhista de campo";
                           $IdTipoDocumento = 15;
                           $TipoData = 1;
                           $status = 1;
@@ -817,6 +664,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $diretorionull = null;
                 $visualizardoc = null;
                 $valor = null;
+                $nomeT = null;
                 $outrosdoc = null;
                 $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
                 //$variavelData = null;
@@ -873,7 +721,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $variavelData = $dataBr;
                       }
 
-                      $data = new DateTime($dia_atual);
+                  $data = new DateTime($dia_atual);
                   $data1 = new DateTime($dataBr1); //DATA DOS DOCUMENTOS
                   $data2 = new DateTime($dia_atual); //DATA ATUAL
                   $data->add(new DateInterval('P31D')); //DATA ATUAL MAIS UM MÊS
@@ -882,166 +730,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $variavelData = '<b><font color="orange">'.$dataBr;
                   }
 
-                  switch ($variavelSwitch) {
+                  $docType = $Doc->exibir($variavelSwitch);
 
-                    case "Certificado Empresarial de Informação de Riscos Laborais - Distribuição de Gás":
-                    $nomeT = "certificado-empresarial-de-informacao-de-riscos-laborais-distribuicao-de-gas";
-                    $valor = 1;
-                    break;
-
-                    case "Certificado Empresarial de Informação de Riscos Laborais - Recursos e Serviços":
-                    $nomeT = "cert-inf-riscos-recursos-e-servicos";
-                    $valor = 2;
-                    break;
-
-                    case "Entrega de EPIs":
-                    $valor = 3;
-                    $nomeT = "entrega-de-epis";
-                    break;
-
-                    case "Certificado Empresarial de Formação":
-                    $valor = 4;
-                    $nomeT = "certificado-empresarial-de-formacao";
-                    break;
-
-                    case "Carteira Nacional de Habilitação":
-                    $valor = 5;
-                    $nomeT = "carteira-nacional-de-habilitacao";
-                    break;
-
-                    case "Carteira de Trabalho ASSINADA, Inclusive página que consta o cargo/função":
-                    $valor = 6;
-                    $nomeT = "carteira-de-trabalho-assinada-inclusive-pagina-que-consta-o-cargo-funcao";
-                    break;
-
-                    case "Termo de Rescisão do Contrato de Trabalho (TRCT)":
-                    $valor = 7;
-                    $nomeT = "termo-de-rescisao-do-contrato-de-trabalho-trct";
-                    break;
-
-                    case "Guia de Recolhimento da Receita Federal":
-                    $valor = 8;
-                    $nomeT = "guia-de-recolhimento-da-receita-federal";
-                    break;
-
-                    case "Folha de Ponto assinada pelo empregado":
-                    $valor = 9;
-                    $nomeT = "folha-de-ponto-assinada-pelo-empregado";
-                    break;
-
-                    case "Aviso de Férias assinado e comprovante de pagamento do terço constitucional":
-                    $valor = 10;
-                    $nomeT = "aviso-de-ferias-assinado-e-comprovante-de-pagamento-do-terco-constitucional";
-                    break;
-
-                    case "Contrato de Trabalho":
-                    $valor = 11;
-                    $nomeT = "contrato-de-trabalho";
-                    break;
-
-                    case "Atestado de Saúde Ocupacional - ASO (admissional, periódico e demissional)":
-                    $valor = 12;
-                    $nomeT = "atestado-de-saude-ocupacional-aso-admissional-periodico-e-demissional";
-                    break;
-
-                    case "Registro Técnico do Responsável Técnico da empresa - Pessoa Física":
-                    $nomeT = "registro-tecnico-do-responsavel-tecnico-da-empresa-pessoa-fisica";
-                    $valor = 13;
-                    break;
-
-                    case "Certificação de JO":
-                    $valor = 14;
-                    $nomeT = "certificacao-de-jo";
-                    break;
-
-                    case "Certificação de Desenhista de campo":
-                    $valor = 15;
-                    $nomeT = "certificacao-de-desenhista-de-campo";
-                    break;
-
-                    case "Certificação/Qualificação de Soldadores de Aço":
-                    $valor = 16;
-                    $nomeT = "certificacao-qualificacao-de-soldadores-de-aco";
-                    break;
-
-                    case "Certificação de Inspetores de Solda de Aço":
-                    $valor = 17;
-                    $nomeT = "certificacao-de-inspetores-de-solda-de-aco";
-                    break;
-
-                    case "Certificação de Soldadores de PE":
-                    $valor = 18;
-                    $nomeT = "certificacao-de-soldadores-de-pe";
-                    break;
-
-                    case "Certificação de Inspetores de Alta":
-                    $valor = 19;
-                    $nomeT = "certificacao-de-inspetores-de-alta";
-                    break;
-
-                    case "Navegador de MND":
-                    $valor = 20;
-                    $nomeT = "navegador-de-mnd";
-                    break;
-
-                    case "Operador MND":
-                    $valor = 21;
-                    $nomeT = "operador-mnd";
-                    break;
-
-                    case "Título de Certificado de Operador de Medidor":
-                    $valor = 22;
-                    $nomeT = "titulo-de-certificado-de-operador-de-medidor";
-                    break;
-
-                    case "Titulo de Certificado de Inspetor de Vistoria e Alta":
-                    $valor = 23;
-                    $nomeT = "titulo-de-certificado-de-inspetor-de-vistoria-e-alta";
-                    break;
-
-                    case "Título de Certificado de Instalador Predial de Tubulações de gás":
-                    $valor = 24;
-                    $nomeT = "titulo-de-certificado-de-instalador-predial-de-tubulacoes-de-gas";
-                    break;
-
-                    case "Trabalhos em Altura":
-                    $valor = 25;
-                    $nomeT = "trabalhos-em-altura";
-                    break;
-
-                    case "Registro de capacitação específica para vigia e trabalhadores de entrada em espaço confinado":
-                    $valor = 26;
-                    $nomeT = "registro-de-capacitacao-especifica-para-vigia-e-trabalhadores-de-entrada-em-espaco-confinado";
-                    break;
-
-                    case "Registro de capacitação específica para Supervisores de Entrada em espaços confinados":
-                    $valor = 27;
-                    $nomeT = "registro-de-capacitacao-especifica-para-supervisores-de-entrada-em-espacos-confinados";
-                    break;
-
-                    case "Seguridade na Manipulação de Produtos Químicos":
-                    $valor = 28;
-                    $nomeT = "seguridade-na-manipulacao-de-produtos-quimicos";
-                    break;
-
-                    case "Motorista de Transporte de Produtos Perigosos":
-                    $valor = 29;
-                    $nomeT = "motorista-de-transporte-de-produtos-perigosos";
-                    break;
-
-                    case "Registro de treinamento dos colaboradores em Prevenção contra incêndios":
-                    $valor = 30;
-                    $nomeT = "registro-de-treinamento-dos-colaboradores-em-prevencao-contra-incendios";
-                    break;
-
-                    case "Oficina de Liderança de Segurança e Saúde":
-                    $valor = 31;
-                    $nomeT = "oficina-de-lideranca-de-seguranca-e-saude";
-                    break;
-
-                  }
-
-                  $versao1 = $caminhoDiretorio.$valor."/";
+                  $versao1 = $caminhoDiretorio.$docType[1]."/";
 
                   /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
                   $path = $versao1;
@@ -1065,7 +756,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $stat = $mudarvariavel;
                   $visualizardoc = $mudarvariavel;
                 }else{
-                  $dirFinal = $caminhoPadrao.$valor."/".$nomeT.".".$getExt;
+                  $dirFinal = $caminhoPadrao.$docType[1]."/".$docType[0].".".$getExt;
                   $diretorionull = "<a href='{$dirFinal}' download><span class='btn btn_darkblue'>Download</span></a>";
                   if ($getExt == "pdf") {
                     $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}'></a>";
@@ -1079,7 +770,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 if ($variavelDataExtract['basename'] == "1969") {
                   $variavelData = "Não validado."; 
                 }
-
 
                 $jSON['tipo'] .= "<tr><td>$NOMEDOC</td><td><center>$variavelData</center></td><td><center>$stat</center></td><td><center>$diretorionull</center></td><td><center>$visualizardoc</center></td></tr>";
               }
@@ -1255,166 +945,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $variavelData = '<b><font color="orange">'.$dataBr;
                   }
 
-                  switch ($variavelSwitch) {
+                  $docType = $Doc->exibir($variavelSwitch); 
 
-                    case "Certificado Empresarial de Informação de Riscos Laborais - Distribuição de Gás":
-                    $nomeT = "certificado-empresarial-de-informacao-de-riscos-laborais-distribuicao-de-gas";
-                    $valor = 1;
-                    break;
-
-                    case "Certificado Empresarial de Informação de Riscos Laborais - Recursos e Serviços":
-                    $nomeT = "cert-inf-riscos-recursos-e-servicos";
-                    $valor = 2;
-                    break;
-
-                    case "Entrega de EPIs":
-                    $valor = 3;
-                    $nomeT = "entrega-de-epis";
-                    break;
-
-                    case "Certificado Empresarial de Formação":
-                    $valor = 4;
-                    $nomeT = "certificado-empresarial-de-formacao";
-                    break;
-
-                    case "Carteira Nacional de Habilitação":
-                    $valor = 5;
-                    $nomeT = "carteira-nacional-de-habilitacao";
-                    break;
-
-                    case "Carteira de Trabalho ASSINADA, Inclusive página que consta o cargo/função":
-                    $valor = 6;
-                    $nomeT = "carteira-de-trabalho-assinada-inclusive-pagina-que-consta-o-cargo-funcao";
-                    break;
-
-                    case "Termo de Rescisão do Contrato de Trabalho (TRCT)":
-                    $valor = 7;
-                    $nomeT = "termo-de-rescisao-do-contrato-de-trabalho-trct";
-                    break;
-
-                    case "Guia de Recolhimento da Receita Federal":
-                    $valor = 8;
-                    $nomeT = "guia-de-recolhimento-da-receita-federal";
-                    break;
-
-                    case "Folha de Ponto assinada pelo empregado":
-                    $valor = 9;
-                    $nomeT = "folha-de-ponto-assinada-pelo-empregado";
-                    break;
-
-                    case "Aviso de Férias assinado e comprovante de pagamento do terço constitucional":
-                    $valor = 10;
-                    $nomeT = "aviso-de-ferias-assinado-e-comprovante-de-pagamento-do-terco-constitucional";
-                    break;
-
-                    case "Contrato de Trabalho":
-                    $valor = 11;
-                    $nomeT = "contrato-de-trabalho";
-                    break;
-
-                    case "Atestado de Saúde Ocupacional - ASO (admissional, periódico e demissional)":
-                    $valor = 12;
-                    $nomeT = "atestado-de-saude-ocupacional-aso-admissional-periodico-e-demissional";
-                    break;
-
-                    case "Registro Técnico do Responsável Técnico da empresa - Pessoa Física":
-                    $nomeT = "registro-tecnico-do-responsavel-tecnico-da-empresa-pessoa-fisica";
-                    $valor = 13;
-                    break;
-
-                    case "Certificação de JO":
-                    $valor = 14;
-                    $nomeT = "certificacao-de-jo";
-                    break;
-
-                    case "Certificação de Desenhista de campo":
-                    $valor = 15;
-                    $nomeT = "certificacao-de-desenhista-de-campo";
-                    break;
-
-                    case "Certificação/Qualificação de Soldadores de Aço":
-                    $valor = 16;
-                    $nomeT = "certificacao-qualificacao-de-soldadores-de-aco";
-                    break;
-
-                    case "Certificação de Inspetores de Solda de Aço":
-                    $valor = 17;
-                    $nomeT = "certificacao-de-inspetores-de-solda-de-aco";
-                    break;
-
-                    case "Certificação de Soldadores de PE":
-                    $valor = 18;
-                    $nomeT = "certificacao-de-soldadores-de-pe";
-                    break;
-
-                    case "Certificação de Inspetores de Alta":
-                    $valor = 19;
-                    $nomeT = "certificacao-de-inspetores-de-alta";
-                    break;
-
-                    case "Navegador de MND":
-                    $valor = 20;
-                    $nomeT = "navegador-de-mnd";
-                    break;
-
-                    case "Operador MND":
-                    $valor = 21;
-                    $nomeT = "operador-mnd";
-                    break;
-
-                    case "Título de Certificado de Operador de Medidor":
-                    $valor = 22;
-                    $nomeT = "titulo-de-certificado-de-operador-de-medidor";
-                    break;
-
-                    case "Titulo de Certificado de Inspetor de Vistoria e Alta":
-                    $valor = 23;
-                    $nomeT = "titulo-de-certificado-de-inspetor-de-vistoria-e-alta";
-                    break;
-
-                    case "Título de Certificado de Instalador Predial de Tubulações de gás":
-                    $valor = 24;
-                    $nomeT = "titulo-de-certificado-de-instalador-predial-de-tubulacoes-de-gas";
-                    break;
-
-                    case "Trabalhos em Altura":
-                    $valor = 25;
-                    $nomeT = "trabalhos-em-altura";
-                    break;
-
-                    case "Registro de capacitação específica para vigia e trabalhadores de entrada em espaço confinado":
-                    $valor = 26;
-                    $nomeT = "registro-de-capacitacao-especifica-para-vigia-e-trabalhadores-de-entrada-em-espaco-confinado";
-                    break;
-
-                    case "Registro de capacitação específica para Supervisores de Entrada em espaços confinados":
-                    $valor = 27;
-                    $nomeT = "registro-de-capacitacao-especifica-para-supervisores-de-entrada-em-espacos-confinados";
-                    break;
-
-                    case "Seguridade na Manipulação de Produtos Químicos":
-                    $valor = 28;
-                    $nomeT = "seguridade-na-manipulacao-de-produtos-quimicos";
-                    break;
-
-                    case "Motorista de Transporte de Produtos Perigosos":
-                    $valor = 29;
-                    $nomeT = "motorista-de-transporte-de-produtos-perigosos";
-                    break;
-
-                    case "Registro de treinamento dos colaboradores em Prevenção contra incêndios":
-                    $valor = 30;
-                    $nomeT = "registro-de-treinamento-dos-colaboradores-em-prevencao-contra-incendios";
-                    break;
-
-                    case "Oficina de Liderança de Segurança e Saúde":
-                    $valor = 31;
-                    $nomeT = "oficina-de-lideranca-de-seguranca-e-saude";
-                    break;
-
-                  }
-
-                  $versao1 = $caminhoDiretorio.$valor."/";
+                  $versao1 = $caminhoDiretorio.$docType[1]."/";
 
                   /* VERIFICA SE O DIRETORIO TEM ARQUIVO*/
                   $path = $versao1;
@@ -1436,7 +969,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $stat = $mudarvariavel;
                   $visualizardoc = $mudarvariavel;
                 }else{
-                  $dirFinal = $caminhoPadrao.$valor."/".$nomeT.".".$getExt;
+                  $dirFinal = $caminhoPadrao.$docType[1]."/".$docType[0].".".$getExt;
                   $diretorionull = "<a href='{$dirFinal}' download><span class='btn btn_darkblue'>Download</span></a>";
                   $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}' rel='shadowbox'></a>";
                 }
