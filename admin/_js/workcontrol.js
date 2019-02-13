@@ -1300,16 +1300,16 @@ function OnlineNow(user, url) {
 
 //############## MODAL MESSAGE
 function Trigger(Message) {
-    $('.trigger_ajax').fadeOut('fast', function () {
+    $('.trigger_ajax').fadeOut('slow', function () {
         $(this).remove();
     });
     $('body').before("<div class='trigger_modal'>" + Message + "</div>");
     $('.trigger_ajax').fadeIn();
-    setTimeout(function(){$('.trigger_modal').hide();},3000);
+    setTimeout(function(){$('.trigger_modal').hide();},5000);
 }
 
 function TriggerClose() {
-    $('.trigger_ajax').fadeOut('fast', function () {
+    $('.trigger_ajax').fadeOut('slow', function () {
         $(this).remove();
     });
 }

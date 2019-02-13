@@ -78,6 +78,21 @@ endif;
 	<div class="box box33"></div>
 	
 </div>
+<div class="box box100">
+	<div class="box box33"></div>
+	<div class="box box33">
+		<div class="panel_header" style="background: #1a4a7b; border-top: 5px solid #1a4a7b; border-bottom: 4px solid #ad00f5; color: #FFF; padding: 15px;">
+			<center><h3 class="icon-info" style="font-size: 13; color: white;">LOG's</h3></center>
+		</div>
+		<div class="panel dashboard_onlinenow">
+			<div id="painel_log">
+			</div>
+			<!--<center><a class="icon-link link btn" href="#ex3" rel="modal:open" id="3" title="Editar Funcionários" style="width: 20%;">VISUALIZAR</a> </center>-->
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="box box33"></div>
+</div>
 
 
 <!--------------------------------------------------------------------- MODAL ---------------------------------------------------------------->
@@ -127,6 +142,35 @@ endif;
 	<div id="j_documentos_pendentes">
 		<div class="documentos_pendentes">
 			<hr>
+		</div>
+	</div>
+</div><!-- BOX 100 -->
+</div>
+
+
+
+<div id="log" class="modal" style="height: auto; max-width: 50%;">
+	<div class="panel_header" style=" border-bottom: 1px solid #04182e;
+	border-width: 2px; padding-top: 0px;">
+	<h2 class="icon-bubbles2" style="text-align: center;font-size: 15px;"><b>LOG's de ERRO (Robô)</b></h2>
+</div>
+<div class="box box100" style="padding: 0px;">
+	<div id="j_documentos_log">
+		<div class="documentos_log">
+			<hr>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Funcionário</th>
+						<th>Documento</th>
+						<th>Erro</th>
+						<th>Data</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody id="j_table_DocumentosLog">
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div><!-- BOX 100 -->

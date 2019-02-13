@@ -132,8 +132,8 @@ $IdFUNC = filter_input(INPUT_GET, 'ID', FILTER_DEFAULT);
      <table class="table table-bordered2" id="j_table_outrosdocs">
       <thead id="j_thead_outrosdocs">
       </thead>
-        <tbody id="j_table_ConsultaDocOutros">
-        </tbody>
+      <tbody id="j_table_ConsultaDocOutros">
+      </tbody>
     </table>
   </div>    
 </div>

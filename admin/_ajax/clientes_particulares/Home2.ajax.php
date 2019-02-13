@@ -393,7 +393,7 @@ OR [80_Orcamentos].STATUS = 7) "  . $criterioEndereco . $ctiterioCliente . $crit
                         'USUARIO_SISTEMA' => $_SESSION['userLogin']['ID'],
                     );
                 break;
-
+ 
                 case '5'://executado
                     $SalvaEdicaoChamado = array(
                         'DATAAGENDADA' => isset($PostData["DATAAGENDAMENTO"]) ? $PostData["DATAAGENDAMENTO"] : NULL ,
