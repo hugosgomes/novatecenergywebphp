@@ -1,0 +1,40 @@
+/* código plugin Jquery UI Tabs*/
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor{
+	font-size: 14px;
+}
+
+.ui-widget.ui-widget-content{
+	border:none;
+}
+
+.ui-widget-header{
+	border:none;
+	background:transparent;
+}
+
+/* código modal */
+.modal{
+	max-width:900px !important;
+}
+
+/* tabela monitoramento GNS */
+.orcamentoGns,.recuperar-orcamento {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+
+.orcamentoGns td,.recuperar-orcamento td, .orcamentoGns th, .recuperar-orcamento th {
+    padding: 8px;
+}
+
+.orcamentoGns>tbody tr:nth-child(even),.recuperar-orcamento>tbody tr:nth-child(even) {
+    background-color:  #dddddd61;
+}
+
+.label a{
+	text-decoration: underline;
+	margin-left: 0;
+}

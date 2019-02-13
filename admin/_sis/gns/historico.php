@@ -24,15 +24,56 @@ endif;
 <div class="dashboard_content custom_app">
 
     <article class="box box100">
-      <div class="box_content s_filtros">
-        <input type="text" id="j_selectClientes" placeholder="NOME DO CLIENTE" style="width: 300px;">
-        <input type="text" id="j_selectData" placeholder="DATA AGENDAMENTO" class="jwc_datepicker" style="width: 150px;">
-        <input type="text" id="j_selectNum" placeholder="Nº CLIENTE" style="width: 150;">
-        <input type="text" id="j_selectEndereco" placeholder="ENDEREÇO" style="width: 300px;">
-        <input type="text" id="j_selectBairro" placeholder="BAIRRO" style="width: 300px;">        
-        <input type="text" id="j_selectMunicipio" placeholder="MUNÍCÍPIO" style="width: 300px;">
-        <input type="text" id="j_selectCep" placeholder="CEP" style="width: 150px; margin-top: 5px;">
-        <input type="text" id="j_selectCpf" placeholder="CPF/CNPJ" style="width: 150px; margin-top: 5px;">
+      <div class="box_content">
+        <div class="box box33">
+          <div class="label_33">
+            <label class="label">Nº do Cliente
+              <input type="text" id="j_selectNum" placeholder="Nº CLIENTE">
+            </label>
+            <label class="label">Nome do Cliente
+              <input type="text" id="j_selectClientes" placeholder="NOME DO CLIENTE">
+            </label>
+            <label class="label">Data de Agendamento
+              <input type="text" id="j_selectData" placeholder="DATA AGENDAMENTO" class="jwc_datepicker">
+            </label>            
+          </div>
+        </div>
+
+        <div class="box box33">
+          <div class="label_33">
+            <label class="label">CPF/CNPJ
+              <input type="text" id="j_selectCpf" placeholder="CPF/CNPJ">
+            </label>
+            <label class="label">Status da OS
+              <select id="j_selectStatus" placeholder="STATUS">
+                <option value="t">TODOS OS STATUS</option>
+                <option value="0" selected="true">ASSOCIADO</option>
+                <option value="1">ATENDIDO</option>
+                <option value="2">CANCELADO</option>
+                <option value="3">AUSENTE</option>
+                <option value="4">REAGEND NVT</option>
+                <option value="5">REAGEND GNS</option>
+              </select>
+            </label>
+            <label class="label">CEP
+              <input type="text" id="j_selectCep" placeholder="CEP">
+            </label>            
+          </div>
+        </div>
+
+        <div class="box box33">
+          <div class="label_33">
+          <label class="label">Endereço
+              <input type="text" id="j_selectEndereco" placeholder="ENDEREÇO">
+            </label>
+            <label class="label">Bairro
+              <input type="text" id="j_selectBairro" placeholder="BAIRRO"> 
+            </label>
+            <label class="label">Município
+              <input type="text" id="j_selectMunicipio" placeholder="MUNICÍPIO">
+            </label>
+          </div>
+        </div>
       </div>
     </article>
 
@@ -45,7 +86,7 @@ endif;
           <table id="dataTable"class="cell-border compact stripe table" callback="Historico" callback_action="Carregar">
             <thead>
        <tr style="font-size: 12px;">
-                <th>Data Agendamento</th>
+                <!--<th>Status</th>-->
                 <th>Número Cliente</th>
                 <th>Nome Cliente</th>
                 
@@ -69,18 +110,46 @@ endif;
               </tr>
             </thead>
             <tbody style="font-size: 12px;">
+            
               <tr class="j_table"><td></td></tr>  
             </tbody>
           </table>
+          <center>
+              <img class="spinner" style="margin-left: 10px; margin-top: 2px; block-size: 10%;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load_spinner.gif"/>
+          </center>
         </div>
         </div>        
     </article>
 
     <article class="box box30">
       <header>
-        <h3 style="text-align: center;">Histórico de OS's</h3>
+        <h3 style="text-align: center;">Dados do Cliente</h3>
+      </header> 
+      
+      <div class="box_content">    
+        <div class="sample_tab_nav">
+              <a class='conf_menu wc_tab wc_active' href='#dados'><span class="icon-stack">Dados</span></a>
+              <a class='conf_menu wc_tab' href='#docs'><span class="icon-codepen">Documentos</span></a>
+        </div>   
+        <div class="tab_contents">
+            <div class='wc_tab_target wc_active' id='dados'>
+              <ul id = "j_dadosCli">
+                <span>****SELECIONE UM CLIENTE****</span>
+              </ul>
+            </div>
+            <div class='wc_tab_target ds_none' id='docs'>
+              <ul id = "j_docsCli">
+                <span>****SELECIONE UM CLIENTE****</span>
+              </ul>
+            </div>              
+        </div>
+      </div>
+    
+      <header>
+        <h3 style="text-align: center;">Histórico de OT's</h3>
       </header> 
       <div class="box_content">
+        <ul id = "j_numot">
         <ul id = "j_historicosOs">
           <hr><hr>
           <span>****SELECIONE UM CLIENTE****</span>

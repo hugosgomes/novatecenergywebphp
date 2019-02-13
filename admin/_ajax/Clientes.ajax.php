@@ -108,6 +108,28 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $Create->ExeCreate("[80_ClientesParticulares]", $CLIENTE);
                     $IdCli = $Create->getResult();
                 }else{
+                    //TESTA SE O CEP TEM O TRAÇO OU NÃO
+                    if (strstr($PostData['CEP'], '-')):
+                        $Quebra = explode("-", $PostData['CEP']);
+                        $PostData['CEP'] = $Quebra[0].$Quebra[1];
+                    endif;
+
+                    //TRATAMENTO DE CPF RETIRANDO PONTOS E TRAÇO DO CPF
+                    if(!empty($PostData['CPF'])):                    
+                        $CPF2 = str_replace(".", "", $PostData["CPF"]);
+                        $AUXCPF = str_replace("-", "", $CPF2);
+                        $PostData["CPF"] = $AUXCPF;
+                    endif;
+
+                    //TRATAMENTO CNPJ RETIRANDO PONTOS, TRAÇO E BARRA DO CNPJ
+                    if (!empty($PostData['CNPJ'])):                    
+                        $CNPJ2 = str_replace(".", "", $PostData["CNPJ"]);
+                        $CNPJ3 = str_replace("/", "", $CNPJ2);
+                        $AUXCNPJ = str_replace("-", "", $CNPJ3);
+                        $PostData["CNPJ"] = $AUXCNPJ;
+                    endif;
+
+                    //GUARDA O ID DO CLIENTE
                     $IdCli = $PostData['id_cliente'];
                 }
                                                
