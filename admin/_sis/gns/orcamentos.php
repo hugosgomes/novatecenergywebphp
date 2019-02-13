@@ -35,15 +35,14 @@ endif;
 <div class="dashboard_content custom_app">
 <article class="box box100">
   <div style="padding-bottom: 0px; padding-top: 0px;" class="box_content">
-    <div class="box box50">
-      <div class="label_33">
-        <label class="label">Ano
+    <div class="box box50" style="display:inline-block;">
+        <label class="label" style="width:24%;display:inline-block;">Ano
           <select id="j_ano">
             <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
             <option value="t">TODOS OS ANOS</option>
           </select>
         </label>
-        <label class="label">Mês
+        <label class="label" style="width:24%;display:inline-block;">Mês
           <select id="j_mes">
             <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
             <option value="t" id="meses">TODOS OS MESES</option>
@@ -61,13 +60,25 @@ endif;
             <option value="12" id="meses">DEZEMBRO</option>
           </select>
         </label>
-        <label class="label">Status
+        <label class="label" style="width:24%;display:inline-block;">Status
           <select id="j_statusOrcamento">
             <!--SELECT INICIADO AO ABRIR A PÁGINA POR JQUERY-->
             <option value="t">TODOS OS STATUS</option>
           </select>
         </label>
-      </div>
+        <label class="label contato" style="width:24%;display:inline-block;">Contatos
+          <select id="j_statusContatos">
+            
+            <option selected disabled value="t">TODOS OS CONTATOS</option>
+
+              <?php
+                $contato = getStatusContato();
+                foreach ($contato as $key => $value) {
+                  echo "<option value='{$key}'>{$value}</option>";
+                }
+              ?>
+          </select>
+        </label>
     </div>
     <div class="box box50">
       <div class="label_33">
@@ -107,7 +118,7 @@ endif;
 </article> 
 
 <article class="box box30">
-  <div class="box_content" style="height: 659px;">
+  <div class="box_content" style="height: 659px;overflow-y: scroll;">
     <center><h4>Informações Detalhadas</h4></center>
     <br>
     <ul class="j_detalhes" id="detalhes">
@@ -164,7 +175,6 @@ endif;
     <ul>
       <li><a href="#tabs-1">Contato</a></li>
       <li><a href="#tabs-2">Recuperar Orçamento</a></li>
-      <li><a href="#tabs-3">Recuperar Itens </a></li>
     </ul>
     <div id="tabs-1">
       <h3 style="text-align: center;">Contato</h3>
@@ -234,38 +244,53 @@ endif;
 
         <label class="label" style="width:72%;">
           <span>Técnico Realiz.: </span>
-          <select id="j_tecnicoEntrada" class="" name="TecnicoEnt" required disabled="readonly"/>
+          <select id="j_tecnicoEntrada" class="" name="TecnicoEnt" required disabled="readonly">
             <option value = "t">SELECIONE UM TÉCNICO</option>
           </select>
         </label>
-        <label class="label" style="width: 26%;">
+        <label class="label" style="width: 28%;">
           <span>Data Agend.:</span>
           <input id="j_dataAgend" type="text" placeholder="" class="jwc_datepicker" name="DataAgendamento" required/>
         </label>
-
-        <label class="label" style="width:72%">
-          <span>Status: </span>
-          <select id="j_status" class="" name="Status" required style="margin-bottom: 5%;" />
-          <option value = "t">SELECIONE UM STATUS</option>
+        <label class="label" style="width: 42%;">
+          <span>Forma Pagamento:</span>
+          <select id="j_pg">
+            <option value = "t" selected disabled>SELECIONE FORMA PAGAMENTO</option>
+            <option></option>
           </select>
         </label>
+        <label class="label" style="width: 25%;margin-left: 2%">
+          <span>Número Parcelas</span>
+          <input id="j_num-parcelas" type="number">
+        </label>
           
-      <label class="label" style="width:100%;">
+      <label class="label" style="width:100%;margin-left: 0">
           <span>Observação: </span>
           <input id="j_obs" class="" name="Obs" required style="margin-bottom: 5%;"/>
 
       </label>
       <br>
-
+      
+      <table class="recuperar-orcamento" idor="" idos="0">
+        <thead>
+          <tr>
+            <th>Peça/serviço</th>
+            <th>Qtd</th>
+            <th>Valor</th>
+            <th>Total</th>
+            <th>Recuperar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><!-- código tabela orçamentos --></tr>
+        </tbody>
+      </table> 
+      <br/>
   <hr style="height: 4px;background-color: black;width:100%">
 
   <center><a id="j_btn_salvar" class="btn btn_darkblue icon-share" style="width: 104px;">Salvar</a>&ensp;<a id="j_btn_cancelar" class="btn btn_red icon-cancel-circle" >Cancelar</a></center>
   </div>
   </form>
-    </div>
-    <div id="tabs-3">
-      <h3 style="text-align: center;">Recuperar Itens do Orçamento</h3>
-      <hr style="height: 4px; background-color: black;">
     </div>
   </div>
     

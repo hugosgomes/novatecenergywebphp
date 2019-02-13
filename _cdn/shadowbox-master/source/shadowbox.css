@@ -57,9 +57,24 @@
 #sb-prev {
   position: absolute;
   display: none;
-  background: url("shadowbox-icons.png") no-repeat;
+  /*background: url("shadowbox-icons.png") no-repeat;
+  cursor: pointer;
+}*/
+
   cursor: pointer;
 }
+
+#sb-close{
+  background: url("close.png") no-repeat;
+}
+
+#sb-next{
+  background: url("next.png") no-repeat;
+}
+
+#sb-prev{
+  background: url("back.png") no-repeat;
+}/* ALTERADO */
 
 #shadowbox.active #sb-close,
 #shadowbox.has-next #sb-next,
@@ -70,9 +85,11 @@
 #sb-close {
   top: 0;
   right: 0;
-  width: 60px;
+  /*width: 60px;
   height: 40px;
-  background-position: 50% 0;
+  background-position: 50% 0;*/
+  width: 45px;  /* ALTERADO */
+  height: 45px; /* ALTERADO */
   margin: -18px -30px 0 0;
 }
 
@@ -80,8 +97,9 @@
   right: 0;
   top: 50%;
   width: 60px;
-  height: 46px;
-  background-position: 50% -40px;
+  /*height: 46px;
+  background-position: 50% -40px;*/
+  height: 60px; /* ALTERADO */
   margin: -20px -40px 0 0;
 }
 
@@ -89,7 +107,8 @@
   left: 0;
   top: 50%;
   width: 60px;
-  height: 46px;
-  background-position: 50% -86px;
+  /*height: 46px;
+  background-position: 50% -86px;*/
+  height: 60px; /* ALTERADO */
   margin: -20px 0 0 -37px;
 }

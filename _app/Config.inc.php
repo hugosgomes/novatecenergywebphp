@@ -6,12 +6,12 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:83'):
     define('SIS_DB_HOST', 'NVTSERVERSQL'); //Link do banco de dados no localhost
     define('SIS_DB_USER', 'NVT'); //Usuário do banco de dados no localhost
     define('SIS_DB_PASS', '1'); //Senha  do banco de dados no localhost
-    define('SIS_DB_DBSA', 'BDNVT'); //Nome  do banco de dados no localhost
+    define('SIS_DB_DBSA', 'TESTE'); //Nome  do banco de dados no localhost
 else:
     define('SIS_DB_HOST', 'NVTSERVERSQL'); //Link do banco de dados no servidor
     define('SIS_DB_USER', 'NVT'); //Usuário do banco de dados no servidor
     define('SIS_DB_PASS', '1'); //Senha  do banco de dados no servidor
-    define('SIS_DB_DBSA', 'BDNVT'); //Nome  do banco de dados no servidor
+    define('SIS_DB_DBSA', 'TESTE'); //Nome  do banco de dados no servidor
 endif;
 /*
  * CACHE E CONFIG
@@ -300,27 +300,22 @@ function getStatusOrcamento($Status = null)
     if($Status <> "0"){
 
         $RealtyTransaction = [
-            0 => 'SEM CONTATO',//OK
-            1 => 'VISITA AGENDADA',//OK
+            0 => 'SEM CONTATO',
+            1 => 'VISITA AGENDADA',
             2 => 'EM ANÁLISE',
             3 => 'SERVIÇO AGENDADO',
             4 => 'EXECUTANDO',
-            5 => 'EXECUTADO',//ERRO
-            6 => 'CANCELADO',//ERRO
+            5 => 'EXECUTADO',
+            6 => 'CANCELADO',
             7 => 'RECUSADO'
         ];
     }else{
-        /*$RealtyTransaction = [
-            0 => 'SEM CONTATO',//OK
-            1 => 'VISITA AGENDADA',//OK
-            5 => 'CANCELADO',//ERRO
-            6 => 'RECUSADO'//ERRO
-        ];*/
+    
         $RealtyTransaction = [
-            0 => 'SEM CONTATO',//OK
-            1 => 'VISITA AGENDADA',//OK
-            6 => 'CANCELADO',//ERRO
-            7 => 'RECUSADO'//ERRO
+            0 => 'SEM CONTATO',
+            1 => 'VISITA AGENDADA',
+            6 => 'CANCELADO',
+            7 => 'RECUSADO'
         ];
     }
     return $RealtyTransaction;
@@ -381,8 +376,9 @@ function getNovoStatusOs($Transaction = null){
 
 function getStatusContato($Transaction = null){
     $RealtyTransaction = [
-        0 => 'Retornar Depois',
-        1 => 'Contato Feito',
+        0 => 'RETORNAR DEPOIS',
+        1 => 'CONTATO FEITO',
+        2 => 'SEM CONTATO'
     ];
     
     if ($Transaction!=null):

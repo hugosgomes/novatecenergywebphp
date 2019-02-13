@@ -509,6 +509,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         </table>";
 
                     endif;
+                    carregaLocalizações();   
 
                     $Read->FullRead("SELECT  [60_OS].NomeOs,[60_OS].NumOS, NomeCliente,Telefone1,Telefone2,Telefone3,[NumOT],[ObsOT], [60_OS].DataAgendamento,[PeriodoAgendamento],
                     [60_OS].Latitude, [60_OS].Longitude, [60_OS].Status FROM [60_Clientes]
@@ -520,7 +521,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                     $jSON['qtdOs'] = $qtdOs;
 
-
+                    $criterioLoc = $PostData['Tecnico'] != "t" ? " WHERE IDTECNICO = " . $PostData['Tecnico'] : "";
+                    $Read->FullRead("SELECT * FROM [60_Localizacao] " . $criterioLoc," ");
+                    for ($o=0; $o < count($Read->getResult()); $o++) { 
+                        array_push($jSON['locations'], $Read->getResult()[$o]);
+                    }
+                    
+                    
                 endif;
             break;
     endswitch;
@@ -536,3 +543,51 @@ else:
     //ACESSO DIRETO
     die('<br><br><br><center><h1>Acesso Restrito!</h1></center>');
 endif;
+
+
+function carregaLocalizações(){
+    
+    $ch = curl_init("http://www.gps7.com.br/gps7/api/api.php?action=posicoes&usuario=rdias@novatecenergy.com.br&senha=1234");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $json = curl_exec($ch);
+    curl_close($ch);
+    $carLocation = json_decode($json, true);
+
+    $Carro = new Read;    
+    $Update = new Update;
+    $Create = new Create;
+    $LOCALIZACAO = NULL;
+    foreach ($carLocation['msg'] as $key => $value) {
+        $placa = substr($value['identificador'],0,7);
+        $Carro->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS nome, SUB.PRODUTO AS carro,
+                    [00_NivelAcesso].ID AS id, SUB.IDPROD AS idCarro FROM [40_Interna_ID]
+                    LEFT JOIN Funcionários FUNC ON [40_Interna_ID].USUARIO_PORTADOR = FUNC.ID
+                    LEFT JOIN FuncionariosTerceirizados TERC ON [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO = TERC.ID
+                    INNER JOIN [00_NivelAcesso] ON FUNC.ID = [00_NivelAcesso].IDFUNCIONARIO OR TERC.ID = [00_NivelAcesso].IDTERCEIRIZADO
+                    INNER JOIN(
+                    SELECT max([40_Interna].INTERNA) ULTMOV, [40_Produtos].PRODUTO, [40_Produtos].Id IDPROD FROM [40_Produtos]
+                    INNER JOIN [40_Interna] ON [40_Produtos].Id = [40_Interna].PRODUTO
+                    WHERE [40_Produtos].PRODUTO LIKE '%" . $placa . "%'
+                    GROUP BY [40_Produtos].PRODUTO, [40_Produtos].Id) SUB
+                    ON [40_Interna_ID].ID = SUB.ULTMOV
+                    WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1
+                    ORDER BY NOME" ," ");
+        if ($Carro->getResult()) {
+            $LOCALIZACAO['IDTECNICO'] = $Carro->getResult()[0]['id'];
+            $LOCALIZACAO['NOME'] = $Carro->getResult()[0]['nome'];
+            $LOCALIZACAO['IDCARRO'] = $Carro->getResult()[0]['idCarro'];
+            $LOCALIZACAO['CARRO'] = $Carro->getResult()[0]['carro'];
+            $LOCALIZACAO['LATITUDE'] = $value['latitude'];
+            $LOCALIZACAO['LONGITUDE'] = $value['longitude'];
+
+            $Carro->FullRead("SELECT * FROM [60_Localizacao] WHERE IDTECNICO = :tec" ,"tec={$Carro->getResult()[0]['id']}");            
+            if ($Carro->getResult()) {
+                $Update->ExeUpdate("[60_Localizacao]", $LOCALIZACAO, "WHERE ID = :id", "id={$Carro->getResult()[0]['ID']}");
+            }else{
+                $Create->Execreate("[60_Localizacao]",$LOCALIZACAO);
+            }
+        }
+    }
+    
+
+}
