@@ -86,8 +86,9 @@ endif;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
-    <link rel="stylesheet" type="text/css" href="../_cdn/shadowbox/shadowbox.css">
-    <script src="../_cdn/shadowbox/shadowbox.js"></script>
+    <!-- Shadowbox - ATUALIZAR COM FREQUÊNCIA -->
+    <link rel="stylesheet" type="text/css" href="../_cdn/shadowbox-master/source/shadowbox.css">
+    <script src="../_cdn/shadowbox-master/source/shadowbox.js"></script>
     <script>
         Shadowbox.init({
             handleOrversize:"drag",

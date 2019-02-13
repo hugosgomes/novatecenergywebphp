@@ -284,9 +284,11 @@ $('#Tecnico').change(function(){
         var municipioCliente = $('#j_selectMunicipio').val();
         var cepCliente = $('#j_selectCep').val();
         var cpfCliente = $('#j_selectCpf').val();
+        var statusAtend = $('#j_selectStatus').val();
 
-        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, nomeCliente, dataCliente, numCliente, enderecoCliente, bairroCliente, municipioCliente, cepCliente, cpfCliente}, function (data) {
+        $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action, nomeCliente, dataCliente, numCliente, enderecoCliente, bairroCliente, municipioCliente, cepCliente, cpfCliente, statusAtend}, function (data) {
 
+            $('.spinner').hide();
             //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
             if (data.trigger) {
                 Trigger(data.trigger);                
@@ -303,6 +305,42 @@ $('#Tecnico').change(function(){
         
     }
 
+    $('html').on('click', '#sendDoc', function (e) {
+        let form = $("#form_sendDoc");
+        let Callback = $('#sendDoc').attr('callback');
+        let Callback_action = $('#sendDoc').attr('callback_action');
+        let idCliente = $('#sendDoc').attr('rel');
+        
+
+        form.ajaxSubmit({            
+          url: '_ajax/gns/' + Callback + '.ajax.php',
+          data: {callback_action: Callback_action, callback: Callback, idcliente: idCliente},
+          dataType: 'json',
+          beforeSubmit: function () {
+            $('.workcontrol_pdt_size').fadeIn('fast');
+          },
+          uploadProgress: function (evento, posicao, total, completo) {
+            var porcento = completo + '%';
+            $('.workcontrol_upload_progrees').text(porcento);
+      
+            if (completo <= '80') {
+              $('.workcontrol_upload').fadeIn().css('display', 'flex');
+            }
+            if (completo >= '99') {
+              $('.workcontrol_upload').fadeOut('slow', function () {
+                $('.workcontrol_upload_progrees').text('0%');
+              });
+            }
+              //PREVENT TO RESUBMIT IMAGES GALLERY
+              form.find('input[name="arquivos_cliente[]"]').replaceWith($('input[name="arquivos_cliente[]"]').clone());
+            },
+            success: function (data) {
+              if (data.trigger) {
+                Trigger(data.trigger);
+              }
+            }  
+          });
+      });
 
     //EVENTO DE CLIQUE NA TABELA DA TELA DE ORÇAMENTOS
     $(document).on('click', '.pointer', function (e) {
@@ -325,6 +363,24 @@ $('#Tecnico').change(function(){
             if (data.historicoOs) {
                 $('#j_historicosOs *').remove();
                 $(data.historicoOs).appendTo('#j_historicosOs');             
+            }
+            
+            //RETORNOS CORRESPONDENTES A TELA DE HISTÓRICO DE CLIENTES - DADOS DO CLIENTE
+            if (data.dadosCli) {
+                $('#j_dadosCli *').remove();
+                $(data.dadosCli).appendTo('#j_dadosCli');             
+            }
+
+            //RETORNOS CORRESPONDENTES A TELA DE HISTÓRICO DE CLIENTES - DADOS DO CLIENTE
+            if (data.docsCli) {
+                $('#j_docsCli *').remove();
+                $(data.docsCli).appendTo('#j_docsCli');             
+            }
+
+            //RETORNOS CORRESPONDENTES A TELA DE HISTÓRICO DE CLIENTES - NÚMERO DA OT
+            if (data.numot) {
+                $('#j_numot *').remove();
+                $(data.numot).appendTo('#j_numot');             
             }
 
             //RETORNOS CORRESPONDENTES A TELA DE DETALHES DE ORÇAMENTOS
@@ -360,9 +416,10 @@ $('#Tecnico').change(function(){
     });
 
 
-    $('#j_selectClientes, #j_selectNum, #j_selectData, #j_selectEndereco, #j_selectBairro, #j_selectMunicipio, #j_selectCep, #j_selectCpf').change(carregaDados);
+    $('#j_selectClientes, #j_selectNum, #j_selectData, #j_selectEndereco, #j_selectBairro, #j_selectMunicipio, #j_selectCep, #j_selectCpf, #j_selectStatus').change(carregaDados);
     $("#j_selectData").datepicker({
       onSelect: function(dateText) {
+        $('.spinner').show();
         carregaDados();
       }
     });
@@ -374,7 +431,6 @@ $('#Tecnico').change(function(){
       var Callback_action = $("#dataTable").attr('callback_action');
 
       $.post('_ajax/gns/' + Callback + '.ajax.php', {callback: Callback, callback_action: Callback_action}, function (data) {
-
                 //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
                 if(data.Trigger){
                     Trigger(data.trigger);
@@ -385,12 +441,7 @@ $('#Tecnico').change(function(){
                     $(".j_table_S_END").remove();
                     $(data.OS_sem_end).appendTo('#j_table_S_END');
                 }
-
-
-
-
             }, 'json');
-
   }
 
   $('html').on('click', '.j_inserir_coord', function (e) {
