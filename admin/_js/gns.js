@@ -510,16 +510,19 @@ $('#Tecnico').change(function(){
 
 }
 
+// HABILITAR OU DESABILITAR FILTRO STATUS CONTATO
 function contato(){
 
     let status = $('#j_statusOrcamento option:selected').val();
     if(status != 3){
+        $('#j_statusContatos option[value="t"]').prop('selected',true);
         $('#j_statusContatos').prop('disabled',true);
     }else{
         $('#j_statusContatos').prop('disabled',false);
     }
 }
 
+// SELCIONAR TODOS OS ITENS DO ORÇAMENTO
 function selecionaTodos(){
 
     let recuperaTodos = $('input[name="recupera-todos"').prop('checked');
@@ -534,14 +537,71 @@ function selecionaTodos(){
     }
 }
 
+
 $(document).on('click','#tabs-2 h3',function(){
-    console.log($('.linhas').length);
+
+    let total = 0;
+    let TotalLinhas = 1;
+    let linhasPecas = 1;
+    let linhasServc = 1;
+    let Servicos = [];
+    let Pecas = [];
+
+    $('.linhas').each(function(){
+
+        let checkbox = $(this).find('td:nth-child(5) input').prop('checked');
+        if(checkbox == true){
+
+            // SELECIONA O VALOR DE TODOS OS INPUTS CHECKED E SOMA
+            let valor = $(this).find('td:nth-child(4)').text();
+            valor = valor.toString().replace('.','');
+            valor = valor.toString().replace(',','.');
+            total += Number(valor);
+
+            // CALCULA TOTAL DE LINHAS SELECIONADAS E INCREMENTA NAME DAS LINHAS
+            TotalLinhas++;
+            let linhaIten = $(this).attr('class');
+            
+            if(linhaIten == "j_Pecas linhas"){
+
+                $(this).attr('name','peca'+linhasPecas);
+                let Qtd = $(this).find('td:nth-child(2)').text();
+                let Valor = $(this).find('td:nth-child(3)').text();
+                let Id = $(this).attr('id');
+                Pecas.push([Qtd,Valor,Id]);
+                console.log(Pecas);
+                linhasPecas++;
+            }else{
+
+                $(this).attr('name','servico'+linhasServc++);
+                let Qtd = $(this).find('td:nth-child(2)').text();
+                let Valor = $(this).find('td:nth-child(3)').text();
+                let Id = $(this).attr('id');
+                Servicos.push([Qtd,Valor,Id]);
+                console.log(Servicos);
+                linhasServc++;
+            }
+        }else{
+
+            let linhaIten = $(this).attr('class');
+            if(linhaIten == "j_Pecas linhas"){
+
+                $(this).attr('name','peca');
+
+            }else{
+
+                $(this).attr('name','servico');
+            }
+        }
+    })
 })
 
+// EXECUTA FUNÇÃO SELECIONA TODOS OS ITENS
 $(document).on('click','input[name="recupera-todos"]',function(){
     selecionaTodos();
 })
 
+// EXECURA FUNÇÃO CONTATO
 $('#j_statusOrcamento').on('change',function(){
     contato();
 })
@@ -549,6 +609,7 @@ $('#j_statusOrcamento').on('change',function(){
 
 $('#j_ano, #j_mes, #j_statusOrcamento, #j_statusContatos').change(carregaTabelaOrcamento);
 
+// CARREGAR TABELA DE ORÇAMENTOS
 function carregaTabelaOrcamento(){
     var Callback = $('#dataTable').attr('callback');
     var Callback_action = $('#dataTable').attr('callback_action');
@@ -559,7 +620,7 @@ function carregaTabelaOrcamento(){
 
     $.post(`_ajax/gns/${Callback}.ajax.php`, {callback: Callback, callback_action: Callback_action, ano: Ano, mes: Mes, Status, StatusContato}, function (data) {
 
-        //FAZ EXIBIR A MENSAGEM DE RETORNO DO AJAX
+        // EXIBIR A MENSAGEM DE RETORNO DO AJAX
         if(data.Trigger){
             Trigger(data.trigger);
         }
@@ -587,8 +648,9 @@ function carregaTabelaOrcamento(){
     }, 'json');
 }
 
-
+// EDITAR ORÇAMENTOS RECUSADOS
 $('html').on('click', '#j_btn_editar', function (e) {
+
     let Callback = $(this).attr('callback');
     let Callback_action = $(this).attr('callback_action');
     let idOrcamento = $(this).attr('idOrcamento');
@@ -631,14 +693,17 @@ $('html').on('click', '#j_btn_editar', function (e) {
             $(data.addStatus).appendTo("#j_status");
         }
 
-        if(data.addSerRecusa){
-            if(data.addPecasRecusa){
+        if(data.addSerRecusa != null || data.addPecasRecusa != null){
 
                 $(".recuperar-orcamento tbody tr").remove();
                 $(data.addSelecionaItens).appendTo(".recuperar-orcamento tbody");
                 $(data.addSerRecusa).appendTo(".recuperar-orcamento tbody");
                 $(data.addPecasRecusa).appendTo(".recuperar-orcamento tbody");
-            }
+        }
+
+        if(data.formaPagt){
+            $('#j_pg option:not("option:first-child")').remove();
+            $(data.formaPagt).appendTo('#j_pg');
         }
 
         if(data.addId){
@@ -667,55 +732,98 @@ $('html').on('click', '#j_btn_editar', function (e) {
 
 });
 
-
+// RECUPERAR ORÇAMENTO
 $('html').on('click', '#j_btn_salvar', function (e) {
-    var form = $("#j_form");
-    var callback = form.find('input[name="callback"]').val();
-    var callback_action = form.find('input[name="callback_action"]').val();
-    var id = form.find('input[name="ID"]').val();
 
-    if (typeof tinyMCE !== 'undefined') {
-        tinyMCE.triggerSave();
-    }
+    // VARIÁVEIS DE INCREMENTO
+    let total = 0;
+    let TotalLinhas = 1;
+    let linhasPecas = 0;
+    let linhasServc = 0;
 
-    form.ajaxSubmit({
-        url: '_ajax/gns/' + callback + '.ajax.php',
-        dataType: 'json',
-        beforeSubmit: function () {
-            $('.workcontrol_pdt_size').fadeIn('fast');
-        },
-        uploadProgress: function (evento, posicao, total, completo) {
-            var porcento = completo + '%';
-            $('.workcontrol_upload_progrees').text(porcento);
+    let Servico = {
+        Qtd : [],
+        Valor : [],
+        Id : [],
+        IdServico : []
+    };
 
-            if (completo <= '80') {
-                $('.workcontrol_upload').fadeIn().css('display', 'flex');
-            }
-            if (completo >= '99') {
-                $('.workcontrol_upload').fadeOut('slow', function () {
-                    $('.workcontrol_upload_progrees').text('0%');
-                });
-            }
-            //PREVENT TO RESUBMIT IMAGES GALLERY
-            form.find('input[name="image[]"]').replaceWith($('input[name="image[]"]').clone());
-        },
-        success: function (data) {
-            if (data.trigger) {
-                Trigger(data.trigger);
-            }
+    let Peca = {
+        Qtd : [],
+        Valor : [],
+        Id : [],
+        IdPeca : []
+    };
 
-            //DATA CLEAR INPUT
-            if (data.ID) {
-                $('.pointer[idorcamento="'+data.ID+'"]').click(); 
-                $('#j_btn_cancelar').click();
-                $('#j_form input[type!="hidden"]').val("");
-                $('#j_form select').val("t");
-            }
+    $('.linhas').each(function(){
+
+        let checkbox = $(this).find('td:nth-child(5) input').prop('checked');
+        if(checkbox == true){
+
+            // SELECIONA O VALOR DE TODOS OS INPUTS CHECKED E SOMA
+            var valor = $(this).find('td:nth-child(4)').text();
+            valor = valor.toString().replace('.','');
+            valor = valor.toString().replace(',','.');
+            total += Number(valor);
+
+            // CALCULA TOTAL DE LINHAS SELECIONADAS E INCREMENTA NAME DAS LINHAS
+            TotalLinhas++;
+            let linhaIten = $(this).attr('class');
+            
+            // SELECIONA CAMPOS DE PEÇAS NA TABELA
+            if(linhaIten == "j_Pecas linhas"){
+
+                let Qtd = $(this).find('td:nth-child(2)').text();
+                let Valor = $(this).find('td:nth-child(3)').text();
+                let Id = $(this).attr('id');
+                let IdPeca = $(this).attr('idpeca');
+
+                Peca.Qtd.push(Qtd);
+                Peca.Valor.push(Valor);
+                Peca.Id.push(Id);
+                Peca.IdPeca.push(IdPeca);
+                
+                linhasPecas++;
+
+            // SELECIONA CAMPOS DE SERVIÇOS NA TABELA
+            }else{
+
+                let Qtd = $(this).find('td:nth-child(2)').text();
+                let Valor = $(this).find('td:nth-child(3)').text();
+                let Id = $(this).attr('id');
+                let IdServico = $(this).attr('idserv');
+                
+                Servico.Qtd.push(Qtd);
+                Servico.Valor.push(Valor);
+                Servico.Id.push(Id);
+                Servico.IdServico.push(IdServico);
+                
+                linhasServc++;
+            }   
         }
-    });
+    })
+
+    let DataRealiza = $('#j_dataEntrada').text();
+    let TecnicoEntrada = $('#j_tecnicoEntrada option:selected').val();
+    let DataAgend = $("#j_dataAgend").val();
+    let FormaPagamento = $('#j_pg option:selected').val();
+    let NumParcelas = $('#j_num-parcelas').val();
+    let Obs = $('#j_obs').val();
+    let IdOs = $('.seleciona-todos').attr('idos');
+    let IdOrcamento = $('.seleciona-todos').attr('idorc');
+    let callback = "Orcamentos";
+    let callback_action = "atualizar";
+
+   $.post(`_ajax/gns/${callback}.ajax.php`,{callback,callback_action,DataRealiza,TecnicoEntrada,DataAgend,FormaPagamento,NumParcelas,Obs,IdOs,IdOrcamento,total,Servico,Peca,linhasPecas,linhasServc},function(data){
+
+        if(data.trigger){
+            Trigger(data.trigger);
+        }
+   },'json');
 
 });
 
+// SALVAR CONTATO DE ORÇAMENTO RECUSADO
 $(document).on('click','#j_btn_salvar_contato',function(){
 
     let callback = "Orcamentos";
@@ -737,9 +845,11 @@ $(document).on('click','#j_btn_salvar_contato',function(){
 })
 
 
+// FECHAR MODAL AO CLICAR EM CANCELAR
 $('html').on('click', '#j_btn_cancelar', function (e) {
     $('#j_modal, .blocker').hide();
 });
+
 
 $('html').on('click', '#j_importar', function (e) {
     var form = $("#j_form_osManual");

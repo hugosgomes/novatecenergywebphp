@@ -340,7 +340,7 @@ function calculaTotalTable(){
          $('.valor-total').text(0);
          $('#valor-total').val(0);
          $('.forma-pagamento').fadeOut();
-         //$('#valor-total-reprovado').val(0);
+         
     }else{
         $('.valor-total').text(valorTotal.toFixed(2)/*valorTotalMask*/);
         $('#valor-total').val(valorTotal);

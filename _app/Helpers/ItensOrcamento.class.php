@@ -2,13 +2,13 @@
 
 class ItensOrcamento extends Orcamento{
 
-	public $Id;
-	private $IdOrcamento;
-	private $Nome;
-	private $Qtd;
-	private $Valor;
-	private $ValorTotal;
-	private $NumeroParcelas;
+	protected $Id;
+	protected $IdOrcamento;
+	protected $Nome;
+	protected $Qtd;
+	protected $Valor;
+	protected $ValorTotal;
+	protected $NumeroParcelas;
 
 	// MÉTODO DE LEITURA ID ITENS
 	public function getId($Id){

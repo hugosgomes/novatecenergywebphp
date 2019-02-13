@@ -244,16 +244,27 @@ endif;
 
         <label class="label" style="width:72%;">
           <span>Técnico Realiz.: </span>
-          <select id="j_tecnicoEntrada" class="" name="TecnicoEnt" required disabled="readonly"/>
+          <select id="j_tecnicoEntrada" class="" name="TecnicoEnt" required disabled="readonly">
             <option value = "t">SELECIONE UM TÉCNICO</option>
           </select>
         </label>
-        <label class="label" style="width: 20%;">
+        <label class="label" style="width: 28%;">
           <span>Data Agend.:</span>
           <input id="j_dataAgend" type="text" placeholder="" class="jwc_datepicker" name="DataAgendamento" required/>
         </label>
+        <label class="label" style="width: 42%;">
+          <span>Forma Pagamento:</span>
+          <select id="j_pg">
+            <option value = "t" selected disabled>SELECIONE FORMA PAGAMENTO</option>
+            <option></option>
+          </select>
+        </label>
+        <label class="label" style="width: 25%;margin-left: 2%">
+          <span>Número Parcelas</span>
+          <input id="j_num-parcelas" type="number">
+        </label>
           
-      <label class="label" style="width:77%;">
+      <label class="label" style="width:100%;margin-left: 0">
           <span>Observação: </span>
           <input id="j_obs" class="" name="Obs" required style="margin-bottom: 5%;"/>
 
