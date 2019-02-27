@@ -126,6 +126,7 @@ $('html').on('click', '#j_btn_salvar', function (e) {
 
         //REMOVE AS TABELAS DE DOCUMENTOS
         $('#j_table_EnvioDoc tr').remove();
+        $('#j_table_ConsultaDoc tr').remove();
 
         //ATUALIZA OS DOCUMENTOS DO FUNCINÁRIO
         $('#funcionario').change();
