@@ -603,3 +603,11 @@ form .section{
     height: 10px;
 
   }
+  textarea{
+    resize: none;
+  }
+.scroll-historico{
+     overflow-y: scroll;
+     height: 611px;
+     overflow-x: hidden;
+}

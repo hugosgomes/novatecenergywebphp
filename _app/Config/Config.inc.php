@@ -27,8 +27,8 @@ if (!$WorkControlDefineConf):
     /*
      * ADMIN CONFIG
      */
-    define('ADMIN_NAME', 'Work Control');  //Nome do painel de controle (Work Control)
-    define('ADMIN_DESC', 'O Work Control é um sistema de gestão de conteúdo profissional gerido pela turma de alunos Work Series da UpInside Treinamentos!'); //Descrição do painel de controle (Work Control)
+    define('ADMIN_NAME', 'Novatec Energy');  //Nome do painel de controle (Work Control)
+    define('ADMIN_DESC', 'Bem-Vindo(a) ao sistema da novatec energy!'); //Descrição do painel de controle (Work Control)
     define('ADMIN_MODE', 1); //1 = website / 2 = e-commerce / 3 = Imobi / 4 = EAD
     define('ADMIN_WC_CUSTOM', 1); //Habilita menu e telas customizadas
     define('ADMIN_MAINTENANCE', 0); //Manutenção

@@ -82,7 +82,7 @@ endif;
           <h3 style="text-align: center;">Histórico de Clientes</h3>
         </header> 
         <div class="box_content">
-          <div class="tabela-responsivel">
+          <div class="tabela-responsivel" style=" height: 60%;">
           <table id="dataTable"class="cell-border compact stripe table" callback="Historico" callback_action="Carregar">
             <thead>
        <tr style="font-size: 12px;">
@@ -122,10 +122,11 @@ endif;
     </article>
 
     <article class="box box30">
+
       <header>
         <h3 style="text-align: center;">Dados do Cliente</h3>
       </header> 
-      
+      <div class="box_content scroll-historico">
       <div class="box_content">    
         <div class="sample_tab_nav">
               <a class='conf_menu wc_tab wc_active' href='#dados'><span class="icon-stack">Dados</span></a>
@@ -156,6 +157,7 @@ endif;
         </ul>
         <hr><hr>
       </div>
+    </div>
     </article>
 
 </div>

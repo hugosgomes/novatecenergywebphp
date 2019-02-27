@@ -308,7 +308,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                             $Read->FullRead("SELECT * FROM [60_ClientesDocumentos] WHERE IDCLIENTE = :idcliente","idcliente={$IdCliente}");
                             $jSON['docsCli'] = "<div class='box box100' style='padding-bottom: 0px;'>
                                                     <form id='form_sendDoc' class='j_tab_home tab_create' name='user_manager' action='' method='post' enctype='multipart/form-data'>
-                                                        <li style='padding-bottom: 5px;font-size: 12px;'><b>Enviar Documentos:</b><input type='file' name='arquivos_cliente[]' class='wc_loadimage' multiple=''><span class='btn btn_blue' rel='{$IdCliente}' id='sendDoc' callback='Historico' callback_action='sendDoc'>Enviar</span></li>
+                                                    
+                                                        <li style='padding-bottom: 5px;font-size: 12px;'><b>Enviar Documentos:</b><input type='file' name='arquivos_cliente[]' class='wc_loadimage' multiple=''><br><br><span class='btn btn_blue' rel='{$IdCliente}' id='sendDoc' callback='Historico' callback_action='sendDoc'>Enviar</span></li>
                                                     </form>
                                                 </div>";
 
