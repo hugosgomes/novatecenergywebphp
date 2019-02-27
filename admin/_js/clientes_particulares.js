@@ -287,6 +287,9 @@ $('#wc_pdt_stoc').on('click', function (e) {
             }
 
             $('#j_statusOrcamento').attr('disabled', false);
+            
+            //FECHAR MODAL APÓS GERAR NOVO CHAMADO
+            $('.close-modal').trigger("click");
         }
     });
     return false;

@@ -49,17 +49,16 @@ try{
         WHERE (([14_ImportEstadoPortas_SVSH].Tipo)='SV') AND (A.LOTE Is Null)
         GROUP BY [14_ImportEstadoPortas_SVSH].Lote)A;"," ");
 
-        $rowCount = $Query->getResult();
-
-            $novosLotes = $rowCount;
+                $novosLotes = $rowCount;
+           
             if($novosLotes > 0){
 
                 $Cliente = "Novatec Energy";
-                $EmailCliente = "gns@novatecenergy.com.br";
+                $EmailCliente = "cmailard@novatecenergy.com.br";
                 
                 function envioTeste($Cliente, $EmailCliente, $novosLotes){
 
-                 $destinatarios = array("fcruz@novatecenergy.com.br", "gramos@novatecenergy.com.br", "apralon@novatecenergy.com.br", "sbrito@novatecenergy.com.br", "gneto@novatecenergy.com.br");
+                 $destinatarios = array("fcruz@novatecenergy.com.br", "gramos@novatecenergy.com.br", "apralon@novatecenergy.com.br", "sbrito@novatecenergy.com.br", "gneto@novatecenergy.com.br","cmailard@novatecenergy.com.br");
                  $Email = new Email;
                  $MailContent = '<table width="550" style="font-family: "Trebuchet MS", sans-serif;">
                  <tr><td>
@@ -88,7 +87,7 @@ try{
             ,[14_ImportEstadoPortas_SVSH].[Anexo],'') +
             IIf([14_ImportEstadoPortas_SVSH].Escadaria IS NOT NULL,' ' + [14_ImportEstadoPortas_SVSH].[Escadaria],'') + 
             IIf([14_ImportEstadoPortas_SVSH].Bloco IS NOT NULL,' ' + [14_ImportEstadoPortas_SVSH].[Bloco],'')) AS COMPLEMENTO, 
-            [14_ImportEstadoPortas_SVSH].Porta, 0, 'Sim', 0, [14_ImportEstadoPortas_SVSH].CodigoAtividade, [14_ImportEstadoPortas_SVSH].Lote, 
+            [14_ImportEstadoPortas_SVSH].Porta, 0, 'Sim', 0, [14_ImportEstadoPortas_SVSH].Lote, [14_ImportEstadoPortas_SVSH].CodigoAtividade, 
             [14_ImportEstadoPortas_SVSH].CIDI, [14_ImportEstadoPortas_SVSH].Tipo 
             FROM [14_ImportEstadoPortas_SVSH] LEFT JOIN (
             SELECT NUMLOTEGNF AS LOTE FROM [11_Lotes] UNION SELECT NUMLOTEGNF AS LOTE FROM [12_Lotes] UNION SELECT NUM_LOTE_GNF AS LOTE FROM [11_ImportaLoteB])A

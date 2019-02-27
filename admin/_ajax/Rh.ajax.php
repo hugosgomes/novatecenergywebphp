@@ -105,7 +105,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
       $visualizardoc = null;
       $valor = null;
       $outrosdoc = null;
-      $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
+      $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 9);
 
       if ($idfuncionario) {
         foreach ($idfuncionario as $value) {
@@ -129,6 +129,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               $stat = $value1['stat'];
               $variavelSwitch = $value1['Tipo'];
             }
+
 
             if ($stat == 2) {
               $stat = '<a class="icon-checkmark">';
@@ -350,7 +351,11 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 }else{
                   $dirFinal = $caminhoPadrao.$valor."/".$nomeT.".".$getExt;
                   $diretorionull = "<a href='{$dirFinal}' download><span class='btn btn_darkblue'>Download</span></a>";
-                  $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}' rel='shadowbox'></a>";
+                  if ($getExt == "pdf") {
+                    $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}'></a>";
+                  }else{
+                    $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}' rel='shadowbox'></a>";
+                  }
                 }
 
                 $variavelDataExtract = pathinfo($variavelData);
@@ -364,7 +369,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
             $Read->FullRead("SELECT IdFuncionario AS idd ,Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ", "IDFUNQ={$PostData['pegarIdFUNC']}");
             $outrosdocumentos = $Read->getResult();
-            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
+            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 9);
 
             if ($outrosdocumentos) {
               foreach ($outrosdocumentos as $doc) {
@@ -373,6 +378,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $DATE = $doc['data'];
                 $datareplace = str_replace("-", "/", $DATE);
                 $datareal = date('d/m/Y', strtotime($datareplace));
+
                 $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
                 $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
@@ -576,7 +582,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           case 14:
                           $pasta = "Outros";
                           $nomeArquivo = "certificacao-de-jo";
-                          $nomeAchilles = "Certificacão de JO";
+                          $nomeAchilles = "Certificação de JO";
                           $IdTipoDocumento = 14;
                           $TipoData = 1;
                           $status = 1;
@@ -585,7 +591,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           case 15:
                           $pasta = "Outros";
                           $nomeArquivo = "certificacao-de-desenhista-de-campo";
-                          $nomeAchilles = "Certificacão de Desenhista de campo";
+                          $nomeAchilles = "Certificação de Desenhista de campo";
                           $IdTipoDocumento = 15;
                           $TipoData = 1;
                           $status = 1;
@@ -594,7 +600,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           case 16:
                           $pasta = "Outros";
                           $nomeArquivo = "certificacao-qualificacao-de-soldadores-de-aco";
-                          $nomeAchilles = "Certificacão/Qualificacão de Soldadores de Aço";
+                          $nomeAchilles = "Certificação/Qualificacão de Soldadores de Aço";
                           $IdTipoDocumento = 16;
                           $TipoData = 1;
                           $status = 1;
@@ -603,7 +609,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           case 17:
                           $pasta = "Outros";
                           $nomeArquivo = "certificacao-de-inspetores-de-solda-de-aco";
-                          $nomeAchilles = "Certificacão de Inspetores de Solda de Aço";
+                          $nomeAchilles = "Certificação de Inspetores de Solda de Aço";
                           $IdTipoDocumento = 17;
                           $TipoData = 1;
                           $status = 1;
@@ -612,7 +618,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           case 18:
                           $pasta = "Outros";
                           $nomeArquivo = "certificacao-de-soldadores-de-pe";
-                          $nomeAchilles = "Certificacão de Soldadores de PE";
+                          $nomeAchilles = "Certificação de Soldadores de PE";
                           $IdTipoDocumento = 18;
                           $TipoData = 1;
                           $status = 1;
@@ -621,7 +627,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           case 19:
                           $pasta = "Outros";
                           $nomeArquivo = "certificacao-de-inspetores-de-alta";
-                          $nomeAchilles = "Certificacão de Inspetores de Alta";
+                          $nomeAchilles = "Certificação de Inspetores de Alta";
                           $IdTipoDocumento = 19;
                           $TipoData = 1;
                           $status = 1;
@@ -666,7 +672,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                           case 24:
                           $pasta = "Outros";
                           $nomeArquivo = "titulo-de-certificado-de-instalador-predial-de-tubulacoes-de-gas";
-                          $nomeAchilles = "Título de Certificado de Instalador Predial de Tubulacoes de gás";
+                          $nomeAchilles = "Título de Certificado de Instalador Predial de Tubulações de gás";
                           $IdTipoDocumento = 24;
                           $TipoData = 1;
                           $status = 1;
@@ -818,8 +824,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $visualizardoc = null;
                 $valor = null;
                 $outrosdoc = null;
-                $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
+                $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 9);
                 //$variavelData = null;
+
 
                 if ($idfuncionario) {
                   foreach ($idfuncionario as $value) {
@@ -1055,9 +1062,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                   $getPath = pathinfo($dirArquivo);
                   $getExt = $getPath['extension'];
 
+                  if ($getExt == "db") {
+                    $getExt = "pdf";
+                  }
                 }//IF LÁ DO IDTIPO PERTO DO FOREACH
 
                 //CONDIÇÃO PARA APARECER NA TELA, SE O VALOR DO NOME DO DOCUMENTO VIER NULO DO BANCO DE DADOS, NÃO IRÁ APARECER NADA.
+
 
                 if ($idtipo == NULL) {
                   $diretorionull = $mudarvariavel;
@@ -1067,11 +1078,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 }else{
                   $dirFinal = $caminhoPadrao.$valor."/".$nomeT.".".$getExt;
                   $diretorionull = "<a href='{$dirFinal}' download><span class='btn btn_darkblue'>Download</span></a>";
-                  if ($getExt == "pdf") {
+                  if ($getExt == "pdf" OR $getExt == "db") {
                     $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}'></a>";
-                  }else{
+                  }elseif($getExt == "jpg" OR $getExt == "jpeg" OR $getExt == "png"){
                     $visualizardoc = "<a style='color: black; text-decoration: none;' class='icon-eye' target='_blank' href='{$dirFinal}' rel='shadowbox'></a>";
                   }
+
                 }
 
                 $variavelDataExtract = pathinfo($variavelData);
@@ -1086,7 +1098,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
             $Read->FullRead("SELECT IdFuncionario AS idd , Id as DOCID, Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ", "IDFUNQ={$PostData['funcionarioid']}");
             $outrosdocumentos = $Read->getResult();
-            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
+            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 9);
 
             if ($outrosdocumentos) {
               foreach ($outrosdocumentos as $doc) {
@@ -1096,6 +1108,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $DATEDOC = $doc['DOCID'];
                 $datareplace = str_replace("-", "/", $DATE);
                 $datareal = date('d/m/Y', strtotime($datareplace));
+
                 $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO COM 83
                 $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 
@@ -1122,9 +1135,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
               }
             }
             break;
-
-
-
             case 'delete':
             $deleteclick = $PostData['getclick'];
 
@@ -1192,7 +1202,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $visualizardoc = null;
                 $valor = null;
                 $outrosdoc = null;
-                $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
+                $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 9);
 
                 if ($idfuncionario) {
                   foreach ($idfuncionario as $value) {
@@ -1452,7 +1462,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             }
             $Read->FullRead("SELECT IdFuncionario AS idd ,Tipo as TYPEDOCS, DataValidade AS data, IdTipoDocumento FROM [30_Documentacao] WHERE Status = 3 AND IdFuncionario = :IDFUNQ", "IDFUNQ={$PostData['funcionarioDid']}");
             $outrosdocumentos = $Read->getResult();
-            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 15);
+            $REQUEST_URI = substr($_SERVER['REQUEST_URI'], 0, 9);
 
             if ($outrosdocumentos) {
               foreach ($outrosdocumentos as $doc) {
@@ -1461,6 +1471,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $DATE = $doc['data'];
                 $datareplace = str_replace("-", "/", $DATE);
                 $datareal = date('d/m/Y', strtotime($datareplace));
+
                 $caminhoPadrao = "//".$_SERVER['HTTP_HOST'].$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA REALIZAR O DONWLOAD DO ARQUIVO
                 $caminhoDiretorio = "//".$_SERVER['SERVER_NAME']."/xampp/htdocs".$REQUEST_URI."uploads/Achiles/{$doc['idd']}/"; //CAMINHO PARA VERIFICAR SE O ARQUIVO EXISTE DENTRO DA PASTA NO SISTEMA
 

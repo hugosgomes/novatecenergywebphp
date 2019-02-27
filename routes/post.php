@@ -705,6 +705,7 @@ endif;
 $app->post('/atendimentos/fotos/', function(Request $request, Response $response) {
     $Read = new Read();
     $Update = new Update();
+    $Create = new Create;
     $parsedBody = $request->getParsedBody();
     $files = $request->getUploadedFiles();
     $retorno['erro'] = true;
@@ -724,13 +725,12 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
         $Aparelhos = NULL;
 
         //UPLOAD DA IMAGEM
-        $filename = moveUploadedFile($directory, $uploadedFile, $parsedBody['idAtendimento'], $parsedBody['tipo']); 
+        $uploadFileName = $uploadedFile->getClientFilename();
+        $uploadedFile->moveTo($directory."/". $uploadFileName);
         
         //CADASTRO DO CAMINHO DA IMAGEM NO BANCO DE DADOS
         $Fotos['OS'] =  $parsedBody['idAtendimento'];
-        $Fotos['Arquivo'] = "images/".date("Y")."/".date("m")."/". $filename;
-
-        $filename = NULL;
+        $Fotos['Arquivo'] = "images/".date("Y")."/".date("m")."/". $uploadFileName;
         
 
         switch ($parsedBody['tipo']) {
@@ -756,8 +756,11 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
                 $Fotos['Tipo'] = 7;
                 break;                
         }
-        $Create = new Create;
-        $Create->ExeCreate("[60_OS_Fotos]", $Fotos);
+
+        $Read->FullRead("SELECT Id FROM [60_OS_Fotos] WHERE OS = :os AND Arquivo = :arq AND Tipo = :tipo","os={$Fotos['OS']}&arq={$Fotos['Arquivo']}&tipo={$Fotos['Tipo']}");
+        if(!$Read->getResult()){
+            $Create->ExeCreate("[60_OS_Fotos]", $Fotos);
+        }
 
         $idAtendimento = intval($parsedBody['idAtendimento']);
 
@@ -809,7 +812,7 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
                                 $Orcamentos .= "<tr><td>{$ORCAMENTOS['nome']}</td><td>{$ORCAMENTOS['Qtd']}</td><td>{$ORCAMENTOS['Valor']}</td><td>".$ORCAMENTOS['Valor'] * $ORCAMENTOS['Qtd']."</td></tr>";
                             }
                         }
-                        $Orcamentos .= "<tr><td><b>TOTAL:</b> {$Valor}</td><td><b>Nº PARCELAS:</b> {$NumParcelas}</td><td><b>VALOR DAS PECELAS:</b> {$Parcelas}</td></tr>";
+                        $Orcamentos .= "<tr><td><b>TOTAL(R$):</b> {$Valor}</td><td><b>Nº PARCELAS:</b> {$NumParcelas}</td><td><b>VALOR DAS PECELAS(R$):</b> {$Parcelas}</td></tr>";
                     }  
 
                     $Read->FullRead("SELECT ID, Valor, FormaPagamento, NumParcelas, DataAgendamento FROM [60_Orcamentos] WHERE idOS = :id AND Status = 3","id={$idAtendimento}");
@@ -855,7 +858,7 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
                     $Read->FullRead("SELECT * FROM [60_TesteAparelho] WHERE IdOs = :id","id={$idAtendimento}");
                     if($Read->getResult()){                
                         foreach ($Read->getResult() as $APARELHO) {
-                            $Aparelhos .= "<tr><td colspan='2' align='center' valign='middle'><b>Aparelho {$APARELHO['Aparelho']}</b></td></tr><tr><td>Local: {$APARELHO['Local']}</td><td>Tipo: {$APARELHO['Tipo']}</td></tr><tr><td> Marca: {$APARELHO['Marca']}</td><td> Modelo: {$APARELHO['Modelo']}</td></tr><tr><td>Potencia Nominal: {$APARELHO['PotNominal']}</td><td>Tiragem: {$APARELHO['Tiragem']}</td></tr><tr><td>Combustão: {$APARELHO['Combustao']}</td><td>Funcionamento: {$APARELHO['Funcionamento']}</td></tr><tr><td colspan='2'align='center' valign='middle'><b>Higiene da Combustão</b></td></tr><tr><td> Tiragem: {$APARELHO['TiragemHigienteCombustao']}</td><td>COn: {$APARELHO['Con']}</td></tr><tr><td>COAmb: {$APARELHO['CoAmb']}</td><td>Tempo: {$APARELHO['Tempo']}min</td></tr><tr><td> Analisador: {$APARELHO['Analisador']}</td><td>Nº Série: {$APARELHO['NumeroDeSerie']}</td></tr>";
+                            $Aparelhos .= "<tr><td colspan='2' align='center' valign='middle'><b>Aparelho {$APARELHO['Aparelho']}</b></td></tr><tr><td>Local: {$APARELHO['Local']}</td><td>Tipo: {$APARELHO['Tipo']}</td></tr><tr><td> Marca: {$APARELHO['Marca']}</td><td> Modelo: {$APARELHO['Modelo']}</td></tr><tr><td>Potencia Nominal: {$APARELHO['PotNominal']}</td><td>Tiragem: {$APARELHO['Tiragem']} draught</td></tr><tr><td>Combustão: {$APARELHO['Combustao']}</td><td>Funcionamento: {$APARELHO['Funcionamento']}</td></tr><tr><td colspan='2'align='center' valign='middle'><b>Higiene da Combustão</b></td></tr><tr><td> Tiragem: {$APARELHO['TiragemHigienteCombustao']}</td><td>COn: {$APARELHO['Con']} ppm</td></tr><tr><td>COAmb: {$APARELHO['CoAmb']} ppm</td><td>Tempo: {$APARELHO['Tempo']}min</td></tr><tr><td> Analisador: {$APARELHO['Analisador']}</td><td>Nº Série: {$APARELHO['NumeroDeSerie']}</td></tr>";
                         }                
                     }
 
@@ -888,6 +891,9 @@ $app->post('/atendimentos/fotos/', function(Request $request, Response $response
         $retorno['erro'] = true;
         return $response->withJson($retorno);
     }
+
+
+
 });
 /**
  * Moves the uploaded file to the upload directory and assigns it a unique name
@@ -1050,8 +1056,8 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $OrcamentosReprov, $Ter
                       <tr>
                         <td>Tempo de Teste:<br>".$Atendimento['TempoTeste']."min</td>
                         <td>Vazão de Fuga: <br>".$Atendimento['StatusTeste']."</td>
-                        <td>Leitura Inicial: <br>".$Atendimento['PressaoInicial']."</td>
-                        <td>Leitura Final: <br>".$Atendimento['PressaoFinal']."</td>
+                        <td>Leitura Inicial: <br>".$Atendimento['PressaoInicial']." MM</td>
+                        <td>Leitura Final: <br>".$Atendimento['PressaoFinal']." MM</td>
                         <td>Vazão de Fuga: <br>".$Atendimento['StatusTeste']."</td>                        
                       </tr>".$StatusTeste."
                     </table>
@@ -1103,15 +1109,24 @@ function enviaEmail($Atendimento, $Cliente, $Orcamentos, $OrcamentosReprov, $Ter
 
 
     $MailMensage = str_replace("#mail_body#", $ToCliente, $MailContent);
-    //DESCOMENTAR ESTA LINHA QUANDO FOR PARA PRODUÇÃO
-    //$Email->EnviarMontando("Comprovante de atendimento Novatec Energy. OS: ".$Atendimento['NumOs']." ", $MailMensage, "Novatec Energy", "gns@novatecenergy.com.br", $Cliente['NomeCliente'], $Cliente['EmailGns']);
+    
     $Email->EnviarMontando("Comprovante de atendimento Novatec Energy. OS: ".$Atendimento['NumOS']." ", $MailMensage, "Novatec Energy", "noreply@novatecenergy.com.br", $Cliente['NomeCliente'], "rdias@novatecenergy.com.br");
+
+    $Read->FullRead("SELECT EmailNVT, EmailGns FROM [60_clientes] WHERE Id = :id","id={$Cliente['Id']}");
+    if($Read->getResult()[0]['EmailGns']){
+        $EmailGns = $Read->getResult()[0]['EmailGns'];
+        $Email->EnviarMontando("Comprovante de atendimento Novatec Energy. OS: ".$Atendimento['NumOS']." ", $MailMensage, "Novatec Energy", "noreply@novatecenergy.com.br", $Cliente['NomeCliente'], $EmailGns);
+    }
+    if($Read->getResult()[0]['EmailNVT']){
+        $EmailNVT = $Read->getResult()[0]['EmailNVT'];
+        $Email->EnviarMontando("Comprovante de atendimento Novatec Energy. OS: ".$Atendimento['NumOS']." ", $MailMensage, "Novatec Energy", "noreply@novatecenergy.com.br", $Cliente['NomeCliente'], $EmailNVT);
+    } 
 
     $CopyMensage = str_replace("#mail_body#", $ToCliente, $MailContent);
 
     //DESCOMENTAR ESTA LINHA QUANDO FOR PARA PRODUÇÃO
-    //$Email->EnviarMontando("Comprovante de envio. OS: ".$Atendimento['NumOs']." ", $CopyMensage, $Cliente['NomeCliente'], $Cliente['EmailGns'], "Novatec Energy", "gns@novatecenergy.com.br");
-    $Email->EnviarMontando("Comprovante de envio. OS: ".$Atendimento['NumOS']." ", $CopyMensage, $Cliente['NomeCliente'], "rdias@novatecenergy.com.br", "Novatec Energy", "noreply@novatecenergy.com.br");
+    $Email->EnviarMontando("Comprovante de envio. OS: ".$Atendimento['NumOs']." ", $CopyMensage, $Cliente['NomeCliente'], $Cliente['EmailGns'], "Novatec Energy", "gns@novatecenergy.com.br");
+    //$Email->EnviarMontando("Comprovante de envio. OS: ".$Atendimento['NumOS']." ", $CopyMensage, $Cliente['NomeCliente'], "rdias@novatecenergy.com.br", "Novatec Energy", "noreply@novatecenergy.com.br");
     
     return $Email;
 }

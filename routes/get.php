@@ -7,21 +7,20 @@ $app = new \Slim\App($config);
 //GET QUE DEVOLVE TODOS OS TECNICOS CADASTRADOS
 $app->get('/tecnicos/', function (Request $request, Response $response, array $args) {
     $Read = new Read;
-    $Read->FullRead("SELECT CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.[NOME COMPLETO] ELSE TERC.NOME END AS nome, SUB.PRODUTO AS manometro,
-                        [00_NivelAcesso].ID AS id, SUB.IDPROD AS idManometro,
-                        CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.SENHA ELSE TERC.SENHA END AS senha,
-                        CASE WHEN FUNC.ID IS NOT NULL THEN 'FUNCIONÁRIO' ELSE 'TERCEIRIZADO' END AS tipoFunc FROM [40_Interna_ID]
-                        LEFT JOIN Funcionários FUNC ON [40_Interna_ID].USUARIO_PORTADOR = FUNC.ID
-                        LEFT JOIN FuncionariosTerceirizados TERC ON [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO = TERC.ID
-                        INNER JOIN [00_NivelAcesso] ON FUNC.ID = [00_NivelAcesso].IDFUNCIONARIO OR TERC.ID = [00_NivelAcesso].IDTERCEIRIZADO
-                        INNER JOIN(
-                        SELECT max([40_Interna].INTERNA) ULTMOV, [40_Produtos].PRODUTO, [40_Produtos].Id IDPROD FROM [40_Produtos]
-                        INNER JOIN [40_Interna] ON [40_Produtos].Id = [40_Interna].PRODUTO
-                        WHERE [40_Produtos].PRODUTO LIKE 'MANÔMETRO%'
-                        GROUP BY [40_Produtos].PRODUTO, [40_Produtos].Id) SUB
-                        ON [40_Interna_ID].ID = SUB.ULTMOV
-                        WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1
-                        ORDER BY NOME"," ");
+    $Read->FullRead("SELECT CASE WHEN [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO IS NOT NULL THEN TERC.NOME ELSE FUNC.[NOME COMPLETO] END AS nome, SUB.PRODUTO AS manometro, [00_NivelAcesso].ID AS id, SUB.IDPROD AS idManometro,
+                CASE WHEN FUNC.ID IS NOT NULL THEN FUNC.SENHA ELSE TERC.SENHA END AS senha,
+                CASE WHEN [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO IS NOT NULL THEN 'TERCEIRIZADO' ELSE 'FUNCIONÁRIO' END AS tipoFunc FROM [40_Interna_ID]
+                LEFT JOIN Funcionários FUNC ON [40_Interna_ID].USUARIO_PORTADOR = FUNC.ID
+                LEFT JOIN FuncionariosTerceirizados TERC ON [40_Interna_ID].USUARIO_PORTADOR_TERCEIRIZADO = TERC.ID
+                INNER JOIN [00_NivelAcesso] ON FUNC.ID = [00_NivelAcesso].IDFUNCIONARIO OR TERC.ID = [00_NivelAcesso].IDTERCEIRIZADO
+                INNER JOIN(
+                SELECT max([40_Interna].INTERNA) ULTMOV, [40_Produtos].PRODUTO, [40_Produtos].Id IDPROD FROM [40_Produtos]
+                INNER JOIN [40_Interna] ON [40_Produtos].Id = [40_Interna].PRODUTO
+                WHERE [40_Produtos].PRODUTO LIKE 'MANÔMETRO%'
+                GROUP BY [40_Produtos].PRODUTO, [40_Produtos].Id) SUB
+                ON [40_Interna_ID].ID = SUB.ULTMOV
+                WHERE [40_Interna_ID].TIPO_MOVIMENTO = 244 AND MOBILE_GNS = 1
+                ORDER BY NOME"," ");
     if($Read->getResult()):
     	return $response->withJson($Read->getResult());
     else:

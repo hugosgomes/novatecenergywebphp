@@ -79,7 +79,7 @@
 			"file": "admin/_ajax/gns/Historico.ajax.php",
 			"settings":
 			{
-				"buffer_size": 7460,
+				"buffer_size": 16213,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -159,7 +159,7 @@
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -221,19 +221,20 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7460,
+						"buffer_size": 16213,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3327,
-								3327
+								0,
+								0
 							]
 						],
 						"settings":
 						{
+							"git_gutter_is_enabled": true,
 							"syntax": "Packages/PHP/PHP.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
@@ -250,7 +251,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 28.0
+		"height": 27.0
 	},
 	"input":
 	{
@@ -298,7 +299,7 @@
 	"project": "novatec.sublime-project",
 	"replace":
 	{
-		"height": 52.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":

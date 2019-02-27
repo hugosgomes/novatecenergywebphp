@@ -51,6 +51,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     $Read->FullRead("SELECT COUNT(DISTINCT IdFuncionario) AS nome FROM [30_Documentacao]
       INNER JOIN [Funcionários] ON [Funcionários].ID = [30_Documentacao].IdFuncionario
+
       WHERE DataValidade <= CONVERT(DATE,GETDATE()) AND [DATA DE DEMISSÃO] IS NULL AND [30_Documentacao].Status != 3 AND [30_Documentacao].TipoData = 1", " ");
     $variavelSelect = $Read->getResult();
 
@@ -67,6 +68,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
       $Read->FullRead("SELECT COUNT(DISTINCT IdFuncionario) AS nome FROM [30_Documentacao]
         INNER JOIN [Funcionários] ON [Funcionários].ID = [30_Documentacao].IdFuncionario
+
         WHERE DataValidade > CONVERT(DATE,GETDATE()) AND DataValidade <= CONVERT(DATE, DateAdd(month, +1,GETDATE())) AND [DATA DE DEMISSÃO] IS NULL AND [30_Documentacao].Status != 3 AND [30_Documentacao].TipoData = 1", " ");
       $variavelSelect = $Read->getResult();
 
