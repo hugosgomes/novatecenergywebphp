@@ -61,7 +61,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
         $criterioMesFiltro = $PostData['mes'] != "t" ? " AND (MONTH([80_Orcamentos].DATA_SISTEMA) = " . $PostData['mes'] . ") ": "";
         $criterioAnoFiltro = $PostData['ano'] != "t" ? " AND (YEAR([80_Orcamentos].DATA_SISTEMA) = " . $PostData['ano'] . ") ": "";
         $criterioOrdemAnalise = $valueOrdem != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO";
-        $criterioOrdemExecutando = $valueOrdemExecutando != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO";       
+        $criterioOrdemExecutando = $valueOrdemExecutando != "data" ? " ORDER BY [80_Orcamentos].VALOR DESC" : " ORDER BY [80_Orcamentos].DATASOLICITACAO"; 
+        $criterioMesCanc = $PostData['mes'] != "t" ? " AND (MONTH([80_Chamados].DATA_SISTEMA) = " . $PostData['mes'] . ") ": "";
+        $criterioAnoCanc = $PostData['ano'] != "t" ? " AND (YEAR([80_Chamados].DATA_SISTEMA) = " . $PostData['ano'] . ") ": "";      
 
         
         
@@ -241,10 +243,10 @@ LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO WHERE 
 
         //PREENCHER TOTAL CANCELADO FILTRO MÊS E ANO
         $jSON['addCancelado'] = NULL;
-        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM( SELECT MAX([80_Chamados].DATAAGENDADA) AS DATAAGENDADA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos] 
+        $Read->FullRead("SELECT SUM(VALOR) AS VALOR FROM( SELECT MAX([80_Chamados].DATA_SISTEMA) AS DATASISTEMA, [80_Orcamentos].ID, [80_Orcamentos].VALOR FROM [80_Orcamentos] 
 INNER JOIN [80_Enderecos] ON [80_Orcamentos].IDENDERECO = [80_Enderecos].ID 
 INNER JOIN [80_ClientesParticulares] ON [80_Orcamentos].IDCLIENTE = [80_ClientesParticulares].ID 
-LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO WHERE [80_Orcamentos].STATUS = 6 "  . $criterioEndereco . $criterioCliente . $criterioAno . $criterioMes . "AND [80_ClientesParticulares].TIPO = 2 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
+LEFT JOIN [80_Chamados] ON [80_Orcamentos].ID = [80_Chamados].IDORCAMENTO WHERE [80_Orcamentos].STATUS = 6 "  . $criterioEndereco . $criterioCliente . $criterioAnoCanc . $criterioMesCanc. "AND [80_ClientesParticulares].TIPO = 2 GROUP BY  [80_Orcamentos].ID, [80_Orcamentos].VALOR)A","");
         foreach ($Read->getResult() as $totais):
             $totais['VALOR'] = $totais['VALOR'] ? $totais['VALOR'] : 0;
             $totais['VALOR'] = number_format(!$totais['VALOR']?0:$totais['VALOR'],2,',','.');
